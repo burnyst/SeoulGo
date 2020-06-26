@@ -15,6 +15,13 @@
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
+	<repositories>
+      <repository>
+         <id>oracle</id>
+         <name>oracle jdbc</name>
+         <url>https://repo.spring.io/plugins-release/</url>
+      </repository>
+	</repositories>
 	<dependencies>
 		<!-- spring-security-web -->
 		<dependency>
