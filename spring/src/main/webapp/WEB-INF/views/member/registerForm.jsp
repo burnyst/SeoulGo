@@ -5,10 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-<script src="/resources/user/js/register_info_check.js"></script>
+<script src="${pageContext.request.contextPath}/js/register_info_check.js"></script>
 </head>
 <body>
-	<form id="registerForm" class="" action="../user/registerProc" method="post">
+	<form id="registerForm" class="" action="../registerProc" method="post">
 		<table align="center">
 			<tbody>
 				<tr>

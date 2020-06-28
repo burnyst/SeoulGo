@@ -7,10 +7,23 @@
 						http://www.springframework.org/schema/context 
 						http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
 	<!-- 자동주입을 위한 선언 -->
     <context:annotation-config/>
 	
-	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!--	컨넥션 풀 설정을 위한 작업 부분	-->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="jdbc:oracle:thin:@301-PC002:1521/orcl"/>
+		<!-- 
+		C:\oraclexe\app\oracle\product\11.2.0\server\network\ADMIN 하위의
+		또는
+		C:\app\hong\product\11.2.0\dbhome_1\NETWORK\ADMIN 
+		tnsnames.ora문서의  SERVICE_NAME값을 확인하세요  -->
+		<property name="username" value="seoulmate"/>
+		<property name="password" value="seoulgo"/>
+	</bean> 
 	
 	<!-- myBatis 등록 부분 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

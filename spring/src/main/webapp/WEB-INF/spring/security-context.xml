@@ -13,9 +13,9 @@
 		<intercept-url pattern="/**" access="permitAll"/>
 		
 		<!-- default-target-url="메인" -->
-		<form-login login-page="/user/loginForm"
-			login-processing-url="/user/loginProc"
-			default-target-url="/user/loginForm" 
+		<form-login login-page="/loginForm"
+			login-processing-url="/loginProc"
+			default-target-url="/loginForm" 
 			username-parameter="id"
 			password-parameter="pw"
 			always-use-default-target="true"

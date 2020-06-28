@@ -5,8 +5,11 @@
 <configuration>
 	<settings>
 		<setting name="cacheEnabled" value="false" />
-    	<setting name="jdbcT
-    	ypeForNull" value="NULL" />
+    	<setting name="jdbcTypeForNull" value="NULL" />
+    	<!-- 일반화 키 사용여부 -->
+		<setting name="useGeneratedKeys" value="true" />
+		<!-- 기본 질의 실행 방식 -->
+		<setting name="defaultExecutorType" value="REUSE" /> 
 	</settings>
 	
 	<typeAliases>

@@ -18,7 +18,7 @@
 	
 	<!-- 로그인이 되지 않은 경우 -->
 	<c:if test="">
-		<form id="loginForm" class="" action="../user/loginProc" method="post">
+		<form id="loginForm" class="" action="../loginProc" method="post">
 			<table align="center">
 				<tbody>
 					<tr>
