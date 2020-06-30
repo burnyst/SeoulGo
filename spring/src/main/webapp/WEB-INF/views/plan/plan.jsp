@@ -1,18 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>¿©Çà°èÈ¹Â¥±â</title>
+<meta charset="UTF-8">
+<title>ì—¬í–‰ê³„íšì§œê¸°</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  <script>
 	 $(function(){
 		 $("#ibtn").click(function(){
-			 alert("ÇÔ¼ö ÀÛµ¿");
+			 alert("í•¨ìˆ˜ ìž‘ë™");
 			 $(location).attr("href","../plan/planwrite");
-			 //../ÁÖ¼ÒºÎÅÍ´Â ÄÁÆ®·Ñ·¯¸¦ ¸¸µç µÚ ¼öÁ¤ÇØ¾ß ÇÑ´Ù..
+			 //../ì£¼ì†Œë¶€í„°ëŠ” ì»¨íŠ¸ë¡¤ëŸ¬ë¥¼ ë§Œë“  ë’¤ ìˆ˜ì •í•´ì•¼ í•œë‹¤..
 		 })
 		 
 	 })
@@ -20,25 +20,25 @@
 </head>
  
 <body>
-<h3>³ªÀÇ ÀÏÁ¤ ÆäÀÌÁö</h3>
+<h3>ë‚˜ì˜ ì¼ì • íŽ˜ì´ì§€</h3>
 <form>
 <table border="1">
 	<tr>
-		<th>ÀÏÁ¤³¯Â¥</th><th>	ÀÏÁ¤Àå¼Ò	</th><th>		ÀÏÁ¤ÀÌ¸§	</th>
+		<th>ì¼ì •ë‚ ì§œ</th><th>	ì¼ì •ìž¥ì†Œ	</th><th>		ì¼ì •ì´ë¦„	</th>
 	</tr>
 	<tr>
 		<c:if test="${planno eq 0}">
 			<td>
-				ÀÏÁ¤À» ¸¸µé¾îÁÖ¼¼¿ä!
+				ì¼ì •ì„ ë§Œë“¤ì–´ì£¼ì„¸ìš”!
 			</td>
 		</c:if>
 		<td>
-			±Û2
+			ê¸€2
 		</td>
 	</tr>
 	<tr>
 		<td>
-			±Û3
+			ê¸€3
 		</td>
 	</tr>
 </table>
@@ -46,8 +46,8 @@
 <table border="1" class="right">
 	<tbody>
 		<tr class="right">
-			<td><input type="button" id="ibtn" name="ibtn" value="ÀÏÁ¤Â¥±â"></td>
-			<td><input type="button" id="dbtn" name="dbtn" value="ÀÏÁ¤»èÁ¦ÇÏ±â"/></td>
+			<td><input type="button" id="ibtn" name="ibtn" value="ì¼ì •ì§œê¸°"></td>
+			<td><input type="button" id="dbtn" name="dbtn" value="ì¼ì •ì‚­ì œí•˜ê¸°"/></td>
 		</tr>
 	</tbody>
 </table>
