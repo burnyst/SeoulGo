@@ -1,7 +1,5 @@
 package com.seoulmate.seoulgo.plan;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,5 +16,13 @@ public class PlanController {
 		
 		return "plan/plan";
 	}
+	@RequestMapping("/plan/planwrite")
+	public String planwrite() {
+		
+		System.out.println("palnwrite함수 진입");
+		
+		return "plan/planwrite";
+	}
+	
 
 }
