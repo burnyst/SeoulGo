@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PlanController {
 	@RequestMapping("/plan")
 	//http://127.0.0.1:9000/myapp/t/rm/board.co
-	//http://127.0.0.1:9000/myapp/plan/plan - ¾ÈµÊ
+	//http://127.0.0.1:9000/myapp/plan/plan - ï¿½Èµï¿½
 	//http://127.0.0.1:9000/plan
 	public String planpage() {
-		System.out.println("planpage ÇÔ¼ö ÁøÀÔ.");
-		//ÀÌ ÇÔ¼ö´Â plan.jspÆÄÀÏÀ» º¸¿©ÁÙ¶§ »ç¿ëÇÏ´Â ÇÔ¼öÀÌ´Ù~!
+		System.out.println("planpage í˜¸ì¶œì™„ë£Œ");
+		//ì´ ë©”ì†“ëŠ” planpageë¥¼ í˜¸ì¶œí•˜ëŠ” ë©”ì†Œë“œì´ë‹¤.
 		
 		return "plan/plan";
 	}
 	@RequestMapping("/plan/planwrite")
 	public String planwrite() {
 		
-		System.out.println("palnwriteÇÔ¼ö ÁøÀÔ");
-		//ÀÌ ÇÔ¼ö´Â planwrite jspÆÄÀÏÀ» º¸¿©ÁÙ¶§ »ç¿ëÇÏ´Â ÇÔ¼öÀÌ´Ù.
+		System.out.println("planwrite í˜¸ì¶œì™„ë£Œ");
+		//ì´ ë©”ì†Œë“œëŠ” planwrite.jspíŒŒì¼ì„ í˜¸ì¶œí• ë•Œ ì‚¬ìš©í•˜ëŠ” ë©”ì†Œë“œì´ë‹¤.
 		
 		return "plan/planwrite";
 	}
