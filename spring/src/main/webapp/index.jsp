@@ -19,7 +19,7 @@
 	<h3>대문(index)</h3>
 	<p>http://localhost:9000/index.jsp</p>
 	<ul>
-		<li><a href="./loginFrm.co">로그인폼(폼 요청)</a></li>
+		<li><a href="./user/loginForm">로그인폼(폼 요청)</a></li>
 	</ul>
 </body>
 </html>

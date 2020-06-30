@@ -13,8 +13,12 @@
 	</settings>
 	
 	<typeAliases>
+		<typeAlias type="com.seoulmate.seoulgo.dto.MemberDTO" alias="mdto"/>
+		<typeAlias type="java.lang.String" alias="string"/>
+		<typeAlias type="java.lang.Integer" alias="int"/>
 	</typeAliases>
 	
 	<mappers>
+		<mapper resource="/com/seoulmate/seoulgo/sql/userSQL.xml"/>
 	</mappers>
 </configuration>

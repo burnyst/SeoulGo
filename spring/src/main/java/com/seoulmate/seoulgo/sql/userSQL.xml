@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+
+	<!-- 회원가입 처리 -->
+	<insert id="registerProc" parameterType="mdto">
+		<selectKey resultType="string" keyProperty="enrollDate" order="BEFORE">
+			SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL
+		</selectKey>
+		INSERT INTO 
+		member_t (
+			memberID, memberPW, mName, nickname, gender, birth,
+			enrollDate, phone1, phone2, phone3, email, mLevel
+		)
+		VALUES (
+			#{memberID}, #{memberPW}, #{mName}, #{nickname}, #{gender}, #{birth}, 
+			#{enrollDate}, #{phone1}, #{phone2}, #{phone3}, #{email}, #{mLevel}
+		)
+	</insert>
+	
+	<!-- 아이디 조회 -->
+	<select id="getMemberID" parameterType="mdto" resultType="mdto">
+		SELECT * FROM member_t WHERE memberID=#{memberID}
+	</select>
+	
+	<!-- 아이디 중복 여부 조회 -->
+	<select id="idChk" resultType="int">
+		SELECT count(*) FROM member_t WHERE memberID=#{memberID}
+	</select>
+</mapper>

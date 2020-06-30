@@ -6,6 +6,8 @@
                         http://www.springframework.org/schema/beans/spring-beans.xsd 
                         http://www.springframework.org/schema/security 
                         http://www.springframework.org/schema/security/spring-security.xsd">
+                        
+	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/member/**" access="hasRole('ROLE_MEMBER','ROLE_ADMIN')"/>
@@ -13,9 +15,9 @@
 		<intercept-url pattern="/**" access="permitAll"/>
 		
 		<!-- default-target-url="메인" -->
-		<form-login login-page="/loginForm"
-			login-processing-url="/loginProc"
-			default-target-url="/loginForm" 
+		<form-login login-page="/user/loginForm"
+			login-processing-url="/user/loginProc"
+			default-target-url="/user/loginForm" 
 			username-parameter="id"
 			password-parameter="pw"
 			always-use-default-target="true"
