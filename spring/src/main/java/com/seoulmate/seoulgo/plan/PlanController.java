@@ -20,6 +20,7 @@ public class PlanController {
 	public String planwrite() {
 		
 		System.out.println("palnwrite함수 진입");
+		//이 함수는 planwrite jsp파일을 보여줄때 사용하는 함수이다.
 		
 		return "plan/planwrite";
 	}
