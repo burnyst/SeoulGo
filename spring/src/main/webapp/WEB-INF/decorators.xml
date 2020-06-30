@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XML>
+<decorators defaultdir="/WEB-INF/views/decorator">
+	<decorator name="base" page="base.jsp">
+		<pattern>/place/*</pattern>
+		<pattern>/plan/*</pattern>
+		<pattern>/review/*</pattern>
+		<pattern>/user/*</pattern>
+	</decorator>
+</decorators>
