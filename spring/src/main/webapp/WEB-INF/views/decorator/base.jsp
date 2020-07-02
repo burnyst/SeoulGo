@@ -18,7 +18,7 @@
 </head>
 <body>
 	<div class="text-center mt-3">
-		<h1><img src="${pageContext.request.contextPath}/resources/img/logo4.png" width="308" height="154"/></h1>
+		<h1><img src="${pageContext.request.contextPath}/resources/img/logo.png" width="308" height="154"/></h1>
 	</div>
 	<nav class="navbar navbar-expand-sm bg-success navbar-dark font-weight-bold">
 		<a class="navbar-brand" href="${pageContext.request.contextPath}/place/list">SeoulGo</a>
