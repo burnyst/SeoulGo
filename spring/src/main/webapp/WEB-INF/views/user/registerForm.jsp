@@ -9,16 +9,17 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js" 
     	integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
     	crossorigin="anonymous"></script>
-<script src="<c:url value="/resources/user/js/register_info_check.js" />"></script>
+<script src="${pageContext.request.contextPath}/resources/user/js/register_info_check.js"></script>
 </head>
 <body>
-	<form id="registerForm" class="" action="../user/registerProc" method="post">
+	<form id="registerForm" class="" action="../user/registerProc" method="post" enctype="multipart/form-data">
 		<table align="center">
 			<tbody>
 				<tr>
 					<th>프로필 사진</th>
 					<td>
-						<input type="file" name="img" id="img"/>
+						<input type="file" name="files" id="files" accept=".jpg, .jpeg, .gif, .png, .bmp"/>
+						<div id="preview"></div>
 					</td>
 				</tr>
 				<tr>
@@ -38,7 +39,7 @@
 				<tr>
 					<th>비밀번호 확인</th>
 					<td>
-						<input type="password" name="memberPW2" id="memberPW2" placeholder="비밀번호는 영어, 숫자, 특수문자를 합쳐 12자리 이상이여야 합니다." required="required"/>
+						<input type="password" name="memberPW2" id="memberPW2" placeholder="Password" required="required"/>
 						<div class="check_font" id="pw2_check"></div>
 					</td>
 				</tr>
@@ -89,8 +90,8 @@
 				</tr>
 				<tr>
 					<td>
-						<button type="submit" id="reg_submit" value="회원가입"></button>
-						<button type="reset" id="reg_cancel" value="취소"></button>
+						<input type="submit" id="reg_submit" value="회원가입"></input>
+						<input type="reset" id="reg_cancel" value="취소"></input>
 					</td>
 				</tr>
 			</tbody>

@@ -39,8 +39,8 @@
 				</tr>
 				<tr>
 					<td>
-						<a href="./registerForm">회원가입</a>
-						<a href="./searchID">아이디 찾기</a>
+						<a href="./registerForm">회원가입</a><br>
+						<a href="./searchID">아이디 찾기</a><br>
 						<a href="./searchPW">비밀번호 찾기</a>
 					</td>
 				</tr>

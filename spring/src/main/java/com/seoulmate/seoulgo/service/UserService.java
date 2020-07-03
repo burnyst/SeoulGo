@@ -21,5 +21,4 @@ public class UserService {
 	public MemberDTO getMemberID(MemberDTO mdto) {
 		return uDAO.getMemberID(mdto);
 	}
-
 }

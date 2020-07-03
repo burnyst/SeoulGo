@@ -1,6 +1,24 @@
 var check = new Map();
 
-$(function(){
+$(function(){	
+	$("#files").change(function(){
+		$("#preview").empty();
+		
+		var img = $("#files").val();
+		var imgRegExp = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
+		var maxSize = 1073741824;
+		var fileSize = document.getElementById("files").files[0].size;
+		var file = document.getElementById("files").files[0];
+		
+		if(!imgRegExp.test(img)) {
+			alert("해당 파일은 이미지 파일이 아닙니다.");
+			//파일 초기화
+			$("input[type='file']").val("");
+		} else if(fileSize >= maxSize) {
+			alert("업로드 할 수 있는 파일 용량을 초과했습니다.");
+			$("input[type='file']").val("");
+		} 
+	});
 	
    //memberID check
    $("#memberID").blur(function(){
@@ -38,13 +56,13 @@ $(function(){
    //password check
    $("#memberPW").blur(function(){
 	   var pw = $("#memberPW").val();
-	   var pwRegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$/;
+	   var pwRegExp = /^[A-Za-z\d@$!%*#?&]{6,12}$/;
 	   var message;
 	   if (pw === "") {
 		   message = "<span class='pw_msg fail_msg'>필수 정보입니다.</span>";
 		   check.set("memberPW", 0);
 	   } else if(!pwRegExp.test(pw)) {
-		   message = "<span class='pw_msg fail_msg'>올바르지 않은 형식입니다.</span>";
+		   alert("비밀번호는 6~12자리의 영어 소문자+대문자, 숫자, 특수문자만 가능합니다.");
 		   check.set("memberPW", 0);
 	   } else {
 		   message = "";
@@ -56,16 +74,12 @@ $(function(){
    $("#memberPW2").blur(function(){
 	   var pw = $("#memberPW").val();
 	   var pw2 = $("#memberPW2").val();
-	   var pwRegExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$/;
 	   var message;
 	   if (pw !== pw2) {
 		   message = "<span class='pw_msg fail_msg'>비밀번호가 일치하지 않습니다.</span>";
 		   check.set("memberPW2", 0);
 	   } else if (pw2 === "") {
 		   message = "<span class='pw_msg fail_msg'>필수 정보입니다.</span>";
-		   check.set("memberPW2", 0);
-	   } else if(!pwRegExp.test(pw2)) {
-		   message = "<span class='pw_msg fail_msg'>올바르지 않은 형식입니다.</span>";
 		   check.set("memberPW2", 0);
 	   } else {
 		   message = "<span class='pw_msg success_msg'>비밀번호가 일치합니다.</span>";

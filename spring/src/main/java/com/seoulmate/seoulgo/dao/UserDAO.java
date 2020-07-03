@@ -10,7 +10,8 @@ public class UserDAO extends SqlSessionDaoSupport {
 	
 	@Autowired
 	SqlSessionTemplate session;
-
+	
+	//회원가입 처리
 	public void registerProc(MemberDTO mdto) {
 		session.insert("user.registerProc", mdto);
 	}

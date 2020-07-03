@@ -23,6 +23,15 @@
 	
 	<context:component-scan base-package="com.seoulmate.seoulgo" />
 	
-	
+	<!-- 파일 업로드에 사용할 라이브러리를 등록하는 부분 -->
+	<beans:bean id="multipartResolver" 		
+				class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!--	최대 업로드 파일의 용량을 지정한다.(여기에서는 1기가바이트) -->
+		<beans:property name="maxUploadSize" 	value="1073741824" /> 
+		<!--	최대 업로드 메모리를 지정한다.주로 최대 업로드 파일의 용량과 동일하게 지정하면 된다.-->
+		<beans:property name="maxInMemorySize"  value="1073741824" />
+		<!--	파일의 이름이 한글인 경우 엔코딩 방식을 지정한다.	-->
+		<beans:property name="defaultEncoding" value="UTF-8" />
+	</beans:bean>
 	
 </beans:beans>

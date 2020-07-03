@@ -3,20 +3,16 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="user">
-
 	<!-- 회원가입 처리 -->
 	<insert id="registerProc" parameterType="mdto">
-		<selectKey resultType="string" keyProperty="enrollDate" order="BEFORE">
-			SELECT TO_CHAR(SYSDATE, 'YYYY/MM/DD HH24:MI:SS') FROM DUAL
-		</selectKey>
 		INSERT INTO 
 		member_t (
 			memberID, memberPW, mName, nickname, gender, birth,
-			enrollDate, phone1, phone2, phone3, email, mLevel
+			enrollDate, phone1, phone2, phone3, email, mLevel, proSaveName
 		)
 		VALUES (
 			#{memberID}, #{memberPW}, #{mName}, #{nickname}, #{gender}, #{birth}, 
-			#{enrollDate}, #{phone1}, #{phone2}, #{phone3}, #{email}, #{mLevel}
+			SYSDATE, #{phone1}, #{phone2}, #{phone3}, #{email}, #{mLevel}, #{proSaveName}
 		)
 	</insert>
 	

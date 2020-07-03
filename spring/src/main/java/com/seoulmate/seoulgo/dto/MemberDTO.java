@@ -1,5 +1,9 @@
 package com.seoulmate.seoulgo.dto;
 
+import java.util.Date;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class MemberDTO {
 	
 	private String memberID;
@@ -8,12 +12,14 @@ public class MemberDTO {
 	private String nickname;
 	private Character gender;
 	private String birth;
-	private String enrollDate;
+	private Date enrollDate;
 	private String phone1;
 	private String phone2;
 	private String phone3;
 	private String email;
 	private String mLevel;
+	private String proSaveName;
+	private MultipartFile files;
 	
 	public String getMemberID() {
 		return memberID;
@@ -63,11 +69,11 @@ public class MemberDTO {
 		this.birth = birth;
 	}
 	
-	public String getEnrollDate() {
+	public Date getEnrollDate() {
 		return enrollDate;
 	}
 	
-	public void setEnrollDate(String enrollDate) {
+	public void setEnrollDate(Date enrollDate) {
 		this.enrollDate = enrollDate;
 	}
 	
@@ -111,11 +117,28 @@ public class MemberDTO {
 		this.mLevel = mLevel;
 	}
 	
+	public String getProSaveName() {
+		return proSaveName;
+	}
+	
+	public void setProSaveName(String proSaveName) {
+		this.proSaveName = proSaveName;
+	}
+
+	public MultipartFile getFiles() {
+		return files;
+	}
+
+	public void setFiles(MultipartFile files) {
+		this.files = files;
+	}
+
 	@Override
 	public String toString() {
 		return "MemberDTO [memberID=" + memberID + ", memberPW=" + memberPW + ", mName=" + mName + ", nickname="
 				+ nickname + ", gender=" + gender + ", birth=" + birth + ", enrollDate=" + enrollDate + ", phone1="
 				+ phone1 + ", phone2=" + phone2 + ", phone3=" + phone3 + ", email=" + email + ", mLevel=" + mLevel
-				+ "]";
+				+ ", proSaveName=" + proSaveName + ", files=" + files + "]";
 	}
+	
 }
