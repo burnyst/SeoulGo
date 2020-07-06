@@ -23,7 +23,7 @@
 					<th>아이디</th>
 					<td>
 						<input type="text" name="id" id="id" placeholder="Username" required="required"/>
-				</td>
+					</td>
 				</tr>
 				<tr>
 					<th>비밀번호</th>

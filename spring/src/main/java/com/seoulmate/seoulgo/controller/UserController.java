@@ -37,6 +37,26 @@ public class UserController {
 	@Inject
 	BCryptPasswordEncoder pwEncoder;
 	
+	//비밀번호 찾기
+	@RequestMapping("/searchPWProc")
+	public void searchPWProc() {
+	}
+		
+	//비밀번호 찾기 폼 보여주기
+	@RequestMapping("/searchPWForm")
+	public void searchPWForm() {
+	}
+	
+	//아이디 찾기
+	@RequestMapping("/searchIDProc")
+	public void searchIDProc() {
+	}
+	
+	//아이디 찾기 폼 보여주기
+	@RequestMapping("/searchIDForm")
+	public void searchIDForm() {
+	}
+	
 	//회원가입 처리 요청 함수
 	@RequestMapping("/registerProc")
 	public ModelAndView registerProc(MemberDTO mdto, ModelAndView mv, MultipartHttpServletRequest request, @RequestParam String phone, @RequestParam String memberPW) {
