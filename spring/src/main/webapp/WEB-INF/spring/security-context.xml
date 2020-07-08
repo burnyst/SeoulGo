@@ -17,11 +17,11 @@
 		<!-- default-target-url="메인" -->
 		<form-login login-page="/user/loginForm"
 			login-processing-url="/user/loginProc"
-			default-target-url="/user/loginForm" 
-			username-parameter="id"
-			password-parameter="pw"
+			default-target-url="/" 
+			username-parameter="memberID"
+			password-parameter="memberPW"
 			always-use-default-target="true"
-			authentication-failure-url="/login?error=1" />
+			authentication-failure-url="/user/loginForm?error=1" />
 		
 		<logout/>
 		
