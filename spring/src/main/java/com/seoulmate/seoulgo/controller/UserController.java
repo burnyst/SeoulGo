@@ -35,7 +35,7 @@ public class UserController {
 
 	@Autowired
 	UserService uService;
-	
+
 	@Autowired
 	UserDAO uDAO;
 
@@ -114,52 +114,57 @@ public class UserController {
 		List<MultipartFile> fileList = new ArrayList<MultipartFile>();
 
 		String oriName = mdto.getFiles().getOriginalFilename();
+
+		// 프로필 사진을 업로드 하지 않았을 경우
 		if (request.getFiles("files").get(0).getSize() != 0) {
 			fileList = request.getFiles("file");
-		}
+		} else {
+			// 프로필 사진을 업로드 했을 경우
+			for (MultipartFile mf : fileList) {
+				long time = System.currentTimeMillis();
+				String saveName = String.format("%d_%s", time, oriName);
+				mdto.setProSaveName(saveName);
+				File file = new File(filePath, saveName);
 
-		long time = System.currentTimeMillis();
-		String saveName = String.format("%d_%s", time, oriName);
-		mdto.setProSaveName(saveName);
-		File file = new File(filePath, saveName);
+				System.out.println("프로필 사진 실제 저장 이름: " + saveName);
 
-		System.out.println("프로필 사진 실제 저장 이름: " + saveName);
+				try {
+					mdto.getFiles().transferTo(file);
+				} catch (Exception e) {
+					System.out.println("파일 복사 에러: " + e);
+				}
 
-		try {
-			mdto.getFiles().transferTo(file);
-		} catch (Exception e) {
-			System.out.println("파일 복사 에러: " + e);
-		}
+				System.out.println("프로필 사진 썸네일 생성");
+				String oriPath = filePath + "\\" + saveName;
+				File oriFile = new File(oriPath);
 
-		System.out.println("프로필 사진 썸네일 생성");
-		String oriPath = filePath + "\\" + saveName;
-		File oriFile = new File(oriPath);
+				int index = oriPath.lastIndexOf(".");
+				String ext = oriPath.substring(index + 1);
 
-		int index = oriPath.lastIndexOf(".");
-		String ext = oriPath.substring(index + 1);
+				// 썸네일 저장 경로
+				String tPath = oriFile.getParent() + File.separator + "t-" + oriFile.getName();
+				File tFile = new File(tPath);
 
-		// 썸네일 저장 경로
-		String tPath = oriFile.getParent() + File.separator + "t-" + oriFile.getName();
-		File tFile = new File(tPath);
+				// 이미지 축소 비율
+				double ratio = 2;
 
-		// 이미지 축소 비율
-		double ratio = 2;
+				try {
+					BufferedImage oriImage = ImageIO.read(oriFile);
+					int tWidth = (int) (oriImage.getWidth() / ratio);
+					int tHeight = (int) (oriImage.getHeight() / ratio);
 
-		try {
-			BufferedImage oriImage = ImageIO.read(oriFile);
-			int tWidth = (int) (oriImage.getWidth() / ratio);
-			int tHeight = (int) (oriImage.getHeight() / ratio);
+					// 썸네일 이미지
+					BufferedImage tImage = new BufferedImage(tWidth, tHeight, BufferedImage.TYPE_3BYTE_BGR);
+					Graphics2D graphic = tImage.createGraphics();
+					Image image = oriImage.getScaledInstance(tWidth, tHeight, Image.SCALE_SMOOTH);
+					graphic.drawImage(image, 0, 0, tWidth, tHeight, null);
+					graphic.dispose();
 
-			// 썸네일 이미지
-			BufferedImage tImage = new BufferedImage(tWidth, tHeight, BufferedImage.TYPE_3BYTE_BGR);
-			Graphics2D graphic = tImage.createGraphics();
-			Image image = oriImage.getScaledInstance(tWidth, tHeight, Image.SCALE_SMOOTH);
-			graphic.drawImage(image, 0, 0, tWidth, tHeight, null);
-			graphic.dispose();
-
-			ImageIO.write(tImage, ext, tFile);
-		} catch (Exception e) {
-			System.out.println("썸네일 생성 에러: " + e);
+					ImageIO.write(tImage, ext, tFile);
+				} catch (Exception e) {
+					System.out.println("썸네일 생성 에러: " + e);
+				}
+			}
 		}
 
 		System.out.println("registerProc 함수 진입");
