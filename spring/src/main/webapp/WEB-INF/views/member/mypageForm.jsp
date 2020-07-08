@@ -23,14 +23,14 @@
 				<td>휴대전화</td>
 			</tr>
 			<tr>
-				<td>프로필 사진</td>
-				<td>아이디</td>
-				<td>이름</td>
-				<td>닉네임</td>
-				<td>생년월일</td>
-				<td>성별</td>
-				<td>이메일</td>
-				<td>휴대전화</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
 			</tr>
 		</table>
 	</form>

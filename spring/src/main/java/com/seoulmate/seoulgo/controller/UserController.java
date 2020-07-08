@@ -4,13 +4,13 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,34 +99,36 @@ public class UserController {
 		return mv;
 	}
 
-	// 회원가입 처리 요청 함수
-	@RequestMapping("/registerProc")
-	public ModelAndView registerProc(MemberDTO mdto, ModelAndView mv, MultipartHttpServletRequest request,
-			@RequestParam String phone, @RequestParam String memberPW) {
+	// 회원가입 프로필 사진 처리 요청 함수
+	@ResponseBody
+	@RequestMapping("/fileCheck")
+	public String fileCheck(MemberDTO mdto,MultipartHttpServletRequest multipartRequest) {
 		System.out.println("프로필 사진 업로드 시작");
 		File filePath = new File("d:\\upload\\temp"); // 프로필 사진 파일이 저장될 위치
+		
+		String tImg = null;
 
 		// filePath가 존재하지 않을 경우 filePath 생성
 		if (!filePath.exists()) {
 			filePath.mkdirs();
 		}
 
-		List<MultipartFile> fileList = new ArrayList<MultipartFile>();
-
+		//List<MultipartFile> fileList = new ArrayList<MultipartFile>();
+		List<MultipartFile> fileList = multipartRequest.getFiles("files");
+		
 		String oriName = mdto.getFiles().getOriginalFilename();
-
+		System.out.println("file의 oriName="+oriName);
+		
 		// 프로필 사진을 업로드 하지 않았을 경우
-		if (request.getFiles("files").get(0).getSize() != 0) {
-			fileList = request.getFiles("file");
+		if (multipartRequest.getFiles("files").get(0).getSize() == 0) {
+			fileList = multipartRequest.getFiles("file");
 		} else {
 			// 프로필 사진을 업로드 했을 경우
 			for (MultipartFile mf : fileList) {
 				long time = System.currentTimeMillis();
 				String saveName = String.format("%d_%s", time, oriName);
-				mdto.setProSaveName(saveName);
+				
 				File file = new File(filePath, saveName);
-
-				System.out.println("프로필 사진 실제 저장 이름: " + saveName);
 
 				try {
 					mdto.getFiles().transferTo(file);
@@ -144,6 +146,11 @@ public class UserController {
 				// 썸네일 저장 경로
 				String tPath = oriFile.getParent() + File.separator + "t-" + oriFile.getName();
 				File tFile = new File(tPath);
+				
+				// 썸네일 이름 확인 및 뷰단에 뿌리기 위한 설정
+				tImg = tFile.getName();
+				
+				System.out.println("썸네일 이름tImg="+tImg);
 
 				// 이미지 축소 비율
 				double ratio = 2;
@@ -166,7 +173,14 @@ public class UserController {
 				}
 			}
 		}
+		System.out.println("tImg="+tImg);
+		
+		return tImg;
+	}
 
+	// 회원가입 처리 요청 함수
+	@RequestMapping("/registerProc")
+	public ModelAndView registerProc(MemberDTO mdto, ModelAndView mv, HttpServletRequest request, @RequestParam String phone, @RequestParam String memberPW) {
 		System.out.println("registerProc 함수 진입");
 		String phone1 = phone.substring(0, 3);
 		String phone2;
@@ -186,6 +200,16 @@ public class UserController {
 		mdto.setPhone2(phone2);
 		mdto.setPhone3(phone3);
 		mdto.setmLevel("ROLE_MEMBER");
+		
+		//프로필 사진 파일명 mdto에 저장
+		request.getParameter("tImg");
+		//request.getAttribute("tImg");
+		System.out.println(mdto);
+		System.out.println("프로필사진이름="+mdto.getProSaveName());
+		//System.out.println("잘 들어갔니?"+request.getParameter("tImg"));
+		//System.out.println("이번엔 들어갔니?"+request.getAttribute("tImg"));
+		//mdto.setProSaveName(saveName);
+		//System.out.println("프로필 사진 실제 저장 이름: " + saveName);
 
 		uService.registerProc(mdto);
 

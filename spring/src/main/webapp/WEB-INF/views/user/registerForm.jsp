@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,13 +13,20 @@
 <script src="${pageContext.request.contextPath}/resources/user/js/register_info_check.js"></script>
 </head>
 <body>
+
 	<form id="registerForm" class="" action="../user/registerProc" method="post" enctype="multipart/form-data">
+		
 		<table align="center">
+		
 			<tbody>
 				<tr>
 					<th>프로필 사진</th>
 					<td>
 						<input type="file" name="files" id="files" accept=".jpg, .jpeg, .gif, .png, .bmp"/>
+						<c:if test="${tImg != null}">
+							<img src="${pageContext.request.contextPath}/upload/temp/${tImg}">
+						</c:if>
+						<input type="hidden" name="proSaveName" value="" id="profile-file">
 						<div id="preview"></div>
 					</td>
 				</tr>

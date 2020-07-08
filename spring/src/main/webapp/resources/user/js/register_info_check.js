@@ -4,6 +4,9 @@ $(function(){
 	$("#files").change(function(){
 		$("#preview").empty();
 		
+		var formData = new FormData();
+		formData.append("files", $("#files")[0].files[0]);
+		
 		var img = $("#files").val();
 		var imgRegExp = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
 		var maxSize = 1073741824;
@@ -17,7 +20,19 @@ $(function(){
 		} else if(fileSize >= maxSize) {
 			alert("업로드 할 수 있는 파일 용량을 초과했습니다.");
 			$("input[type='file']").val("");
-		} 
+		}
+		
+		$.ajax({
+			url: "/user/fileCheck",
+			data: formData,
+			type: "POST",
+			processData: false,
+			contentType: false,
+			success: function(data){
+				alert(data)
+				$("#profile-file").val(data);
+			}
+		});
 	});
 	
    //memberID check
