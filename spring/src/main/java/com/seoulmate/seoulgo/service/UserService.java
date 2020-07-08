@@ -11,13 +11,18 @@ public class UserService {
 
 	@Autowired
 	UserDAO uDAO;
-	
-	//회원가입 처리
+
+	// 로그인 처리
+	public MemberDTO loginProc(MemberDTO mdto) {
+		return uDAO.loginProc(mdto);
+	}
+
+	// 회원가입 처리
 	public void registerProc(MemberDTO mdto) {
 		uDAO.registerProc(mdto);
 	}
 
-	//아이디 조회
+	// 아이디 조회
 	public MemberDTO getMemberID(MemberDTO mdto) {
 		return uDAO.getMemberID(mdto);
 	}

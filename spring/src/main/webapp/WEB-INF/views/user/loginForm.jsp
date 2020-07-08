@@ -16,19 +16,19 @@
 	<h3>로그인</h3>
 	<br>
 	
-	<form id="loginForm" class="" action="../user/loginProc" method="post">
+	<form id="loginForm" class="" action="../user/auth/loginProc" method="post">
 		<table align="center">
 			<tbody>
 				<tr>
 					<th>아이디</th>
 					<td>
-						<input type="text" name="id" id="id" placeholder="Username" required="required"/>
-				</td>
+						<input type="text" name="memberID" id="memberID" placeholder="Username" required="required"/>
+					</td>
 				</tr>
 				<tr>
 					<th>비밀번호</th>
 					<td>
-					<input type="password" name="pw" id="pw" placeholder="Password" required="required"/>
+					<input type="password" name="memberPW" id="memberPW" placeholder="Password" required="required"/>
 					</td>
 				</tr>
 				<tr>
