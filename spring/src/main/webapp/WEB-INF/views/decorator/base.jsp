@@ -9,11 +9,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><decorator:title /></title>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/lib/bootstrap.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/base.css">
-	<script src="${pageContext.request.contextPath}/resources/lib/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/lib/popper.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/lib/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/lib/fontawesome/5.13.1/css/all.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/lib/bootstrap/4.5.0/css/bootstrap.min.css">
+	<script src="${pageContext.request.contextPath}/resources/lib/jquery/3.5.1/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/lib/popper/1.16.0/umd/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/lib/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	<decorator:head/>
 </head>
 <body>
@@ -50,7 +50,7 @@
 			</ul>
 		</div>
 	</nav>
-	<article class="container">
+	<article class="container p-5">
 		<decorator:body />
 	</article>
 	<footer class="jumbotron text-center">
