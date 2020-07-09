@@ -50,7 +50,7 @@
 			</ul>
 		</div>
 	</nav>
-	<article class="container p-5">
+	<article class="container p-3 p-md-5">
 		<decorator:body />
 	</article>
 	<footer class="jumbotron text-center">
