@@ -5,15 +5,23 @@
 <html>
 <head>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04926447ff4e969a08d92e18379b0176"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
+$(function(){
+	 $("#nomodi").click(function(){
+		 alert("함수 작동");
+		 $(location).attr("href","../plan/plan");
+		 //../주소부터는 컨트롤러를 만든 뒤 수정해야 한다..
+	 })
+	 $("#delmodi").click(function(){
+		 alert("함수2 작동");
+		 $(location).attr("href","../plan/plandelete");
+		 //../주소부터는 컨트롤러를 만든 뒤 수정해야 한다..
+	 })
+})
 function dropdownfunction() {
   document.getElementById("myDropdown").classList.toggle("show");
 }
 
-// Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
     var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -26,6 +34,7 @@ window.onclick = function(event) {
     }
   }
 }
+
 </script>
 <style>
 .dropbtn {
@@ -61,62 +70,72 @@ window.onclick = function(event) {
 .show {display: block;}  
 </style><!--.show는 block형태로 a링크를 보여줄수 있도록 한다.  -->
 <meta charset="UTF-8">
-<title>일정짜기</title>
+<title>일정수정하기</title>
 </head>
 <body>
 <!-- 이 페이지는 일정을 짜는 페이지이다. 
  일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
    -->
+
+<div style="float:left">
+ 	<div class="dropdown">
+  	<button onclick="dropdownfunction()" class="dropbtn">일정장소</button>
+	  	<div id="myDropdown" class="dropdown-content">
+		    <a href="#home">일정장소1</a>
+		    <a href="#about">일정장소2</a>
+		    <a href="#contact">일정장소3</a>
+	  	</div>
+	</div>
+</div>
 <div id="map" style="width:500px;height:400px;float:left;'" ></div>
 	<script>
 		var container = document.getElementById('map');
 		var options = {
 			center: new kakao.maps.LatLng(33.450701, 126.570667),
 			level: 3 
-		}; 
+		};
 
 		var map = new kakao.maps.Map(container, options);
 	</script>
-<form action="" method="post">
-<div style="float:left">
-	<div class="dropdown">
-  	<button onclick="dropdownfunction()" class="dropbtn">일정장소</button>
-	  	<div id="myDropdown" class="dropdown-content">
-		    <a href="#iljung1">${list}</a>
-		    <a href="#iljung1">${list}</a>
-		    <a href="#iljung1">${list}</a>
-	  	</div>
-	</div>
-</div>
-	<div style="float:left">
-		<table border="1" width="600px">
-			<tr>
-				<td>
-					날짜
-				</td>
-				<td>
-					시간
-				</td>
-				<td>
-					여행제목
-				</td>
-			</tr>
-				<tr>
-					<td>
-						<input type="date">
-					</td>
-					<td>
-						<input type="time">
-					</td>
-					<td>
-						<input type="text">
-					</td>
-				</tr>
-		</table>
-	<input class="btn btn-success" type="submit" value="일정짜기"> <input class="btn btn-info" type="reset" value="다시쓰기">
-	<a href="javascript:history.back();" class = "btn btn-warning">뒤로가기</a>
-</div>
 
-</form>
+<div>
+	<table border="1" width="600px">
+		<tr>
+			<td>
+				여행날짜
+			</td>
+			<td>
+			 	${planDate }
+			</td>
+		</tr>
+		<tr>
+			<td>
+				여행시간
+			</td>
+			<td>
+				${plantime}
+			</td>
+		</tr>
+		<tr>	
+			<td>
+				일정이름
+			</td>
+			<td>
+				${param.planTitle}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				일정메모내용
+			</td>
+			<td>
+				${param.plancontent}
+			</td>
+		</tr>
+</table>
+<input type="submit" class="btn btn-primary"  value="수정하기"/>
+<button id="delmodi" class="btn btn-danger">삭제하기</button> 
+<button id="nomodi"type="button" class="btn btn-info">수정취소하기</button>
+</div>
 </body>
 </html>

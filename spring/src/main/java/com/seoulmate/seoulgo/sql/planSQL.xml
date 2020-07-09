@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="plandata">
+	<!-- parameter, result가 한 개이면  자바의 데이터타입명시
+	           여러개이면   VO(DTO), Map으로 처리해야 한다-->
+  <!-- sql요소는 다른 구문에서 재사용가능한 SQL 구문을 정의할 때 사용된다. 
+  		선언형식<sql id="id값">쿼리문</sql>
+  		참조형식 <include refid=”id값”/>
+  		    
+			예시 <sql id=”userColumns”> id,username,password </sql>
+					select <include refid=”userColumns”/>
+					from some_table  
+  -->	
+  
+	<select id="plandatat" resultType="pdto">
+		Select * from plan_test
+	</select>
+	<!-- 목록조회 -->
+	<select id="listView" 
+					parameterType="pdto"
+					resultType="pdto">
+		select * from plan_test</select>
+</mapper>	
+
+
+
+
+
+

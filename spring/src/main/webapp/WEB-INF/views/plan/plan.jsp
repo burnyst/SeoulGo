@@ -11,45 +11,70 @@
 	 $(function(){
 		 $("#ibtn").click(function(){
 			 alert("함수 작동");
+			 
 			 $(location).attr("href","../plan/planwrite");
-			 //../주소부터는 컨트롤러를 만든 뒤 수정해야 한다..
+			
+		 })
+		 
+		 $("#mobtn").click(function(){
+		 var form = document.planlist;
+		 form.submit([]);
+			 // $(location).attr("href","../plan/planmodi");
 		 })
 		 
 	 })
+	 
  </script>
 </head>
- 
+
 <body>
+<div align="center">
 <h3>나의 일정 페이지</h3>
-<form>
-<table border="1">
-	<tr>
-		<th>일정날짜</th><th>	일정장소	</th><th>		일정이름	</th>
-	</tr>
-	<tr>
-		<c:if test="${planno eq 0}">
-			<td>
-				일정을 만들어주세요!
-			</td>
-		</c:if>
-		<td>
-			글2
-		</td>
-	</tr>
-	<tr>
-		<td>
-			글3
-		</td>
-	</tr>
-</table>
-</form>
-<table border="1" class="right">
-	<tbody>
-		<tr class="right">
-			<td><input type="button" id="ibtn" name="ibtn" value="일정짜기"></td>
-			<td><input type="button" id="dbtn" name="dbtn" value="일정삭제하기"/></td>
+${DTOlist}
+플랜번호 <br>
+
+http://127.0.0.1:9000/plan/plan
+<form method="get" id="planlist" name="planlist" action="../plan/planmodi">
+	<table border="1" width="600">
+		<tr>
+			<th align="center">체크박스</th><th>일정날짜</th><th>	일정장소	</th><th>		일정이름	</th>
 		</tr>
-	</tbody>
-</table>
+		<c:if test="${planNo=null}">
+			<tr>
+				<td>
+					일정을 만들어주세요!
+				</td>
+			</tr>	
+		</c:if>
+			<c:forEach var="list" items="${DTOlist}"  varStatus="status">
+					<tr>
+						<td align="center">
+							<input type="radio" name="listradio" id="listradio"/>
+						</td>
+						
+						<td>
+							<label for ="${list[index]}">${list.planDate}</label>
+						</td>
+						<td>
+							<label for ="${list[index]}">${list.planTitle}</label>
+						</td>
+						<td>
+							<label for ="${list[index]}">${list.planTitle}</label>
+						</td>
+							
+					</tr>
+			</c:forEach>
+	</table>
+</form>
+	<table class="right" width="500" >
+		<tbody>
+			<tr class="right" align="center">
+				<td><input type="button" id="ibtn" name="ibtn" value="일정짜기"></td>
+				<td><input type="button" id="mobtn" name="mobtn" value="일정수정하기"/></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
 </body>
 </html>
+<!-- ${modelData[0][1][key2]}  ${list[status.index][planNo]}-->
