@@ -7,6 +7,11 @@ public class PlanDTO {
 	private int planNo;
 	private Date planDate;
 	private String planTitle;
+	private int planCate;
+	
+	//리다이렉션
+	private String Result2;
+	
 	public int getStart() {
 		return start;
 	}
@@ -36,16 +41,15 @@ public class PlanDTO {
 		this.planNo = planNo;
 	}
 	public Date getPlanDate() {
-		return planDate;}
+		return planDate;
+		}
 	public String getPlanDate2() {
 		SimpleDateFormat fmt = new SimpleDateFormat("yyyy년-MM월-dd일");
 		
 		return fmt.format(planDate);
 	} 
 	public void setPlanDate(Date planDate) {
-		
-		
-		this.planDate = planDate;
+		this.planDate =  planDate;
 	}
 	public String getPlanTitle() {
 		return planTitle;
@@ -55,8 +59,9 @@ public class PlanDTO {
 	}
 	@Override
 	public String toString() {
-		return "PlanDTO [planNo=" + planNo + ", planDate=" + planDate + ", planTitle=" + planTitle + ", memberid="
-				+ memberid + ", start=" + start + ", end=" + end + "]";
+		return "PlanDTO [planNo=" + planNo + ", planDate=" + planDate + ", planTitle=" + planTitle + ", planCate="
+				+ planCate + ", Result2=" + Result2 + ", memberid=" + memberid + ", start=" + start + ", end=" + end
+				+ "]";
 	}
 
 	public String getMemberid() {
@@ -65,6 +70,22 @@ public class PlanDTO {
 
 	public void setMemberid(String memberid) {
 		this.memberid = memberid;
+	}
+
+	public int getPlanCate() {
+		return planCate;
+	}
+
+	public void setPlanCate(int planCate) {
+		this.planCate = planCate;
+	}
+
+	public String getResult2() {
+		return Result2;
+	}
+
+	public void setResult2(String result2) {
+		Result2 = result2;
 	}
 	
 

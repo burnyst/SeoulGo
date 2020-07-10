@@ -9,22 +9,13 @@
 </head>
 <body>
 <h1>일정공유 게시판</h1>
-	<table border="1">
+	<table border="1" width="100%">
 		<tr>
 			<th>글번호</th>
-			<td>
-			</td>
 			<th>아이디</th>
-			<td>	
-			</td>
 			<th>일정제목</th>
-			<td>
-			</td>
-			<th>일정내용</th>
-			<td>
-			</td>
+			<th>일정유형</th>
 		</tr>
-		
 		<c:if test="">
 			<tr>
 				<td>

@@ -13,6 +13,8 @@
 			예시 <sql id=”userColumns”> id,username,password </sql>
 					select <include refid=”userColumns”/>
 					from some_table  
+					
+					Select * from plan_test
   -->	
   
 	<select id="plandatat" resultType="pdto">
@@ -22,7 +24,13 @@
 	<select id="listView" 
 					parameterType="pdto"
 					resultType="pdto">
-		select * from plan_test</select>
+	select 		planNo		AS no, 
+				planDate	AS plandate,  
+				planTitle	AS plantitle,  
+				planCate	AS plancate, 
+				memberID 	AS memberid
+				from plan_test
+	</select>
 </mapper>	
 
 

@@ -7,13 +7,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.seoulmate.seoulgo.dto.PlanDTO;
 import com.seoulmate.seoulgo.service.PlanService;
@@ -42,13 +45,26 @@ public PlanService planservice;
 		mv.setViewName("plan/plan");
 		return mv;
 	}
+	//이 메소드는 plan.jsp에서 수정하기 버튼을 눌렀을때 적용되는 리다이렉트 작동이다.
+	@PostMapping("/planmodi_redirect")
+	   public String exRedirect(HttpServletRequest request,  RedirectAttributes redirectAttributes) {
+		
+		String result2 = request.getParameter("Result2");
+		if(result2==null) {
+			System.out.println("if문 안에 들어옴"+result2);
+			 String referer = request.getHeader("Referer");
+			 return "redirect:"+ referer;
+		}else {
+			System.out.println("else문 안에 들어옴"+result2);
+		   String projectUrl = "http://www.naver.com";
+	       return "redirect:" + projectUrl;}  
+	}
+	
 	//http://127.0.0.1:9000/plan/planmodi
 	@RequestMapping("/plan/planmodi")
 	public String planmodi(HttpServletRequest request) {
 		System.out.println("planmodi 페이지 호출함수");
 		//1.파라미터받기
-		Object planlist=request.getAttribute("planTitle");
-		System.out.println(planlist);
 		//2.비즈니스로직실행
 		//3.모델, 뷰 제작
 		
