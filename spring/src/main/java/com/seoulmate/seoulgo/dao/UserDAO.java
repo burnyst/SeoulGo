@@ -13,15 +13,17 @@ public class UserDAO extends SqlSessionDaoSupport {
 	@Autowired
 	SqlSessionTemplate session;
 	
-	// 로그인 결과
-	public HashMap loginResult(HashMap hmap) {
-		HashMap result = (HashMap)session.selectOne("user.loginResult", hmap);
-		return result;
+	// 로그인 비밀번호 조회
+	public MemberDTO getPW(MemberDTO mdto) {
+		return session.selectOne("user.getPW", mdto);
 	}
-
+	
 	// 로그인 처리
-	public MemberDTO loginProc(MemberDTO mdto) {
-		return session.selectOne("user.loginProc", mdto);
+	public HashMap loginProc(HashMap map) {
+		System.out.println("UserDAO.loginProc()");
+		
+		HashMap result = (HashMap)session.selectOne("user.loginProc", map);
+		return result;
 	}
 
 	// 회원가입 처리
@@ -33,4 +35,5 @@ public class UserDAO extends SqlSessionDaoSupport {
 	public MemberDTO getMemberID(MemberDTO mdto) {
 		return session.selectOne("user.getMemberID", mdto);
 	}
+
 }

@@ -7,6 +7,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MemberController {
 
+	//회원탈퇴 폼 보여주기
+	@RequestMapping("/deleteAccount")
+	public void deleteAccount() {
+	}
+	
+	//비밀번호 변경 폼 보여주기
+	@RequestMapping("/changePWForm")
+	public void changePWForm() {
+	}
+	
+	//회원정보 수정 폼 보여주기
+	@RequestMapping("/memberInfo")
+	public void memberInfo() {
+	}
+	
 	//마이페이지 폼 보여주기
 	@RequestMapping("/mypageForm")
 	public void mypageForm() {

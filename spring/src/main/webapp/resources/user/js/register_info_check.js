@@ -9,7 +9,7 @@ $(function(){
 		
 		var img = $("#files").val();
 		var imgRegExp = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/;
-		var maxSize = 1073741824;
+		var maxSize = 10485760;
 		var fileSize = document.getElementById("files").files[0].size;
 		var file = document.getElementById("files").files[0];
 		
@@ -29,7 +29,7 @@ $(function(){
 			processData: false,
 			contentType: false,
 			success: function(data){
-				alert(data)
+				alert(data);
 				$("#profile-file").val(data);
 			}
 		});

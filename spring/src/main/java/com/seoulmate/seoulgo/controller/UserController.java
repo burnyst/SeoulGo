@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,40 +63,24 @@ public class UserController {
 	public void searchIDForm() {
 	}
 
+	// 로그아웃 처리
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		
+		return "../logoutSuccess";
+	}
+	
 	// 로그인 처리 요청 함수
 	@RequestMapping("/auth/loginProc")
-	public ModelAndView loginProc(MemberDTO mdto, HttpSession session, ModelAndView mv) {
+	public ModelAndView loginProc(MemberDTO mdto, HttpSession session, ModelAndView mv, @RequestParam String memberPW) {
 		System.out.println("loginProc 함수 진입");
 
-		String result = null;
-
-		MemberDTO login = uService.loginProc(mdto);
-
-		// DB에 있는 암호화된 비밀번호와 로그인창에 입력된 비밀번호 일치 여부 비교
-		boolean pwMatch = pwEncoder.matches(mdto.getMemberPW(), login.getMemberPW());
-
-		HashMap hmap = new HashMap();
-
-		hmap.put("memberID", mdto.getMemberID());
-		hmap.put("memberPW", mdto.getMemberPW());
-
-		HashMap map = uDAO.loginResult(hmap);
-
-		if (login != null && pwMatch == true) {
-			result = "login Success";
-
-			session.setAttribute("loginProc", login);
-			session.setAttribute("MNICK", map.get("NICKNAME"));
-
-			System.out.println("로그인 회원 MNICK=" + session.getAttribute("MNICK"));
-			System.out.println(result);
-		} else {
-			result = "login Fail";
-			System.out.println(result);
-		}
-
+		uService.loginProc(mdto,session,memberPW);
+		
 		RedirectView rv = new RedirectView("../../");
 		mv.setView(rv);
+
 		return mv;
 	}
 
@@ -104,7 +89,9 @@ public class UserController {
 	@RequestMapping("/fileCheck")
 	public String fileCheck(MemberDTO mdto,MultipartHttpServletRequest multipartRequest) {
 		System.out.println("프로필 사진 업로드 시작");
-		File filePath = new File("d:\\upload\\temp"); // 프로필 사진 파일이 저장될 위치
+		
+		// 프로필 사진 파일이 저장될 위치
+		File filePath = new File("d:\\upload\\temp");
 		
 		String tImg = null;
 

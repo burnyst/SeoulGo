@@ -4,17 +4,29 @@
 
 <mapper namespace="user">
 	<!-- 로그인 결과 -->
-	<select id="loginResult" resultType="java.util.HashMap"
+	<!-- <select id="loginResult" resultType="java.util.HashMap"
 		parameterType="java.util.HashMap">
-		select memberID, email, mName, nickname
+		select memberID, email, mName, nickname, mLevel 
+		from member_t
+		where memberID=#{memberID}
+	</select> -->
+
+	<!-- <select id="loginProc" resultType="mdto">
+		select memberID, memberPW, nickname, mLevel
+		from member_t
+		where memberID=#{memberID}
+	</select> -->
+	
+	<!-- 로그인 비밀번호 조회 -->
+	<select id="getPW" resultType="mdto">
+		select memberID, memberPW, nickname, mLevel
 		from member_t
 		where memberID=#{memberID}
 	</select>
-
+	
 	<!-- 로그인 처리 -->
-	<select id="loginProc" resultType="mdto">
-		select memberID, memberPW,
-		nickname
+	<select id="loginProc" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		select memberID, memberPW, nickname, mLevel
 		from member_t
 		where memberID=#{memberID}
 	</select>

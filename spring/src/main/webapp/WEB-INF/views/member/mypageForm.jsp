@@ -13,14 +13,14 @@
 	<form id="mypageForm" action="" method="post">
 		<table>
 			<tr>
-				<td>프로필 사진</td>
-				<td>아이디</td>
-				<td>이름</td>
-				<td>닉네임</td>
-				<td>생년월일</td>
-				<td>성별</td>
-				<td>이메일</td>
-				<td>휴대전화</td>
+				<th>프로필 사진</th>
+				<th>아이디</th>
+				<th>이름</th>
+				<th>닉네임</th>
+				<th>생년월일</th>
+				<th>성별</th>
+				<th>이메일</th>
+				<th>휴대전화</th>
 			</tr>
 			<tr>
 				<td></td>
@@ -47,6 +47,12 @@
 	
 	<table>
 		<tr>
+			<th>일정번호</th>
+			<th>일정날짜</th>
+			<th>일정제목</th>
+			<th>여행유형</th>
+		</tr>
+		<tr>
 			<td></td>
 		</tr>
 	</table>
@@ -58,9 +64,15 @@
 	
 	<table>
 		<tr>
-			<td></td>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
 		</tr>
 		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
 			<td></td>
 		</tr>
 	</table>

@@ -15,9 +15,7 @@
 <body>
 
 	<form id="registerForm" class="" action="../user/registerProc" method="post" enctype="multipart/form-data">
-		
-		<table align="center">
-		
+		<table>
 			<tbody>
 				<tr>
 					<th>프로필 사진</th>
