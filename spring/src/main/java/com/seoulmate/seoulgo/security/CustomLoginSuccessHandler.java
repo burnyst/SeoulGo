@@ -23,12 +23,12 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		System.out.println("ROLE NAMES: "+ roleNames);
 		if(roleNames.contains("ROLE_ADMIN")) {
-			response.sendRedirect("../admin/memberManagement");
+			response.sendRedirect("../../");
 			return;
 		}
 		
 		if(roleNames.contains("ROLE_MEMBER")) {
-			response.sendRedirect("../member/mypageForm");
+			response.sendRedirect("../../");
 			return;
 		}
 		

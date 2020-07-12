@@ -15,8 +15,7 @@
 
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener
-		</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
 	<!-- Processes application requests -->
@@ -67,8 +66,7 @@
 
 	<!-- 세션 이벤트 처리 관련 리스너 (세션 만료 체크, 동시 로그인 제한 등의 기능 제공) -->
 	<listener>
-		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher
-		</listener-class>
+		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
 	</listener>
 
 	<!-- sitemesh -->

@@ -100,7 +100,6 @@ public class UserController {
 			filePath.mkdirs();
 		}
 
-		//List<MultipartFile> fileList = new ArrayList<MultipartFile>();
 		List<MultipartFile> fileList = multipartRequest.getFiles("files");
 		
 		String oriName = mdto.getFiles().getOriginalFilename();
@@ -136,7 +135,6 @@ public class UserController {
 				
 				// 썸네일 이름 확인 및 뷰단에 뿌리기 위한 설정
 				tImg = tFile.getName();
-				
 				System.out.println("썸네일 이름tImg="+tImg);
 
 				// 이미지 축소 비율
@@ -167,7 +165,7 @@ public class UserController {
 
 	// 회원가입 처리 요청 함수
 	@RequestMapping("/registerProc")
-	public ModelAndView registerProc(MemberDTO mdto, ModelAndView mv, HttpServletRequest request, @RequestParam String phone, @RequestParam String memberPW) {
+	public ModelAndView registerProc(MemberDTO mdto, ModelAndView mv, HttpServletRequest request, HttpSession session, @RequestParam String phone, @RequestParam String memberPW) {
 		System.out.println("registerProc 함수 진입");
 		String phone1 = phone.substring(0, 3);
 		String phone2;
@@ -187,16 +185,13 @@ public class UserController {
 		mdto.setPhone2(phone2);
 		mdto.setPhone3(phone3);
 		mdto.setmLevel("ROLE_MEMBER");
+		mdto.setEnabled("1");
+		session.setAttribute("MDTO", mdto);
 		
 		//프로필 사진 파일명 mdto에 저장
 		request.getParameter("tImg");
-		//request.getAttribute("tImg");
 		System.out.println(mdto);
 		System.out.println("프로필사진이름="+mdto.getProSaveName());
-		//System.out.println("잘 들어갔니?"+request.getParameter("tImg"));
-		//System.out.println("이번엔 들어갔니?"+request.getAttribute("tImg"));
-		//mdto.setProSaveName(saveName);
-		//System.out.println("프로필 사진 실제 저장 이름: " + saveName);
 
 		uService.registerProc(mdto);
 

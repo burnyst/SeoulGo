@@ -20,6 +20,7 @@ public class MemberDTO {
 	private String mLevel;
 	private String proSaveName;
 	private MultipartFile files;
+	private String enabled;
 	
 	public String getMemberID() {
 		return memberID;
@@ -133,12 +134,20 @@ public class MemberDTO {
 		this.files = files;
 	}
 
+	public String getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(String enabled) {
+		this.enabled = enabled;
+	}
+
 	@Override
 	public String toString() {
 		return "MemberDTO [memberID=" + memberID + ", memberPW=" + memberPW + ", mName=" + mName + ", nickname="
 				+ nickname + ", gender=" + gender + ", birth=" + birth + ", enrollDate=" + enrollDate + ", phone1="
 				+ phone1 + ", phone2=" + phone2 + ", phone3=" + phone3 + ", email=" + email + ", mLevel=" + mLevel
-				+ ", proSaveName=" + proSaveName + ", files=" + files + "]";
+				+ ", proSaveName=" + proSaveName + ", files=" + files + ", enabled=" + enabled + "]";
 	}
-	
+
 }
