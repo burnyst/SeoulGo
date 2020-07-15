@@ -24,7 +24,7 @@
 				<tr>
 					<th>아이디</th>
 					<td>
-						<input type="text" name="memberID" id="memberID" placeholder="Username" required="required" autofocus/>
+						<input type="text" name="memberID" id="memberID" placeholder="Username" required="required"/>
 						<div class="check_font" id="id_check"></div>
 					</td>
 				</tr>
