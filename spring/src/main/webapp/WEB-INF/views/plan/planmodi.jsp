@@ -1,93 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@ taglib prefix ="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04926447ff4e969a08d92e18379b0176"></script>
 <script>
+
 $(function(){
 	 $("#nomodi").click(function(){
 		 alert("함수 작동");
 		 $(location).attr("href","../plan/plan");
-		 //../주소부터는 컨트롤러를 만든 뒤 수정해야 한다..
+		
 	 })
+	 
 	 $("#delmodi").click(function(){
-		 alert("함수2 작동");
-		 $(location).attr("href","../plan/plandelete");
-		 //../주소부터는 컨트롤러를 만든 뒤 수정해야 한다..
+		 alert("삭제페이지로 이동합니다.");
+		 
+		 $(location).attr("href","./plandelete");
+		 
+		 alert("./plandelete");
 	 })
-})
-function dropdownfunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
-}
+});
 
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
 
 </script>
 <style>
-.dropbtn {
-  background-color: #3498DB;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
-.dropbtn:hover, .dropbtn:focus {
-  background-color: #2980B9;
-}
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  overflow: auto;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-.dropdown a:hover {background-color: #ddd;}
-.show {display: block;}  
-</style><!--.show는 block형태로 a링크를 보여줄수 있도록 한다.  -->
+	#planlist{margin-top:20px;}
+</style>
 <meta charset="UTF-8">
 <title>일정수정하기</title>
 </head>
 <body>
+${Pdto}
 <!-- 이 페이지는 일정을 짜는 페이지이다. 
  일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
    -->
-
-<div style="float:left">
- 	<div class="dropdown">
-  	<button onclick="dropdownfunction()" class="dropbtn">일정장소</button>
-	  	<div id="myDropdown" class="dropdown-content">
-		    <a href="#home">일정장소1</a>
-		    <a href="#about">일정장소2</a>
-		    <a href="#contact">일정장소3</a>
-	  	</div>
-	</div>
+<div id="map" style="width:500px;height:300px;float:left; position:relative;'">
 </div>
-<div id="map" style="width:500px;height:400px;float:left;'" ></div>
 	<script>
 		var container = document.getElementById('map');
 		var options = {
@@ -97,45 +48,38 @@ window.onclick = function(event) {
 
 		var map = new kakao.maps.Map(container, options);
 	</script>
-
-<div>
-	<table border="1" width="600px">
-		<tr>
-			<td>
-				여행날짜
-			</td>
-			<td>
-			 	${planDate }
-			</td>
-		</tr>
-		<tr>
-			<td>
-				여행시간
-			</td>
-			<td>
-				${plantime}
-			</td>
-		</tr>
-		<tr>	
-			<td>
-				일정이름
-			</td>
-			<td>
-				${param.planTitle}
-			</td>
-		</tr>
-		<tr>
-			<td>
-				일정메모내용
-			</td>
-			<td>
-				${param.plancontent}
-			</td>
-		</tr>
-</table>
-<input type="submit" class="btn btn-primary"  value="수정하기"/>
-<button id="delmodi" class="btn btn-danger">삭제하기</button> 
-<button id="nomodi"type="button" class="btn btn-info">수정취소하기</button>
-</div>
+<form method="post" action="/plan/planmodifin">
+  <c:forEach var="list"  items="${Pdto}"  varStatus="status" >
+	<div class="planlist">
+		<div style="float:left; margin-right:10px">여행 날짜</div>
+		 <input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
+		<div><input type="date" id="plandate" name="plandate" value="${list.planDate}"></div>
+		
+		<div style="float:left; margin-right:10px">여행장소</div>
+		<div><input type="text" id="planplace" name="planplace" value="${list.planplace}"></div>
+		
+		<div style="float:left; margin-right:10px">일정제목</div>
+		
+		<div><input type="text" id="planTitle" name="planTitle" value="${list.planTitle}"></div>
+		
+		<div style="float:left; margin-right:10px">여행유형</div>
+		<div>
+			<select name="plancate" id="plancate">
+					<option value="0" <c:if test="${list.planCate==0}">selected</c:if>>가족과 함께</option>
+					<option value="1" <c:if test="${list.planCate==1}">selected</c:if>>커플 여행</option>
+					<option value="2" <c:if test="${list.planCate==2}">selected</c:if>>나만의 여행</option>
+					<option value="3" <c:if test="${list.planCate==3}">selected</c:if>>비즈니스 여행</option>
+					<option value="4" <c:if test="${list.planCate==4}">selected</c:if>>우정 여행</option>
+			</select>
+		</div>
+	</div>
+  </c:forEach>
+	<div style="height:250px;">여기는 사진이 출력되어 나올 위치입니다. </div>
+	<div style="text-align: center;">
+		<input type="submit" class="btn btn-primary"  value="수정하기"/>
+		<button type="submit" id="delmodi" class="btn btn-danger">삭제하기</button> 
+		<button id="nomodi" type="button" class="btn btn-info">수정취소하기</button>
+	</div>
+</form>
 </body>
 </html>

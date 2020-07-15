@@ -16,8 +16,9 @@ $(function(){
 	 $("#delno").click(function(){
 		 alert("삭제를 취소하셨습니다.");
 		 $(location).attr("href","../plan/plan");
-		 //../주소부터는 컨트롤러를 만든 뒤 수정해야 한다..
+		 
 	 })
+	 
 })
 
 </script>

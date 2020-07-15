@@ -12,7 +12,13 @@ toggle between hiding and showing the dropdown content */
 function dropdownfunction() {
   document.getElementById("myDropdown").classList.toggle("show");
 }
-
+$(function(){
+	 $("#backBtn").click(function(){
+		 alert("함수 작동");
+		 $(location).attr("href","../plan/plan");
+		 //../주소부터는 컨트롤러를 만든 뒤 수정해야 한다..
+	 })
+})
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
@@ -76,47 +82,74 @@ window.onclick = function(event) {
 		}; 
 
 		var map = new kakao.maps.Map(container, options);
-	</script>
-<form action="" method="post">
+		var marker = new kakao.maps.Marker({ 
+		    // 지도 중심좌표에 마커를 생성합니다 
+		    position: map.getCenter() 
+		}); 
+		// 지도에 마커를 표시합니다
+		marker.setMap(map);
+		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+		    
+		    // 클릭한 위도, 경도 정보를 가져옵니다 
+		    var latlng = mouseEvent.latLng; 
+		    
+		    // 마커 위치를 클릭한 위치로 옮깁니다
+		    marker.setPosition(latlng);
+		    
+		    var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
+		    message += '경도는 ' + latlng.getLng() + ' 입니다';
+		    
+		    var resultDiv = document.getElementById('clickLatlng'); 
+		    resultDiv.innerHTML = message;
+		    
+		});
+$(function(){
+	var idval =$('#planCate');
+	 $('#plancate').change(function(){
+		var element =$(this).find('option:selected');
+		var myTag = element.attr('value');
+		idval.val(myTag);
+	 });
+});
+</script>
+	<div id="clickLatlng"></div>
 <div style="float:left">
 	<div class="dropdown">
   	<button onclick="dropdownfunction()" class="dropbtn">일정장소</button>
 	  	<div id="myDropdown" class="dropdown-content">
-		    <a href="#iljung1">${list}</a>
-		    <a href="#iljung1">${list}</a>
-		    <a href="#iljung1">${list}</a>
+		    <a href="#iljung1">장소1</a>
+		    <a href="#iljung2">장소2</a>
+		    <a href="#iljung3">장소3</a>
 	  	</div>
 	</div>
 </div>
-	<div style="float:left">
-		<table border="1" width="600px">
-			<tr>
-				<td>
-					날짜
-				</td>
-				<td>
-					시간
-				</td>
-				<td>
-					여행제목
-				</td>
-			</tr>
-				<tr>
-					<td>
-						<input type="date">
-					</td>
-					<td>
-						<input type="time">
-					</td>
-					<td>
-						<input type="text">
-					</td>
-				</tr>
-		</table>
+<form action="/plan/planwrited" method="post">
+	<div id="planlist" style="margin-top: 100px;">
+		<div style="float:left; margin-right:10px">여행날짜</div> 
+		<div><input type="date" id="plandate"name="plandate" class="date"></div>
+		<div style="float:left; margin-right:10px">여행장소</div>
+		<div><input type="text" id="planplace" name="planplace">경북궁</div>
+		<div style="float:left; margin-right:10px border-top-width: 10px; ">여행 제목</div>
+		<div><input type="text" id="planTitle" name="planTitle"></div>
+		<div style="float:left; margin-right:10px">여행유형</div>
+		<div>
+			<select name="plancate" id="plancate">
+				<option value="" selected disabled hidden>==여행 유형을 선택하세요==</option>
+				<option value="0">가족과 함께</option>
+				<option value="1">커플 여행</option>
+				<option value="2">나만의 여행</option>
+				<option value="3">비즈니스 여행</option>
+				<option value="4">우정 여행</option>
+			</select>  
+			<input type="hidden" name="planCate"id="planCate">
+		</div>
+	</div>
+	<div style="height:250px">
+	</div>
+	<div style="text-align: center;">
 	<input class="btn btn-success" type="submit" value="일정짜기"> <input class="btn btn-info" type="reset" value="다시쓰기">
-	<a href="javascript:history.back();" class = "btn btn-warning">뒤로가기</a>
+	<a class ="btn btn-warning" id="backBtn">뒤로가기</a>
 </div>
-
 </form>
 </body>
 </html>
