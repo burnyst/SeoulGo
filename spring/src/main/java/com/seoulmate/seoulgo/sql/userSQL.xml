@@ -3,6 +3,22 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="user">
+	<!-- 이메일 인증 -->
+	<select id="emailAuth" resultType="mdto" parameterType="mdto">
+          SELECT *
+          FROM member_t
+          WHERE (mName=#{mName} and email=#{email})
+                                  OR
+                (memberID=#{memberID} and mName=#{mName} and email=#{email})
+     </select>
+
+	<!-- 비밀번호 찾기 처리 -->
+	<update id="searchPWProc" parameterType="mdto">
+		update member_t
+		set memberPW=#{memberPW}
+		where memberID=#{memberID} and mName=#{mName} and email=#{email}
+	</update>
+	
 	<!-- 로그인 결과 -->
 	<select id="loginResult" resultType="java.util.HashMap"
 		parameterType="java.util.HashMap">
@@ -24,24 +40,31 @@
 		INSERT INTO
 		member_t (
 		memberID, memberPW, mName, nickname, gender, birth,
-		enrollDate, phone1, phone2, phone3, email, mLevel, proSaveName
+		enrollDate, phone1,
+		phone2, phone3, email, mLevel, proSaveName, enabled
 		)
 		VALUES (
 		#{memberID}, #{memberPW}, #{mName}, #{nickname}, #{gender}, #{birth},
 		SYSDATE, #{phone1}, #{phone2}, #{phone3}, #{email}, #{mLevel},
-		#{proSaveName}
+		#{proSaveName}, #{enabled}
 		)
 	</insert>
+
+	<!-- 이메일 조회 -->
+	<select id="getEmail" parameterType="mdto" resultType="mdto">
+		SELECT
+		* FROM member_t WHERE email=#{email}
+	</select>
+
+	<!-- 닉네임 조회 -->
+	<select id="getNickname" parameterType="mdto" resultType="mdto">
+		SELECT
+		* FROM member_t WHERE nickname=#{nickname}
+	</select>
 
 	<!-- 아이디 조회 -->
 	<select id="getMemberID" parameterType="mdto" resultType="mdto">
 		SELECT
 		* FROM member_t WHERE memberID=#{memberID}
-	</select>
-
-	<!-- 아이디 중복 여부 조회 -->
-	<select id="idChk" resultType="int">
-		SELECT count(*) FROM member_t
-		WHERE memberID=#{memberID}
 	</select>
 </mapper>

@@ -6,18 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
-<style type="text/css">
-	.center {
-		text-align: center;
-	}
-</style>
 </head>
 <body>
 	<h3>로그인</h3>
 	<br>
 	
-	<form id="loginForm" class="" action="../user/auth/loginProc" method="post">
-		<table align="center">
+	<form id="loginForm" class="" action="/login" method="post">
+		<table>
 			<tbody>
 				<tr>
 					<th>아이디</th>
@@ -40,8 +35,8 @@
 				<tr>
 					<td>
 						<a href="./registerForm">회원가입</a><br>
-						<a href="./searchID">아이디 찾기</a><br>
-						<a href="./searchPW">비밀번호 찾기</a>
+						<a href="./searchIDForm">아이디 찾기</a><br>
+						<a href="./searchPWForm">비밀번호 찾기</a>
 					</td>
 				</tr>
 			</tbody>

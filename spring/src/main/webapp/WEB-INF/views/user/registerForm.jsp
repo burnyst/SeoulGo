@@ -1,39 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-<script src="https://code.jquery.com/jquery-3.5.1.js" 
-    	integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" 
-    	crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/user/js/register_info_check.js"></script>
 </head>
 <body>
-
 	<form id="registerForm" class="" action="../user/registerProc" method="post" enctype="multipart/form-data">
-		
-		<table align="center">
-		
+		<table>
 			<tbody>
 				<tr>
 					<th>프로필 사진</th>
 					<td>
-						<input type="file" name="files" id="files" accept=".jpg, .jpeg, .gif, .png, .bmp"/>
-						<c:if test="${tImg != null}">
-							<img src="${pageContext.request.contextPath}/upload/temp/${tImg}">
-						</c:if>
+						<input type="file" name="files" id="files" accept=".jpg, .jpeg, .gif, .png, .bmp"/><br>
+						<div class="profile"><img src=""></div>
 						<input type="hidden" name="proSaveName" value="" id="profile-file">
-						<div id="preview"></div>
 					</td>
 				</tr>
 				<tr>
 					<th>아이디</th>
 					<td>
-						<input type="text" name="memberID" id="memberID" placeholder="Username" required="required"/>
+						<input type="text" name="memberID" id="memberID" placeholder="Username" required="required" autofocus/>
 						<div class="check_font" id="id_check"></div>
 					</td>
 				</tr>
@@ -54,14 +45,14 @@
 				<tr>
 					<th>이름</th>
 					<td>
-						<input type="text" name="mName" id="mName" required="required"/>
+						<input type="text" name="mName" id="mName" placeholder="Name" required="required"/>
 						<div class="check_font" id="name_check"></div>
 					</td>
 				</tr>
 				<tr>
 					<th>닉네임</th>
 					<td>
-						<input type="text" name="nickname" id="nickname" required="required"/>
+						<input type="text" name="nickname" id="nickname" placeholder="Nickname" required="required"/>
 						<div class="check_font" id="nickname_check"></div>
 					</td>
 				</tr>
@@ -74,7 +65,7 @@
 				<tr>
 					<th>성별</th>
 					<td>
-						<select name="gender" id="gender">
+						<select name="gender" id="gender" required="required">
 							<option value="">성별</option>
 							<option value="M">남자</option>
 							<option value="F">여자</option>
@@ -98,8 +89,8 @@
 				</tr>
 				<tr>
 					<td>
-						<input type="submit" id="reg_submit" value="회원가입"></input>
-						<input type="reset" id="reg_cancel" value="취소"></input>
+						<input class="btn btn-primary btn-sm" type="submit" id="reg_submit" value="회원가입"/>
+						<input class="btn btn-secondary btn-sm" type="reset" id="cancelBtn" value="취소"/>
 					</td>
 				</tr>
 			</tbody>

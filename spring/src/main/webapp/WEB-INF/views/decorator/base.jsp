@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib prefix="decorator"
+<%@ taglib prefix="decorator"
 	uri="http://www.opensymphony.com/sitemesh/decorator"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,13 +40,29 @@
 				<li class="nav-item p-1">
 					<a class="nav-link" href="#">공지사항</a>
 				</li>
-				<li class="nav-item p-1">
-					<a class="nav-link" href="#">마이페이지</a>
+				<sec:authorize access="hasRole('ROLE_MEMBER')">
+					<li class="nav-item p-1">
+						<a class="nav-link" href="${pageContext.request.contextPath}/member/mypageForm">마이페이지</a>
+					</li>
+					<li class="nav-item p-1">
+						<a class="nav-link" href="${pageContext.request.contextPath}/member/memberInfo">회원정보수정(폼 요청)</a>
+					</li>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<li class="nav-item p-1">
+						<a class="nav-link" href="${pageContext.request.contextPath}/admin/menuForm">관리자 메뉴(폼 요청)</a>
+					</li>
+				</sec:authorize>
+				<sec:authorize access="isAuthenticated()">
+					<li class="nav-item p-1 small">
+						<a class="nav-link" href="${pageContext.request.contextPath}/member/logout">로그아웃</a>
+					</li>
+				</sec:authorize>
+				<li class="nav-item p-1 small">
+					<a class="nav-link" href="${pageContext.request.contextPath}/user/loginForm">로그인</a>
 				</li>
 				<li class="nav-item p-1 small">
-					<a class="nav-link" href="#">로그인</a>
-				<li class="nav-item p-1 small">
-					<a class="nav-link" href="#">회원가입</a>
+					<a class="nav-link" href="${pageContext.request.contextPath}/user/registerForm">회원가입</a>
 				</li>
 			</ul>
 		</div>

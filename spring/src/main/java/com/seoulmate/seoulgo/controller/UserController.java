@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,10 +24,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.seoulmate.seoulgo.dao.UserDAO;
 import com.seoulmate.seoulgo.dto.MemberDTO;
+import com.seoulmate.seoulgo.security.MailConfirm;
 import com.seoulmate.seoulgo.service.UserService;
 
 @RequestMapping("/user")
@@ -42,70 +45,121 @@ public class UserController {
 	@Inject
 	BCryptPasswordEncoder pwEncoder;
 
-	// 비밀번호 찾기
-	@RequestMapping("/searchPWProc")
-	public void searchPWProc() {
+	// 이메일 인증번호 보내기
+	@ResponseBody
+	@RequestMapping("/emailAuth")
+	public ModelAndView emailAuth(MemberDTO mdto, Model model, ModelAndView mv) {
+		System.out.println("UserController.emailAuth() 진입");
+		MailConfirm mail = new MailConfirm();
+
+		String memberID = mdto.getMemberID();
+		String mName = mdto.getmName();
+		String email = mdto.getEmail();
+		System.out.println(memberID + "/" + mName + "/" + email);
+
+		// 아이디 찾기
+		if (memberID == null) {
+			MemberDTO result = uService.emailAuth(mdto);
+			if (result != null) {
+				System.out.println("searchID 이메일 인증 성공 email=" + email);
+				model.addAttribute("confirmNum", mail.sendMail(email));
+				mv.setViewName("/user/searchIDForm2");
+				mv.addObject("result", result);
+			} else {
+				System.out.println("searchID 이메일 인증 실패");
+				mv.setViewName("/user/searchIDForm");
+				mv.addObject("msg", "fail");
+			}
+		} else {
+			// 비밀번호 찾기
+			MemberDTO result = uService.emailAuth(mdto);
+			if (result != null) {
+				System.out.println("searchPW 이메일 인증 성공 email=" + email);
+				model.addAttribute("confirmNum", mail.sendMail(email));
+				mv.setViewName("/user/searchPWForm2");
+				mv.addObject("result", result);
+			} else {
+				System.out.println("searchPW 이메일 인증 실패");
+				mv.setViewName("/user/searchPWForm");
+				mv.addObject("msg", "fail");
+			}
+		}
+		return mv;
 	}
 
-	// 비밀번호 찾기 폼 보여주기
+	// 비밀번호 찾기 처리
+	@RequestMapping("/searchPWProc")
+	public ModelAndView searchPWProc(MemberDTO mdto, @RequestParam String memberPW, ModelAndView mv) {
+		System.out.println("UserController.searchPWProc() 진입");
+		
+		String memberID = mdto.getMemberID();
+		String mName = mdto.getmName();
+		String email = mdto.getEmail();
+		
+		String encodePw = pwEncoder.encode(memberPW);
+		mdto.setMemberPW(encodePw);
+		
+		uService.searchPWProc(mdto);
+		
+		RedirectView rv = new RedirectView("/user/loginForm");
+		mv.setView(rv);
+
+		return mv;
+	}
+
+	// 비밀번호 찾기 폼 보여주기 : 이메일로 받은 인증번호 검증하는 폼
+	@RequestMapping("/searchPWForm2")
+	public void searchPWForm2() {
+	}
+
+	// 비밀번호 찾기 폼 보여주기 : 아이디, 이름, 이메일 입력 후 이메일 인증번호 발송하는 폼
 	@RequestMapping("/searchPWForm")
 	public void searchPWForm() {
 	}
 
+	// 아이디 찾기 결과 폼 보여주기
+	@RequestMapping("/searchIDResult")
+	public void searchIDResult() {
+	}
+	
 	// 아이디 찾기
 	@RequestMapping("/searchIDProc")
-	public void searchIDProc() {
+	public ModelAndView searchIDProc(MemberDTO mdto, ModelAndView mv) {
+		System.out.println("UserController.searchIDProc() 진입");
+
+		String name = mdto.getmName();
+		String email = mdto.getEmail();
+
+		MemberDTO result = uService.emailAuth(mdto);
+
+		mv.setViewName("/user/searchIDResult");
+		mv.addObject("result", result);
+		return mv;
 	}
 
-	// 아이디 찾기 폼 보여주기
+	// 아이디 찾기 폼 보여주기 : 이메일로 받은 인증번호 검증하는 폼
+	@RequestMapping("/searchIDForm2")
+	public void searchIDForm2() {
+	}
+
+	// 아이디 찾기 폼 보여주기 : 이름, 이메일 입력 후 이메일 인증번호 발송하는 폼
 	@RequestMapping("/searchIDForm")
 	public void searchIDForm() {
 	}
 
-	// 로그인 처리 요청 함수
-	@RequestMapping("/auth/loginProc")
-	public ModelAndView loginProc(MemberDTO mdto, HttpSession session, ModelAndView mv) {
-		System.out.println("loginProc 함수 진입");
-
-		String result = null;
-
-		MemberDTO login = uService.loginProc(mdto);
-
-		// DB에 있는 암호화된 비밀번호와 로그인창에 입력된 비밀번호 일치 여부 비교
-		boolean pwMatch = pwEncoder.matches(mdto.getMemberPW(), login.getMemberPW());
-
-		HashMap hmap = new HashMap();
-
-		hmap.put("memberID", mdto.getMemberID());
-		hmap.put("memberPW", mdto.getMemberPW());
-
-		HashMap map = uDAO.loginResult(hmap);
-
-		if (login != null && pwMatch == true) {
-			result = "login Success";
-
-			session.setAttribute("loginProc", login);
-			session.setAttribute("MNICK", map.get("NICKNAME"));
-
-			System.out.println("로그인 회원 MNICK=" + session.getAttribute("MNICK"));
-			System.out.println(result);
-		} else {
-			result = "login Fail";
-			System.out.println(result);
-		}
-
-		RedirectView rv = new RedirectView("../../");
-		mv.setView(rv);
-		return mv;
-	}
-
-	// 회원가입 프로필 사진 처리 요청 함수
-	@ResponseBody
-	@RequestMapping("/fileCheck")
-	public String fileCheck(MemberDTO mdto,MultipartHttpServletRequest multipartRequest) {
+	// 회원가입 처리 요청 함수
+	@RequestMapping("/registerProc")
+	public ModelAndView registerProc(MemberDTO mdto, ModelAndView mv, MultipartHttpServletRequest multipartRequest,
+			HttpServletRequest request, HttpSession session, @RequestParam String phone, @RequestParam String memberID,
+			@RequestParam String memberPW) {
 		System.out.println("프로필 사진 업로드 시작");
-		File filePath = new File("d:\\upload\\temp"); // 프로필 사진 파일이 저장될 위치
-		
+
+		// 프로필 사진 파일이 저장될 위치
+		String realPath = request.getSession().getServletContext().getRealPath("/resources/img");
+		String savePath = realPath + "/member/";
+		File filePath = new File(savePath);
+		System.out.println("filePath: " + filePath);
+
 		String tImg = null;
 
 		// filePath가 존재하지 않을 경우 filePath 생성
@@ -113,23 +167,21 @@ public class UserController {
 			filePath.mkdirs();
 		}
 
-		//List<MultipartFile> fileList = new ArrayList<MultipartFile>();
 		List<MultipartFile> fileList = multipartRequest.getFiles("files");
-		
+
 		String oriName = mdto.getFiles().getOriginalFilename();
-		System.out.println("file의 oriName="+oriName);
-		
+		System.out.println("file의 oriName=" + oriName);
+
 		// 프로필 사진을 업로드 하지 않았을 경우
 		if (multipartRequest.getFiles("files").get(0).getSize() == 0) {
 			fileList = multipartRequest.getFiles("file");
 		} else {
 			// 프로필 사진을 업로드 했을 경우
 			for (MultipartFile mf : fileList) {
-				long time = System.currentTimeMillis();
-				String saveName = String.format("%d_%s", time, oriName);
-				
+				String saveName = String.format("%s", oriName);
 				File file = new File(filePath, saveName);
 
+				// 원본 파일 복사: transferTo()
 				try {
 					mdto.getFiles().transferTo(file);
 				} catch (Exception e) {
@@ -140,17 +192,20 @@ public class UserController {
 				String oriPath = filePath + "\\" + saveName;
 				File oriFile = new File(oriPath);
 
+				// 파일 이름과 확장자 분리
 				int index = oriPath.lastIndexOf(".");
+				String fileOriName = oriPath.substring(0, index);
 				String ext = oriPath.substring(index + 1);
 
 				// 썸네일 저장 경로
-				String tPath = oriFile.getParent() + File.separator + "t-" + oriFile.getName();
+				String tPath = oriFile.getParent() + File.separator + "t-" + memberID + "." + ext;
+				System.out.println("tPath=" + tPath);
 				File tFile = new File(tPath);
-				
-				// 썸네일 이름 확인 및 뷰단에 뿌리기 위한 설정
+
+				// 썸네일 이름 설정
 				tImg = tFile.getName();
-				
-				System.out.println("썸네일 이름tImg="+tImg);
+				System.out.println("썸네일 이름tImg=" + tImg);
+				mdto.setProSaveName(tImg);
 
 				// 이미지 축소 비율
 				double ratio = 2;
@@ -172,15 +227,9 @@ public class UserController {
 					System.out.println("썸네일 생성 에러: " + e);
 				}
 			}
-		}
-		System.out.println("tImg="+tImg);
-		
-		return tImg;
-	}
 
-	// 회원가입 처리 요청 함수
-	@RequestMapping("/registerProc")
-	public ModelAndView registerProc(MemberDTO mdto, ModelAndView mv, HttpServletRequest request, @RequestParam String phone, @RequestParam String memberPW) {
+		}
+
 		System.out.println("registerProc 함수 진입");
 		String phone1 = phone.substring(0, 3);
 		String phone2;
@@ -200,23 +249,47 @@ public class UserController {
 		mdto.setPhone2(phone2);
 		mdto.setPhone3(phone3);
 		mdto.setmLevel("ROLE_MEMBER");
-		
-		//프로필 사진 파일명 mdto에 저장
-		request.getParameter("tImg");
-		//request.getAttribute("tImg");
+		mdto.setEnabled("1");
 		System.out.println(mdto);
-		System.out.println("프로필사진이름="+mdto.getProSaveName());
-		//System.out.println("잘 들어갔니?"+request.getParameter("tImg"));
-		//System.out.println("이번엔 들어갔니?"+request.getAttribute("tImg"));
-		//mdto.setProSaveName(saveName);
-		//System.out.println("프로필 사진 실제 저장 이름: " + saveName);
 
 		uService.registerProc(mdto);
 
-		RedirectView rv = new RedirectView("../user/loginForm");
+		RedirectView rv = new RedirectView("/user/loginForm");
 		mv.setView(rv);
 
 		return mv;
+	}
+
+	// 회원가입시 이메일 중복 확인 요청 함수
+	@ResponseBody
+	@PostMapping("/emailCheck")
+	public Map<String, Object> emailCheck(MemberDTO mdto) {
+		System.out.println("emailCheck 실행");
+
+		Map<String, Object> checkResult = new HashMap<String, Object>();
+
+		if (uService.getEmail(mdto) != null) {
+			checkResult.put("emailCheck", "fail");
+		} else {
+			checkResult.put("emailCheck", "success");
+		}
+		return checkResult;
+	}
+
+	// 회원가입시 닉네임 중복 확인 요청 함수
+	@ResponseBody
+	@PostMapping("/nickCheck")
+	public Map<String, Object> nickCheck(MemberDTO mdto) {
+		System.out.println("nickCheck 실행");
+
+		Map<String, Object> checkResult = new HashMap<String, Object>();
+
+		if (uService.getNickname(mdto) != null) {
+			checkResult.put("nickCheck", "fail");
+		} else {
+			checkResult.put("nickCheck", "success");
+		}
+		return checkResult;
 	}
 
 	// 회원가입시 아이디 중복 확인 요청 함수
@@ -232,25 +305,16 @@ public class UserController {
 		} else {
 			checkResult.put("idCheck", "success");
 		}
-
 		return checkResult;
-	}
-
-	// 아이디 조회
-	public ModelAndView getMemberID(MemberDTO mdto, ModelAndView mv) {
-		mv.addObject("member", uService.getMemberID(mdto));
-		mv.setViewName("#");
-
-		return mv;
-	}
-
-	// 회원가입 폼 보여주기
-	@RequestMapping("/registerForm")
-	public void registerForm() {
 	}
 
 	// 로그인 폼 보여주기
 	@RequestMapping("/loginForm")
 	public void loginForm() {
+	}
+
+	// 회원가입 폼 보여주기
+	@RequestMapping("/registerForm")
+	public void registerForm() {
 	}
 }

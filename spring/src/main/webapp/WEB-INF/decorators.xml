@@ -6,5 +6,7 @@
 		<pattern>/plan/*</pattern>
 		<pattern>/review/*</pattern>
 		<pattern>/user/*</pattern>
+		<pattern>/member/*</pattern>
+		<pattern>/admin/*</pattern>
 	</decorator>
 </decorators>

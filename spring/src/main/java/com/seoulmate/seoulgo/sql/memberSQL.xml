@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="member">
+	<!-- 회원정보 조회 -->
+	<select id="getMemberInfo" resultType="mdto">
+		select memberID, memberPW, nickname, mLevel
+		from member_t
+	</select>
+	
+	<!-- 회원정보 수정 -->
+	<update id="memberInfoUpdate">
+		UPDATE member_t 
+		SET 
+			proSaveName=#{proSaveName}, nickname=#{nickname}, email=#{email} 
+		WHERE	
+	</update>
+</mapper>

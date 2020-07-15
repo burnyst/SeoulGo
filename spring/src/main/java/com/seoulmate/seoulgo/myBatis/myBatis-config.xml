@@ -23,5 +23,7 @@
 	<mappers>
 		<mapper resource="/com/seoulmate/seoulgo/sql/userSQL.xml"/>
 		<mapper resource="/com/seoulmate/seoulgo/sql/planSQL.xml"/>
+		<mapper resource="/com/seoulmate/seoulgo/sql/memberSQL.xml"/>
+		<mapper resource="/com/seoulmate/seoulgo/sql/adminSQL.xml"/>
 	</mappers>
 </configuration>
