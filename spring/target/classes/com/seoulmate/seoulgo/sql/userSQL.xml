@@ -19,22 +19,11 @@
 		where memberID=#{memberID} and mName=#{mName} and email=#{email}
 	</update>
 	
-	<!-- 로그인 결과 -->
-	<select id="loginResult" resultType="java.util.HashMap"
-		parameterType="java.util.HashMap">
-		select memberID, email, mName, nickname
-		from member_t
-		where memberID=#{memberID}
+	<!-- 로그인한 유저 정보 가져오기 -->
+	<select id="getUserById" resultType="mdto">
+		SELECT * FROM member_t WHERE memberID=#{memberID}
 	</select>
-
-	<!-- 로그인 처리 -->
-	<select id="loginProc" resultType="mdto">
-		select memberID, memberPW,
-		nickname
-		from member_t
-		where memberID=#{memberID}
-	</select>
-
+	
 	<!-- 회원가입 처리 -->
 	<insert id="registerProc" parameterType="mdto">
 		INSERT INTO

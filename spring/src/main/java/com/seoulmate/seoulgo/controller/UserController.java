@@ -249,7 +249,7 @@ public class UserController {
 		mdto.setPhone2(phone2);
 		mdto.setPhone3(phone3);
 		mdto.setmLevel("ROLE_MEMBER");
-		mdto.setEnabled("1");
+		mdto.setEnabled(true);
 		System.out.println(mdto);
 
 		uService.registerProc(mdto);

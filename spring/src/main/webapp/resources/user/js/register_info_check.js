@@ -21,7 +21,8 @@ $(function(){
 		} else if(this.files && this.files[0]) {
 			var reader = new FileReader;
 		    reader.onload = function(data) {
-		     $(".profile img").attr("src", data.target.result).width(200);        
+			    $(".profile img").attr("src", data.target.result).width(100);    
+			    $(".profile img").attr("src", data.target.result).height(100);  
 		    }
 		    reader.readAsDataURL(this.files[0]);
 		}
@@ -234,7 +235,11 @@ $(function(){
            check.set("phone", 1);
        }
        $("#phone_check").html(message);
-   });
+	});
+	
+	$("#cancelBtn").click(function(){
+		history.back();
+	});
 });
 
 function checkInfo() {

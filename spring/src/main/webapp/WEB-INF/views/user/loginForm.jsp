@@ -6,11 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
+<style type="text/css">
+	table {
+		margin: 0 auto;
+	}
+</style>
 </head>
 <body>
-	<h3>로그인</h3>
-	<br>
-	
 	<form id="loginForm" class="" action="/login" method="post">
 		<table>
 			<tbody>
@@ -28,8 +30,8 @@
 				</tr>
 				<tr>
 					<td>
-						<input type="submit" id="" value="로그인"/>
-						<input type="reset" id="" value="취소"/>
+						<input type="submit" id="" class="btn btn-primary btn-sm"value="로그인"/>
+						<input type="reset" id="cancelBtn" class="btn btn-secondary btn-sm" value="취소"/>
 					</td>
 				</tr>
 				<tr>

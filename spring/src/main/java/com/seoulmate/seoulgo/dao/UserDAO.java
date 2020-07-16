@@ -25,6 +25,11 @@ public class UserDAO extends SqlSessionDaoSupport {
 		session.update("user.searchPWProc", mdto);
 	}
 	
+	// 로그인한 유저 정보 가져오기
+	public MemberDTO getUserById(String username) {
+		return session.selectOne("user.getUserById", username);
+	}
+	
 	// 회원가입 처리
 	public void registerProc(MemberDTO mdto) {
 		session.insert("user.registerProc", mdto);
@@ -44,4 +49,5 @@ public class UserDAO extends SqlSessionDaoSupport {
 	public MemberDTO getMemberID(MemberDTO mdto) {
 		return session.selectOne("user.getMemberID", mdto);
 	}
+
 }

@@ -5,9 +5,9 @@
 <mapper namespace="admin">
 	<!-- 가입된 회원정보 조회 -->
 	<select id="getMemberList" resultType="mdto">
-		SELECT
-			memberID, mName, nickname, birth, gender, email, phone1, phone2, phone3, enabled
-		FROM 
-			member_t
+		SELECT *
+		FROM member_t
+		WHERE mlevel='ROLE_MEMBER'
+		ORDER BY memberID DESC
 	</select>
 </mapper>

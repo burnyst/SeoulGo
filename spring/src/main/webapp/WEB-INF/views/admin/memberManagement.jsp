@@ -1,43 +1,73 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.seoulmate.seoulgo.page.PageObject" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>SeoulGo 회원관리</title>
+<title>SeoulGo 회원 리스트</title>
+<style type="text/css">
+	table {
+		margin: 0 auto;
+	}
+
+	#thead {
+		background-color: #3fc1c9;
+	}
+</style>
 </head>
 <body>
+	<!-- 검색 부분 -->
+	<div class="form-group row justify-content-center">
+		<div class="w100" style="padding-right:10px">
+			<select class="form-control form-control-sm" name="searchType" id="searchType">
+				<option value="">검색유형</option>
+				<option value="memberID">아이디</option>
+				<option value="mName">이름</option>
+				<option value="nickname">닉네임</option>
+				<option value="email">이메일</option>
+			</select>
+		</div>
+		<div class="w400" style="padding-right:10px">
+			<input type="text" class="form-control form-control-sm" name="search" id="search" placeholder="검색어를 입력해주세요">
+		</div>	
+		<div>
+			<button class="btn btn-sm btn-outline-primary" name="btnSearch" id="btnSearch">검색</button>
+		</div>
+	</div>
 	<form>
-		<table>
-			<tbody>
+		<table class="table table-hover">
+			<thead id="thead">
 				<tr>
-					<th>아이디</th>
-					<th>이름</th>
-					<th>닉네임</th>
-					<th>생년월일</th>
-					<th>성별</th>
-					<th>이메일</th>
-					<th>전화번호</th>
-					<th>회원 강퇴</th>
+					<th class="text-center">아이디</th>
+					<th class="text-center">이름</th>
+					<th class="text-center">닉네임</th>
+					<th class="text-center">생년월일</th>
+					<th class="text-center">성별</th>
+					<th class="text-center">이메일</th>
+					<th class="text-center">전화번호</th>
+					<th class="text-center">회원 강퇴</th>
 				</tr>
+			</thead>
+			<tbody>
 				<c:choose>
 					<c:when test="${empty memberList}">
 						<tr>
-							<td colspan="8" align="center">데이터가 없습니다</td>
+							<td colspan="8" align="center">회원 데이터가 없습니다</td>
 						</tr>
 					</c:when>
 					<c:when test="${not empty memberList}">
 						<c:forEach items="${memberList}" var="list">
 							<tr>
-								<td>${list.memberID}</td>
-								<td>${list.mName}</td>
-								<td>${list.nickname}</td>
-								<td>${list.birth}</td>
-								<td>${list.gender}</td>
-								<td>${list.email}</td>
-								<td>${list.phone1}-${list.phone2}-${list.phone3}</td>
-								<td><input type="checkbox"></td>
+								<td class="text-center">${list.memberID}</td>
+								<td class="text-center">${list.mName}</td>
+								<td class="text-center">${list.nickname}</td>
+								<td class="text-center">${list.birth}</td>
+								<td class="text-center">${list.gender}</td>
+								<td class="text-center">${list.email}</td>
+								<td class="text-center">${list.phone1}-${list.phone2}-${list.phone3}</td>
+								<td class="text-center"><input type="checkbox"></td>
 							</tr>
 						</c:forEach>
 					</c:when>
