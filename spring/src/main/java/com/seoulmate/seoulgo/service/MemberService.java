@@ -25,4 +25,9 @@ public class MemberService {
 		mDAO.memberInfoUpdate(mdto);
 	}
 
+	// 마이페이지
+	public MemberDTO findMember(String memberID) {
+		return mDAO.findMember(memberID);
+	}
+
 }

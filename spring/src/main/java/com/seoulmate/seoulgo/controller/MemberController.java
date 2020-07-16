@@ -1,10 +1,14 @@
 package com.seoulmate.seoulgo.controller;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +49,7 @@ public class MemberController {
 	}
 
 	// 비밀번호 변경 폼 보여주기
-	@RequestMapping("/changePWForm")
+	@RequestMapping("/changePW")
 	public void changePWForm() {
 	}
 
@@ -61,15 +65,19 @@ public class MemberController {
 	}
 
 	// 마이페이지 폼 보여주기
-	@RequestMapping("/mypageForm")
-	public void mypageForm() {
+	@RequestMapping("/mypage")
+	public void mypageForm(HttpSession session) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof MemberDTO) {
-			String username = ((MemberDTO) principal).getMemberID();
-			System.out.println("if.username=" + username);
+		if (principal instanceof UserDetails) {
+			String memberID = ((UserDetails) principal).getUsername();
+			System.out.println("if.username=" + memberID);
+			MemberDTO mem = mService.findMember(memberID);
+			session.setAttribute("mem", mem);
 		} else {
-			String username = principal.toString();
-			System.out.println("else.username=" + username);
+			String memberID = principal.toString();
+			System.out.println("else.username=" + memberID);
+			MemberDTO mem = mService.findMember(memberID);
+			session.setAttribute("mem", mem);
 		}
 	}
 }

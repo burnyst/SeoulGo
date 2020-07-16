@@ -13,7 +13,7 @@
 </style>
 </head>
 <body>
-	<form id="loginForm" class="" action="/login" method="post">
+	<form id="loginForm" action="/login" method="post">
 		<table>
 			<tbody>
 				<tr>

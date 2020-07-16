@@ -26,4 +26,10 @@ public class MemberDAO extends SqlSessionDaoSupport {
 		session.update("member.memberInfoUpdate", mdto);
 	}
 
+	// 마이페이지
+	public MemberDTO findMember(String memberID) {
+		MemberDTO mdto = session.selectOne("member.findMember", memberID);
+		
+		return mdto;
+	}
 }

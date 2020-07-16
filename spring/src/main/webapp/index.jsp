@@ -16,17 +16,18 @@
 	<p>http://localhost:9000/index.jsp</p>
 	<ul>
 		<sec:authorize access="isAnonymous()">
-			<li><a href="./user/loginForm">로그인폼(폼 요청)</a></li>		
+			<li><a href="./user/login">로그인폼(폼 요청)</a></li>		
 		</sec:authorize>
 		<sec:authorize access="hasRole('ROLE_MEMBER')">
-		<li><a href="./member/mypageForm">마이페이지(폼 요청)</a></li>
+		<li><a href="./member/mypage">마이페이지(폼 요청)</a></li>
 		<li><a href="./member/memberInfo">회원정보수정(폼 요청)</a></li>
 		</sec:authorize>
 		<sec:authorize access="isAuthenticated()">
 		<li><a href="./member/logout">로그아웃</a></li>
 		</sec:authorize>
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
-			<li><a href="./admin/menuForm">관리자 메뉴(폼 요청)</a></li>
+			<li><a href="./admin/menu">관리자 메뉴(폼 요청)</a></li>
+			<li><a href="./admin/memberManagement">관리자 메뉴(폼 요청)</a></li>
 		</sec:authorize>
 	</ul>
 </body>

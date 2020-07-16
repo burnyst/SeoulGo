@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.seoulmate.seoulgo.dao.UserDAO;
@@ -48,7 +48,7 @@ public class UserController {
 	// 이메일 인증번호 보내기
 	@ResponseBody
 	@RequestMapping("/emailAuth")
-	public ModelAndView emailAuth(MemberDTO mdto, Model model, ModelAndView mv) {
+	public JSONObject emailAuth(MemberDTO mdto, Model model, ModelAndView mv) {
 		System.out.println("UserController.emailAuth() 진입");
 		MailConfirm mail = new MailConfirm();
 
@@ -57,34 +57,33 @@ public class UserController {
 		String email = mdto.getEmail();
 		System.out.println(memberID + "/" + mName + "/" + email);
 
+		JSONObject obj = new JSONObject();
+		
 		// 아이디 찾기
 		if (memberID == null) {
 			MemberDTO result = uService.emailAuth(mdto);
 			if (result != null) {
 				System.out.println("searchID 이메일 인증 성공 email=" + email);
-				model.addAttribute("confirmNum", mail.sendMail(email));
-				mv.setViewName("/user/searchIDForm2");
-				mv.addObject("result", result);
+				obj.put("confirmNum", mail.sendMail(email));
+				obj.put("result", result);
 			} else {
 				System.out.println("searchID 이메일 인증 실패");
-				mv.setViewName("/user/searchIDForm");
-				mv.addObject("msg", "fail");
+				obj.put("msg", "fail");
 			}
 		} else {
 			// 비밀번호 찾기
 			MemberDTO result = uService.emailAuth(mdto);
 			if (result != null) {
 				System.out.println("searchPW 이메일 인증 성공 email=" + email);
-				model.addAttribute("confirmNum", mail.sendMail(email));
-				mv.setViewName("/user/searchPWForm2");
-				mv.addObject("result", result);
+				int confirmNum = mail.sendMail(email);
+				obj.put("confirmNum", confirmNum);
+				obj.put("result", result);
 			} else {
 				System.out.println("searchPW 이메일 인증 실패");
-				mv.setViewName("/user/searchPWForm");
-				mv.addObject("msg", "fail");
+				obj.put("msg", "fail");
 			}
 		}
-		return mv;
+		return obj;
 	}
 
 	// 비밀번호 찾기 처리
@@ -101,19 +100,14 @@ public class UserController {
 		
 		uService.searchPWProc(mdto);
 		
-		RedirectView rv = new RedirectView("/user/loginForm");
+		RedirectView rv = new RedirectView("/user/login");
 		mv.setView(rv);
 
 		return mv;
 	}
 
-	// 비밀번호 찾기 폼 보여주기 : 이메일로 받은 인증번호 검증하는 폼
-	@RequestMapping("/searchPWForm2")
-	public void searchPWForm2() {
-	}
-
-	// 비밀번호 찾기 폼 보여주기 : 아이디, 이름, 이메일 입력 후 이메일 인증번호 발송하는 폼
-	@RequestMapping("/searchPWForm")
+	// 비밀번호 찾기 폼 보여주기
+	@RequestMapping("/searchPW")
 	public void searchPWForm() {
 	}
 
@@ -127,7 +121,7 @@ public class UserController {
 	public ModelAndView searchIDProc(MemberDTO mdto, ModelAndView mv) {
 		System.out.println("UserController.searchIDProc() 진입");
 
-		String name = mdto.getmName();
+		String mName = mdto.getmName();
 		String email = mdto.getEmail();
 
 		MemberDTO result = uService.emailAuth(mdto);
@@ -137,13 +131,8 @@ public class UserController {
 		return mv;
 	}
 
-	// 아이디 찾기 폼 보여주기 : 이메일로 받은 인증번호 검증하는 폼
-	@RequestMapping("/searchIDForm2")
-	public void searchIDForm2() {
-	}
-
-	// 아이디 찾기 폼 보여주기 : 이름, 이메일 입력 후 이메일 인증번호 발송하는 폼
-	@RequestMapping("/searchIDForm")
+	// 아이디 찾기 폼 보여주기 
+	@RequestMapping("/searchID")
 	public void searchIDForm() {
 	}
 
@@ -254,7 +243,7 @@ public class UserController {
 
 		uService.registerProc(mdto);
 
-		RedirectView rv = new RedirectView("/user/loginForm");
+		RedirectView rv = new RedirectView("/user/login");
 		mv.setView(rv);
 
 		return mv;
@@ -309,12 +298,12 @@ public class UserController {
 	}
 
 	// 로그인 폼 보여주기
-	@RequestMapping("/loginForm")
+	@RequestMapping("/login")
 	public void loginForm() {
 	}
 
 	// 회원가입 폼 보여주기
-	@RequestMapping("/registerForm")
+	@RequestMapping("/register")
 	public void registerForm() {
 	}
 }

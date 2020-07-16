@@ -5,7 +5,7 @@
 <mapper namespace="member">
 	<!-- 회원정보 조회 -->
 	<select id="getMemberInfo" resultType="mdto">
-		select memberID, memberPW, nickname, mLevel
+		select *
 		from member_t
 	</select>
 	
@@ -16,4 +16,9 @@
 			proSaveName=#{proSaveName}, nickname=#{nickname}, email=#{email} 
 		WHERE	
 	</update>
+	
+	<!-- 마이페이지 -->
+	<select id="findMember" parameterType="string" resultType="mdto">
+		SELECT * FROM member_t WHERE memberID=#{memberID}
+	</select>
 </mapper>

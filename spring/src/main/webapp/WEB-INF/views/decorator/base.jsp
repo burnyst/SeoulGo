@@ -53,17 +53,13 @@
 						<a class="nav-link" href="${basePath}/member/logout">로그아웃</a>
 					</li>
 				</sec:authorize>
-				<li class="nav-item p-1 small">
-					<a class="nav-link" href="${basePath}/user/login">로그인</a>
-				<li class="nav-item p-1">
-					<a class="nav-link" href="#">마이페이지</a>
-				</li>
-				<li class="nav-item p-1 small">
-					<a class="nav-link" href="${basePath}/user/register">회원가입</a>
-					<a class="nav-link" href="#">로그인</a>
-				<li class="nav-item p-1 small">
-					<a class="nav-link" href="#">회원가입</a>
-				</li>
+				<sec:authorize access="isAnonymous()">
+					<li class="nav-item p-1 small">
+						<a class="nav-link" href="${basePath}/user/login">로그인</a>
+					<li class="nav-item p-1 small">
+						<a class="nav-link" href="${basePath}/user/register">회원가입</a>
+					</li>
+				</sec:authorize>
 			</ul>
 		</div>
 	</nav>
