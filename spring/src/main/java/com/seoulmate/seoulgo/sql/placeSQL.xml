@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="place">
+	
+	<resultMap id="listResultMap" type="com.seoulmate.seoulgo.dto.PlaceDto">
+		<id property="placeNo" column="placeNo" />
+		<result property="placeName" column="placeName" />
+		<result property="cate" column="cate" />
+		<result property="addr1" column="addr1" />
+		<result property="addr2" column="addr2" />
+		<result property="tel" column="tel" />
+		<result property="reviewCount" column="reviewCount" />
+		<result property="placeRate" column="placeRate" />
+		<collection property="imageNames" column="placeNo" ofType="java.lang.String" select="listSub" />
+	</resultMap>
+	
+	<sql id="listFields">placeNo, placeName, cate, addr1, addr2, tel, NVL(reviewCount, 0) reviewCount, NVL(placeRate, 0) placeRate</sql>
+	<sql id="listCondition">
+		<if test="keyword != null and keyword != ''">
+			(placeName LIKE '%'||#{keyword}||'%' OR addr1 LIKE '%'||#{keyword}||'%' OR addr2 LIKE '%'||#{keyword}||'%')
+		</if>
+		<if test="type != null and type != ''">AND cate = #{type}</if>
+	</sql>
+	<select id="list" parameterType="com.seoulmate.seoulgo.page.PlacePage" resultMap="listResultMap">
+		SELECT *
+		FROM
+		(
+		    SELECT
+		    <if test="orderCol == 'placeRate'">ROW_NUMBER() OVER (ORDER BY NVL(placeRate, 0) DESC) rn, </if>
+		    <if test="orderCol != 'placeRate'">ROW_NUMBER() OVER (ORDER BY NVL(reviewCount, 0) DESC) rn, </if>
+		    <include refid="listFields" />
+		    FROM place
+			<where>
+				<include refid="listCondition" />
+			</where>
+		) WHERE rn BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<select id="listSub" resultType="java.lang.String">
+		SELECT iname FROM placeImage WHERE placeNo=#{placeNo}
+	</select>
+	
+	<select id="listCount" resultType="int">
+		SELECT count(*)
+		FROM place
+		<where>
+			<include refid="listCondition" />
+		</where>
+	</select>
+	
+	<select id="detail" parameterType="int" resultMap="listResultMap">
+		SELECT <include refid="listFields" />
+		FROM place
+		WHERE placeNo=#{placeNo}
+	</select>
+	
+	<insert id="insert" parameterType="com.seoulmate.seoulgo.dto.PlaceDto">
+		<selectKey keyProperty="placeNo" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(placeNo),0)+1 FROM place
+		</selectKey>
+		INSERT INTO place (placeNo, placeName, cate, addr1, addr2, tel)
+		VALUES (#{placeNo}, #{placeName}, #{cate}, #{addr1}, #{addr2}, #{tel})
+	</insert>
+	
+	<insert id="insertSub" parameterType="java.util.Map">
+		INSERT INTO placeImage (iname, placeNo)
+		VALUES (#{iname}, #{placeNo})
+	</insert>
+	
+	<update id="update" parameterType="com.seoulmate.seoulgo.dto.PlaceDto">
+		UPDATE place
+		SET placeName=#{placeName}, cate=#{cate}, addr1=#{addr1}, addr2=#{addr2}, tel=#{tel}
+		WHERE placeNo=#{placeNo}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE
+		FROM place
+		WHERE placeNo=#{placeNo}
+	</delete>
+	
+	<delete id="deleteSub" parameterType="int">
+		DELETE
+		FROM placeImage
+		WHERE placeNo=#{placeNo}
+	</delete>
+</mapper>
