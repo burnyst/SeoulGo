@@ -13,7 +13,7 @@ public class PlacePage {
 	public PlacePage() {
 		pageNo = 1;
 		pageNum = 5;
-		pageRowNum = 10;
+		pageRowNum = 12;
 	}
 	public PlacePage(int pageNo, int pageNum, int pageRowNum, String keyword, String type, String orderCol, int totalRow) {
 		this.pageNo = pageNo;
