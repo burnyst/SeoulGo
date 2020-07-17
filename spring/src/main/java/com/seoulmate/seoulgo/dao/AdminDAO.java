@@ -12,7 +12,12 @@ public class AdminDAO extends SqlSessionDaoSupport {
 
 	@Autowired
 	SqlSessionTemplate session;
-	
+
+	// 회원 정보 조회
+	public MemberDTO findMember(MemberDTO mdto) {
+		return session.selectOne("admin.findMember", mdto);
+	}
+
 	// 회원 리스트
 	public List<MemberDTO> gerMemberList() {
 		return session.selectList("admin.getMemberList");

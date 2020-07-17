@@ -3,6 +3,13 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="admin">
+	<!-- 회원 정보 조회 -->
+	<select id="findMember" resultType="mdto" parameterType="mdto">
+		SELECT *
+		FROM member_t
+		WHERE memberID=#{memberID}
+	</select>
+
 	<!-- 가입된 회원정보 조회 -->
 	<select id="getMemberList" resultType="mdto">
 		SELECT *

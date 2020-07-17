@@ -14,8 +14,14 @@ public class AdminService {
 	@Autowired
 	AdminDAO aDAO;
 	
+	// 회원 정보 조회
+	public MemberDTO findMember(MemberDTO mdto) {
+		return aDAO.findMember(mdto);
+	}
+	
 	// 회원 리스트
 	public List<MemberDTO> getMemberList() {
 		return aDAO.gerMemberList();
 	}
+
 }
