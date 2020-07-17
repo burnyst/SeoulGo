@@ -16,6 +16,12 @@ public class MemberDAO extends SqlSessionDaoSupport {
 		return mdto;
 	}
 
+	// 비밀번호 변경 처리
+	public void pwUpdate(MemberDTO mdto) {
+		System.out.println("MemberDAO.pwUpdate() 진입");
+		session.update("member.pwUpdate", mdto);
+	}
+	
 	// 회원정보 조회
 	public MemberDTO getMemberInfo(MemberDTO mdto) {
 		return session.selectOne("member.getMemberInfo", mdto);
@@ -29,7 +35,7 @@ public class MemberDAO extends SqlSessionDaoSupport {
 	// 마이페이지
 	public MemberDTO findMember(String memberID) {
 		MemberDTO mdto = session.selectOne("member.findMember", memberID);
-		
 		return mdto;
 	}
+
 }

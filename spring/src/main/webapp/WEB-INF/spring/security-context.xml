@@ -17,14 +17,14 @@
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
 		<intercept-url pattern="/**" access="permitAll"/>
 		
-		<form-login login-page="/user/loginForm"
+		<form-login login-page="/user/login"
 			login-processing-url="/login"
 			default-target-url="/" 
 			username-parameter="memberID"
 			password-parameter="memberPW"
 			always-use-default-target="true"
 			authentication-success-handler-ref="customLoginSuccess"
-			authentication-failure-url="/user/loginForm?error=1" />
+			authentication-failure-url="/user/login?error=1" />
 		
 		<!-- 로그아웃 설정 -->
 		<logout invalidate-session="true"

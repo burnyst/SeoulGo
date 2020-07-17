@@ -65,7 +65,6 @@ $(function() {
 		
 		if (emailNum != confirmNum) {
 			alert("인증번호가 일치하지 않습니다. \n확인 후 다시 입력해주세요");
-			$("#emailNum").val("");
 			$("#emailNum").focus();
 			return false;
 		} else {

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="com.seoulmate.seoulgo.page.PageObject" %>
 <!DOCTYPE html>
 <html>
@@ -64,7 +65,14 @@
 								<td class="text-center">${list.mName}</td>
 								<td class="text-center">${list.nickname}</td>
 								<td class="text-center">${list.birth}</td>
-								<td class="text-center">${list.gender}</td>
+								<td class="text-center">
+									<c:if test="${fn:contains(list.gender,'M')}">
+										<c:out value="남자"/>
+									</c:if>
+									<c:if test="${fn:contains(list.gender,'F')}">
+										<c:out value="여자"/>
+									</c:if>
+								</td>
 								<td class="text-center">${list.email}</td>
 								<td class="text-center">${list.phone1}-${list.phone2}-${list.phone3}</td>
 								<td class="text-center"><input type="checkbox"></td>

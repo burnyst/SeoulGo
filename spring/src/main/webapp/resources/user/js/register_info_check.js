@@ -54,10 +54,8 @@ $(function(){
                if(data.idCheck === "success") {
                   message = "<span class='id_msg success_msg'>사용 가능한 아이디입니다.</span>";
                }else {
-            	  //message = "<span class='id_msg fail_msg'>기존에 등록된 아이디입니다.</span>";
             	  alert("이미 사용 중인 아이디입니다. 다시 입력해주세요.");
             	  $("#memberID").val("");
-            	  $("#memberID").focus();
                }
             }
             $("#id_check").html(message);
@@ -76,7 +74,6 @@ $(function(){
 		   check.set("memberPW", 0);
 	   } else if(!pwRegExp.test(pw)) {
 		   alert("비밀번호는 6~12자리의 영어 소문자+대문자, 숫자, 특수문자만 가능합니다.");
-		   $("#memberPW").focus();
 		   $("#memberPW").val("");
 		   check.set("memberPW", 0);
 	   } else {
@@ -93,7 +90,6 @@ $(function(){
 	   if (pw !== pw2) {
 		   message = "<span class='pw_msg fail_msg'>비밀번호가 일치하지 않습니다.</span>";
 		   $("#memberPW2").focus();
-		   $("#memberPW2").val("");
 		   check.set("memberPW2", 0);
 	   } else if (pw2 === "") {
 		   message = "<span class='pw_msg fail_msg'>필수 정보입니다.</span>";
@@ -147,10 +143,8 @@ $(function(){
 	               if(data.nickCheck === "success") {
 	                  message = "<span class='nickname_msg success_msg'>사용 가능한 닉네임입니다.</span>";
 	               }else {
-	                  //message = "<span class='nickname_msg fail_msg'>기존에 등록된 닉네임입니다.</span>";
 	                  alert("이미 사용 중인 닉네임입니다. 다시 입력해주세요.");
 	                  $("#nickname").val("");
-	            	  $("#nickname").focus();
 	               }
 	            }
 	            $("#nickname_check").html(message);
@@ -201,15 +195,12 @@ $(function(){
             		   if(!emailRegExp.test(email)){
             			   alert("입력하신 이메일은 올바르지 않은 형식입니다. 다시 입력해주세요");
             			   $("#email").val("");
-            			   $("#email").focus();
             		   }else {
             			   message = "<span class='email_msg success_msg'>사용 가능한 이메일입니다.</span>";
             		   }
 	               }else {
-                	   //message = "<span class='email_msg fail_msg'>기존에 등록된 이메일입니다.</span>";
                 	   alert("이미 사용 중인 이메일입니다. 다시 입력해주세요.");
  	            	   $("#email").val("");
- 	            	   $("#email").focus();
 	               }
         	   }
 	            $("#email_check").html(message);

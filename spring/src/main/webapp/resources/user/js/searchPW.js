@@ -1,17 +1,12 @@
-var check = new Map();
-
 $(function() {
 	// memberID check
 	$("#memberID").blur(function(){
 		var id = $("#memberID").val();
-		var message;
+
 		if(id === "") {
 			alert("필수 정보입니다.");
 			$("#memberID").focus();
-			check.set("memberID", 0);
-		}else {
-			message = "";
-			check.set("memberID", 1);
+			return false;
 		}
 	});
 	
@@ -31,12 +26,11 @@ $(function() {
 					if(data.idCheck === "success") {
 						alert("등록되지 않은 아이디입니다. 확인 후 다시 입력해주세요.");
 						$("#memberID").focus();
-						check.set("memberID", 0);
+						return false;
 					}else {
 						alert("아이디가 확인되었습니다.");
 					}
 				}
-				$("#id_check").html(message);
 			}
 		});
 	});
@@ -44,15 +38,13 @@ $(function() {
 	// mName check
 	$("#mName").blur(function(){
 		var name = $("#mName").val();
-		var message;
+
 		if (name === "") {
 			alert("필수 정보입니다.");
-			check.set("name", 0);
+			return false;
 		} else {
-			message = "";
 			check.set("name", 1);
 		}
-		$("#name_check").html(message);
 	});
 
 	// email check
@@ -62,16 +54,12 @@ $(function() {
 		var message;
 		if (email === "") {
 			alert("필수 정보입니다.");
-			check.set("email", 0);
+			return false;
 		} else if (!emailRegExp.test(email)) {
 			alert("올바르지 않은 이메일 형식입니다.");
 			$("#email").focus();
-			check.set("email", 0);
-		} else {
-			message = "";
-			check.set("email", 1);
+			return false;
 		}
-		$("#email_check").html(message);
 	});
 	
 	$("#emailBtn").click(function(){
@@ -103,38 +91,31 @@ $(function() {
 	$("#memberPW").blur(function(){
 		var pw = $("#memberPW").val();
 		var pwRegExp = /^[A-Za-z\d@$!%*#?&]{6,12}$/;
-		var message;
+		
 		if (pw === "") {
 			alert("필수 정보입니다.");
 			$("#memberPW").focus();
-			check.set("memberPW", 0);
+			return false;
 		} else if(!pwRegExp.test(pw)) {
 			alert("비밀번호는 6~12자리의 영어 소문자+대문자, 숫자, 특수문자만 가능합니다.");
 			$("#memberPW").focus();
-			check.set("memberPW", 0);
-		} else {
-			message = "";
-			check.set("memberPW", 1);
+			return false;
 		}
-		$("#pw_check").html(message);
 	});
 	   
 	$("#memberPW2").blur(function(){
 		var pw = $("#memberPW").val();
 		var pw2 = $("#memberPW2").val();
-		var message;
+		
 		if (pw !== pw2) {
 			alert("비밀번호가 일치하지 않습니다.");
 			$("#memberPW2").focus();
-			check.set("memberPW2", 0);
+			return false;
 		} else if (pw2 === "") {
 			alert("필수 정보입니다.");
 			$("#memberPW2").focus();
-			check.set("memberPW2", 0);
-		} else {
-			check.set("memberPW2", 1);
+			return false;
 		}
-		$("#pw2_check").html(message);
 	});
 	
 	$("#confirmChk").click(function() {
@@ -142,7 +123,6 @@ $(function() {
 
 		if (emailNum != confirmNum) {
 			alert("인증번호가 일치하지 않습니다. \n확인 후 다시 입력해주세요");
-			$("#emailNum").val("");
 			$("#emailNum").focus();
 		} else {
 			var r = alert("인증번호가 일치합니다");

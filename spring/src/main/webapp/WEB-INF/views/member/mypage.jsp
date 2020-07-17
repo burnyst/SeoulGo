@@ -2,11 +2,26 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="resourcePath" value="${basePath}/resources" />
+<c:set var="imagePath" value="${resourcePath}/img" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	img {
+		width: 50px;
+		height: 50px;
+	}
+	#pwFail {
+		color: red;
+		font-weight: bold;
+		font-size: xx-large;
+		align: center;
+		margin: auto;
+	}
+</style>
 </head>
 <body>
 	<h3>마이페이지</h3>
@@ -27,7 +42,9 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td class="text-center"></td>
+				<td class="text-center">
+					<img src="${imagePath}/member/${mem.proSaveName}">
+				</td>
 				<td class="text-center">${mem.memberID}</td>
 				<td class="text-center">${mem.mName}</td>
 				<td class="text-center">${mem.nickname}</td>
@@ -45,6 +62,11 @@
 			</tr>
 		</tbody>
 	</table>
+	<c:if test="${msg=='pwFail'}">
+		<tr class="text-center">
+			<td id="pwFail" colspan="2">비밀번호 변경이 실패했습니다.</td>
+		</tr>
+	</c:if>
 	<div class="text-center">
 		<a href="./changePW" class="btn btn-secondary btn-sm">비밀번호 변경</a>
 		<a href="./memberInfo" class="btn btn-primary btn-sm">회원정보 수정</a>
@@ -56,7 +78,7 @@
 	<h3>마이 플랜</h3>
 	<br>
 	
-	<table>
+	<table class="table table-hover">
 		<tr>
 			<td></td>
 		</tr>

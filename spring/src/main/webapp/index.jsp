@@ -27,7 +27,7 @@
 		</sec:authorize>
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
 			<li><a href="./admin/menu">관리자 메뉴(폼 요청)</a></li>
-			<li><a href="./admin/memberManagement">관리자 메뉴(폼 요청)</a></li>
+			<li><a href="./admin/memberManagement">회원 리스트</a></li>
 		</sec:authorize>
 	</ul>
 </body>

@@ -16,6 +16,11 @@
 	<form id="loginForm" action="/login" method="post">
 		<table>
 			<tbody>
+				<c:if test="${msg=='pwUpdate'}">
+					<tr>
+						<td colspan="2">비밀번호 변경에 성공했습니다. 다시 로그인해주세요.</td>
+					</tr>
+				</c:if>
 				<tr>
 					<th>아이디</th>
 					<td>
@@ -36,9 +41,9 @@
 				</tr>
 				<tr>
 					<td>
-						<a href="./registerForm">회원가입</a><br>
-						<a href="./searchIDForm">아이디 찾기</a><br>
-						<a href="./searchPWForm">비밀번호 찾기</a>
+						<a href="./register">회원가입</a><br>
+						<a href="./searchID">아이디 찾기</a><br>
+						<a href="./searchPW">비밀번호 찾기</a>
 					</td>
 				</tr>
 			</tbody>

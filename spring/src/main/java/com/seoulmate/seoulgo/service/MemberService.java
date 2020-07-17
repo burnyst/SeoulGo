@@ -15,6 +15,12 @@ public class MemberService {
 		return mdto;
 	}
 
+	// 비밀번호 변경 처리
+	public void pwUpdate(MemberDTO mdto) {
+		System.out.println("MemberService.pwUpdate() 진입");
+		mDAO.pwUpdate(mdto);
+	}
+	
 	// 회원정보 조회
 	public MemberDTO getMemberInfo(MemberDTO mdto) {
 		return mDAO.getMemberInfo(mdto);
@@ -29,5 +35,4 @@ public class MemberService {
 	public MemberDTO findMember(String memberID) {
 		return mDAO.findMember(memberID);
 	}
-
 }
