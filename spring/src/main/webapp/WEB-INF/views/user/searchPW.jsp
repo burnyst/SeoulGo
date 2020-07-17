@@ -9,7 +9,7 @@
 <script src="${pageContext.request.contextPath}/resources/user/js/searchPW.js"></script>
 </head>
 <body>
-	<form id="searchPWForm" action="/user/searchPWProc" method="post">
+	<form id="searchPW" action="/user/searchPWProc" method="post">
 		<table class="table table-hover">
 			<thead class="thead-dark">
 				<tr>

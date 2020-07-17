@@ -99,10 +99,8 @@ public class UserController {
 		mdto.setMemberPW(encodePw);
 		
 		uService.searchPWProc(mdto);
-		
-		RedirectView rv = new RedirectView("/user/login");
-		mv.setView(rv);
 
+		mv.setViewName("/user/login");
 		return mv;
 	}
 
