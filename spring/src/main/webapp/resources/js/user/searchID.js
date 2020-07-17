@@ -6,6 +6,7 @@ $(function() {
 		var name = $("#mName").val();
 		if (name === "") {
 			alert("필수 정보입니다.");
+			return false;
 		}
 	});
 
@@ -15,8 +16,10 @@ $(function() {
 		var emailRegExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 		if (email === "") {
 			alert("필수 정보입니다.");
+			return false;
 		} else if (!emailRegExp.test(email)) {
 			alert("올바르지 않은 이메일 형식입니다.");
+			return false;
 		}
 	});
 	
@@ -40,12 +43,14 @@ $(function() {
                 	$("#emailNum").focus();
             	}else {
             		alert("입력한 정보와 일치하는 아이디가 존재하지 않습니다.");
+            		return false;
             	}
             },
             error : function(data, jqXHR) {
             	//alert("에러가 발생했습니다. 잠시 후 다시 시도해주세요.\n발생 에러: "+jqXHR.statusText+"\njqXHR.responseText: "+jqXHR.responseText);
             	//alert(data);
             	alert("에러가 발생했습니다. 잠시 후 다시 시도해주세요.");
+            	return false;
             }
         });
 	});

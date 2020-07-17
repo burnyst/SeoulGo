@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>아이디 찾기</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="${pageContext.request.contextPath}/resources/user/js/searchID.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/user/searchID.js"></script>
 </head>
 <body>
 	<form id="searchID" action="/user/searchIDProc" method="post">

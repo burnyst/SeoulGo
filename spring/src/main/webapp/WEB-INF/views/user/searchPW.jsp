@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>비밀번호 찾기</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="${pageContext.request.contextPath}/resources/user/js/searchPW.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/user/searchPW.js"></script>
 </head>
 <body>
 	<form id="searchPW" action="/user/searchPWProc" method="post">

@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/user/js/register_info_check.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/user/register_info_check.js"></script>
 <style>
 	table {
 		margin: 0 auto;
@@ -24,7 +24,7 @@
 						<input type="file" name="files" id="files" accept=".jpg, .jpeg, .gif, .png, .bmp"/>
 						<br>
 						<div class="profile"><img src=""></div>
-						<input type="hidden" name="proSaveName" value="" id="profile-file">
+						<!-- <input type="hidden" name="proSaveName" value="" id="profile-file"> -->
 					</td>
 				</tr>
 				<tr>

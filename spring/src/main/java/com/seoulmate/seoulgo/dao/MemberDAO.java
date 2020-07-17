@@ -12,8 +12,8 @@ public class MemberDAO extends SqlSessionDaoSupport {
 	SqlSessionTemplate session;
 	
 	// 회원탈퇴
-	public MemberDTO deleteSuccess(MemberDTO mdto) {
-		return mdto;
+	public void deleteSuccess(MemberDTO mdto) {
+		session.update("member.deleteSuccess", mdto);
 	}
 
 	// 비밀번호 변경 처리
@@ -29,6 +29,7 @@ public class MemberDAO extends SqlSessionDaoSupport {
 
 	// 회원정보 수정
 	public void memberInfoUpdate(MemberDTO mdto) {
+		System.out.println("MemberDAO.memberInfoUpdate() 진입: "+mdto);
 		session.update("member.memberInfoUpdate", mdto);
 	}
 

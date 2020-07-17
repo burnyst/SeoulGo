@@ -11,8 +11,8 @@ public class MemberService {
 	MemberDAO mDAO;
 
 	// 회원탈퇴
-	public MemberDTO deleteSuccess(MemberDTO mdto) {
-		return mdto;
+	public void deleteSuccess(MemberDTO mdto) {
+		mDAO.deleteSuccess(mdto);
 	}
 
 	// 비밀번호 변경 처리
@@ -28,6 +28,7 @@ public class MemberService {
 
 	// 회원정보 수정
 	public void memberInfoUpdate(MemberDTO mdto) {
+		System.out.println("MemberService.memberInfoUpdate() 진입");
 		mDAO.memberInfoUpdate(mdto);
 	}
 

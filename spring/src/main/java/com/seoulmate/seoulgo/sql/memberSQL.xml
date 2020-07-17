@@ -3,23 +3,24 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="member">
+	<!-- 회원탈퇴 -->
+	<update id="deleteSuccess" parameterType="mdto">
+		UPDATE member_t 
+		SET enabled=#{enabled}
+		WHERE memberID=#{memberID}
+	</update>
+
 	<!-- 비밀번호 변경 처리 -->
 	<update id="pwUpdate" parameterType="mdto">
 		UPDATE member_t
 		SET memberPW=#{memberPW}
 		WHERE memberID=#{memberID}
 	</update>
-
-	<!-- 회원정보 조회 -->
-	<select id="getMemberInfo" resultType="mdto">
-		select *
-		from member_t
-	</select>
 	
 	<!-- 회원정보 수정 -->
-	<update id="memberInfoUpdate">
+	<update id="memberInfoUpdate" parameterType="mdto">
 		UPDATE member_t 
-		SET proSaveName=#{proSaveName}, nickname=#{nickname}, email=#{email} 
+		SET proSaveName=#{proSaveName}, nickname=#{nickname}, email=#{email}, phone1=#{phone1}, phone2=#{phone2}, phone3=#{phone3}
 		WHERE memberID=#{memberID}
 	</update>
 	
