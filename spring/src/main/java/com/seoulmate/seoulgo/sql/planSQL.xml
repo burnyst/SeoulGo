@@ -14,52 +14,100 @@
 					select <include refid=”userColumns”/>
 					from some_table  
   -->	
- 	
+  <sql id="selectColumns">
+		
+   		select  PLANNO ,
+				PLANDATE ,
+				PLANTITLE ,
+				PLANCATE ,
+				MEMBERID 
+	</sql>
+<select id="totalCnt" resultType="int">
+		select count(*)  from plan 
+</select> 	
 
-	<select id="plandatat" resultType="pdto">
-	select  PLANNO AS planNo,
-			PLANDATE AS planDate,
-			PLANTITLE AS planTitle,
-			PLANCATE AS planCate,
-			MEMBERID AS memberid 
-    from plan order by plan.planno desc
-	</select>
+<select id="plandatat" resultType="pdto">
+select * from
+	(select ROWNUM RN,a.*
+			FROM (SELECT * FROM PLAN 
+			ORDER BY PLAN.PLANNO DESC)
+			A
+			)
+	WHERE RN BETWEEN #{start} AND #{end}
+</select>
+<select id="plandatav" resultType="pdto">
+	select  PLANNO ,
+			PLANDATE ,
+			PLANTITLE ,
+			PLANCATE ,
+			MEMBERID
+				from plan
+	
+	ORDER BY PLANNO DESC
+</select>
+<!-- 	 -->
 	<!-- 목록조회 -->
-	<select id="planview" resultType="pdto">
+<select id="planview" resultType="pdto">
 		select PLANNO,
 		PLANDATE,
 		PLANTITLE,
 		PLANCATE,
 		MEMBERID FROM plan
 		where PLANNO=#{pno}
-	</select>
+</select>
 	
-	<select id="planplaceview" resultType="string">
-		select 
-		addr1,
-		addr2 from place 
-		where PLACENO=#{placeNo}
-	</select>
-	
-	<select id="planSview" parameterType="pdto" resultType="java.util.List">
+<select id="addr" parameterType="int" resultType="pdto">
+ SELECT ADDR1,ADDR2
+			FROM PLACE 
+			WHERE place.placeno in(SELECT p1.PLACENO
+                                         FROM PLANPLACE P1
+                                         WHERE #{addrNo}=P1.PLANNO)
+</select>
+<select id="addr2" parameterType="int" resultType="pdto">
+select addr1, addr2 
+	from place
+    	where placeNo in (select placeNo from PLANPLACE, plan
+        	where #{addrNo}=planplace.planNo)     
+</select>
+<select id="planSview" parameterType="pdto" resultType="java.util.List">
 	    SELECT 
 	    	   PLANTITLE,
 	    	   PLANCATE,
 	    	   ADDR1,
 	    	   ADDR2
-	    	   MEMBERID FROM plan,PLACE,planplace
-	    	   WHERE PLACE.PLACENO = planplace.${placeNo}
-	</select>
+	    	   MEMBERID FROM plan,PLACE,PLANPLACE
+	    	   WHERE PLACE.PLACENO = PLANPLACE.${placeNo}
+</select>
+<select id="placeview" resultType="pdto">
+	select 
+		addr1,
+		addr2,
+		placeNo
+		from place
+</select>
 	<!-- INSERT INTO "SEOULMATE"."PLAN" (PLANNO, PLANDATE, PLANTITLE, PLANCATE, MEMBERID) 
 	VALUES ('3', TO_DATE('2020-07-15 12:31:27', 'YYYY-MM-DD HH24:MI:SS'), 'plantitle3', '4', 'test')
 	 -->
-	<insert id="planinsert" parameterType="pdto">
+<insert id="planinsert" parameterType="pdto">
 		<selectKey keyProperty="planNo" resultType="int" order="BEFORE">
 			select NVL(MAX(planNo),0)+1 from plan
 		</selectKey>
 		insert into plan (PLANNO,PLANDATE,PLANTITLE,PLANCATE,MEMBERID)
-		VALUES(#{planNo},#{planDate},#{planTitle},#{planCate},#{memberid})
+		VALUES(#{planNo},#{planDate},#{planTitle},#{planCate},#{memberid}) 
+</insert>
+	<insert id="planinsert2" parameterType="pdto">
+		insert into PLANPLACE (PLANNO)
+		VALUES(#{planNo})
 	</insert>
+	<!-- 
+		INSERT ALL 
+		INTO PLAN (PLANNO,PLANDATE,PLANTITLE,PLANCATE,MEMBERID)
+		VALUES(#{planNo},#{planDate},#{planTitle},#{planCate},#{memberid})
+		INTO PLANPLACE (PLANNO)
+		VALUES(#{planNo})
+		SELECT PLAN.PLANNO,PLANPLACE.PLANNO,PLANDATE,PLANTITLE,PLANCATE,MEMBERID
+		FROM PLAN,PLANPLACE
+		-->
 	<update id="planupdate" parameterType="pdto">
 		update plan
 		set PLANDATE=#{planDate},PLANTITLE=#{planTitle},PLANCATE=#{planCate}

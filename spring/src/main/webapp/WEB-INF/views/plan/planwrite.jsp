@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04926447ff4e969a08d92e18379b0176"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04926447ff4e969a08d92e18379b0176&libraries=services"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 /* When the user clicks on the button, 
@@ -70,39 +70,12 @@ window.onclick = function(event) {
 <title>일정짜기</title>
 </head>
 <body>
+
 <!-- 이 페이지는 일정을 짜는 페이지이다. 
  일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
    -->
 <div id="map" style="width:500px;height:400px;float:left;'" ></div>
 	<script>
-		var container = document.getElementById('map');
-		var options = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
-			level: 3 
-		}; 
-
-		var map = new kakao.maps.Map(container, options);
-		var marker = new kakao.maps.Marker({ 
-		    // 지도 중심좌표에 마커를 생성합니다 
-		    position: map.getCenter() 
-		}); 
-		// 지도에 마커를 표시합니다
-		marker.setMap(map);
-		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
-		    
-		    // 클릭한 위도, 경도 정보를 가져옵니다 
-		    var latlng = mouseEvent.latLng; 
-		    
-		    // 마커 위치를 클릭한 위치로 옮깁니다
-		    marker.setPosition(latlng);
-		    
-		    var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-		    message += '경도는 ' + latlng.getLng() + ' 입니다';
-		    
-		    var resultDiv = document.getElementById('clickLatlng'); 
-		    resultDiv.innerHTML = message;
-		    
-		});
 $(function(){
 	var idval =$('#planCate');
 	 $('#plancate').change(function(){
@@ -111,17 +84,60 @@ $(function(){
 		idval.val(myTag);
 	 });
 });
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+mapOption = {
+    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+    level: 3 // 지도의 확대 레벨
+};  
+
+//지도를 생성합니다    
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+//주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
+
+//주소로 좌표를 검색합니다
+geocoder.addressSearch('목동로 23길', function(result, status) {
+
+// 정상적으로 검색이 완료됐으면 
+ if (status === kakao.maps.services.Status.OK) {
+
+    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+    // 결과값으로 받은 위치를 마커로 표시합니다
+    var marker = new kakao.maps.Marker({
+        map: map,
+        position: coords
+    });
+
+    // 인포윈도우로 장소에 대한 설명을 표시합니다
+    var infowindow = new kakao.maps.InfoWindow({
+        content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+    });
+    infowindow.open(map, marker);
+
+    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+    map.setCenter(coords);
+} 
+});    
+
+
+
 </script>
 	<div id="clickLatlng"></div>
 <div style="float:left">
 	<div class="dropdown">
   	<button onclick="dropdownfunction()" class="dropbtn">일정장소</button>
 	  	<div id="myDropdown" class="dropdown-content">
-		    <a href="#iljung1">장소1</a>
-		    <a href="#iljung2">장소2</a>
-		    <a href="#iljung3">장소3</a>
+		    <a href="/plan/planwrite/iljung1" onclick="javascript:document.myform.submit">장소1</a>
+		    <a href="/plan/planwrite/iljung2">장소2</a>
+		    <a href="/plan/planwrite/iljung3">장소3</a>
 	  	</div>
 	</div>
+<c:forEach items="${place }" var="list" >
+	<input type="hidden" value="${list.addr1}${list.addr2}">
+	<input type="hidden" value="${list.placeNo}}"/>
+</c:forEach>
 </div>
 <form action="/plan/planwrited" method="post">
 	<div id="planlist" style="margin-top: 100px;">
@@ -135,11 +151,11 @@ $(function(){
 		<div>
 			<select name="plancate" id="plancate">
 				<option value="" selected disabled hidden>==여행 유형을 선택하세요==</option>
-				<option value="0">가족과 함께</option>
-				<option value="1">커플 여행</option>
-				<option value="2">나만의 여행</option>
-				<option value="3">비즈니스 여행</option>
-				<option value="4">우정 여행</option>
+				<option value="가족">가족과 함께</option>
+				<option value="커플">커플 여행</option>
+				<option value="단독">나만의 여행</option>
+				<option value="비즈니스">비즈니스 여행</option>
+				<option value="친구">우정 여행</option>
 			</select>  
 			<input type="hidden" name="planCate"id="planCate">
 		</div>
