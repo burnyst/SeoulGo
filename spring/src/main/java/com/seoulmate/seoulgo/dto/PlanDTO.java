@@ -11,37 +11,47 @@ public class PlanDTO {
 	private String memberid;
 	
 	
-	private String planplace;
+	private String place;
+	
 	private String addr1;
 	private String addr2;
 	private int	   placeNo;
-	
+	private int    addrNo;
 	private int		start; 		//시작글번호
 	private	int		end;		//끝글번호
 	private int		nowPage;	//보고싶은 글 번호
 	
 	
 	
-	public String getAdd1() {
+
+	
+	
+	
+	
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
+	}
+
+	public String getAddr1() {
 		return addr1;
 	}
 
-	public void setAdd1(String add1) {
-		this.addr1 = add1;
+	public void setAddr1(String addr1) {
+		this.addr1 = addr1;
 	}
 
-	public String getAdd2() {
+	public String getAddr2() {
 		return addr2;
 	}
 
-	public void setAdd2(String add2) {
-		this.addr2 = add2;
+	public void setAddr2(String addr2) {
+		this.addr2 = addr2;
 	}
 
-	
-	
-	
-	
 	public int getStart() {
 		return start;
 	}
@@ -86,8 +96,9 @@ public class PlanDTO {
 	@Override
 	public String toString() {
 		return "PlanDTO [planNo=" + planNo + ", planDate=" + planDate + ", planTitle=" + planTitle + ", planCate="
-				+ planCate + ", memberid=" + memberid + ", planplace=" + planplace + ", add1=" + addr1 + ", add2=" + addr2
-				+ ", start=" + start + ", end=" + end + ", nowPage=" + nowPage + ", placeNo=" + placeNo + "]";
+				+ planCate + ", memberid=" + memberid + ", place=" + place + ", addr1=" + addr1 + ", addr2=" + addr2
+				+ ", placeNo=" + placeNo + ", addrNo=" + addrNo + ", start=" + start + ", end=" + end + ", nowPage="
+				+ nowPage + "]";
 	}
 
 	public String getMemberid() {
@@ -107,11 +118,11 @@ public class PlanDTO {
 	}
 
 	public String getPlanplace() {
-		return planplace;
+		return place;
 	}
 
 	public void setPlanplace(String planplace) {
-		this.planplace = planplace;
+		this.place = planplace;
 	}
 
 	public int getPlaceNo() {
@@ -128,6 +139,14 @@ public class PlanDTO {
 
 	public void setNowPage(int nowPage) {
 		this.nowPage = nowPage;
+	}
+
+	public int getAddrNo() {
+		return addrNo;
+	}
+
+	public void setAddrNo(int addrNo) {
+		this.addrNo = addrNo;
 	}
 	
 
