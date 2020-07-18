@@ -47,8 +47,7 @@
 				<tr>
 					<th class="text-center">닉네임</th>
 					<td class="text-center">
-						<input type="text" name="nickname" id="nickname" placeholder="nickname" required="required"/>
-						<!-- <input type="button" id="nicknameChk" class="btn btn-outline-secondary btn-sm" value="확인"/> -->
+						<input type="text" name="nickname" id="nickname" placeholder="nickname" value="${mem.nickname}" required="required"/>
 					</td>
 				</tr>
 				<tr>
@@ -69,14 +68,13 @@
 				<tr>
 					<th class="text-center">이메일</th>
 					<td class="text-center">
-						<input type="email" id="email" name="email" placeholder="Email" required="required"/>
-						<!-- <input type="button" id="emailChk" class="btn btn-outline-secondary btn-sm" value="확인"/> -->
+						<input type="email" id="email" name="email" placeholder="Email" value="${mem.email}" required="required"/>
 					</td>
 				</tr>
 				<tr>
 					<th class="text-center">전화번호</th>
 					<td class="text-center">
-						<input type="text" id="phone" name="phone" placeholder="'-'없이 번호만 입력해주세요" required="required"/>
+						<input type="text" id="phone" name="phone" placeholder="'-'없이 번호만 입력해주세요" value="${mem.phone1}${mem.phone2}${mem.phone3}" required="required"/>
 					</td>
 				</tr>
 			</tbody>

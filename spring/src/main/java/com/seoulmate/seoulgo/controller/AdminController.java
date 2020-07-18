@@ -18,7 +18,9 @@ public class AdminController {
 	// 회원 리스트에서 회원 탈퇴 시키기
 	@RequestMapping("/deleteAccount")
 	public void deleteAccount(MemberDTO mdto) {
+		System.out.println("mdto="+mdto);
 		MemberDTO result = aService.findMember(mdto);
+		System.out.println("result="+result);
 	}
 	
 	// 회원 리스트 폼 보여주기

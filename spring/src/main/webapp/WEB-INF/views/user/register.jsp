@@ -19,7 +19,7 @@
 		<table class="table table-hover">
 			<tbody>
 				<tr>
-					<th class="text-center">프로필 사진</th>
+					<th class="text-center" width="55%">프로필 사진</th>
 					<td>
 						<input type="file" name="files" id="files" accept=".jpg, .jpeg, .gif, .png, .bmp"/>
 						<br>

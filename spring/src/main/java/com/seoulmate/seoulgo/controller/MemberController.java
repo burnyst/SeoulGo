@@ -123,22 +123,23 @@ public class MemberController {
 
 			List<MultipartFile> fileList = multipartRequest.getFiles("files");
 
-			// 업로드 파일의 원본 이름
-			System.out.println("files.getName(): "+files.getOriginalFilename());
-			String oriName = mdto.getFiles().getOriginalFilename();
-			System.out.println("file의 oriName=" + oriName);
-
-			// 파일 이름과 확장자 분리
-			int index = oriName.lastIndexOf(".");
-			String fileOriName = oriName.substring(0, index);
-			String ext = oriName.substring(index + 1);
-
 			// 프로필 사진을 업로드 하지 않았을 경우
 			if (multipartRequest.getFiles("files").get(0).getSize() == 0) {
 				fileList = multipartRequest.getFiles("file");
 			} else {
 				// 프로필 사진을 업로드 했을 경우
 				for (MultipartFile mf : fileList) {
+					// 업로드 파일의 원본 이름
+					System.out.println("files.getName(): "+files.getOriginalFilename());
+					String oriName = mdto.getFiles().getOriginalFilename();
+					System.out.println("file의 oriName=" + oriName);
+					
+					// 파일 이름과 확장자 분리
+					int index = oriName.lastIndexOf(".");
+					String fileOriName = oriName.substring(0, index);
+					String ext = oriName.substring(index + 1);
+					
+					// 파일이름을 t-memberID로 변경하는 코드
 					String tName = "t-" + memberID + "." + ext;
 					File file = new File(filePath, tName);
 
