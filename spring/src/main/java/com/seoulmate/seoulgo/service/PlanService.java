@@ -12,10 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.seoulmate.seoulgo.controller.PlanController;
 import com.seoulmate.seoulgo.dao.PlanDAO;
 import com.seoulmate.seoulgo.dto.PlanDTO;
-import com.seoulmate.seoulgo.page.PageUtil;
+import com.seoulmate.seoulgo.page.PageObject;
 
 
 //이 클래스는 일정짜기의 서비스를 지원하는 서비스 클래스이다.
@@ -108,12 +107,12 @@ public class PlanService {
 		pdao.planSboard(plan);
 		
 	}
-	public PageUtil getPageInfo(int nowPage) {
+	public PageObject getPageInfo(int nowPage) {
 		int totalCount= pdao.getTotalCnt();
 		
 		//PageUtil(보고싶은페이지,   전체게시물수);
 		//PageUtil(int nowPage, int totalCount);
-		PageUtil pInfo = new PageUtil(nowPage, totalCount);
+		PageObject pInfo = new PageObject(nowPage, totalCount);
 		//PageUtil객체생성자에서는 내부적으로
 		//	한페이지당 보여주고 싶은 게시물의 개수는 3
 		//	페이지 이동 기능은 3개까지 지정

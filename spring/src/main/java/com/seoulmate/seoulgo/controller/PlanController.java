@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.seoulgo.dto.PlanDTO;
-import com.seoulmate.seoulgo.page.PageUtil;
+import com.seoulmate.seoulgo.page.PageObject;
 import com.seoulmate.seoulgo.service.PlanService;
 
 
@@ -36,7 +36,7 @@ public PlanService planservice;
 		System.out.println("planpage진입요청함수");
 		
 		//페이징관련 준비(페이지 숫자)
-		PageUtil pInfo = planservice.getPageInfo(nowPage);
+		PageObject pInfo = planservice.getPageInfo(nowPage);
 //		2-2) 해당 페이지에 출력할 목록조회
 		ArrayList<PlanDTO> list = (ArrayList) planservice.paging(plan);
 		//페이지에 들어갈 정보 입력
