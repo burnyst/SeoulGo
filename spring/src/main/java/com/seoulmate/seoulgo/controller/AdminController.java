@@ -1,9 +1,14 @@
 package com.seoulmate.seoulgo.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.seoulgo.dto.MemberDTO;
 import com.seoulmate.seoulgo.service.AdminService;
@@ -16,11 +21,23 @@ public class AdminController {
 	AdminService aService;
 
 	// 회원 리스트에서 회원 탈퇴 시키기
+	@ResponseBody
 	@RequestMapping("/deleteAccount")
-	public void deleteAccount(MemberDTO mdto) {
-		System.out.println("mdto="+mdto);
+	public Map<String, Object> deleteAccount(MemberDTO mdto) {
+		System.out.println("탈퇴 진행할 회원 아이디는? "+mdto.getMemberID());
+		mdto.setEnabled(false);
+		aService.deleteAccount(mdto);
+		
 		MemberDTO result = aService.findMember(mdto);
-		System.out.println("result="+result);
+		Map<String, Object> msg = new HashMap<String, Object>();
+		System.out.println("회원 탈퇴 결과 "+result);
+		
+		if(result.isEnabled() == false) {
+			msg.put("msg", "success");
+		}else {
+			msg.put("msg", "fail");
+		}
+		return msg;
 	}
 	
 	// 회원 리스트 폼 보여주기

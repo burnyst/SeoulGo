@@ -12,6 +12,11 @@ public class AdminDAO extends SqlSessionDaoSupport {
 
 	@Autowired
 	SqlSessionTemplate session;
+	
+	// 회원 리스트에서 회원 탈퇴 시키기
+	public void deleteAccount(MemberDTO mdto) {
+		session.update("admin.deleteAccount", mdto);
+	}
 
 	// 회원 정보 조회
 	public MemberDTO findMember(MemberDTO mdto) {
@@ -22,5 +27,4 @@ public class AdminDAO extends SqlSessionDaoSupport {
 	public List<MemberDTO> gerMemberList() {
 		return session.selectList("admin.getMemberList");
 	}
-	
 }

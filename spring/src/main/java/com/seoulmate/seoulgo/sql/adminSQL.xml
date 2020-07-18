@@ -3,6 +3,13 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="admin">
+	<!-- 회원 리스트에서 회원 탈퇴 시키기 -->
+	<update id="deleteAccount" parameterType="mdto">
+		UPDATE member_t
+		SET enabled=#{enabled}
+		WHERE memberID=#{memberID}
+	</update>
+
 	<!-- 회원 정보 조회 -->
 	<select id="findMember" resultType="mdto" parameterType="mdto">
 		SELECT *
@@ -14,7 +21,7 @@
 	<select id="getMemberList" resultType="mdto">
 		SELECT *
 		FROM member_t
-		WHERE mlevel='ROLE_MEMBER'
+		WHERE mlevel='ROLE_MEMBER' AND enabled='1'
 		ORDER BY memberID DESC
 	</select>
 </mapper>

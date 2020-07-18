@@ -14,6 +14,11 @@ public class AdminService {
 	@Autowired
 	AdminDAO aDAO;
 	
+	// 회원 리스트에서 회원 탈퇴 시키기
+	public void deleteAccount(MemberDTO mdto) {
+		aDAO.deleteAccount(mdto);
+	}
+	
 	// 회원 정보 조회
 	public MemberDTO findMember(MemberDTO mdto) {
 		return aDAO.findMember(mdto);
@@ -23,5 +28,4 @@ public class AdminService {
 	public List<MemberDTO> getMemberList() {
 		return aDAO.gerMemberList();
 	}
-
 }

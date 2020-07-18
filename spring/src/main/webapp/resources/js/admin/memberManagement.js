@@ -10,24 +10,16 @@ $(function(){
 				$.ajax({
 					url: "/admin/deleteAccount",
 					type: "POST",
-					//dataType: "json",
 					async: false,
 					data: {
 						memberID: memArr[i].value
 					},
 					success: function(data) {
-						if(memberID !== "") {
-							if(data.emailCheck === "success") {
-								if(!emailRegExp.test(email)){
-									alert("입력하신 이메일은 올바르지 않은 형식입니다. 다시 입력해주세요");
-									$("#email").val("");
-									return false;
-								}
-							}else {
-								alert("이미 사용 중인 이메일입니다. 다시 입력해주세요.");
-								$("#email").val("");
-								return false;
-							}
+						if(data.msg === "success") {
+							location.reload();
+							alert(memArr[i].value+" 회원 탈퇴가 완료되었습니다.");
+						}else {
+							alert(memArr[i].value+" 회원 탈퇴가 실패했습니다.");
 						}
 					}
 				});
