@@ -42,7 +42,7 @@
 			</select>
 		</div>
 		<div class="w400" style="padding-right:10px">
-			<input type="text" class="form-control form-control-sm" name="search" id="search" placeholder="검색어를 입력해주세요">
+			<input type="text" class="form-control form-control-sm" name="keyword" id="keyword" placeholder="검색어를 입력해주세요">
 		</div>	
 		<div>
 			<button class="btn btn-sm btn-outline-primary" name="btnSearch" id="btnSearch">검색</button>

@@ -26,4 +26,28 @@ $(function(){
 			}
 		})
 	}
+	
+	$("#btnSearch").click(function(){
+		var keyword = $("#keyword").val();
+		var searchType = $("#searchType").val();
+		var url = "/admin/search";
+		url = url + "?searchType=" + searchType;
+		url = url + "?keyword=" + keyword;
+		
+		if(searchType != null && searchType != '') {
+			$.ajax({
+				url: url,
+				type: "POST",
+				async: false,
+				data: {
+					keyword, searchType
+				},
+				success: function(data) {
+					alert("왔니?");
+				}
+			})
+		}else {
+			alert("검색 유형을 선택해주세요.");
+		}
+	});
 });

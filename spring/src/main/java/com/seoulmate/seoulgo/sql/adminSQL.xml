@@ -1,12 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
+
 <mapper namespace="admin">
+	<!-- 회원 리스트 검색 결과수 -->
+	<select id="searchList" resultType="int">
+		SELECT count(*)
+		FROM member_t
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="keyword != null and keyword !=''">
+				<if test="searchType == 'memberID'">
+					AND memberID LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test="searchType == 'mName'">
+					AND mName LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test="searchType == 'nickname'">
+					AND nickname LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test="searchType == 'email'">
+					AND email LIKE '%'||#{keyword}||'%'
+				</if>
+			</if>
+		</trim>
+	</select>
+
+	<!-- 회원 리스트 검색 -->
+	<select id="search" parameterType="string" resultType="mdto">
+		select *
+		from member_t
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="searchType=='memberID' and keyword != null and keyword !=''">
+				memberID LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="searchType=='mName' and keyword != null and keyword !=''">
+				OR mName LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="searchType=='nickname' and keyword != null and keyword !=''">
+				OR nickname LIKE '%'||#{keyword}||'%'
+			</if>
+			<if test="searchType=='email' and keyword != null and keyword !=''">
+				OR email LIKE '%'||#{keyword}||'%'
+			</if>
+		</trim>
+	</select>
+
 	<!-- 회원 리스트에서 회원 탈퇴 시키기 -->
 	<update id="deleteAccount" parameterType="mdto">
 		UPDATE member_t
-		SET enabled=#{enabled}
+		SET
+		enabled=#{enabled}
 		WHERE memberID=#{memberID}
 	</update>
 

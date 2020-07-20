@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.seoulmate.seoulgo.dto.MemberDTO;
+import com.seoulmate.seoulgo.page.MemberSearchPage;
 import com.seoulmate.seoulgo.service.AdminService;
 
 @RequestMapping("/admin")
@@ -20,6 +21,18 @@ public class AdminController {
 	@Autowired
 	AdminService aService;
 
+	// 회원 리스트 검색
+	@RequestMapping("/search")
+	public void search(@RequestParam String searchType, @RequestParam String keyword) {
+		System.out.println("searchType: "+searchType+"/keyword: "+keyword);
+		
+		MemberSearchPage search = new MemberSearchPage();
+		search.setSearchType(searchType);
+		search.setKeyword(keyword);
+		int listCnt = aService.searchList(search);
+		search.setPage(listCnt);
+	}
+	
 	// 회원 리스트에서 회원 탈퇴 시키기
 	@ResponseBody
 	@RequestMapping("/deleteAccount")
