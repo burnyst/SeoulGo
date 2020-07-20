@@ -38,7 +38,7 @@
 						${result.memberID}
 					</td>
 					<td id="enrollDate">
-						<fmt:formatDate pattern="yyyy/MM/dd" value="${result.enrollDate}"/>가입
+						(가입일: <fmt:formatDate pattern="yyyy/MM/dd" value="${result.enrollDate}"/>)
 					</td>
 				</tr>
 				<tr>

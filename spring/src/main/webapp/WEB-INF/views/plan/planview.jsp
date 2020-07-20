@@ -32,7 +32,7 @@ $(document).ready(function(){
 	#planlist{margin-top:20px;}
 </style>
 <meta charset="UTF-8">
-<title>일정수정하기</title>
+<title>일정상세보기</title>
 </head>
 <body>
 ${Pdto}
@@ -87,32 +87,30 @@ geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function
 	<div class="planlist">
 		<div style="float:left; margin-right:10px">여행 날짜</div>
 		 <input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
-		<div><input type="date" id="plandate" name="plandate" value="${list.planDate}"></div>
+		<div>${list.planDate}</div>
 		
 		<div style="float:left; margin-right:10px">여행장소</div>
-		<div><input type="text" id="planplace" name="planplace" value="${list.addr1}${list.addr2}" readonly="readonly"></div>
+		<div>${list.addr1}${list.addr2}</div>
 		
 		<div style="float:left; margin-right:10px">일정제목</div>
 		
-		<div><input type="text" id="planTitle" name="planTitle" value="${list.planTitle}"></div>
+		<div>${list.planTitle}</div>
 		
 		<div style="float:left; margin-right:10px">여행유형</div>
 		<div>
 			<select name="plancate" id="plancate">
-					<option value="0" <c:if test="${list.planCate eq '가족'}">selected</c:if>>가족과 함께</option>
-					<option value="1" <c:if test="${list.planCate eq '커플'}">selected</c:if>>커플 여행</option>
-					<option value="2" <c:if test="${list.planCate eq '단독'}">selected</c:if>>나만의 여행</option>
-					<option value="3" <c:if test="${list.planCate eq '비즈니스'}">selected</c:if>>비즈니스 여행</option>
-					<option value="4" <c:if test="${list.planCate eq '친구'}">selected</c:if>>우정 여행</option>
+			<c:if test="${list.planCate eq '가족'}">가족과 함께</c:if>
+			<c:if test="${list.planCate eq '커플'}">커플 여행</c:if>
+			<c:if test="${list.planCate eq '단독'}">나만의 여행</c:if>
+			<c:if test="${list.planCate eq '비즈니스'}">비즈니스 여행</c:if>
+			<c:if test="${list.planCate eq '친구'}">우정 여행</c:if>
 			</select>
 		</div>
 	</div>
   </c:forEach>
 	<div style="height:250px;">여기는 사진이 출력되어 나올 위치입니다. </div>
 	<div style="text-align: center;">
-		<input type="submit" class="btn btn-primary"  value="수정하기"/>
-		<button type="submit" id="delmodi" class="btn btn-danger">삭제하기</button> 
-		<button id="nomodi" type="button" class="btn btn-info">수정취소하기</button>
+		<button id="nomodi" type="button" class="btn btn-info">리스트 페이지로</button>
 	</div>
 </form>
 </body>

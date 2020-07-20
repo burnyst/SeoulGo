@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-	img {
+	#pro {
 		width: 50px;
 		height: 50px;
 	}
@@ -43,7 +43,14 @@
 		<tbody>
 			<tr>
 				<td class="text-center">
-					<img src="${imagePath}/member/${mem.proSaveName}">
+					<c:choose>
+						<c:when test="${mem.proSaveName eq null}">
+							<img id="pro" src="${imagePath}/member/default.png">
+						</c:when>
+						<c:when test="${mem.proSaveName != null}">
+							<img id="pro" src="${imagePath}/member/${mem.proSaveName}">
+						</c:when>
+					</c:choose>
 				</td>
 				<td class="text-center">${mem.memberID}</td>
 				<td class="text-center">${mem.mName}</td>

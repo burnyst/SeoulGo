@@ -20,12 +20,17 @@
 	<script src="${libPath}/popper/1.16.0/umd/popper.min.js"></script>
 	<script src="${libPath}/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	<decorator:head/>
+	<style type="text/css">
+		.navbar-custom {
+			background-color: #3fc1c9;
+		}
+	</style>
 </head>
 <body>
 	<div class="text-center mt-3">
 		<h1><img src="${imagePath}/logo.png" width="308" height="154"/></h1>
 	</div>
-	<nav class="navbar navbar-expand-sm bg-success navbar-dark font-weight-bold">
+	<nav class="navbar navbar-expand-sm navbar-dark font-weight-bold navbar-custom">
 		<a class="navbar-brand" href="${basePath}/place/list">SeoulGo</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
 			<span class="navbar-toggler-icon"></span>
@@ -40,12 +45,12 @@
 						<a class="nav-link" href="${basePath}/member/mypage">마이페이지</a>
 					</li>
 					<li class="nav-item p-1">
-						<a class="nav-link" href="${basePath}/member/memberInfo">회원정보수정(폼 요청)</a>
+						<a class="nav-link" href="${basePath}/member/memberInfo">회원정보수정</a>
 					</li>
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<li class="nav-item p-1">
-						<a class="nav-link" href="${basePath}/admin/menu">관리자 메뉴(폼 요청)</a>
+						<a class="nav-link" href="${basePath}/admin/menu">관리자 메뉴</a>
 					</li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">

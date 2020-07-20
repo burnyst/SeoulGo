@@ -1,14 +1,10 @@
 package com.seoulmate.seoulgo.controller;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -136,7 +132,7 @@ public class UserController {
 
 	// 회원가입 처리 요청 함수
 	@RequestMapping("/registerProc")
-	public ModelAndView registerProc(MemberDTO mdto, ModelAndView mv, MultipartHttpServletRequest multipartRequest,
+	public ModelAndView registerProc(MemberDTO mdto, ModelAndView mv, MultipartHttpServletRequest multipartRequest, MultipartFile files, 
 			HttpServletRequest request, HttpSession session, @RequestParam String phone, @RequestParam String memberID,
 			@RequestParam String memberPW) {
 		System.out.println("프로필 사진 업로드 시작");
@@ -147,8 +143,6 @@ public class UserController {
 		File filePath = new File(savePath);
 		System.out.println("filePath: " + filePath);
 
-		String tImg = null;
-
 		// filePath가 존재하지 않을 경우 filePath 생성
 		if (!filePath.exists()) {
 			filePath.mkdirs();
@@ -156,65 +150,35 @@ public class UserController {
 
 		List<MultipartFile> fileList = multipartRequest.getFiles("files");
 
-		String oriName = mdto.getFiles().getOriginalFilename();
-		System.out.println("file의 oriName=" + oriName);
-
 		// 프로필 사진을 업로드 하지 않았을 경우
 		if (multipartRequest.getFiles("files").get(0).getSize() == 0) {
 			fileList = multipartRequest.getFiles("file");
 		} else {
 			// 프로필 사진을 업로드 했을 경우
 			for (MultipartFile mf : fileList) {
-				String saveName = String.format("%s", oriName);
+				// 업로드 파일의 원본 이름
+				String oriName = mdto.getFiles().getOriginalFilename();
+				System.out.println("files.getOriginalFilename()"+files.getOriginalFilename());
+				System.out.println("file의 oriName=" + oriName);
+				
+				// 파일 이름과 확장자 분리
+				int index = oriName.lastIndexOf(".");
+				String fileOriName = oriName.substring(0, index);
+				String ext = oriName.substring(index + 1);
+				
+				// 파일이름을 t-memberID로 변경하는 코드
+				String tName = "t-" + memberID + "." + ext;
+				String saveName = String.format("%s", tName);
 				File file = new File(filePath, saveName);
 
 				// 원본 파일 복사: transferTo()
 				try {
 					mdto.getFiles().transferTo(file);
+					mdto.setProSaveName(tName);
 				} catch (Exception e) {
 					System.out.println("파일 복사 에러: " + e);
 				}
-
-				System.out.println("프로필 사진 썸네일 생성");
-				String oriPath = filePath + "\\" + saveName;
-				File oriFile = new File(oriPath);
-
-				// 파일 이름과 확장자 분리
-				int index = oriPath.lastIndexOf(".");
-				String fileOriName = oriPath.substring(0, index);
-				String ext = oriPath.substring(index + 1);
-
-				// 썸네일 저장 경로
-				String tPath = oriFile.getParent() + File.separator + "t-" + memberID + "." + ext;
-				System.out.println("tPath=" + tPath);
-				File tFile = new File(tPath);
-
-				// 썸네일 이름 설정
-				tImg = tFile.getName();
-				System.out.println("썸네일 이름tImg=" + tImg);
-				mdto.setProSaveName(tImg);
-
-				// 이미지 축소 비율
-				double ratio = 2;
-
-				try {
-					BufferedImage oriImage = ImageIO.read(oriFile);
-					int tWidth = (int) (oriImage.getWidth() / ratio);
-					int tHeight = (int) (oriImage.getHeight() / ratio);
-
-					// 썸네일 이미지
-					BufferedImage tImage = new BufferedImage(tWidth, tHeight, BufferedImage.TYPE_3BYTE_BGR);
-					Graphics2D graphic = tImage.createGraphics();
-					Image image = oriImage.getScaledInstance(tWidth, tHeight, Image.SCALE_SMOOTH);
-					graphic.drawImage(image, 0, 0, tWidth, tHeight, null);
-					graphic.dispose();
-
-					ImageIO.write(tImage, ext, tFile);
-				} catch (Exception e) {
-					System.out.println("썸네일 생성 에러: " + e);
-				}
 			}
-
 		}
 
 		System.out.println("registerProc 함수 진입");

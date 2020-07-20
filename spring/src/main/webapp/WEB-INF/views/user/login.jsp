@@ -10,40 +10,69 @@
 	table {
 		margin: 0 auto;
 	}
+	
+	thead {
+		font-size: xx-large;
+		font-weight: bold;
+	}
+	
+	#pwUpdate {
+		color: blue;
+		font-weight: bold;
+		align: center;
+		margin: auto;
+	}
+	
+	#deleteSuccess {
+		color: red;
+		font-weight: bold;
+		align: center;
+		margin: auto;
+	}
 </style>
 </head>
 <body>
 	<form id="loginForm" action="/login" method="post">
-		<table>
+		<table class="table table-borderless">
+			<thead>
+				<tr>
+					<th colspan="2">Sign in</th>
+				</tr>
+			</thead>
 			<tbody>
 				<c:if test="${msg=='pwUpdate'}">
-					<tr>
-						<td colspan="2">비밀번호 변경에 성공했습니다. 다시 로그인해주세요.</td>
+					<tr class="text-center">
+						<td colspan="2" id="pwUpdate">비밀번호 변경에 성공했습니다. 다시 로그인해주세요.</td>
+					</tr>
+				</c:if>
+				<c:if test="${msg=='deleteSuccess'}">
+					<tr class="text-center">
+						<td colspan="2" id="deleteSuccess">회원탈퇴 완료되었습니다. 그동안 이용해주셔서 감사합니다.</td>
 					</tr>
 				</c:if>
 				<tr>
-					<th>아이디</th>
-					<td>
+					<td class="text-center">
 						<input type="text" name="memberID" id="memberID" placeholder="Username" required="required"/>
 					</td>
 				</tr>
 				<tr>
-					<th>비밀번호</th>
-					<td>
-					<input type="password" name="memberPW" id="memberPW" placeholder="Password" required="required"/>
+					<td class="text-center">
+						<input type="password" name="memberPW" id="memberPW" placeholder="Password" required="required"/>
 					</td>
 				</tr>
 				<tr>
-					<td>
-						<input type="submit" id="" class="btn btn-primary btn-sm"value="로그인"/>
+					<td class="text-center" colspan="2">
+						<input type="submit" id="" class="btn btn-primary btn-sm" value="로그인"/>
 						<input type="reset" id="cancelBtn" class="btn btn-secondary btn-sm" value="취소"/>
 					</td>
 				</tr>
 				<tr>
-					<td>
-						<a href="./register">회원가입</a><br>
-						<a href="./searchID">아이디 찾기</a><br>
-						<a href="./searchPW">비밀번호 찾기</a>
+					<td colspan="2">
+						<ul>
+							<li><a href="./register">회원가입</a><br></li>
+							<li><a href="./searchID">아이디 찾기</a><br></li>
+							<li><a href="./searchPW">비밀번호 찾기</a></li>
+						</ul>
 					</td>
 				</tr>
 			</tbody>

@@ -21,8 +21,8 @@ $(function(){
 		} else if(this.files && this.files[0]) {
 			var reader = new FileReader;
 		    reader.onload = function(data) {
-			    $(".profile img").attr("src", data.target.result).width(100);    
-			    $(".profile img").attr("src", data.target.result).height(100);  
+			    $(".profile img").attr("src", data.target.result).width(50);    
+			    $(".profile img").attr("src", data.target.result).height(50);  
 		    }
 		    reader.readAsDataURL(this.files[0]);
 		}
@@ -119,7 +119,7 @@ $(function(){
    
 	// nickname check
 	$("#nickname").blur(function(){
-		var name = $("#nickname").val();
+		var nickname = $("#nickname").val();
 		var message;
 		if (nickname === "") {
 			message = "<span class='nickname_msg fail_msg'>필수 정보입니다.</span>";
