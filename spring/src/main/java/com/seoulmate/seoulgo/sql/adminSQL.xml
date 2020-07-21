@@ -3,10 +3,12 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="admin">
-	<!-- 회원 리스트 검색 결과수 -->
-	<select id="searchList" resultType="int">
-		SELECT count(*)
-		FROM member_t
+	<sql id="fields">
+		memberID, mName, nickname, gender, birth, enrollDate,
+		phone1, phone2, phone3, email, proSaveName
+	</sql>
+
+	<sql id="condition">
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<if test="keyword != null and keyword !=''">
 				<if test="searchType == 'memberID'">
@@ -22,27 +24,15 @@
 					AND email LIKE '%'||#{keyword}||'%'
 				</if>
 			</if>
+			AND mlevel='ROLE_MEMBER' AND enabled='1'
 		</trim>
-	</select>
+	</sql>
 
-	<!-- 회원 리스트 검색 -->
-	<select id="search" parameterType="string" resultType="mdto">
-		select *
-		from member_t
-		<trim prefix="WHERE" prefixOverrides="AND|OR">
-			<if test="searchType=='memberID' and keyword != null and keyword !=''">
-				memberID LIKE '%'||#{keyword}||'%'
-			</if>
-			<if test="searchType=='mName' and keyword != null and keyword !=''">
-				OR mName LIKE '%'||#{keyword}||'%'
-			</if>
-			<if test="searchType=='nickname' and keyword != null and keyword !=''">
-				OR nickname LIKE '%'||#{keyword}||'%'
-			</if>
-			<if test="searchType=='email' and keyword != null and keyword !=''">
-				OR email LIKE '%'||#{keyword}||'%'
-			</if>
-		</trim>
+	<!-- 회원 리스트 검색 결과수 -->
+	<select id="searchList" resultType="int">
+		SELECT count(*)
+		FROM member_t
+		<include refid="condition" />
 	</select>
 
 	<!-- 회원 리스트에서 회원 탈퇴 시키기 -->
@@ -60,11 +50,16 @@
 		WHERE memberID=#{memberID}
 	</select>
 
-	<!-- 가입된 회원정보 조회 -->
-	<select id="getMemberList" resultType="mdto">
+	<!-- 가입된 회원정보 조회 & 검색 결과 -->
+	<select id="getMemberList" parameterType="com.seoulmate.seoulgo.page.MemberSearchPage" resultType="mdto">
 		SELECT *
-		FROM member_t
-		WHERE mlevel='ROLE_MEMBER' AND enabled='1'
-		ORDER BY memberID DESC
+		FROM 
+		(
+			select row_number() over(order by memberID desc) mno,
+			<include refid="fields"/>
+			from member_t
+			<include refid="condition"/>
+		)
+		where mno between #{startRow} and #{endRow}
 	</select>
 </mapper>

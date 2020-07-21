@@ -23,14 +23,22 @@ public class AdminController {
 
 	// 회원 리스트 검색
 	@RequestMapping("/search")
-	public void search(@RequestParam String searchType, @RequestParam String keyword) {
+	public String search(Model model, MemberSearchPage search, @RequestParam String searchType, @RequestParam String keyword) {
 		System.out.println("searchType: "+searchType+"/keyword: "+keyword);
 		
-		MemberSearchPage search = new MemberSearchPage();
+		// 해당 검색 결과수 
+		int listCnt = aService.searchList(search);
+		System.out.println("검색 결과수는? "+listCnt);
+		search.setTotalRow(listCnt);
 		search.setSearchType(searchType);
 		search.setKeyword(keyword);
-		int listCnt = aService.searchList(search);
-		search.setPage(listCnt);
+		System.out.println("aService.getMemberList(search):"+aService.getMemberList(search));
+		
+		model.addAttribute("memberList", aService.getMemberList(search));
+		//model.addAttribute("pageUri", "/admin/memberManagement");
+		model.addAttribute("search", search);
+		
+		return "/admin/memberManagement";
 	}
 	
 	// 회원 리스트에서 회원 탈퇴 시키기
@@ -55,7 +63,13 @@ public class AdminController {
 	
 	// 회원 리스트 폼 보여주기
 	@RequestMapping("/memberManagement")
-	public void memberManagement(Model model) {
-		model.addAttribute("memberList", aService.getMemberList());
+	public void memberManagement(Model model, MemberSearchPage search) {
+		// 해당 검색 결과수 
+		int listCnt = aService.searchList(search);
+		System.out.println("검색 총 결과수는? "+listCnt);
+		search.setTotalRow(listCnt);
+		System.out.println("aService.getMemberList(search):"+aService.getMemberList(search));
+		model.addAttribute("memberList", aService.getMemberList(search));
+		model.addAttribute("search", search);
 	}
 }

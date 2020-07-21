@@ -16,13 +16,7 @@ public class AdminDAO extends SqlSessionDaoSupport {
 
 	// 회원 리스트 검색 결과수
 	public int searchList(MemberSearchPage search) {
-		System.out.println("검색 결과수는?"+session.selectOne("admin.searchList", search));
 		return session.selectOne("admin.searchList", search);
-	}
-	
-	// 회원 리스트 검색
-	public List<MemberDTO> search(MemberSearchPage search) {
-		return session.selectList("admin.search", search);
 	}
 	
 	// 회원 리스트에서 회원 탈퇴 시키기
@@ -36,7 +30,8 @@ public class AdminDAO extends SqlSessionDaoSupport {
 	}
 
 	// 회원 리스트
-	public List<MemberDTO> gerMemberList() {
-		return session.selectList("admin.getMemberList");
+	public List<MemberDTO> gerMemberList(MemberSearchPage search) {
+		List<MemberDTO> list = session.selectList("admin.getMemberList", search);
+		return list;
 	}
 }

@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ page import="com.seoulmate.seoulgo.page.PageObject" %>
+<%@ page import="com.seoulmate.seoulgo.page.MemberSearchPage" %>
+<%@ taglib prefix="pageNav" tagdir="/WEB-INF/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}" />
 <c:set var="resourcePath" value="${basePath}/resources" />
 <c:set var="libPath" value="${resourcePath}/lib" />
@@ -67,7 +68,7 @@
 				<c:choose>
 					<c:when test="${empty memberList}">
 						<tr>
-							<td colspan="8" align="center">회원 데이터가 없습니다</td>
+							<td colspan="9" align="center">회원 데이터가 없습니다</td>
 						</tr>
 					</c:when>
 					<c:when test="${not empty memberList}">
@@ -110,5 +111,17 @@
 			</tbody>
 		</table>
 	</form>
+	<c:if test="${search.totalRow > search.perPageNum}">
+		<tr class="dataRow">
+			<td colspan="5">
+				<pageNav:pageNav endPage="${search.endPage}" 
+								 totalPage="${search.totalPage}" 
+								 startPage="${search.startPage}" 
+								 uri="${pageUri}"
+								 params="&keyword=${search.keyword}&searchType=${search.searchType}"
+								 pageNo="${search.pageNo}"/>
+			</td>
+		</tr>
+	</c:if>
 </body>
 </html>

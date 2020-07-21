@@ -1,23 +1,23 @@
 $(function(){
-	var list = new Array();
 	var memArr = document.getElementsByName("memberID");
 	var btnArr = document.getElementsByName("deleteBtn");
 	
 	for (let i=0; i < memArr.length; i++) {
-		$(deleteBtn[i]).click(function(){
+		$(btnArr[i]).click(function(){
 			var r = confirm(memArr[i].value+" 회원을 정말로 탈퇴시키시겠습니까?");
 			if(r==true){
 				$.ajax({
 					url: "/admin/deleteAccount",
 					type: "POST",
 					async: false,
+					dataType: "json",
 					data: {
 						memberID: memArr[i].value
 					},
 					success: function(data) {
 						if(data.msg === "success") {
-							location.reload();
 							alert(memArr[i].value+" 회원 탈퇴가 완료되었습니다.");
+							location.reload();
 						}else {
 							alert(memArr[i].value+" 회원 탈퇴가 실패했습니다.");
 						}
@@ -30,24 +30,15 @@ $(function(){
 	$("#btnSearch").click(function(){
 		var keyword = $("#keyword").val();
 		var searchType = $("#searchType").val();
-		var url = "/admin/search";
-		url = url + "?searchType=" + searchType;
-		url = url + "?keyword=" + keyword;
 		
-		if(searchType != null && searchType != '') {
-			$.ajax({
-				url: url,
-				type: "POST",
-				async: false,
-				data: {
-					keyword, searchType
-				},
-				success: function(data) {
-					alert("왔니?");
-				}
-			})
+		if(keyword != null && keyword != '' && searchType != null && searchType != '') {
+			var url = "/admin/search";
+			url = url + "?pageNo=1&searchType=" + searchType;
+			url = url + "&keyword=" + keyword;
+			location.href = url;
+			console.log(url);
 		}else {
-			alert("검색 유형을 선택해주세요.");
+			alert("검색유형 혹은 검색어가 입력되지 않았습니다..");
 		}
 	});
 });
