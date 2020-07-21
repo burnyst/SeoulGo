@@ -40,7 +40,11 @@
 	</select>
 	
 	<select id="listSub" resultType="java.lang.String">
-		SELECT iname FROM placeImage WHERE placeNo=#{placeNo}
+		SELECT iname FROM placeImage WHERE placeNo=#{placeNo} ORDER BY iname ASC
+	</select>
+	
+	<select id="listSubCount" resultType="int">
+		SELECT count(*) FROM placeImage WHERE placeNo=#{placeNo}
 	</select>
 	
 	<select id="listCount" resultType="int">
@@ -86,5 +90,15 @@
 		DELETE
 		FROM placeImage
 		WHERE placeNo=#{placeNo}
+	</delete>
+	
+	<delete id="deleteSubIn" parameterType="java.util.List">
+		DELETE
+		FROM placeImage
+		<where>
+			<foreach index="index" item="item" collection="list" open="iname in (" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
 	</delete>
 </mapper>
