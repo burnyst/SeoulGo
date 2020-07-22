@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,19 +27,21 @@ public class NoticeController {
 	
 	// 댓글 작성
 	@RequestMapping("/replyProc")
-	public ModelAndView ReplyProc(HttpServletRequest request, ModelAndView mv) {
+	public ModelAndView replyProc(NoticeReplyDTO nrdto, HttpServletRequest request, ModelAndView mv, @RequestParam String nrContent) {
 		// 작성 댓글의 해당 공지사항 정보 가져오기
 		int nNo = Integer.parseInt(request.getParameter("nNo"));
-		/*NoticeReplyDTO nrdto = nService.findNo(nNo);
 		
 		// 댓글 작성자(회원) 정보 가져오기
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String memberID = principal.toString();
-		System.out.println("memberID="+memberID);
 		
-		nrdto.setMemberID(memberID);
-		nrdto.setnNo(nNo);*/
+		nrdto.setNrWriter(memberID);
+		nrdto.setnNo(nNo);
+		nrdto.setNrContent(nrContent);
+		nService.replyProc(nrdto);
 		
+		RedirectView rv = new RedirectView("/notice/detailView?nNo="+nNo);
+		mv.setView(rv);
 		return mv;
 	}
 	
@@ -100,6 +103,11 @@ public class NoticeController {
 		System.out.println("NoticeController.detailView() nNo="+nNo);
 		
 		NoticeDTO ndto = nService.detailView(nNo);
+		
+		// 관리자 권한 가져오기
+		String mLevel = nService.findMlevel(ndto);
+		
+		model.addAttribute("mLevel", mLevel);
 		model.addAttribute("nNo", nNo);
 		model.addAttribute("ndto", ndto);
 	}
@@ -108,6 +116,10 @@ public class NoticeController {
 	@RequestMapping("/list")
 	public void list(NoticeDTO ndto, Model model) {
 		ArrayList<NoticeDTO> list = nService.list(ndto);
+		// 관리자 권한 가져오기
+		String mLevel = nService.findMlevel(ndto);
+				
+		model.addAttribute("mLevel", mLevel);
 		model.addAttribute("LIST", list);
 	}
 	

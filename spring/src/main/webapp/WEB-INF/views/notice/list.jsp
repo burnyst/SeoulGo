@@ -42,8 +42,8 @@
 							</td>
 							<td class="text-center">${list.nTitle}</td>
 							<td class="text-center">
-								<c:if test="${not empty list.nWriter}">
-									<c:out value="관리자"/>
+								<c:if test="${'ROLE_ADMIN' eq mLevel}">
+									<c:out value="관리자"></c:out>
 								</c:if>
 							</td>
 							<td class="text-center">

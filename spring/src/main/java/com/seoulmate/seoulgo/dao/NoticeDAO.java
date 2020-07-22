@@ -7,12 +7,29 @@ import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.seoulmate.seoulgo.dto.NoticeDTO;
+import com.seoulmate.seoulgo.dto.NoticeReplyDTO;
 
 public class NoticeDAO extends SqlSessionDaoSupport {
 
 	@Autowired
 	SqlSessionTemplate session;
-
+	
+	// 댓글 삭제
+	public void rplDelete(int nrNo) {
+		session.delete("reply.rplDelete", nrNo);
+	}
+	
+	// 댓글 리스트 
+	public ArrayList<NoticeReplyDTO> replyList(int nNo) {
+		ArrayList<NoticeReplyDTO> replyList = (ArrayList)session.selectList("reply.replyList", nNo);
+		return replyList;
+	}
+	
+	// 댓글 작성
+	public void replyProc(NoticeReplyDTO nrdto) {
+		session.insert("reply.replyProc", nrdto);
+	}
+	
 	// 공지사항 수정 처리
 	public void modifyProc(NoticeDTO ndto) {
 		session.update("notice.modifyProc", ndto);
@@ -33,6 +50,12 @@ public class NoticeDAO extends SqlSessionDaoSupport {
 		session.update("notice.cntUpdate", nNo);
 	}
 
+	// 관리자 권한 가져오기
+	public String findMlevel(NoticeDTO ndto) {
+		String mLevel = session.selectOne("notice.findMlevel", ndto);
+		return mLevel;
+	}
+	
 	// 글 상세보기
 	public NoticeDTO detailView(int nNo) {
 		return session.selectOne("notice.detailView", nNo);

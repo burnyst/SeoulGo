@@ -31,6 +31,16 @@
 		where nNo=#{nNo}
 	</update>
 
+	<!-- 관리자 권한 가져오기 -->
+	<select id="findMlevel" parameterType="com.seoulmate.seoulgo.dto.NoticeDTO" resultType="string">
+		select *
+		from 
+			(select member_t.mLevel 
+			 from member_t, notice 
+			 where member_t.memberID=#{nWriter}
+			 			and nNo=#{nNo})
+	</select>
+
 	<!-- 글 상세보기 -->
 	<select id="detailView" parameterType="int" resultType="com.seoulmate.seoulgo.dto.NoticeDTO">
 		select *
@@ -50,9 +60,12 @@
 
 	<!-- 글쓰기 처리 -->
 	<insert id="writeProc" parameterType="com.seoulmate.seoulgo.dto.NoticeDTO">
-		insert into
-		notice
-		values ((select NVL(MAX(nNo),0)+1 from notice), #{nTitle}, #{nWriter},
-		#{nContent}, SYSDATE, #{nExp}, 0)
+		insert 
+		into notice
+		values (
+			(select NVL(MAX(nNo),0)+1 from notice), #{nTitle}, 
+			(select memberID from member_t where member_t.memberID=#{nWriter} and member_t.mLevel='ROLE_ADMIN'),
+			#{nContent}, SYSDATE, #{nExp}, 0
+		)
 	</insert>
 </mapper>

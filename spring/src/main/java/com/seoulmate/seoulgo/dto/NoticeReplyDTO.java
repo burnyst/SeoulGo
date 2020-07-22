@@ -6,7 +6,7 @@ public class NoticeReplyDTO {
 
 	private int nrNo;
 	private int nNo;
-	private String memberID;
+	private String nrWriter;
 	private String nrContent;
 	private Date nrDate;
 
@@ -26,12 +26,12 @@ public class NoticeReplyDTO {
 		this.nNo = nNo;
 	}
 
-	public String getMemberID() {
-		return memberID;
+	public String getNrWriter() {
+		return nrWriter;
 	}
 
-	public void setMemberID(String memberID) {
-		this.memberID = memberID;
+	public void setNrWriter(String nrWriter) {
+		this.nrWriter = nrWriter;
 	}
 
 	public String getNrContent() {
@@ -52,7 +52,7 @@ public class NoticeReplyDTO {
 
 	@Override
 	public String toString() {
-		return "NoticeReplyDTO [nrNo=" + nrNo + ", nNo=" + nNo + ", memberID=" + memberID + ", nrContent=" + nrContent
+		return "NoticeReplyDTO [nrNo=" + nrNo + ", nNo=" + nNo + ", nrWriter=" + nrWriter + ", nrContent=" + nrContent
 				+ ", nrDate=" + nrDate + "]";
 	}
 
