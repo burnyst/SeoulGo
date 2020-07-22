@@ -73,8 +73,9 @@ $(function(){
 		   $("#memberPW").focus();
 		   check.set("memberPW", 0);
 	   } else if(!pwRegExp.test(pw)) {
-		   alert("비밀번호는 6~12자리의 영어 소문자+대문자, 숫자, 특수문자만 가능합니다.");
+		   message = "<span class='pw_msg fail_msg'>비밀번호는 6~12자리의 영어 소문자+대문자, 숫자, 특수문자만 가능합니다.</span>";
 		   $("#memberPW").val("");
+		   $("#memberPW").focus();
 		   check.set("memberPW", 0);
 	   } else {
 		   message = "";
