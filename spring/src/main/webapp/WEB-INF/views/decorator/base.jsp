@@ -42,9 +42,12 @@
 						<a class="nav-link" href="${basePath}/member/memberInfo">회원정보수정</a>
 					</li>
 				</sec:authorize>
+				<li class="nav-item p-1">
+					<a class="nav-link" href="${basePath}/notice/list">공지사항</a>
+				</li>
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<li class="nav-item p-1">
-						<a class="nav-link" href="${basePath}/admin/menu">관리자 메뉴</a>
+						<a class="nav-link" href="${basePath}/admin/memberManagement">회원 리스트</a>
 					</li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">

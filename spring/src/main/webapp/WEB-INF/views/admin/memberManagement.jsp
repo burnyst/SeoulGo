@@ -14,7 +14,7 @@
 <meta charset="UTF-8">
 <title>SeoulGo 회원 리스트</title>
 <script src="${libPath}/jquery/3.5.1/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/admin/memberManagement.js"></script>
+<script src="${basePath}/resources/js/admin/memberManagement.js"></script>
 <style type="text/css">
 	table {
 		margin: 0 auto;
