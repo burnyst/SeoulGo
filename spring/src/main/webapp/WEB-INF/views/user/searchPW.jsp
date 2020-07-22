@@ -11,7 +11,7 @@
 <script src="${basePath}/resources/js/user/searchPW.js"></script>
 </head>
 <body>
-	<form id="searchPW" action="/user/searchPWProc" method="post">
+	<form id="searchPW" action="${basePath}/user/searchPWProc" method="post">
 		<table class="table table-hover">
 			<thead class="thead-dark">
 				<tr>

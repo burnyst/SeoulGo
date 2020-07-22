@@ -61,10 +61,10 @@
 		</tbody>
 	</table>
 	<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
-		<form action="/notice/ReplyProc" method="post">
+		<form action="${basePath}/notice/replyProc" method="post">
 			<div class="row">
 				<div class="col-sm-10">
-					<textarea id="content" class="form-control" rows="3" placeholder="댓글을 입력해 주세요"></textarea>
+					<textarea id="nrContent" class="form-control" rows="3" placeholder="댓글을 입력해 주세요"></textarea>
 				</div>
 				<div class="col-sm-2">
 					<input type="hidden" id="nNo" value="${ndto.nNo}">

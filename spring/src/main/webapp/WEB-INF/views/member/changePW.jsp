@@ -13,7 +13,7 @@
 <script src="${basePath}/resources/js/member/changePW.js"></script>
 </head>
 <body>
-	<form action="/member/pwUpdate" method="post">
+	<form action="${basePath}/member/pwUpdate" method="post">
 		<table class="table table-hover">
 			<tr>
 				<th class="text-center">기존 비밀번호</th>

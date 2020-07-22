@@ -11,7 +11,7 @@
 <script src="${basePath}/resources/js/user/searchID.js"></script>
 </head>
 <body>
-	<form id="searchID" action="/user/searchIDProc" method="post">
+	<form id="searchID" action="${basePath}/user/searchIDProc" method="post">
 		<table class="table table-hover">
 			<thead class="thead-dark">
 				<tr>

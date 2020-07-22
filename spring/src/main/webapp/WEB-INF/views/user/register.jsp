@@ -18,7 +18,7 @@
 </style>
 </head>
 <body>
-	<form id="registerForm" class="" action="/user/registerProc" method="post" enctype="multipart/form-data">
+	<form id="registerForm" action="${basePath}/user/registerProc" method="post" enctype="multipart/form-data">
 		<table class="table table-hover">
 			<tbody>
 				<tr>

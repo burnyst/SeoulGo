@@ -26,5 +26,6 @@
 		<mapper resource="/com/seoulmate/seoulgo/sql/adminSQL.xml"/>
 		<mapper resource="/com/seoulmate/seoulgo/sql/placeSQL.xml"/>
 		<mapper resource="/com/seoulmate/seoulgo/sql/noticeSQL.xml"/>
+		<mapper resource="/com/seoulmate/seoulgo/sql/noticeReplySQL.xml"/>
 	</mappers>
 </configuration>

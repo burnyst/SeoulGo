@@ -7,7 +7,7 @@ $(function(){
 			var r = confirm(memArr[i].value+" 회원을 정말로 탈퇴시키시겠습니까?");
 			if(r==true){
 				$.ajax({
-					url: "/admin/deleteAccount",
+					url: "./deleteAccount",
 					type: "POST",
 					async: false,
 					dataType: "json",

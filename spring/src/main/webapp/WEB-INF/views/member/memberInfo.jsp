@@ -21,7 +21,7 @@
 </style>
 </head>
 <body>
-	<form action="/member/memberInfoUpdate" method="post" enctype="multipart/form-data">
+	<form action="${basePath}/member/memberInfoUpdate" method="post" enctype="multipart/form-data">
 		<table class="table table-hover">
 			<tbody>
 				<tr>

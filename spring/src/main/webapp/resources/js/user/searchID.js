@@ -29,7 +29,7 @@ $(function() {
         
         $.ajax({
             type : "POST",
-            url : "/user/emailAuth",
+            url : "./emailAuth",
             dataType: "json",
             async: false,
             data : {

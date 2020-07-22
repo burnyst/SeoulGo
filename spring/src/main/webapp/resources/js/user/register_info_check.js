@@ -42,7 +42,7 @@ $(function(){
       }
       
       $.ajax({
-         url: "/user/idCheck",
+         url: "./idCheck",
          type: "POST",
          dataType: "json",
          async: false,
@@ -56,6 +56,7 @@ $(function(){
                }else {
             	  alert("이미 사용 중인 아이디입니다. 다시 입력해주세요.");
             	  $("#memberID").val("");
+            	  $("#memberID").focus();
                }
             }
             $("#id_check").html(message);
@@ -132,7 +133,7 @@ $(function(){
 		}
 		
 		$.ajax({
-			url: "/user/nickCheck",
+			url: "./nickCheck",
 			type: "POST",
 			dataType: "json",
 			async: false,
@@ -146,6 +147,7 @@ $(function(){
 	               }else {
 	                  alert("이미 사용 중인 닉네임입니다. 다시 입력해주세요.");
 	                  $("#nickname").val("");
+	                  $("#nickname").focus();
 	               }
 	            }
 	            $("#nickname_check").html(message);
@@ -183,7 +185,7 @@ $(function(){
        }
        
        $.ajax({
-    	   url: "/user/emailCheck",
+    	   url: "./emailCheck",
     	   type: "POST",
     	   dataType: "json",
     	   async: false,
@@ -202,6 +204,7 @@ $(function(){
 	               }else {
                 	   alert("이미 사용 중인 이메일입니다. 다시 입력해주세요.");
  	            	   $("#email").val("");
+ 	            	   $("#email").focus();
 	               }
         	   }
 	            $("#email_check").html(message);

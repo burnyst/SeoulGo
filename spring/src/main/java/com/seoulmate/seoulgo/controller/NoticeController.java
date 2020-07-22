@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.seoulmate.seoulgo.dto.NoticeDTO;
+import com.seoulmate.seoulgo.dto.NoticeReplyDTO;
 import com.seoulmate.seoulgo.service.NoticeService;
 
 @RequestMapping("/notice")
@@ -24,9 +25,21 @@ public class NoticeController {
 	NoticeService nService;
 	
 	// 댓글 작성
-	@RequestMapping("/ReplyProc")
-	public void ReplyProc() {
+	@RequestMapping("/replyProc")
+	public ModelAndView ReplyProc(HttpServletRequest request, ModelAndView mv) {
+		// 작성 댓글의 해당 공지사항 정보 가져오기
+		int nNo = Integer.parseInt(request.getParameter("nNo"));
+		/*NoticeReplyDTO nrdto = nService.findNo(nNo);
 		
+		// 댓글 작성자(회원) 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String memberID = principal.toString();
+		System.out.println("memberID="+memberID);
+		
+		nrdto.setMemberID(memberID);
+		nrdto.setnNo(nNo);*/
+		
+		return mv;
 	}
 	
 	// 공지사항 수정 처리

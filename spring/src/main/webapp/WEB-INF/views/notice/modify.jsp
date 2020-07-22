@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="basePath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +16,7 @@
 </style>
 </head>
 <body>
-	<form action="/notice/modifyProc?nNo=${ndto.nNo}" method="post">
+	<form action="${basePath}/notice/modifyProc?nNo=${ndto.nNo}" method="post">
 		<table class="table">
 			<tbody>
 				<tr>
