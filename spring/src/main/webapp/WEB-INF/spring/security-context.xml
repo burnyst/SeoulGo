@@ -16,6 +16,9 @@
 		<intercept-url pattern="/member/**" access="hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')"/>
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
 		<intercept-url pattern="/notice/write" access="hasRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/place/insert" access="hasRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/place/update" access="hasRole('ROLE_ADMIN')"/>
+		<intercept-url pattern="/place/delete" access="hasRole('ROLE_ADMIN')"/>
 		<intercept-url pattern="/**" access="permitAll"/>
 		
 		<form-login login-page="/user/login"

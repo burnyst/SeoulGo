@@ -49,6 +49,9 @@
 					<li class="nav-item p-1">
 						<a class="nav-link" href="${basePath}/admin/memberManagement">회원 리스트</a>
 					</li>
+					<li class="nav-item p-1">
+						<a class="nav-link" href="${basePath}/place/insert">장소 입력</a>
+					</li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="nav-item p-1 small">

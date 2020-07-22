@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <t:path>
 <c:set var="defaultImage" value="${imagePath}/place/noimage.jpg" />
@@ -68,8 +69,10 @@
 			<button type="button" class="btn btn-primary mb-3">일정 계획</button>
 			<button type="button" class="btn btn-success mb-3 ml-3">리뷰 작성</button>
 			<button id="backBtn" type="button" class="btn btn-secondary mb-3 ml-3">이전</button>
-			<button id="updateBtn" type="button" class="btn btn-warning mb-3 ml-3">수정</button>
-			<button id="deleteBtn" type="button" class="btn btn-danger mb-3 ml-3">삭제</button>
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<button id="updateBtn" type="button" class="btn btn-warning mb-3 ml-3">수정</button>
+				<button id="deleteBtn" type="button" class="btn btn-danger mb-3 ml-3">삭제</button>
+			</sec:authorize>
 		</div>
 	</div>
 </div>
