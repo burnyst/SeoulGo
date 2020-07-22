@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -28,6 +29,30 @@ public class NoticeController {
 		
 	}
 	
+	// 공지사항 수정 처리
+	@RequestMapping("/modifyProc")
+	public ModelAndView modifyProc(HttpServletRequest request, ModelAndView mv, @RequestParam String nTitle, @RequestParam String nContent) {
+		int nNo = Integer.parseInt(request.getParameter("nNo"));
+		System.out.println("NoticeController.delete() 진입: "+nNo);
+		NoticeDTO ndto = nService.findNo(nNo);
+		
+		ndto.setnTitle(nTitle);
+		ndto.setnContent(nContent);
+		nService.modifyProc(ndto);
+		
+		RedirectView rv = new RedirectView("/notice/list");
+		mv.setView(rv);
+		return mv;
+	}
+	
+	// 공지사항 수정 폼 보여주기
+	@RequestMapping("/modify")
+	public void modify(Model model, HttpServletRequest request) {
+		int nNo = Integer.parseInt(request.getParameter("nNo"));
+		NoticeDTO ndto = nService.detailView(nNo);
+		model.addAttribute("ndto", ndto);
+	}
+	
 	// 공지사항 삭제
 	@RequestMapping("/delete")
 	public ModelAndView delete(NoticeDTO ndto, HttpServletRequest request, ModelAndView mv) {
@@ -37,7 +62,6 @@ public class NoticeController {
 		ndto.setnExp(false);
 		
 		nService.delete(ndto);
-		//mv.addObject("nNo", nNo);
 		RedirectView rv = new RedirectView("/notice/list");
 		mv.setView(rv);
 		return mv;

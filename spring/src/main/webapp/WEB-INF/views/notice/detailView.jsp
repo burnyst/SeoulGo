@@ -15,15 +15,20 @@
 	.btn-outline-danger {
 		margin-left: 5px;
 	}
+	
+	.btn-outline-secondary {
+		margin-left: 5px;
+	}
 </style>
 </head>
 <body>
 	<table class="table table-borderless">
 		<tr>
 			<td colspan="2">
+				<a class="btn btn-outline-secondary" href="/notice/list">목록</a>
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<a class="btn btn-outline-danger" href="/notice/delete?nNo=${ndto.nNo}">삭제</a>
-					<a class="btn btn-outline-primary" href="/notice/modify">수정</a>
+					<a class="btn btn-outline-primary" href="/notice/modify?nNo=${ndto.nNo}">수정</a>
 				</sec:authorize>
 			</td>
 		</tr>
@@ -51,7 +56,7 @@
 			</tr>
 			<tr>
 				<th class="text-center">공지내용</th>
-				<td class="text-center">${ndto.nContent}</td>
+				<td class="text-center"><pre>${ndto.nContent}</pre></td>
 			</tr>
 		</tbody>
 	</table>

@@ -14,6 +14,11 @@ public class NoticeService {
 	@Autowired
 	NoticeDAO nDAO;
 
+	// 공지사항 수정 처리
+	public void modifyProc(NoticeDTO ndto) {
+		nDAO.modifyProc(ndto);
+	}
+	
 	// 공지사항 삭제
 	public void delete(NoticeDTO ndto) {
 		nDAO.delete(ndto);

@@ -13,6 +13,11 @@ public class NoticeDAO extends SqlSessionDaoSupport {
 	@Autowired
 	SqlSessionTemplate session;
 
+	// 공지사항 수정 처리
+	public void modifyProc(NoticeDTO ndto) {
+		session.update("notice.modifyProc", ndto);
+	}
+	
 	// 공지사항 삭제
 	public void delete(NoticeDTO ndto) {
 		session.update("notice.delete", ndto);

@@ -3,6 +3,13 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="notice">
+	<!-- 공지사항 수정 -->
+	<update id="modifyProc" parameterType="com.seoulmate.seoulgo.dto.NoticeDTO">
+		update notice
+		set nTitle=#{nTitle}, nContent=#{nContent}
+		where nNo=#{nNo}
+	</update>
+
 	<!-- 공지사항 삭제 -->
 	<update id="delete">
 		update notice
