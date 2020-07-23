@@ -31,9 +31,9 @@
 		MEMBERID 	
 </sql>
 <!-- 아이디를 조회하는 쿼리문 -->
-<select id="getmemberid">
-select MEMBERID from member_t
-where MEMBERID= '#{memberid}';
+<select id="getmemberid" parameterType="java.lang.String" resultType="pdto">
+select MEMBERID from MEMBER_T
+where MEMBERID= '#{memberid}'
  
 </select>
 <!--장소의 정보를 조회하는 쿼리문  -->
@@ -80,7 +80,7 @@ select *  from (
 
 <!-- 총 계획 숫자 조회 -->
 <select id="totalCnt" resultType="int">
-		select count(*)  from plan 
+	select count(*)  from plan 
 </select>
 <select id="placetotalCnt" resultType="int">
 	select count(*) from place

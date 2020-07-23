@@ -120,11 +120,7 @@ public class PlanService {
 		pdao.planmodifin(plan);
 	}
 
-	public PageObject getPageInfo(int page) {
-		int totalCount= pdao.getTotalCnt();
-		PageObject pInfo = new PageObject(page, totalCount);
-		return pInfo;
-	}
+
 	public ArrayList<PlanDTO> placeservice(PlanDTO plan) {
 		ArrayList<PlanDTO> result = pdao.placeview(plan);
 		return result;

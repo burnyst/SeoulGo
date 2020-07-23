@@ -63,9 +63,6 @@ public class PlanDAO {
 		ArrayList<PlanDTO> result = (ArrayList)session.selectList("plandata.listView",plan);
 		return result;
 	}
-	public   int   getTotalCnt() {
-		return (Integer)session.selectOne("plandata.totalCnt");
-	}
 	
 	public ArrayList<PlanDTO> placeview(PlanDTO plan) {
 		ArrayList<PlanDTO> result = (ArrayList)session.selectList("plandata.placeview", plan);

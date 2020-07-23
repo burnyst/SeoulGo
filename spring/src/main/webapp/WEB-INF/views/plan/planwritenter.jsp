@@ -77,6 +77,7 @@ window.onclick = function(event) {
 <!-- 이 페이지는 일정을 짜는 페이지이다. 
  일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
    -->
+<c:forEach items="${place }" var="list"></c:forEach>
 <div id="map" style="width:500px;height:400px;float:left;'" ></div>
 	<script>
 $(function(){
