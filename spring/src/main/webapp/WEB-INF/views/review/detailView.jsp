@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
-<%@ taglib  prefix="spring" uri="http://www.springframework.org/tags" %>  
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>  
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}" />
 <c:set var="resourcePath" value="${basePath}/resources" />
 <c:set var="imagePath" value="${resourcePath}/img" />
@@ -67,13 +69,17 @@
 			<a href="../review/writeReview?placeNo=${dto.placeNo}" style="text-decoration:none;">
 				<input type="button" class="btn btn-outline-primary btn-sm" id="wBtn" value="리뷰 작성"/>
 			</a>
-			<a href="../review/modifyReview?placeNo=${dto.placeNo}&rNo=${review.rNo}" style="text-decoration:none;">
-				<input type="button" class="btn btn-outline-primary btn-sm" id="mBtn" value="리뷰 수정"/>
-			</a>
-			<a href="../review/deleteReview?placeNo=${dto.placeNo}&rNo=${review.rNo}" style="text-decoration:none;">
-				<input type="button" class="btn btn-outline-secondary btn-sm" id="dBtn" value="리뷰 삭제"/>
-			</a>
-			<input type="button" class="btn btn-outline-info btn-sm" id="pBtn" value="사진 보기"/>
+			<c:if test="${review.memberID eq mem.memberID || fn:contains(mem.mLevel,'ROLE_ADMIN')}">
+				<a href="../review/modifyReview?placeNo=${dto.placeNo}&rNo=${review.rNo}" style="text-decoration:none;">
+					<input type="button" class="btn btn-outline-primary btn-sm" id="mBtn" value="리뷰 수정"/>
+				</a>
+				<a href="../review/deleteReview?placeNo=${dto.placeNo}&rNo=${review.rNo}" style="text-decoration:none;">
+					<input type="button" class="btn btn-outline-secondary btn-sm" id="dBtn" value="리뷰 삭제"/>
+				</a>
+			</c:if>
+			<sec:authorize access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')">
+				<input type="button" class="btn btn-outline-info btn-sm" id="pBtn" value="사진 보기"/>
+			</sec:authorize>
 		</c:forEach>
 		</div>
 		<br>
@@ -119,19 +125,20 @@
 			<span>여행 유형 : ${review.rCate}</span>
 		</div>
 		<br>
-		
-		<div>
-			<!-- 좋아요 -->
-			<button class="btn btn-outline-success btn-sm" id="good_update${review.rNo}">
-			<i class="far fa-thumbs-up faPointer"></i>
-			&nbsp; 좋아요 : <span class="good_count${review.rNo}"></span>
-			</button>
-			<!-- 싫어요 -->
-			<button class="btn btn-outline-danger btn-sm" id="bad_update${review.rNo}">
-			<i class="far fa-thumbs-down faPointer"></i>
-			&nbsp; 싫어요 : <span class="bad_count${review.rNo}"></span>
-			</button>
-		</div>
+		<sec:authorize access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')">	
+			<div>
+				<!-- 좋아요 -->
+				<button class="btn btn-outline-success btn-sm" id="good_update${review.rNo}">
+				<i class="far fa-thumbs-up faPointer"></i>
+				&nbsp; 좋아요 : <span class="good_count${review.rNo}"></span>
+				</button>
+				<!-- 싫어요 -->
+				<button class="btn btn-outline-danger btn-sm" id="bad_update${review.rNo}">
+				<i class="far fa-thumbs-down faPointer"></i>
+				&nbsp; 싫어요 : <span class="bad_count${review.rNo}"></span>
+				</button>
+			</div>
+		</sec:authorize>
 	</div>
 </div>
 <hr>

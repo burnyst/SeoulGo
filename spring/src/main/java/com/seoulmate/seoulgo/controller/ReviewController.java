@@ -113,7 +113,7 @@ public class ReviewController {
 
 	// 3. 리뷰 상세 폼 보기
 	@RequestMapping("detailView")
-	public String getDetailViewForm(ReviewPage reviewPage, HttpServletRequest request, MemberDTO mdto)
+	public String getDetailViewForm(ReviewPage reviewPage, HttpServletRequest request)
 	{
 		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
 		
@@ -121,8 +121,13 @@ public class ReviewController {
 		reviewPage.setPlaceNo(placeNo);
 		ArrayList<ReviewDTO> review = rService.getDetailList(reviewPage);	// 리뷰 상세 내용 조회
 		
-		System.out.println("값이 뭐냐??"+review);
+		// 로그인 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String mem_id = principal.toString();
+		// 권한 가져오기
+		MemberDTO mdto = mService.findMember(mem_id);
 		
+		request.setAttribute("mem", mdto);
 		request.setAttribute("placeNo", placeNo);
 		request.setAttribute("Info",Info);
 		request.setAttribute("review",review);
@@ -269,12 +274,15 @@ public class ReviewController {
 		// 파라미터 받기 placeNo = 장소 번호, rNo = 글 번호
 		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
 		int rNo = Integer.parseInt(request.getParameter("rNo"));
-		String memberID = request.getParameter("memberID");
+		
+		// 로그인 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String mem_id = principal.toString();
 		
 		// DTO에 실어보낼 데이터 세팅
 		rDTO.setplaceNo(placeNo);
 		rDTO.setrNo(rNo);
-		rDTO.setMemberID(memberID); // 현재는 "~~~"로 대체
+		rDTO.setMemberID(mem_id); 
 
 		// 비즈니스 로직
 		int number = rService.goodcheck(rDTO); // 체크	
@@ -310,12 +318,15 @@ public class ReviewController {
 		// 파라미터 받기 placeNo = 장소 번호, rNo = 글 번호
 		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
 		int rNo = Integer.parseInt(request.getParameter("rNo"));
-		String memberID = request.getParameter("memberID");
-			
+		// 로그인 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String mem_id = principal.toString();
+		
 		// DTO에 실어보낼 데이터 세팅
 		rDTO.setplaceNo(placeNo);
 		rDTO.setrNo(rNo);
-		rDTO.setMemberID(memberID); // 현재는 "~~~"로 대체
+		rDTO.setMemberID(mem_id); 
+
 
 		// 비즈니스 로직
 		int number = rService.badcheck(rDTO); // 체크	

@@ -8,10 +8,6 @@ $(function(){
 	var badrNoArr = document.getElementsByName("rNo");
 	var list = new Array();	
 	
-	// 멤버 아이디
-	var dmemberID = document.getElementsByName("dmemberID");
-		dmemberID = dmemberID[0].value;
-	
 	for (let i=0; i<badrNoArr.length; i++){
 		list[i]= parseInt(badrNoArr[i].value)
 	// 추천버튼 클릭시(추천 추가 또는 추천 제거)
@@ -22,8 +18,7 @@ $(function(){
 	            type: "POST",
 	            data: {
 	           		rNo: list[i],
-					placeNo: dplaceNo,
-	               	memberID: dmemberID
+					placeNo: dplaceNo
 	       		},
 	            success: function(){
 			    	badCount();
