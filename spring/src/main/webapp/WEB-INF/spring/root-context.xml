@@ -45,11 +45,15 @@
 	<bean id ="nDAO" class = "com.seoulmate.seoulgo.dao.NoticeDAO">
 		<property name ="sqlSessionTemplate" ref="sqlSession"/>
 	</bean>
+	<bean id ="rDAO" class = "com.seoulmate.seoulgo.dao.ReviewDAO">
+		<property name ="sqlSessionTemplate" ref="sqlSession"/>
+	</bean>
 	
 	<bean id="uService" class="com.seoulmate.seoulgo.service.UserService"/>
 	<bean id="mService" class="com.seoulmate.seoulgo.service.MemberService"/>
 	<bean id="aService" class="com.seoulmate.seoulgo.service.AdminService"/>
 	<bean id="nService" class="com.seoulmate.seoulgo.service.NoticeService"/>
+	<bean id="rService" class="com.seoulmate.seoulgo.service.ReviewService"/>
 
 	<context:component-scan base-package="com.seoulmate.seoulgo"></context:component-scan>
 </beans>

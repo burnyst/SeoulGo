@@ -34,6 +34,9 @@
 				<li class="nav-item p-1">
 					<a class="nav-link" href="${basePath}/place/list">장소찾기</a>
 				</li>
+				<li class="nav-item p-1">
+					<a class="nav-link" href="${basePath}/review/PlaceListView">리뷰 작성</a>
+				</li>
 				<sec:authorize access="hasRole('ROLE_MEMBER')">
 					<li class="nav-item p-1">
 						<a class="nav-link" href="${basePath}/member/mypage">마이페이지</a>
