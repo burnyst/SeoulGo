@@ -32,19 +32,25 @@
   <!-- The slideshow -->
   <div class="carousel-inner">
     <div class="carousel-item active">
-    	<img src="<spring:url value='/resources/img/review/11.jpg'/>" width="1200" height="500">
+    	<img src="<spring:url value='/resources/img/review/11.jpg'/>">
     </div>
     <div class="carousel-item">
-    	<img src="<spring:url value='/resources/img/review/22.jpg'/>" width="1200" height="500">
+    	<img src="<spring:url value='/resources/img/review/22.jpg'/>">
     </div>
     <div class="carousel-item">
-    	<img src="<spring:url value='/resources/img/review/33.jpg'/>" width="1200" height="500">
+    	<img src="<spring:url value='/resources/img/review/33.jpg'/>">
     </div>
     <div class="carousel-item">
-    	<img src="<spring:url value='/resources/img/review/44.jpg'/>" width="1200" height="500">
+    	<img src="<spring:url value='/resources/img/review/44.jpg'/>">
     </div>
     <div class="carousel-item">
-    	<img src="<spring:url value='/resources/img/review/55.jpg'/>" width="1200" height="500">
+    	<img src="<spring:url value='/resources/img/review/55.jpg'/>">
+    </div>
+    <div class="carousel-item">
+    	<img src="<spring:url value='/resources/img/review/66.jpg'/>">
+    </div>
+    <div class="carousel-item">
+    	<img src="<spring:url value='/resources/img/review/77.jpg'/>">
     </div>
   </div>
   <!-- Left and right controls -->
