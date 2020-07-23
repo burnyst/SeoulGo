@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +11,7 @@
 </head>
 <body>
 <h1>일정공유 게시판</h1>
-<div id="map" style="width:500px;height:300px;float:left; position:relative;'">
+<div id="map" style="width:300px;height:300px;float:left; position:relative;'">
 </div>
 <script>
 	var container = document.getElementById('map');
@@ -21,31 +22,41 @@
 
 	var map = new kakao.maps.Map(container, options);
 </script>
+
 	
-	<table border="1" width="50%">
-		<tr>
-			<th>여행장소</th>
-			<th>아이디</th>
-			<th>일정제목</th>
-			<th>일정유형</th>
-		</tr>
-		<c:if test="">
+	<table border="1" width="60%">
+	
 			<tr>
-				<td>
-					<a href="#">${""}</a>
-				</td>
-				<td>
-					<a href="#">${""}</a>
-				</td>
-				<td>
-					<a href="#">${""}</a>
-				</td>
-				<td>
-					<a href="#">${""}</a>
-				</td>
+				<th>여행장소</th>
+				<th>아이디</th>
+				<th>일정제목</th>
+				<th>일정유형</th>
 			</tr>
-		</c:if>
-	</table>
-<div style=height:200px;></div>
+		<c:forEach items="${pageview}" var="list" varStatus="status">
+				<tr>
+					<td>
+						<a href="/plan/planview?planNo=${list.planNo}">${list.addr1}${list.addr2}</a>
+					</td>
+					<td>
+						${list.memberid}
+					</td>
+					<td>
+						${list.planTitle}
+					</td>
+					<td>
+						${list.planCate}
+					</td>
+				</tr>
+			</c:forEach>
+	
+		</table>
+	<t:pageNav
+	   endPage="${page.endPage}"
+	   pageNo="${page.pageNo}"
+	   totalPage="${page.totalPage}"
+	   startPage="${page.startPage}"
+	   uri="${pageUri}">
+	</t:pageNav>
+	<div style=height:200px;></div>
 </body>
 </html>

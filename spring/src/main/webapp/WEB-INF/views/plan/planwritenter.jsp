@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,9 +19,8 @@ $(function(){
 	 })
 	 $("#placesarch").click(function(){
 		 alert("장소검색페이지로 넘어갑니다.");
-		 $(location).attr("href","../plan/placesarch");
+		 $(location).attr("href","../plan/placesarch")
 	 })
-	 
 })
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
@@ -75,7 +73,7 @@ window.onclick = function(event) {
 <title>일정짜기</title>
 </head>
 <body>
-<sec:authorize access="isAuthenticated()">
+
 <!-- 이 페이지는 일정을 짜는 페이지이다. 
  일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
    -->
@@ -88,7 +86,6 @@ $(function(){
 		var myTag = element.attr('value');
 		idval.val(myTag);
 	 });
-	 
 });
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 mapOption = {
@@ -126,7 +123,6 @@ geocoder.addressSearch('목동로 23길', function(result, status) {
     map.setCenter(coords);
 } 
 });    
-
 </script>
 	<div id="clickLatlng"></div>
 <div style="float:left">
@@ -138,19 +134,26 @@ geocoder.addressSearch('목동로 23길', function(result, status) {
 		    <a href="/plan/planwrite/iljung3">장소3</a>
 	  	</div>
 	</div>
+<c:forEach items="${place }" var="list" >
+</c:forEach>
 </div>
-
 <form action="/plan/planwrited" method="post">
 	<div id="planlist" style="margin-top: 100px;">
 		<div style="float:left; margin-right:10px">여행날짜</div> 
 		<div><input type="date" id="plandate"name="plandate" class="date"></div>
 		<script>
-	  		document.getElementById('plandate').value = new Date().toISOString().substring(0, 10);;
+	  		document.getElementById('plandate').value = new Date().toISOString().substring(0, 10);
 		</script>
 		<div style="float:left; margin-right:10px">여행장소</div>
-		<div><input type="text" id="planplace" name="planplace" readonly="readonly">
+		
+		<div><c:forEach items="${choice}" var="list" >
+				<input type="text" id="planplace" name="planplace" readonly="readonly" value="${list.place}">
+				<input type="hidden" id="placeNo" name="placeNo" value="${list.placeNo}">
+				<input type="hidden" id="addr1" name="addr1" value="${list.addr1}">
+				<input type="hidden" id="addr2" name="addr2" value="${list.addr2}">
+			</c:forEach>
 			 <input type="button" id="placesarch" value="검색하기"></div>
-		<div style="float:left; margin-right:10px border-top-width: 10px; ">여행 제목</div>
+		<div style="float:left; margin-right:10px border-top-width: 10px;">여행 제목</div>
 		<div><input type="text" id="planTitle" name="planTitle"></div>
 		<div style="float:left; margin-right:10px">여행유형</div>
 		<div>
@@ -162,7 +165,7 @@ geocoder.addressSearch('목동로 23길', function(result, status) {
 				<option value="비즈니스">비즈니스 여행</option>
 				<option value="친구">우정 여행</option>
 			</select>  
-			<input type="hidden" name="planCate"id="planCate">
+			<input type="hidden" name="planCate"id="planCate" >
 		</div>
 	</div>
 	<div style="height:250px">
@@ -172,9 +175,5 @@ geocoder.addressSearch('목동로 23길', function(result, status) {
 	<a class ="btn btn-warning" id="backBtn">뒤로가기</a>
 </div>
 </form>
-</sec:authorize>
-<sec:authorize access="isAnonymous()">
-	<button id="bla" type="button" class="btn btn-info">로그인이 필요한 페이지입니다.</button>
-</sec:authorize>
 </body>
 </html>

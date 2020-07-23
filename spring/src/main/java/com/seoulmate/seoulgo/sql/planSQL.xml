@@ -14,39 +14,140 @@
 					select <include refid=”userColumns”/>
 					from some_table  
   -->	
-  <sql id="selectColumns">
+<sql id="condition">
+	<trim prefix="WHERE" prefixOverrides="AND|OR">
+		<if test="keyword != null and keyword !=''">
+			<if test="searchType == 'memberID'">
+				AND memberID LIKE '%'||#{keyword}||'%'
+			</if>
+		</if>
+	</trim>
+</sql>
+<sql id="selectColumns">
+		 PLANNO ,
+		PLANDATE ,
+		PLANTITLE ,
+		PLANCATE ,
+		MEMBERID 	
+</sql>
+<!-- 아이디를 조회하는 쿼리문 -->
+<select id="getmemberid">
+select MEMBERID from member_t
+where MEMBERID= '#{memberid}';
+ 
+</select>
+<!--장소의 정보를 조회하는 쿼리문  -->
+<select id="placechoice" parameterType="int" resultType="pdto">
+	select 
+	PLACENAME,
+    PLACENO,
+    ADDR1, 
+    ADDR2
+	 from place
+	where PLACENO = #{placeNo}
+</select>
+<select id="plist" parameterType="pdto" resultType="pdto">
+select <include refid="selectColumns"/> from plan ORDER BY PLAN.PLANNO DESC
+</select>
+<select id="placesarch" parameterType="pdto" resultType="pdto">
+SELECT * FROM(
+    SELECT PLACE.PLACENAME,
+            PLACE.PLACENO,
+            PLACE.ADDR1, 
+            PLACE.ADDR2 , 
+            rownum as rnum from place order by PLACE.PLACENO desc
+            )WHERE rnum between #{startRow} and #{endRow}
+</select>
+
+
+<!-- plan과 place의 일부 데이터 조회 -->
+<select id="getplanboard" parameterType="pdto" resultType="pdto">
+
+select *  from (
+    	SELECT PLAN.PLANNO,
+    	PLAN.PLANTITLE,
+    	PLAN.PLANCATE,
+    	PLAN.MEMBERID,
+    	plan.plandate,
+   	    PLACE.ADDR1, 
+   	    PLACE.ADDR2 , 
+   	    rownum as rnum from plan,planplace,place
+            where plan.planno=planplace.planno and planplace.placeno=place.placeno
+            order by plan.planno desc
+		) where rnum between #{startRow} and #{endRow}
 		
-   		select  PLANNO ,
-				PLANDATE ,
-				PLANTITLE ,
-				PLANCATE ,
-				MEMBERID 
-	</sql>
+</select>
+
+<!-- 총 계획 숫자 조회 -->
 <select id="totalCnt" resultType="int">
 		select count(*)  from plan 
-</select> 	
-
-<select id="plandatat" resultType="pdto">
-select * from
-	(select ROWNUM RN,a.*
-			FROM (SELECT * FROM PLAN 
-			ORDER BY PLAN.PLANNO DESC)
-			A
-			)
-	WHERE RN BETWEEN #{start} AND #{end}
 </select>
-<select id="plandatav" resultType="pdto">
-	select  PLANNO ,
-			PLANDATE ,
-			PLANTITLE ,
-			PLANCATE ,
-			MEMBERID
-				from plan
+<select id="placetotalCnt" resultType="int">
+	select count(*) from place
+</select>
+<!--planSboard에서 보여지는데이터들  -->
+<select id="plandatav" parameterType="pdto" resultType="pdto">
+	select *  from (
+	    	SELECT PLAN.PLANNO,
+	    	PLAN.PLANTITLE,
+	    	PLAN.PLANCATE,
+	    	PLAN.MEMBERID,
+	   	    PLACE.ADDR1, 
+	   	    PLACE.ADDR2 , 
+	   	    rownum as rnum from plan,planplace,place
+	            where plan.planno=planplace.planno and planplace.placeno=place.placeno
+	            order by planplace.planno desc
+			) where rnum between #{startRow} and #{endRow}
+</select>
+<!-- 공유게시판에 나올 데이터들 -->
+<select id="planSboard" parameterType="pdto" resultType="pdto">
+	select * from (
+			SELECT PLAN.PLANNO, PLAN.PLANTITLE, PLAN.PLANCATE, PLAN.MEMBERID, PLACE.ADDR1, PLACE.ADDR2,
+			ROWnum 
+            from plan,planplace,place
+            where plan.planno=planplace.planno and planplace.placeno=place.placeno
+            order by planplace.planno desc;
+		)
+ WHERE rno BETWEEN #{startRow} AND #{endRow}
+</select>
+<!-- 목록조회 -->
+<select id="planSview" parameterType="pdto" resultType="pdto">
+	select * from (
+			SELECT PLAN.PLANNO, PLAN.PLANTITLE, PLAN.PLANCATE, PLAN.MEMBERID, PLACE.ADDR1,PLACE.ADDR2
+			FROM PLAN,PLACE
+			ORDER BY PLAN.PLANNO DESC
+		)
+ WHERE ROWNUM BETWEEN #{startRow} AND #{endRow}
 	
-	ORDER BY PLANNO DESC
 </select>
-<!-- 	 -->
-	<!-- 목록조회 -->
+<!-- 목록조회 -->
+<select id="listView" 
+				parameterType="pdto"
+				resultType="pdto">
+	select * from (select 
+			PLAN.PLANNO, PLAN.PLANTITLE, PLAN.PLANCATE, PLAN.MEMBERID, 
+			PLACE.ADDR1,PLACE.ADDR2,
+			row_number() over( order by plan.planno desc ) as rno
+			FROM PLAN,PLACE )
+			where rno between #{start} and #{end}
+			 
+</select>
+
+<!--pageObject를 활용한 목록 조회  -->
+<select id="paging"
+		parameterType="com.seoulmate.seoulgo.page.PlanPage"
+		resultType="pdto">
+	select * from (
+			select row_number() over
+			( order by plan.planno desc ) as rno,
+			PLAN.PLANNO, PLAN.PLANTITLE, PLAN.PLANCATE, PLAN.MEMBERID, 
+			PLACE.ADDR1,PLACE.ADDR2
+			FROM PLAN,place
+			)
+			where rno between #{startRow} and #{endRow}
+</select>
+
+
 <select id="planview" resultType="pdto">
 		select PLANNO,
 		PLANDATE,
@@ -61,22 +162,13 @@ select * from
 			FROM PLACE 
 			WHERE place.placeno in(SELECT p1.PLACENO
                                          FROM PLANPLACE P1
-                                         WHERE #{addrNo}=P1.PLANNO)
+                                         WHERE #{pno}=P1.PLANNO)
 </select>
 <select id="addr2" parameterType="int" resultType="pdto">
 select addr1, addr2 
 	from place
     	where placeNo in (select placeNo from PLANPLACE, plan
         	where #{addrNo}=planplace.planNo)     
-</select>
-<select id="planSview" parameterType="pdto" resultType="java.util.List">
-	    SELECT 
-	    	   PLANTITLE,
-	    	   PLANCATE,
-	    	   ADDR1,
-	    	   ADDR2
-	    	   MEMBERID FROM plan,PLACE,PLANPLACE
-	    	   WHERE PLACE.PLACENO = PLANPLACE.${placeNo}
 </select>
 <select id="placeview" resultType="pdto">
 	select 
@@ -96,8 +188,8 @@ select addr1, addr2
 		VALUES(#{planNo},#{planDate},#{planTitle},#{planCate},#{memberid}) 
 </insert>
 	<insert id="planinsert2" parameterType="pdto">
-		insert into PLANPLACE (PLANNO)
-		VALUES(#{planNo})
+		insert into PLANPLACE (PLANNO,PLACENO)
+		VALUES(#{planNo},#{placeNo})
 	</insert>
 	<!-- 
 		INSERT ALL 
