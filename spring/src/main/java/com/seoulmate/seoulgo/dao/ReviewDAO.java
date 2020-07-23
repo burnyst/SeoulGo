@@ -19,12 +19,10 @@ public class ReviewDAO extends SqlSessionDaoSupport {
 
 	// 장소 전체 게시물 수 조회
 	public Integer getTotalCnt() {
-		System.out.println("ReviewDAO.getTotalCnt()-진입");
 		return session.selectOne("place.listCount");
 	}
 	// 장소 목록 조회
 	public List<PlaceDto> getListView(PlacePage placePage) {
-		System.out.println("ReviewDAO.getListView()-진입");
 		return session.selectList("place.list", placePage);
 	}
 	// 장소 정보 추출
@@ -33,12 +31,6 @@ public class ReviewDAO extends SqlSessionDaoSupport {
 	}
 	// 글쓰기 처리 DAO
 	public void insertReview(ReviewDTO rDTO, String hint) {
-		System.out.println("ReviewDAO.insertReview() - 글쓰기 처리");
-		
-		//session.insert(String 실행할 쿼리문); 
-		//session.insert(String 실행할 쿼리문, 쿼리문 안의 파라미터);
-		
-		// reviewBoard에 insert할지 imgInfo에 insert할지 구분을 위해 if 문 사용
 		if(hint.equals("reviewBoard")) {
 			session.insert("review.writeProc",rDTO);
 		}else if(hint.equals("imgInfo")) {
@@ -58,12 +50,12 @@ public class ReviewDAO extends SqlSessionDaoSupport {
 		session.update("review.modifyReview", rDTO);
 	}
 	//상세보기관련  첨부파일목록조회
-	public ArrayList<ReviewDTO> getFileInfo(int rno) {
-		return (ArrayList)session.selectList("review.imgInfo", rno);
+	public ArrayList<ReviewDTO> getFileInfo(int rNo) {
+		return (ArrayList)session.selectList("review.imgInfo", rNo);
 	}
 	// 글수정하기 - 기존 첨부파일 정보 삭제
-	public void deleteFileInfo(int rno) {
-		session.delete("review.deleteImgInfo", rno);
+	public void deleteFileInfo(int rNo) {
+		session.delete("review.deleteImgInfo", rNo);
 	}
 	// 글 삭제 - 실은 업데이트
 	public void deleteReview(ReviewDTO rDTO) {
@@ -82,8 +74,8 @@ public class ReviewDAO extends SqlSessionDaoSupport {
 		session.delete("review.goodDelete", rDTO);
 	}
 	// 좋아요 수 검색
-	public Integer goodgetcnt(int rno){
-		return session.selectOne("review.goodCount", rno);
+	public Integer goodgetcnt(int rNo){
+		return session.selectOne("review.goodCount", rNo);
 	}
 	// 싫어요 체크 처리
 	public Integer badcheck (ReviewDTO rDTO){
@@ -98,8 +90,8 @@ public class ReviewDAO extends SqlSessionDaoSupport {
 		session.delete("review.badDelete", rDTO);
 	}
 	// 싫어요 수 검색
-	public Integer badgetcnt(int rno){
-		return session.selectOne("review.badCount", rno);
+	public Integer badgetcnt(int rNo){
+		return session.selectOne("review.badCount", rNo);
 	}
 
 	

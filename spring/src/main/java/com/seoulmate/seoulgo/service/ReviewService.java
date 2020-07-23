@@ -23,7 +23,6 @@ public class ReviewService {
 	
 	// 장소목록 조회
 	public Object getPlaceListView(PlacePage placePage) {
-		System.out.println("PlaceService.getPlaceListView() - 장소 목록 조회");
 		placePage.setTotalRow(rDAO.getTotalCnt());
 		return rDAO.getListView(placePage);
 	}
@@ -34,11 +33,7 @@ public class ReviewService {
 	}
 	// 글 작성 처리
 	public void insertReview(ReviewDTO rDTO, HttpSession session, ArrayList list) {
-		
-		// DAO의 insertBoard() 함수 내 reviewBoard 테이블에 insert 실행함수 호출
-		// 글쓴이의 정보를 세션에서 가져와 FileBoardDTO에 설정
-		String memberID = (String)session.getAttribute("memberID");
-		rDTO.setMemberID(memberID);
+
 		rDAO.insertReview(rDTO, "reviewBoard");
 		
 		// DAO의 insertBoard() 함수 내 imgInfo 테이블에 insert 실행함수 호출
@@ -64,13 +59,13 @@ public class ReviewService {
 		rDAO.modifyReview(rDTO);
 	}
 	//상세보기관련  첨부파일목록조회
-	public ArrayList<ReviewDTO> getFileInfo(int rno) {
-		ArrayList<ReviewDTO> list =rDAO.getFileInfo(rno);
+	public ArrayList<ReviewDTO> getFileInfo(int rNo) {
+		ArrayList<ReviewDTO> list =rDAO.getFileInfo(rNo);
 		return list;
 	}
 	// 글수정하기 - 기존 첨부파일 정보 삭제
-	public void deleteFileInfo(int rno) {
-		rDAO.deleteFileInfo(rno);
+	public void deleteFileInfo(int rNo) {
+		rDAO.deleteFileInfo(rNo);
 	}
 	// 글수정하기 - 첨부파일 등록관련
 	public void insertFileInfo(ReviewDTO rDTO1) {
@@ -93,8 +88,8 @@ public class ReviewService {
 		rDAO.gooddelete(rDTO);
 	}
 	// 좋아요 수 검색
-	public int goodgetcnt(int rno){
-		return rDAO.goodgetcnt(rno);
+	public int goodgetcnt(int rNo){
+		return rDAO.goodgetcnt(rNo);
 	}
 	// 싫어요 체크
 	public int badcheck(ReviewDTO rDTO) {
@@ -109,7 +104,7 @@ public class ReviewService {
 		rDAO.baddelete(rDTO);
 	}
 	// 싫어요 수 검색
-	public int badgetcnt(int rno){
-		return rDAO.badgetcnt(rno);
+	public int badgetcnt(int rNo){
+		return rDAO.badgetcnt(rNo);
 	}
 }

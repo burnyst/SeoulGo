@@ -29,6 +29,9 @@ public class ReviewDTO {
 	private String oriName; 	// 원래 이름
 	private String iSaveName; 	// 저장된 이름
 	
+	// 회원 프로필 사진 처리 필드
+	private String proSaveName;
+	
 	// 첨부파일은  MultipartFile 타입으로 처리한다.
 	private MultipartFile[] files; // 첨부파일들
 
@@ -140,13 +143,19 @@ public class ReviewDTO {
 	public void setiSaveName(String iSaveName) {
 		this.iSaveName = iSaveName;
 	}
+	public String getProSaveName() {
+		return proSaveName;
+	}
+	public void setProSaveName(String proSaveName) {
+		this.proSaveName = proSaveName;
+	}
 	@Override
 	public String toString() {
 		return "ReviewDTO [rNo=" + rNo + ", rTitle=" + rTitle + ", rContent=" + rContent + ", rDate=" + rDate
 				+ ", rGood=" + rGood + ", rBad=" + rBad + ", rVisit=" + rVisit + ", rCate=" + rCate + ", rRate=" + rRate
 				+ ", placeNo=" + placeNo + ", memberID=" + memberID + ", len=" + len + ", path=" + path + ", fileCount="
-				+ fileCount + ", oriName=" + oriName + ", iSaveName=" + iSaveName + ", files=" + Arrays.toString(files)
-				+ "]";
+				+ fileCount + ", oriName=" + oriName + ", iSaveName=" + iSaveName + ", proSaveName=" + proSaveName
+				+ ", files=" + Arrays.toString(files) + "]";
 	}
 
 

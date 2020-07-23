@@ -63,9 +63,9 @@
 </div>
 </div>
 
-<form action="modifyProc?placeNo=${placeNo}&rno=${rno}" method="post" encType="multipart/form-data">
+<form action="modifyProc?placeNo=${placeNo}&rNo=${rNo}" method="post" encType="multipart/form-data">
 	<input type="hidden" name="placeNo" value="${placeNo}"/>
-	<input type="hidden" name="rno" value="${rno}"/>
+	<input type="hidden" name="rNo" value="${rNo}"/>
 	<table class="table table-hover">
 		<thead class="thead-light">
 			<tr>

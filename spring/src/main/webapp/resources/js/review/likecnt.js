@@ -7,6 +7,11 @@ $(function(){
 	// 글번호
 	var goodrNoArr = document.getElementsByName("rNo");
 	var list = new Array();	
+	
+	// 멤버 아이디
+	var dmemberID = document.getElementsByName("dmemberID");
+		dmemberID = dmemberID[0].value;
+	
 	for (let i=0; i<goodrNoArr.length; i++){
 		list[i]= parseInt(goodrNoArr[i].value)
 	// 추천버튼 클릭시(추천 추가 또는 추천 제거)
@@ -18,7 +23,7 @@ $(function(){
 	            data: {
 	           		rNo: list[i],
 					placeNo: dplaceNo,
-	               	memberID: "TEST690"
+	               	memberID: dmemberID
 	       		},
 	            success: function(){
 			    	goodCount();
