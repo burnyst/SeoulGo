@@ -169,7 +169,7 @@ select *  from (
                                          WHERE #{pno}=P1.PLANNO)
 </select>
 <select id="addr2" parameterType="int" resultType="pdto">
-select addr1, addr2 
+select addr1, addr2 ,PLACENAME
 	from place
     	where placeNo in (select placeNo from PLANPLACE, plan
         	where #{addrNo}=planplace.planNo)     

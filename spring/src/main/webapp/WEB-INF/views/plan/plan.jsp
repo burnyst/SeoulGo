@@ -13,7 +13,7 @@
  <script>
 $(function(){
 		 $("#ibtn").click(function(){
-			 alert("함수 작동");
+			 //alert("함수 작동");
 			 $(location).attr("href","/plan/planwrite");
 		 })		
 })
@@ -28,7 +28,7 @@ $(function(){
 			var pno = td.eq(0).text();
 			
 			var param = pno
-			 alert(pno+"번 글입니다.");
+			 //alert(pno+"번 글입니다.");
 			 $(location).attr("href","/plan/planview"+'?&planNo='+pno);
 		 })	
 })

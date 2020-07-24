@@ -108,7 +108,7 @@ $(function(){
 		idval.val(myTag);
 	 });
 	 var addr = $("#addr1").val() + $("#addr2").val();
-	 alert(addr);
+	// alert(addr);
 });
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 

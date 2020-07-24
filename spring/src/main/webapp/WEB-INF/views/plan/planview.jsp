@@ -11,7 +11,7 @@
 
 $(function(){
 	 $("#nomodi").click(function(){
-		 alert("함수 작동");
+		 //alert("함수 작동");
 		 $(location).attr("href","../plan/plan");
 		
 	 })
@@ -21,8 +21,13 @@ $(function(){
 		 
 		 $(location).attr("href","./plandelete");
 		 
-		 alert("./plandelete");
+		 //alert("./plandelete");
 	 })
+	 $("#back").click(function(){
+		 alert("일정공유 게시판으로 이동합니다.");
+		 $(location).attr("href","../plan/planSboard");
+	 })
+	 
 	 $("#bla").click(function(){
 		 alert("이전페이지로 이동합니다.")
 		 $(location).attr("href","./planSboard")
@@ -36,7 +41,11 @@ $(function(){
 <title>일정상세보기</title>
 </head>
 <body>
-
+<c:forEach items="${Pdto}" var="list" varStatus="status">
+	<input type="hidden" id="addr1"value="${list.addr1}">
+	<input type="hidden" id="addr2"value="${list.addr2}">
+	<input type="hidden" id="placename" value="${list.place }"> 
+</c:forEach>
 <!-- 이 페이지는 일정을 짜는 페이지이다. 
  일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
    -->
@@ -54,9 +63,13 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 
 // 주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
-
+var addr1 = $('#addr1').val();
+var addr2 = $('#addr2').val();
+var placename = $('#placename').val();
+var addr = addr1 + addr2
+//alert (addr);
 // 주소로 좌표를 검색합니다
-geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
+geocoder.addressSearch(addr, function(result, status) {
 
     // 정상적으로 검색이 완료됐으면 
      if (status === kakao.maps.services.Status.OK) {
@@ -71,7 +84,7 @@ geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function
 
         // 인포윈도우로 장소에 대한 설명을 표시합니다
         var infowindow = new kakao.maps.InfoWindow({
-            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+placename+'</div>'
         });
         
         infowindow.open(map, marker);
@@ -83,6 +96,7 @@ geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function
     } 
 });    
 </script>
+
 <form method="post" action="/plan/planmodifin">
   <c:forEach var="list"  items="${Pdto}"  varStatus="status" >
 	<div class="planlist">
@@ -92,20 +106,17 @@ geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function
 		
 		<div style="float:left; margin-right:10px">여행장소</div>
 		<div>${list.addr1}${list.addr2}</div>
-		
 		<div style="float:left; margin-right:10px">일정제목</div>
 		
 		<div>${list.planTitle}</div>
 		
 		<div style="float:left; margin-right:10px">여행유형</div>
 		<div>
-			
 			<c:if test="${list.planCate eq '가족'}">가족과 함께</c:if>
 			<c:if test="${list.planCate eq '커플'}">커플 여행</c:if>
 			<c:if test="${list.planCate eq '단독'}">나만의 여행</c:if>
 			<c:if test="${list.planCate eq '비즈니스'}">비즈니스 여행</c:if>
 			<c:if test="${list.planCate eq '친구'}">우정 여행</c:if>
-			
 		</div>
 	</div>
   </c:forEach>
@@ -113,10 +124,9 @@ geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function
 	<div style="text-align: center;">
 		<sec:authorize access="isAuthenticated()">
 			<button id="nomodi" type="button" class="btn btn-info">리스트 페이지로</button>
+			<button id="back" type="button" class="btn btn-primary">일정공유 게시판으로</button>
 		</sec:authorize>
-		<sec:authorize access="isAnonymous()">
-			<button id="bla" type="button" class="btn btn-info">이전 페이지로</button>
-		</sec:authorize>
+		
 	</div>
 </form>
 </body>

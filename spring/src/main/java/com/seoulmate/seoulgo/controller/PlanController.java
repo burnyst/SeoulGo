@@ -67,6 +67,7 @@ public PlanService planservice;
 			pdto.get(i).setAddr1(view2.get(0).getAddr1());
 			//view2.get(0).getAdd2();
 			pdto.get(i).setAddr2(view2.get(0).getAddr2());
+			pdto.get(i).setPlace(view2.get(0).getPlace());
 		}
 		mv.setViewName("plan/planmodi");
 		mv.addObject("Pdto",pdto);
@@ -159,6 +160,7 @@ public PlanService planservice;
 			detailview.get(i).setAddr1(view2.get(0).getAddr1());
 			//view2.get(0).getAdd2();
 			detailview.get(i).setAddr2(view2.get(0).getAddr2());
+			detailview.get(i).setPlace(view2.get(0).getPlace());
 		}
 		System.out.println("dtd를 어레이 리스트로-planview : "+detailview);
 		

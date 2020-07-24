@@ -11,7 +11,7 @@
 
 $(function(){
  $("#nomodi").click(function(){
-	 alert("함수 작동");
+	 //alert("함수 작동");
 	 $(location).attr("href","../plan/plan");
 	
  });
@@ -35,6 +35,11 @@ $(function(){
 <title>일정수정하기</title>
 </head>
 <body>
+<c:forEach items="${Pdto}" var="list" varStatus="status">
+	<input type="hidden" id="addr1" value="${list.addr1}"/>
+	<input type="hidden" id="addr2" value="${list.addr2}"/>
+	<input type="hidden" id="placename" value="${list.place}">
+</c:forEach>
 ${Pdto}
 <!-- 이 페이지는 일정을 짜는 페이지이다. 
  일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
@@ -54,7 +59,9 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 var geocoder = new kakao.maps.services.Geocoder();
 var addr1 = $('#addr1').val();
 var addr2 = $('#addr2').val();
+var placename = $('#placename').val();
 var addr = addr1 + addr2
+//alert(addr)
 // 주소로 좌표를 검색합니다
 
 
@@ -76,7 +83,7 @@ geocoder.addressSearch( addr , function(result, status) {
 
         // 인포윈도우로 장소에 대한 설명을 표시합니다
         var infowindow = new kakao.maps.InfoWindow({
-            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+placename+'</div>'
         });
         
         infowindow.open(map, marker);
@@ -88,10 +95,6 @@ geocoder.addressSearch( addr , function(result, status) {
     } 
 });    
 </script>
-<c:forEach items="${Pdto}" var="list" varStatus="status">
-	<input type="hidden" id="addr1"value="${list.addr1}">
-	<input type="hidden" id="addr2"value="${list.addr1}">
-</c:forEach>
 <form method="post" id="frm" action="/plan/planmodifin">
   <c:forEach var="list"  items="${Pdto}"  varStatus="status" >
 	<div class="planlist">
@@ -118,6 +121,7 @@ geocoder.addressSearch( addr , function(result, status) {
 		</div>
 	</div>
   </c:forEach>
+
 	<div style="height:250px;">여기는 사진이 출력되어 나올 위치입니다. </div>
 	<div style="text-align: center;">
 		<input type="submit" class="btn btn-primary"  value="수정하기"/>
