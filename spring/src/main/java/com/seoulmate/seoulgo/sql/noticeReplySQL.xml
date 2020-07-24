@@ -15,7 +15,9 @@
 		select *
 		from noticeReply
 		where nNo=#{nNo}
-		order by nrNo DESC
+		start with nrParent=0
+		connect by prior nrNo = nrParent
+		order siblings by nrNo DESC, nrParent DESC
 	</select>
 
 	<!-- 댓글 작성 -->
@@ -23,8 +25,10 @@
 		insert into noticeReply
 		values 
 		(
-			(select NVL(MAX(nrNo),0)+1 from noticeReply), #{nNo},
-			(select memberID from member_t where memberID=#{memberID}), #{nrContent}, SYSDATE
+		    (select NVL(MAX(nrNo),0)+1 from noticeReply), 
+		    #{nNo},
+		    (select memberID from member_t where memberID=#{nrWriter}), 
+		    #{nrContent}, SYSDATE, #{nrParent}, #{nrOrder}
 		)
 	</insert>
 </mapper>

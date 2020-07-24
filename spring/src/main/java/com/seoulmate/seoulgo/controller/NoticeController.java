@@ -31,11 +31,11 @@ public class NoticeController {
 		// 작성 댓글의 해당 공지사항 정보 가져오기
 		int nNo = Integer.parseInt(request.getParameter("nNo"));
 		
-		// 댓글 작성자(회원) 정보 가져오기
+		// 댓글 작성자(= 현재 로그인한 회원) 정보 가져오기
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String memberID = principal.toString();
+		String nrWriter = principal.toString();
 		
-		nrdto.setNrWriter(memberID);
+		nrdto.setNrWriter(nrWriter);
 		nrdto.setnNo(nNo);
 		nrdto.setNrContent(nrContent);
 		nService.replyProc(nrdto);
@@ -116,10 +116,6 @@ public class NoticeController {
 	@RequestMapping("/list")
 	public void list(NoticeDTO ndto, Model model) {
 		ArrayList<NoticeDTO> list = nService.list(ndto);
-		// 관리자 권한 가져오기
-		String mLevel = nService.findMlevel(ndto);
-				
-		model.addAttribute("mLevel", mLevel);
 		model.addAttribute("LIST", list);
 	}
 	

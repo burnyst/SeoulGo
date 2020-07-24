@@ -17,7 +17,7 @@
 </head>
 <body>
 	<table class="table table-hover">
-		<thead>
+		<thead class="thead-light">
 			<tr>
 				<th class="text-center">공지번호</th>
 				<th class="text-center">공지제목</th>
@@ -42,7 +42,7 @@
 							</td>
 							<td class="text-center">${list.nTitle}</td>
 							<td class="text-center">
-								<c:if test="${'ROLE_ADMIN' eq mLevel}">
+								<c:if test="${list.nWriter ne null}">
 									<c:out value="관리자"></c:out>
 								</c:if>
 							</td>
