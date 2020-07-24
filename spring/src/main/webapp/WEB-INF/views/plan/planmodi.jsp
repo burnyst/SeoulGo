@@ -61,7 +61,7 @@ var addr1 = $('#addr1').val();
 var addr2 = $('#addr2').val();
 var placename = $('#placename').val();
 var addr = addr1 + addr2
-//alert(addr)
+//alert(addr);
 // 주소로 좌표를 검색합니다
 
 
