@@ -13,16 +13,19 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.seoulmate.seoulgo.dto.MemberDTO;
 import com.seoulmate.seoulgo.dto.PlaceDto;
 import com.seoulmate.seoulgo.dto.ReviewDTO;
 import com.seoulmate.seoulgo.page.PlacePage;
 import com.seoulmate.seoulgo.page.ReviewPage;
+import com.seoulmate.seoulgo.service.MemberService;
 import com.seoulmate.seoulgo.service.ReviewService;
 import com.seoulmate.seoulgo.util.FileUtil;
 
@@ -32,11 +35,12 @@ public class ReviewController {
 
 	@Autowired
 	ReviewService rService;
+	@Autowired
+	MemberService mService;
 	
 	// 1. 장소 리스트 폼 보기
 	@RequestMapping("PlaceListView")
 	public String getPlaceListViewForm(PlacePage placePage, Model model) {
-		System.out.println("ReviewController.getPlaceListViewForm()- 장소 목록 보기 진입");
 		// 해당 페이지에 출력할 목록조회
 		model.addAttribute("list", rService.getPlaceListView(placePage));
 		// 페이징처리
@@ -47,22 +51,25 @@ public class ReviewController {
 	// 2. 리뷰 작성 폼 보기
 	@RequestMapping("writeReview")
 	public String getwriteReviewForm(Model model, HttpServletRequest request) {
-		System.out.println("getwriteReviewForm() 진입");
 		// 파라미터 placeNo=글번호
 		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
+
+		// 로그인 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String mem_id = principal.toString();
 		
+		// 장소정보 가져오기
 		ArrayList<PlaceDto> Info = rService.getPlaceInfo(placeNo);
-		
-		// Model&View
+
 		request.setAttribute("placeNo", placeNo);
 		request.setAttribute("Info",Info);
+		request.setAttribute("mem_id", mem_id);
 		return "review/writeReview";
 	}
 	
 	// 2.1. 글 작성 처리
 	@RequestMapping("writeProc")
 	public String writeProc(ReviewDTO rDTO, HttpSession session, HttpServletRequest request) {
-		System.out.println("ReviewController.writeProc()- 글 작성 처리");
 		// 파라미터 placeNo=글번호
 		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
 				
@@ -98,49 +105,50 @@ public class ReviewController {
 			map.put("len", file.length());
 			list.add(map);
 		}
-		
-		// 비즈니스로직 처리
+
 		rService.insertReview(rDTO, session, list);
 		
-		// View 처리
 		return "redirect:http://localhost:9000/review/detailView?placeNo="+placeNo;
 	}
 
 	// 3. 리뷰 상세 폼 보기
 	@RequestMapping("detailView")
-	public String getDetailViewForm(ReviewPage reviewPage, HttpServletRequest request, ReviewDTO rDTO)
+	public String getDetailViewForm(ReviewPage reviewPage, HttpServletRequest request)
 	{
-		System.out.println("ReviewController.getDetailViewForm- 리뷰 상세 보기 진입");
-		// 파라미터 placeNo=장소번호
 		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
 		
-		// 비즈니스 로직
 		ArrayList<PlaceDto> Info = rService.getPlaceInfo(placeNo);		// 장소 목록 조회
 		reviewPage.setPlaceNo(placeNo);
-		ArrayList<ReviewDTO> list = rService.getDetailList(reviewPage);	// 리뷰 상세 내용 조회
+		ArrayList<ReviewDTO> review = rService.getDetailList(reviewPage);	// 리뷰 상세 내용 조회
 		
-		// Model
+		// 로그인 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String mem_id = principal.toString();
+		// 권한 가져오기
+		MemberDTO mdto = mService.findMember(mem_id);
+		
+		request.setAttribute("mem", mdto);
 		request.setAttribute("placeNo", placeNo);
 		request.setAttribute("Info",Info);
-		request.setAttribute("rDTO",list);
+		request.setAttribute("review",review);
 		request.setAttribute("page", reviewPage);
 		
-		// 4. View
 		return "review/detailView";
 	} 
 	
 	// 4. 리뷰 수정 폼 보기
 	@RequestMapping("modifyReview")
 	public String getModifyViewForm(Model model, HttpServletRequest request) {
-		System.out.println("getModifyViewForm() 진입");
 		// 파라미터 placeNo=글번호
 		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
-		int rno = Integer.parseInt(request.getParameter("rno"));
+		int rNo = Integer.parseInt(request.getParameter("rNo"));
+		
 		ArrayList<PlaceDto> Info = rService.getPlaceInfo(placeNo);
 		
 		request.setAttribute("placeNo", placeNo);
-		request.setAttribute("rno", rno);
+		request.setAttribute("rNo", rNo);
 		request.setAttribute("Info",Info);
+		
 		return "review/modifyReview";
 	}
 	
@@ -148,11 +156,10 @@ public class ReviewController {
 	@RequestMapping("modifyProc")
 	public String modifyProc(ReviewDTO rDTO, HttpSession session, HttpServletRequest request)
 	{
-		System.out.println("ReviewController.modifyProc()- 글 수정 처리");
 		// 파라미터 placeNo=글번호
 		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
-		int rno = Integer.parseInt(request.getParameter("rno"));
-		rDTO.setrNo(rno);
+		int rNo = Integer.parseInt(request.getParameter("rNo"));
+		rDTO.setrNo(rNo);
 		
 		// 1.첨부파일 확인
 		boolean isUpload = false;
@@ -163,7 +170,6 @@ public class ReviewController {
 				break; 
 			}
 		}
-				
 		String path="D:\\upload";
 		ArrayList fileList = new ArrayList();
 				
@@ -200,7 +206,7 @@ public class ReviewController {
 					
 			//	4-1)과거에 업로드한 파일을 삭제
 			// 		4-1-1)과거에 업로드한 파일의 정보를 DB에서 가져오기
-			ArrayList<ReviewDTO> list =	rService.getFileInfo(rno);
+			ArrayList<ReviewDTO> list =	rService.getFileInfo(rNo);
 			System.out.println(list);
 				if( list!=null && list.size()!=0 ) { 
 					for(int i=0; i<list.size(); i++) {
@@ -216,7 +222,7 @@ public class ReviewController {
 					}
 				}
 			//  4-2)DB에서 첨부파일정보 삭제(upload 폴더 내에서 삭제했으니 DB에서도 지우자.)
-			rService.deleteFileInfo(rno);
+			rService.deleteFileInfo(rNo);
 			
 			//  4-3)DB에    첨부파일정보 등록
 			for(int i=0; i<fileList.size(); i++) {
@@ -243,20 +249,16 @@ public class ReviewController {
 	// 5. 리뷰 삭제 
 	@RequestMapping("deleteReview")
 	public String deleteReview(ReviewDTO rDTO, HttpServletRequest request) {
-		System.out.println("deleteReview() 진입");
 		
-		// 파라미터 받기 placeNo = 장소 번호, rno = 글 번호
+		// 파라미터 받기 placeNo = 장소 번호, rNo = 글 번호
 		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
-		int rno = Integer.parseInt(request.getParameter("rno"));
+		int rNo = Integer.parseInt(request.getParameter("rNo"));
 		
-		// 비즈니스 로직
 		rDTO.setplaceNo(placeNo);
-		rDTO.setrNo(rno);
+		rDTO.setrNo(rNo);
 		
-		// Model
 		rService.deleteReview(rDTO);
 		
-		// View
 		return "redirect:../review/detailView?placeNo="+placeNo;
 	}
 	// 작성일(String->Date) 타입 변환 메서드
@@ -269,20 +271,21 @@ public class ReviewController {
 	@RequestMapping("goodcnt")
 	public String goodcnt(ReviewDTO rDTO, HttpServletRequest request, HttpServletResponse response) 
 			throws IOException {
-		// 파라미터 받기 placeNo = 장소 번호, rno = 글 번호
+		// 파라미터 받기 placeNo = 장소 번호, rNo = 글 번호
 		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
 		int rNo = Integer.parseInt(request.getParameter("rNo"));
-		String memberID = request.getParameter("memberID");
-		System.out.println("placeNo="+placeNo+", rNo="+rNo+", memberID="+memberID);
+		
+		// 로그인 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String mem_id = principal.toString();
 		
 		// DTO에 실어보낼 데이터 세팅
 		rDTO.setplaceNo(placeNo);
 		rDTO.setrNo(rNo);
-		rDTO.setMemberID(memberID); // 현재는 "~~~"로 대체
+		rDTO.setMemberID(mem_id); 
 
 		// 비즈니스 로직
 		int number = rService.goodcheck(rDTO); // 체크	
-		System.out.println("number="+number);
 		if( number == 0 ){
 			rService.goodupdate(rDTO); // 좋아요 +1
 		} else {
@@ -298,7 +301,7 @@ public class ReviewController {
 	@RequestMapping("goodcount")
 	public void goodcount(HttpServletRequest request, HttpServletResponse response) 
 			throws IOException {
-		// 파라미터 받기 placeNo = 장소 번호, rno = 글 번호
+		// 파라미터 받기 placeNo = 장소 번호, rNo = 글 번호
 		int rNo = Integer.parseInt(request.getParameter("rNo"));
 		
 		// 비즈니스 로직 수행
@@ -312,15 +315,18 @@ public class ReviewController {
 	@RequestMapping("badcnt")
 	public String badcnt(ReviewDTO rDTO, HttpServletRequest request, HttpServletResponse response) 
 			throws IOException {
-		// 파라미터 받기 placeNo = 장소 번호, rno = 글 번호
+		// 파라미터 받기 placeNo = 장소 번호, rNo = 글 번호
 		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
-		int rno = Integer.parseInt(request.getParameter("rno"));
-		String memberID = request.getParameter("memberID");
-			
+		int rNo = Integer.parseInt(request.getParameter("rNo"));
+		// 로그인 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String mem_id = principal.toString();
+		
 		// DTO에 실어보낼 데이터 세팅
 		rDTO.setplaceNo(placeNo);
-		rDTO.setrNo(rno);
-		rDTO.setMemberID(memberID); // 현재는 "~~~"로 대체
+		rDTO.setrNo(rNo);
+		rDTO.setMemberID(mem_id); 
+
 
 		// 비즈니스 로직
 		int number = rService.badcheck(rDTO); // 체크	
@@ -340,11 +346,11 @@ public class ReviewController {
 	@RequestMapping("badcount")
 	public void badcount(HttpServletRequest request, HttpServletResponse response) 
 			throws IOException {
-		// 파라미터 받기 placeNo = 장소 번호, rno = 글 번호
-		int rno = Integer.parseInt(request.getParameter("rno"));
+		// 파라미터 받기 placeNo = 장소 번호, rNo = 글 번호
+		int rNo = Integer.parseInt(request.getParameter("rNo"));
 		
 		// 비즈니스 로직 수행
-		int count = rService.badgetcnt(rno); // 싫어요 수 반환
+		int count = rService.badgetcnt(rNo); // 싫어요 수 반환
 		PrintWriter out = response.getWriter();
 		out.println(count);
 		out.close();

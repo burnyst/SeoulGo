@@ -13,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.seoulmate.seoulgo.dao.PlanDAO;
+import com.seoulmate.seoulgo.dto.MemberDTO;
 import com.seoulmate.seoulgo.dto.PlanDTO;
+import com.seoulmate.seoulgo.page.MemberSearchPage;
 import com.seoulmate.seoulgo.page.PageObject;
+import com.seoulmate.seoulgo.page.PlanPage;
 
 
 //이 클래스는 일정짜기의 서비스를 지원하는 서비스 클래스이다.
@@ -23,25 +26,37 @@ public class PlanService {
 	  
 	@Autowired
 	PlanDAO pdao;
-	//내용목록형식으로 보기.
-	public List<PlanDTO> paging(PlanDTO plan) {
-		//페이지 보기 요청이 들어오면 db내의plan 테이블의 정보를 보여주어야 한다.	
-		System.out.println("PlanService의 viewplan 진입"+plan);
-		//null값을 줘도 전체를 셀렉트해서 보여주어야 한다.
-		//dao에서 받은 값을 plandto에 넣어야한다
+	
+	
+	public List<PlanDTO> getplanboard(PlanPage page2) {
 		
-		return pdao.getDown(plan);
+		return (List<PlanDTO>) pdao.getplanboard(page2);
 	}
+	public List<PlanDTO> planview(PlanPage plan) {
+
+		return (List<PlanDTO>)pdao.planview(plan);
+	}
+	public List<PlanDTO> paging(PageObject pInfo) {
+		
+		int start =(pInfo.getPage()-1)*pInfo.getPerPageNum()+1;
+		int end = start+pInfo.getPerPageNum()-1;
+		int perpagenum = pInfo.getPerPageNum();
+		PlanDTO PDTO = new PlanDTO();
+		PDTO.setStart(start);
+		PDTO.setEnd(end);
+		PDTO.setPerpagenum(perpagenum);
+		System.out.println("paging메소드의 start와 end"+start+","+end+perpagenum);
+		ArrayList<PlanDTO> list = (ArrayList<PlanDTO>)pdao.planSboard(PDTO);
+		System.out.println("paging메소드의 list 변수의 값"+list);
+		return list;
+	}
+
 	public ArrayList addrservice(int addrNo) {
 
 		return pdao.addrdao(addrNo);
 	}
-	public List<PlanDTO> planview(PlanDTO plan) {
 
-		return pdao.viewplan(plan);
-	}
-	public ArrayList<PlanDTO> dtoview(int pno) {
-		// TODO Auto-generated method stub
+	public ArrayList<PlanDTO> detailView(int pno) {
 		return pdao.detailView(pno);
 	}
 	
@@ -49,7 +64,7 @@ public class PlanService {
 		// TODO Auto-generated method stub
 		System.out.println("planwritedservice도착 PlanDTO의 값"+plan);
 		Date planDate = null;
-		//임시로 db에 넣은 더미값을 넣었다.
+		//★★임시로 db에 넣은 더미값을 넣었다★★
 		String memberid = "abroad91";
 		String plandate =req.getParameter("plandate");
 		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
@@ -63,15 +78,18 @@ public class PlanService {
 		String planplace = req.getParameter("planplace");
 		String planTitle = req.getParameter("planTitle");
 		String planCate = req.getParameter("plancate");
+		int placeNo = Integer.parseInt(req.getParameter("placeNo"));
 		plan.setMemberid(memberid);
 		plan.setPlanDate(planDate);
 		plan.setPlanplace(planplace);
 		plan.setPlanTitle(planTitle);
 		plan.setPlanCate(planCate);
+		plan.setPlanNo(placeNo);
 		System.out.println("변수를 확인합니다."+plan);
 		pdao.planwriteddao(plan);
 	}
 
+	
 	public void planmodifinservice(PlanDTO plan,HttpServletRequest req) {
 		// TODO Auto-generated method stub
 		System.out.println("planmodifinservice도착");
@@ -102,30 +120,62 @@ public class PlanService {
 		pdao.planmodifin(plan);
 	}
 
-	public void planSboardservice(PlanDTO plan) 
-	{
-		pdao.planSboard(plan);
-		
-	}
-	public PageObject getPageInfo(int nowPage) {
-		int totalCount= pdao.getTotalCnt();
-		
-		//PageUtil(보고싶은페이지,   전체게시물수);
-		//PageUtil(int nowPage, int totalCount);
-		PageObject pInfo = new PageObject(nowPage, totalCount);
-		//PageUtil객체생성자에서는 내부적으로
-		//	한페이지당 보여주고 싶은 게시물의 개수는 3
-		//	페이지 이동 기능은 3개까지 지정
-		return pInfo;
-	}
+
 	public ArrayList<PlanDTO> placeservice(PlanDTO plan) {
-		// TODO Auto-generated method stub
-		
-		
-		
 		ArrayList<PlanDTO> result = pdao.placeview(plan);
 		return result;
 	}
+	
+	
+	//페이지 오브젝트를 활용한 페이징
+
+	public int getTotalRow(PlanPage page2) {
+		return pdao.totalRow(page2);
+	}
+	public int sarchplaceint(PlanPage page) {
+
+		return pdao.sarchplaceint(page);
+	}
+	// 리스트.
+	public List<PlanDTO> getMemberList(PlanPage page) {
+		System.out.println("PlanService.getMemberList()"+page);
+		return pdao.getplanlist(page);
+	}
+	public ArrayList<PlanDTO> placeSarch(PlanPage page) {
+		// TODO Auto-generated method stub
+		return pdao.placeSarch(page);
+	}
+	
+	//일정공유 게시판에 나올 데이터
+	public ArrayList getSBoard(PlanPage page2) {
+		System.out.println("PlanService.getSBoard()"+page2);
+		ArrayList<PlanDTO> result = pdao.getSBoard(page2);
+		return result;
+	}
+
+	public ArrayList<PlanDTO> plist(PlanDTO plan) {
+		
+		ArrayList<PlanDTO> result = pdao.plist(plan);
+		return result;
+	}
+	//placeno를 이용해 place의 모든 정보를 가져오는 메소드
+	public ArrayList choiceplace(int placeNo) {
+		
+		ArrayList<PlanDTO> result = pdao.choiceplace(placeNo);
+		return result;
+	}
+	//memberid를 가져온다
+	public String getmemberid(String memberid) {
+		
+		String result = pdao.getmemberid(memberid);
+		return result;
+	}
+	
+
+	
+
+
+	
 	
 
 }

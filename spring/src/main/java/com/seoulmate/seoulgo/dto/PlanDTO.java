@@ -11,7 +11,7 @@ public class PlanDTO {
 	private String memberid;
 	
 	
-	private String place;
+	private String placename;
 	
 	private String addr1;
 	private String addr2;
@@ -20,20 +20,28 @@ public class PlanDTO {
 	private int		start; 		//시작글번호
 	private	int		end;		//끝글번호
 	private int		nowPage;	//보고싶은 글 번호
-	
-	
+	private int startRow,endRow;//현재 페이지의 첫글과 끝글번호
 	
 
-	
+	private int perpagenum;
+	private int rno ; 
+
+	public int getEndRow() {
+		return endRow;
+	}
+
+	public void setEndRow(int endRow) {
+		this.endRow = endRow;
+	}
 	
 	
 	
 	public String getPlace() {
-		return place;
+		return placename;
 	}
 
 	public void setPlace(String place) {
-		this.place = place;
+		this.placename = place;
 	}
 
 	public String getAddr1() {
@@ -96,9 +104,10 @@ public class PlanDTO {
 	@Override
 	public String toString() {
 		return "PlanDTO [planNo=" + planNo + ", planDate=" + planDate + ", planTitle=" + planTitle + ", planCate="
-				+ planCate + ", memberid=" + memberid + ", place=" + place + ", addr1=" + addr1 + ", addr2=" + addr2
+				+ planCate + ", memberid=" + memberid + ", place=" + placename + ", addr1=" + addr1 + ", addr2=" + addr2
 				+ ", placeNo=" + placeNo + ", addrNo=" + addrNo + ", start=" + start + ", end=" + end + ", nowPage="
-				+ nowPage + "]";
+				+ nowPage + ", startRow=" + startRow + ", endRow=" + endRow + ", perpagenum=" + perpagenum + ", rno="
+				+ rno + "]";
 	}
 
 	public String getMemberid() {
@@ -118,11 +127,11 @@ public class PlanDTO {
 	}
 
 	public String getPlanplace() {
-		return place;
+		return placename;
 	}
 
 	public void setPlanplace(String planplace) {
-		this.place = planplace;
+		this.placename = planplace;
 	}
 
 	public int getPlaceNo() {
@@ -147,6 +156,22 @@ public class PlanDTO {
 
 	public void setAddrNo(int addrNo) {
 		this.addrNo = addrNo;
+	}
+
+	public int getPerpagenum() {
+		return perpagenum;
+	}
+
+	public void setPerpagenum(int perpagenum) {
+		this.perpagenum = perpagenum;
+	}
+
+	public int getRno() {
+		return rno;
+	}
+
+	public void setRno(int rno) {
+		this.rno = rno;
 	}
 	
 

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ taglib prefix ="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,11 +23,11 @@ $(function(){
 		 
 		 alert("./plandelete");
 	 })
+	 $("#bla").click(function(){
+		 alert("이전페이지로 이동합니다.")
+		 $(location).attr("href","./planSboard")
+	 })
 });
-$(document).ready(function(){
-	
-});
-
 </script>
 <style>
 	#planlist{margin-top:20px;}
@@ -35,7 +36,7 @@ $(document).ready(function(){
 <title>일정상세보기</title>
 </head>
 <body>
-${Pdto}
+
 <!-- 이 페이지는 일정을 짜는 페이지이다. 
  일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
    -->
@@ -87,7 +88,7 @@ geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function
 	<div class="planlist">
 		<div style="float:left; margin-right:10px">여행 날짜</div>
 		 <input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
-		<div>${list.planDate}</div>
+		<div><fmt:formatDate value="${list.planDate}" pattern="yyyy년MM월dd일"/></div>
 		
 		<div style="float:left; margin-right:10px">여행장소</div>
 		<div>${list.addr1}${list.addr2}</div>
@@ -98,19 +99,24 @@ geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function
 		
 		<div style="float:left; margin-right:10px">여행유형</div>
 		<div>
-			<select name="plancate" id="plancate">
+			
 			<c:if test="${list.planCate eq '가족'}">가족과 함께</c:if>
 			<c:if test="${list.planCate eq '커플'}">커플 여행</c:if>
 			<c:if test="${list.planCate eq '단독'}">나만의 여행</c:if>
 			<c:if test="${list.planCate eq '비즈니스'}">비즈니스 여행</c:if>
 			<c:if test="${list.planCate eq '친구'}">우정 여행</c:if>
-			</select>
+			
 		</div>
 	</div>
   </c:forEach>
 	<div style="height:250px;">여기는 사진이 출력되어 나올 위치입니다. </div>
 	<div style="text-align: center;">
-		<button id="nomodi" type="button" class="btn btn-info">리스트 페이지로</button>
+		<sec:authorize access="isAuthenticated()">
+			<button id="nomodi" type="button" class="btn btn-info">리스트 페이지로</button>
+		</sec:authorize>
+		<sec:authorize access="isAnonymous()">
+			<button id="bla" type="button" class="btn btn-info">이전 페이지로</button>
+		</sec:authorize>
 	</div>
 </form>
 </body>

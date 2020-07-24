@@ -1,9 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
-<%@ taglib  prefix="spring" uri="http://www.springframework.org/tags" %>  
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>  
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<c:set var="basePath" value="${pageContext.request.contextPath}" />
+<c:set var="resourcePath" value="${basePath}/resources" />
+<c:set var="imagePath" value="${resourcePath}/img" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -19,6 +24,12 @@
 <script src="${pageContext.request.contextPath}/resources/js/review/deleteReview.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/review/gbcnt.css">
 <link rel=”stylesheet” href=”http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css“>
+<style type="text/css">
+	#pro {
+		width: 50px;
+		height: 50px;
+	}
+</style>
 </head>
 <body>
 <div class="text">
@@ -31,17 +42,22 @@
 	</c:forEach>
 </div>
 <hr>
-
-<c:forEach items="${rDTO}" var="review">	
-	<div class="container">
+<c:forEach items="${review}" var="review">	
+<div class="container">
 	<input type="hidden" value="${review.rNo}" name="rNo">
+	<input type="hidden" value="${review.memberID}" name="dmemberID">
 	<!-- 작성자 정보 표시 div -->
-		<div class="row">
-			<div>
-				<img src="<spring:url value='/resources/img/review/11.jpg'/>" width="50" height="50">
+	<div class="row">
+			<div id="profilepic">
+				<c:if test="${review.proSaveName ne null}">
+					<img id="pro" src="${imagePath}/member/${review.proSaveName}">
+				</c:if>
+				<c:if test="${review.proSaveName eq null}">
+					<img id="pro" src="${imagePath}/member/default.png">
+				</c:if>
 			</div>
 			<div class="col-sm-8">
-				<span>작성자 아이디</span>&nbsp;가 &nbsp;&nbsp;<span><fmt:formatDate value="${review.rDate}" pattern="yyyy년 MM월 dd일 "/>에</span>&nbsp;작성한 리뷰입니다.<br>
+				<span>${review.memberID}</span>&nbsp;가 &nbsp;&nbsp;<span><fmt:formatDate value="${review.rDate}" pattern="yyyy년 MM월 dd일 "/>에</span>&nbsp;작성한 리뷰입니다.<br>
 				<span>00 건의 다른 장소 리뷰&nbsp;&nbsp;
 				<button style="border:0; outline:0; background: none; font-size:15px;"><b>더보기</b></button></span>
 			</div>
@@ -53,13 +69,17 @@
 			<a href="../review/writeReview?placeNo=${dto.placeNo}" style="text-decoration:none;">
 				<input type="button" class="btn btn-outline-primary btn-sm" id="wBtn" value="리뷰 작성"/>
 			</a>
-			<a href="../review/modifyReview?placeNo=${dto.placeNo}&rno=${review.rNo}" style="text-decoration:none;">
-				<input type="button" class="btn btn-outline-primary btn-sm" id="mBtn" value="리뷰 수정"/>
-			</a>
-			<a href="../review/deleteReview?placeNo=${dto.placeNo}&rno=${review.rNo}" style="text-decoration:none;">
-				<input type="button" class="btn btn-outline-secondary btn-sm" id="dBtn" value="리뷰 삭제"/>
-			</a>
-			<input type="button" class="btn btn-outline-info btn-sm" id="pBtn" value="사진 보기"/>
+			<c:if test="${review.memberID eq mem.memberID || fn:contains(mem.mLevel,'ROLE_ADMIN')}">
+				<a href="../review/modifyReview?placeNo=${dto.placeNo}&rNo=${review.rNo}" style="text-decoration:none;">
+					<input type="button" class="btn btn-outline-primary btn-sm" id="mBtn" value="리뷰 수정"/>
+				</a>
+				<a href="../review/deleteReview?placeNo=${dto.placeNo}&rNo=${review.rNo}" style="text-decoration:none;">
+					<input type="button" class="btn btn-outline-secondary btn-sm" id="dBtn" value="리뷰 삭제"/>
+				</a>
+			</c:if>
+			<sec:authorize access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')">
+				<input type="button" class="btn btn-outline-info btn-sm" id="pBtn" value="사진 보기"/>
+			</sec:authorize>
 		</c:forEach>
 		</div>
 		<br>
@@ -105,19 +125,20 @@
 			<span>여행 유형 : ${review.rCate}</span>
 		</div>
 		<br>
-		
-		<div>
-			<!-- 좋아요 -->
-			<button class="btn btn-outline-success btn-sm" id="good_update${review.rNo}">
-			<i class="far fa-thumbs-up faPointer"></i>
-			&nbsp; 좋아요 : <span class="good_count${review.rNo}"></span>
-			</button>
-			<!-- 싫어요 -->
-			<button class="btn btn-outline-danger btn-sm" id="bad_update${review.rNo}">
-			<i class="far fa-thumbs-down faPointer"></i>
-			&nbsp; 싫어요 : <span class="bad_count${review.rNo}"></span>
-			</button>
-		</div>
+		<sec:authorize access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')">	
+			<div>
+				<!-- 좋아요 -->
+				<button class="btn btn-outline-success btn-sm" id="good_update${review.rNo}">
+				<i class="far fa-thumbs-up faPointer"></i>
+				&nbsp; 좋아요 : <span class="good_count${review.rNo}"></span>
+				</button>
+				<!-- 싫어요 -->
+				<button class="btn btn-outline-danger btn-sm" id="bad_update${review.rNo}">
+				<i class="far fa-thumbs-down faPointer"></i>
+				&nbsp; 싫어요 : <span class="bad_count${review.rNo}"></span>
+				</button>
+			</div>
+		</sec:authorize>
 	</div>
 </div>
 <hr>

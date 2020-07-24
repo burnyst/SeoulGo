@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
-<%@ taglib  prefix="spring" uri="http://www.springframework.org/tags" %>  
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %> 
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> 
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -64,6 +65,7 @@
 
 <form action="writeProc?placeNo=${placeNo}" method="post" encType="multipart/form-data">
 	<input type="hidden" name="placeNo" value="${placeNo}"/>
+	<input type="hidden" name="memberID" value="${mem_id}"/>
 	<table class="table table-hover">
 		<thead class="thead-light">
 			<tr>

@@ -7,8 +7,10 @@ $(function(){
 	// 글번호
 	var goodrNoArr = document.getElementsByName("rNo");
 	var list = new Array();	
+	
 	for (let i=0; i<goodrNoArr.length; i++){
 		list[i]= parseInt(goodrNoArr[i].value)
+	
 	// 추천버튼 클릭시(추천 추가 또는 추천 제거)
 	$("#good_update"+goodrNoArr[i].value).click(function(){
 		 if (confirm("추천은 한번만 가능합니다. 다시 누르면 취소됩니다.")) {
@@ -17,8 +19,7 @@ $(function(){
 	            type: "POST",
 	            data: {
 	           		rNo: list[i],
-					placeNo: dplaceNo,
-	               	memberID: "TEST690"
+					placeNo: dplaceNo
 	       		},
 	            success: function(){
 			    	goodCount();

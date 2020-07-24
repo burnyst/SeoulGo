@@ -3,9 +3,11 @@ $(function(){
 	// 장소번호
 	var dplaceNo = document.getElementsByName("dplaceNo");
 		dplaceNo = parseInt(dplaceNo[0].value)
+		
 	// 글번호
 	var badrNoArr = document.getElementsByName("rNo");
 	var list = new Array();	
+	
 	for (let i=0; i<badrNoArr.length; i++){
 		list[i]= parseInt(badrNoArr[i].value)
 	// 추천버튼 클릭시(추천 추가 또는 추천 제거)
@@ -15,9 +17,8 @@ $(function(){
 				url: "/review/badcnt",
 	            type: "POST",
 	            data: {
-	           		rno: list[i],
-					placeNo: dplaceNo,
-	               	memberID: "TEST690"
+	           		rNo: list[i],
+					placeNo: dplaceNo
 	       		},
 	            success: function(){
 			    	badCount();
@@ -35,7 +36,7 @@ $(function(){
 			url: "/review/badcount",
         	type: "POST",
         	data: {
-        		rno: list[i],
+        		rNo: list[i],
         		placeNo: dplaceNo
          	},
         	success: function (count) {

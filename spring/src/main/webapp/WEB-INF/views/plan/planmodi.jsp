@@ -6,6 +6,7 @@
 <html>
 <head>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04926447ff4e969a08d92e18379b0176&libraries=services"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
 $(function(){
@@ -22,6 +23,9 @@ $(function(){
 		 
 		 alert("./plandelete");
 	 })
+	  
+var address1 = ($('#planplace').val())
+alert (address1);
 });
 $(document).ready(function(){
 	
@@ -47,7 +51,6 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
         level: 3 // 지도의 확대 레벨
     };  
-
 // 지도를 생성합니다    
 var map = new kakao.maps.Map(mapContainer, mapOption); 
 
@@ -55,13 +58,15 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 var geocoder = new kakao.maps.services.Geocoder();
 
 // 주소로 좌표를 검색합니다
-geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
 
+
+geocoder.addressSearch(address1, function(result, status) {
+alert (status);
     // 정상적으로 검색이 완료됐으면 
      if (status === kakao.maps.services.Status.OK) {
-
+    	
         var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
+        
         // 결과값으로 받은 위치를 마커로 표시합니다
         var marker = new kakao.maps.Marker({
             map: map,
@@ -90,7 +95,7 @@ geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function
 		<div><input type="date" id="plandate" name="plandate" value="${list.planDate}"></div>
 		
 		<div style="float:left; margin-right:10px">여행장소</div>
-		<div><input type="text" id="planplace" name="planplace" value="${list.addr1}${list.addr2}" readonly="readonly"></div>
+		<div id="place"><input type="text" id="planplace" name="planplace" value="${list.addr1}${list.addr2}" readonly="readonly"></div>
 		
 		<div style="float:left; margin-right:10px">일정제목</div>
 		
