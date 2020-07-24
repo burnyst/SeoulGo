@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix ="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,7 +52,6 @@ http://127.0.0.1:9000/plan/plan
 				</td>
 			</tr>	
 		</c:if>
-		
 			<c:forEach var="list" items="${plist}"  varStatus="status">
 			<form method="post" id="planlist" name="planlist" action="/plan/planmodi">
 					<tr>

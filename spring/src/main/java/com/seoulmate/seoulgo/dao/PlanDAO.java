@@ -73,6 +73,12 @@ public class PlanDAO {
 		int result = session.selectOne("plandata.totalCnt",page2);
 		return result;
 	}
+	//개인창의 총 게시글 조회
+	public int personrow(PlanPage page2) {
+		
+		int result = session.selectOne("personalCnt",page2);
+		return result;
+	}
 	//place의 총 게시글 조회
 	public int sarchplaceint(PlanPage page) {
 		int result = session.selectOne("plandata.placetotalCnt",page);
@@ -115,6 +121,11 @@ public class PlanDAO {
 		String result = session.selectOne("plandata.getmemberid",memberid); 
 		return result;
 	}
+	public void deleteplan(int planno) {
+
+		session.delete("plandata.deleteplan", planno);
+	}
+	
 	
 	
 

@@ -90,6 +90,7 @@ $(function(){
 	 });
 	 
 });
+
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 mapOption = {
     center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -103,7 +104,7 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 var geocoder = new kakao.maps.services.Geocoder();
 
 //주소로 좌표를 검색합니다
-geocoder.addressSearch('목동로 23길', function(result, status) {
+geocoder.addressSearch('세종로 사직로 161', function(result, status) {
 
 // 정상적으로 검색이 완료됐으면 
  if (status === kakao.maps.services.Status.OK) {
@@ -118,7 +119,7 @@ geocoder.addressSearch('목동로 23길', function(result, status) {
 
     // 인포윈도우로 장소에 대한 설명을 표시합니다
     var infowindow = new kakao.maps.InfoWindow({
-        content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+        content: '<div style="width:150px;text-align:center;padding:6px 0;">광화문</div>'
     });
     infowindow.open(map, marker);
 
@@ -128,18 +129,6 @@ geocoder.addressSearch('목동로 23길', function(result, status) {
 });    
 
 </script>
-	<div id="clickLatlng"></div>
-<div style="float:left">
-	<div class="dropdown">
-  	<button onclick="dropdownfunction()" class="dropbtn">일정장소</button>
-	  	<div id="myDropdown" class="dropdown-content">
-		    <a href="/plan/planwrite/iljung1" onclick="javascript:document.myform.submit">장소1</a>
-		    <a href="/plan/planwrite/iljung2">장소2</a>
-		    <a href="/plan/planwrite/iljung3">장소3</a>
-	  	</div>
-	</div>
-</div>
-
 <form action="/plan/planwrited" method="post">
 	<div id="planlist" style="margin-top: 100px;">
 		<div style="float:left; margin-right:10px">여행날짜</div> 
