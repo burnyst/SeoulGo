@@ -15,18 +15,6 @@
 		<result property="placeNo" column="placeNo" />
 		<result property="proSaveName" column="proSaveName"/>
 	</resultMap>
-	<!-- SQL 재사용을 위한 sql 조각 정의 
-		- SELECT 구문에서는 삭제여부가 계속 요구된다.
-	-->
-	<sql id="rIsShow">
-		RISSHOW = 1
-	</sql>
-	<sql id="whereplace">
-		WHERE	placeNo
-	</sql>
-	<sql id="whererno">
-		WHERE	RNO
-	</sql>
 
 	<!-- 글쓰기 처리 -->
 	<insert id="writeProc" parameterType="rdto">
@@ -53,8 +41,8 @@
  	<select id="getCount" resultType="Integer">
 	 	SELECT 	COUNT(*) 
 	 	FROM 	REVIEWBOARD
- 		<include refid="whereplace"/> = #{placeNo}
- 		AND <include refid="rIsShow"/>
+ 		WHERE	PLACENO = #{placeNo}
+ 		AND 	RISSHOW = 1
  	</select>
 	
 	<!-- 상세 리뷰 조회-->
@@ -80,7 +68,7 @@
 	<!-- 글수정 -->
 	<!-- update 그 자체로 끝이므로 resultType 필요 없다. -->
 	<update id="modifyReview" parameterType="rdto">
-		UPDATE REVIEWBOARD
+		UPDATE 	REVIEWBOARD
 		SET		RRATE = #{rRate},
 				RTITLE = #{rTitle},
 				RCONTENT = #{rContent},
@@ -113,11 +101,11 @@
 	
 	<!-- 동일 게시글 추천 여부 검색(GOOD) -->
 	<select id="goodCheck" parameterType="rdto" resultType="Integer">
-		SELECT COUNT(*)
-		FROM GOODCNT
+		SELECT 	COUNT(*)
+		FROM 	GOODCNT
 		WHERE 	MEMBERID= #{memberID}
 		AND		RNO		= #{rNo}
-		AND		placeNo	= #{placeNo}
+		AND		PLACENO	= #{placeNo}
 	</select>
 	
 	<!-- 게시글 추천(GOOD) -->
@@ -130,26 +118,27 @@
 	
 	<!-- 게시글 추천 취소(GOOD) -->
 	<delete id="goodDelete" parameterType="rdto">
-		DELETE FROM GOODCNT
+		DELETE 	
+		FROM 	GOODCNT
 		WHERE	MEMBERID= #{memberID}
 		AND		RNO		= #{rNo}		
-		AND		placeNo	= #{placeNo}
+		AND		PLACENO	= #{placeNo}
 	</delete>
 	
 	<!-- 게시글 추천수(GOOD) -->
 	<select id="goodCount" parameterType="int" resultType="Integer">
-		SELECT COUNT(*)
-		FROM GOODCNT
+		SELECT 	COUNT(*)
+		FROM 	GOODCNT
 		WHERE	RNO = #{rNo}
 	</select>
 	
 	<!-- 동일 게시글 추천 여부 검색(BAD) -->
 	<select id="badCheck" parameterType="rdto" resultType="Integer">
-		SELECT COUNT(*)
-		FROM BADCNT
+		SELECT 	COUNT(*)
+		FROM 	BADCNT
 		WHERE 	MEMBERID= #{memberID}
 		AND		RNO		= #{rNo}
-		AND		placeNo	= #{placeNo}
+		AND		PLACENO	= #{placeNo}
 	</select>
 	
 	<!-- 게시글 추천(BAD) -->
@@ -162,16 +151,17 @@
 	
 	<!-- 게시글 추천 취소(BAD) -->
 	<delete id="badDelete" parameterType="rdto">
-		DELETE FROM BADCNT
+		DELETE 	
+		FROM 	BADCNT
 		WHERE	MEMBERID= #{memberID}
 		AND		RNO		= #{rNo}		
-		AND		placeNo	= #{placeNo}
+		AND		PLACENO	= #{placeNo}
 	</delete>
 	
 	<!-- 게시글 추천수(BAD) -->
 	<select id="badCount" parameterType="int" resultType="Integer">
-		SELECT COUNT(*)
-		FROM BADCNT
+		SELECT 	COUNT(*)
+		FROM 	BADCNT
 		WHERE	RNO = #{rNo}
 	</select>
 </mapper>

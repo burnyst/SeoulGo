@@ -13,6 +13,7 @@ function dropdownfunction() {
   document.getElementById("myDropdown").classList.toggle("show");
 }
 $(function(){
+	
 	 $("#backBtn").click(function(){
 		 alert("함수 작동");
 		 $(location).attr("href","../plan/plan");
@@ -21,7 +22,9 @@ $(function(){
 		 alert("장소검색페이지로 넘어갑니다.");
 		 $(location).attr("href","../plan/placesarch")
 	 })
+	 
 })
+
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
@@ -77,9 +80,26 @@ window.onclick = function(event) {
 <!-- 이 페이지는 일정을 짜는 페이지이다. 
  일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
    -->
-<c:forEach items="${place }" var="list"></c:forEach>
-<div id="map" style="width:500px;height:400px;float:left;'" ></div>
+<c:forEach items="${place }" var="list">
 	<script>
+		
+	</script>
+</c:forEach>
+<div id="map" style="width:500px;height:400px;float:left;'" ></div>
+<script>
+// url 에서 parameter 추출
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+var addr1 = getParameterByName("addr1");
+var addr2 = getParameterByName("addr2");
+var placename = getParameterByName("placename");
+var addr = addr1+addr2
+
+//	
 $(function(){
 	var idval =$('#planCate');
 	 $('#plancate').change(function(){
@@ -87,7 +107,10 @@ $(function(){
 		var myTag = element.attr('value');
 		idval.val(myTag);
 	 });
+	 var addr = $("#addr1").val() + $("#addr2").val();
+	// alert(addr);
 });
+
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 mapOption = {
     center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -101,7 +124,8 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 var geocoder = new kakao.maps.services.Geocoder();
 
 //주소로 좌표를 검색합니다
-geocoder.addressSearch('목동로 23길', function(result, status) {
+
+geocoder.addressSearch( addr , function(result, status) {
 
 // 정상적으로 검색이 완료됐으면 
  if (status === kakao.maps.services.Status.OK) {
@@ -113,10 +137,10 @@ geocoder.addressSearch('목동로 23길', function(result, status) {
         map: map,
         position: coords
     });
-
+    
     // 인포윈도우로 장소에 대한 설명을 표시합니다
     var infowindow = new kakao.maps.InfoWindow({
-        content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+        content: '<div style="width:150px;text-align:center;padding:6px 0;">'+placename+'</div>'
     });
     infowindow.open(map, marker);
 

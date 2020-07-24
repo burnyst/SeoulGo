@@ -73,6 +73,7 @@ select *  from (
    	    PLACE.ADDR2 , 
    	    rownum as rnum from plan,planplace,place
             where plan.planno=planplace.planno and planplace.placeno=place.placeno
+            and plan.memberid=#{memberid}
             order by plan.planno desc
 		) where rnum between #{startRow} and #{endRow}
 		
@@ -84,6 +85,9 @@ select *  from (
 </select>
 <select id="placetotalCnt" resultType="int">
 	select count(*) from place
+</select>
+<select id="personalCnt" resultType="int">
+	select count(*) from plan where memberid=#{memberid}
 </select>
 <!--planSboard에서 보여지는데이터들  -->
 <select id="plandatav" parameterType="pdto" resultType="pdto">
@@ -165,7 +169,7 @@ select *  from (
                                          WHERE #{pno}=P1.PLANNO)
 </select>
 <select id="addr2" parameterType="int" resultType="pdto">
-select addr1, addr2 
+select addr1, addr2 ,PLACENAME
 	from place
     	where placeNo in (select placeNo from PLANPLACE, plan
         	where #{addrNo}=planplace.planNo)     
@@ -208,7 +212,9 @@ select addr1, addr2
 	<!-- values( #{no}, #{oriName},#{saveName},#{len},#{path} ) -->
 	<!-- select   NVL(MAX(bNo),0)+1   from  fileBoard -->
 	<!-- 전체게시물 수 조회 -->
-	
+	<delete id="deleteplan" parameterType="int">
+		delete plan where PLANNO = #{planno}
+	</delete>
 </mapper>	
 
 

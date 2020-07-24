@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.seoulmate.seoulgo.dao.PlanDAO;
@@ -64,8 +65,9 @@ public class PlanService {
 		// TODO Auto-generated method stub
 		System.out.println("planwritedservice도착 PlanDTO의 값"+plan);
 		Date planDate = null;
-		//★★임시로 db에 넣은 더미값을 넣었다★★
-		String memberid = "abroad91";
+		//현재 로그인한 유저의 아이디
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String mem_id = principal.toString();
 		String plandate =req.getParameter("plandate");
 		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
 		try {
@@ -79,7 +81,7 @@ public class PlanService {
 		String planTitle = req.getParameter("planTitle");
 		String planCate = req.getParameter("plancate");
 		int placeNo = Integer.parseInt(req.getParameter("placeNo"));
-		plan.setMemberid(memberid);
+		plan.setMemberid(mem_id);
 		plan.setPlanDate(planDate);
 		plan.setPlanplace(planplace);
 		plan.setPlanTitle(planTitle);
@@ -91,7 +93,6 @@ public class PlanService {
 
 	
 	public void planmodifinservice(PlanDTO plan,HttpServletRequest req) {
-		// TODO Auto-generated method stub
 		System.out.println("planmodifinservice도착");
 		Date planDate = null;
 		String plandate =req.getParameter("plandate");
@@ -132,6 +133,10 @@ public class PlanService {
 	public int getTotalRow(PlanPage page2) {
 		return pdao.totalRow(page2);
 	}
+	public int personrow(PlanPage page2) {
+		
+		return pdao.personrow(page2);
+	}
 	public int sarchplaceint(PlanPage page) {
 
 		return pdao.sarchplaceint(page);
@@ -170,6 +175,10 @@ public class PlanService {
 		String result = pdao.getmemberid(memberid);
 		return result;
 	}
+	public void plandelete(int planno) {
+		pdao.deleteplan(planno);
+	}
+	
 	
 
 	

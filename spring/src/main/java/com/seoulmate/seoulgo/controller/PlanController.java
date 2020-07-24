@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,18 +31,14 @@ public PlanService planservice;
 	public ModelAndView planpage(
 			ModelAndView mv, PlanDTO plan  ,Model model,PlanPage page2,HttpSession session)throws Exception{
 		System.out.println("planpage진입요청함수");
-		//페이징관련 준비(페이지 숫자)
-//		2-2) 해당 페이지에 출력할 목록조회
-//		String memberid=null;
-//		memberid=session.getId();
-//		System.out.println(memberid);
-//		memberid=planservice.getmemberid(memberid);
-//		if(memberid==null) {
-//			mv.setViewName("place/list");
-//			return mv;
-//		}
+
 		
-		int TotalRow = planservice.getTotalRow(page2);
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String mem_id = principal.toString();
+		System.out.println(mem_id);
+		page2.setMemberid(mem_id);
+		
+		int TotalRow = planservice.personrow(page2);
 		page2.setTotalRow(TotalRow);
 		
 		ArrayList<PlanDTO> pdto = (ArrayList) planservice.getplanboard(page2);
@@ -70,6 +67,7 @@ public PlanService planservice;
 			pdto.get(i).setAddr1(view2.get(0).getAddr1());
 			//view2.get(0).getAdd2();
 			pdto.get(i).setAddr2(view2.get(0).getAddr2());
+			pdto.get(i).setPlace(view2.get(0).getPlace());
 		}
 		mv.setViewName("plan/planmodi");
 		mv.addObject("Pdto",pdto);
@@ -162,6 +160,7 @@ public PlanService planservice;
 			detailview.get(i).setAddr1(view2.get(0).getAddr1());
 			//view2.get(0).getAdd2();
 			detailview.get(i).setAddr2(view2.get(0).getAddr2());
+			detailview.get(i).setPlace(view2.get(0).getPlace());
 		}
 		System.out.println("dtd를 어레이 리스트로-planview : "+detailview);
 		
@@ -187,9 +186,27 @@ public PlanService planservice;
 		return mv;
 	}
 	@RequestMapping("/plan/plandelete")
-	public String plandelete() {
+	public ModelAndView plandelete(PlanDTO page,HttpServletRequest req,ModelAndView mv) {
 		System.out.println("plandelete 페이지 호출함수★★★");
-		return "plan/plandelete";
+		
+		int planno =Integer.parseInt(req.getParameter("planNo"));
+		page.setPlanNo(planno);
+		mv.addObject("deleteno", page);
+		System.out.println("plandelete페이지 나감.");
+		mv.setViewName("plan/plandelete");
+		return mv;
+	}
+	@RequestMapping("plan/plandeleteok")
+	public ModelAndView plandeleteok(ModelAndView mv,HttpServletRequest req) {
+		System.out.println("삭제 페이지 진입중...");
+		
+//		일정을 삭제하는 함수.
+		int planno = Integer.parseInt(req.getParameter("planNo"));
+		System.out.println(planno);
+		planservice.plandelete(planno);
+		RedirectView rv = new RedirectView("/plan/plan");
+		mv.setView(rv);
+		return mv;
 	}
 	
 	@RequestMapping("plan/viewplan")

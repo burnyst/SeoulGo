@@ -22,8 +22,6 @@
 <script src="${pageContext.request.contextPath}/resources/js/review/likecnt.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/review/dislikecnt.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/review/deleteReview.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/review/gbcnt.css">
-<link rel=”stylesheet” href=”http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css“>
 <style type="text/css">
 	#pro {
 		width: 50px;
@@ -57,7 +55,7 @@
 				</c:if>
 			</div>
 			<div class="col-sm-8">
-				<span>${review.memberID}</span>&nbsp;가 &nbsp;&nbsp;<span><fmt:formatDate value="${review.rDate}" pattern="yyyy년 MM월 dd일 "/>에</span>&nbsp;작성한 리뷰입니다.<br>
+				<span>${review.memberID}</span>가 &nbsp;<span><fmt:formatDate value="${review.rDate}" pattern="yyyy년 MM월 dd일 "/>에</span>&nbsp;작성한 리뷰입니다.<br>
 				<span>00 건의 다른 장소 리뷰&nbsp;&nbsp;
 				<button style="border:0; outline:0; background: none; font-size:15px;"><b>더보기</b></button></span>
 			</div>

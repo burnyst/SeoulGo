@@ -27,6 +27,9 @@ $(document).ready(function() {
 			}
 		});
 	});
+	$(document).on("click", "#writeBtn", function() {
+		location.href = "../review/writeReview?placeNo="+$("#placeNo").val();
+	});
 	var container = document.getElementById('map');
 	var options = {
 		center: new kakao.maps.LatLng(33.450701, 126.570667),
