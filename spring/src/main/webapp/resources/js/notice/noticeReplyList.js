@@ -4,6 +4,7 @@ $(document).ready(function(){
 	url = url + nNo;
 	var replyUL = $(".comment_list");
 	var str = "";
+	var arr = "";
 	
 	$.ajax({
 		url: url,
@@ -33,13 +34,6 @@ $(document).ready(function(){
 					var nrOrder = data[i].nrOrder;
 					nrOrder = (nrOrder * 30) + "px;";
 					
-					// 대댓글(댓글의 답글) 작성 url
-					/*var form = document.replyForm;
-					form.action = "../reply/reReply/" + data[i].nNo + "/" +data[i].nrNo + "/" + data[i].nrParent;
-					$("#btnReply").click(function(){
-						form.submit();
-					})*/
-					
 					// 댓글 삭제 url
 					var rplDelete = "../reply/rplDelete/";
 					rplDelete = rplDelete + data[i].nNo + "/" +data[i].nrNo;
@@ -52,14 +46,40 @@ $(document).ready(function(){
 					str += '			<div class="media-body"><h5 class="primary-font">'+data[i].nrWriter+' <small class="pull-right text-muted"><i>';
 					str += nrDate+'</i></small><button type="button" class="btn btn-link dropdown-toggle dropdown-toggle-split" ';
 					str += 'data-toggle="dropdown"></button><div class="dropdown-menu">';
-					str += '	<a class="dropdown-item" name="reReply" data-toggle="modal" data-target=".reReply">'+reReply+'댓글 답글 작성</a>';
+					str += '	<a class="dropdown-item" name="reReply" data-toggle="modal" data-target=".reReply">댓글 답글 작성</a>';
 				    str += '	<a class="dropdown-item" href="'+rplDelete+'">댓글 삭제</a></h5>';
 					str += '		<div class="comment_text_box"><p>'+data[i].nrContent+'</p>';
 					str += '			<input type="hidden" name="nNo" id="nNo" value="'+data[i].nNo+'">';
 					str += '			<input type="hidden" name="nrNo" id="nrNo" value="'+data[i].nrNo+'">';
 					str += '			<input type="hidden" name="nrParent" id="nrParent" value="'+data[i].nrParent+'"></div></div></div></div></div><hr>';
+					
+					arr = data.length;
 				}
+				// 댓글 리스트 출력 코드
 				replyUL.html(str);
+				
+				// 대댓글(댓글의 답글) 작성
+				var form = document.replyForm;
+				var nNoArr = document.getElementsByName("nNo");
+				var nrNoArr = document.getElementsByName("nrNo");
+				var nrParentArr = document.getElementsByName("nrParent");
+					
+				$(".primary-font").click(function(){
+					var index = $(".media-body h5").index(this);
+					var url = "../reply/reReply/" + data[index].nNo + "/" +data[index].nrNo + "/" + data[index].nrParent;
+					
+					$("#btnReply2").click(function(){
+						var content = $("#nrContent2").val();
+						form.action = url;
+							
+						if(content === "") {
+							alert("댓글이 작성되지 않았습니다.");
+							return false;
+						} else{
+							$("#replyForm").submit();
+						}
+					})
+				})
 			}
 		}
 	})
@@ -74,32 +94,4 @@ $(function(){
 			$("#replyFrm").submit();
 		}
 	})
-	var test = document.getElementsByClassName("dropdown-toggle-split");
-	var nNoArr = document.getElementsByName("nNo");
-	var nrNoArr = document.getElementsByName("nrNo");
-	var nrParentArr = document.getElementsByName("nrParent");
-	var reReplyArr = document.getElementsByName("reReply");
-	var form = document.replyForm;
-	alert(test.length);
-	
-	for(var i=0; i<nNoArr.length; i++){
-		$(reReplyArr[i]).click(function(){
-			
-			form.action = "../reply/reReply/" + data[i].nNo + "/" +data[i].nrNo + "/" + data[i].nrParent;
-			$("#replyForm").submit();
-		})
-	}
-	//alert($("#nNo").val() + "/" + $("#nrNo").val() + "/" + $("#nrParent").val());
-	/*var form = document.replyForm;
-	form.action = "../reply/reReply/" + $("#nNo").val() + "/" + $("#nrNo").val() + "/" + $("#nrParent").val();*/
-	//$("#replyForm").submit();
-	
-	/*$("#btnReply2").click(function(){
-		var content = $("#nrContent2").val();
-		if(content === "") {
-			alert("댓글이 작성되지 않았습니다.");
-		} else{
-
-		}
-	})*/
 })

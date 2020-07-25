@@ -24,28 +24,39 @@ public class NoticeReplyController {
 	@Autowired
 	NoticeService nService;
 	
-	// 댓글 답글 작성
+	// 대댓글(댓글의 답글) 작성
 	@RequestMapping("/reReply/{nNo}/{nrNo}/{nrParent}")
-	//@RequestMapping("/reReply")
-	public void reReply(NoticeReplyDTO nrdto, HttpServletRequest request, @RequestParam String nrContent2, @PathVariable("nNo") int nNo, @PathVariable("nrNo") int nrNo, @PathVariable("nrParent") int nrParent) {
-		System.out.println("request: "+request.getParameter("nrContent2")+"/nNo:"+nNo
+	public ModelAndView reReply(NoticeReplyDTO nrdto, ModelAndView mv, @RequestParam String nrContent2, @PathVariable("nNo") int nNo, @PathVariable("nrNo") int nrNo, @PathVariable("nrParent") int nrParent) {
+		System.out.println("RequestParam으로 넘어온 nrContent2: "+nrContent2+"/nNo:"+nNo
 		+"/nrNo:"+nrNo+"/nrParent:"+nrParent+
 				"/nrdto:"+nrdto);
 		
+		// 댓글 정보 가져오기
+		NoticeReplyDTO replyInfo = nService.getReplyInfo(nrNo);
+		System.out.println("replyInfo: "+replyInfo);
 		
-		//System.out.println("댓글의 답글 작성 함수 진입: nNo?"+nNo+", nrNo?"+nrNo+", nrParent"+nrParent);
-
-				
-		//nrdto.setNrWriter(nrWriter);
+		// 작성자(= 현재 로그인한 회원) 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String nrWriter = principal.toString();
+		nrdto.setNrWriter(nrWriter);
 		nrdto.setnNo(nNo);
-		//nrdto.setNrContent(nrContent2);
-		nService.replyProc(nrdto);
-				
-		RedirectView rv = new RedirectView("/notice/detailView?nNo="+nNo);
-		//mv.setView(rv);
-		//return mv;
+		nrdto.setNrContent(nrContent2);
+		nrdto.setNrParent(nrNo);
+		nrdto.setNrOrder(replyInfo.getNrOrder()+1);
 		
-		System.out.println("nrdto?"+nrdto);
+		// 대댓글(댓글의 답글)이 0개일 경우
+		if(replyInfo.getNrNo()!=replyInfo.getNrParent()) {
+			//nrdto.setNrOrder(1);
+		}else {
+			// 대댓글(댓글의 답글)이 1개 이상일 경우
+		}
+				
+		System.out.println("nService로 넘어갈 nrdto: "+nrdto);
+		nService.reReply(nrdto);
+		
+		RedirectView rv = new RedirectView("/notice/detailView?nNo="+nNo);
+		mv.setView(rv);
+		return mv;
 	}
 	
 	// 댓글 삭제

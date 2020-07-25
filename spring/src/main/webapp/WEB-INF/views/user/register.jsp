@@ -27,7 +27,6 @@
 						<input type="file" name="files" id="files" accept=".jpg, .jpeg, .gif, .png, .bmp"/>
 						<br>
 						<div class="profile"><img src=""></div>
-						<!-- <input type="hidden" name="proSaveName" value="" id="profile-file"> -->
 					</td>
 				</tr>
 				<tr>

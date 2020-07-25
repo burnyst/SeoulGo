@@ -13,6 +13,16 @@ public class NoticeDAO extends SqlSessionDaoSupport {
 
 	@Autowired
 	SqlSessionTemplate session;
+
+	// 대댓글(댓글의 답글) 작성
+	public void reReply(NoticeReplyDTO nrdto) {
+		session.insert("reply.reReply", nrdto);
+	}
+	
+	// 댓글 정보 가져오기
+	public NoticeReplyDTO getReplyInfo(int nrNo) {
+		return session.selectOne("reply.getReplyInfo", nrNo);
+	}
 	
 	// 댓글 삭제
 	public void rplDelete(int nrNo) {

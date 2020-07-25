@@ -14,6 +14,17 @@ public class NoticeService {
 
 	@Autowired
 	NoticeDAO nDAO;
+
+	// 대댓글(댓글의 답글) 작성
+	public void reReply(NoticeReplyDTO nrdto) {
+		nDAO.reReply(nrdto);
+	}
+	
+	// 댓글 정보 가져오기
+	public NoticeReplyDTO getReplyInfo(int nrNo) {
+		NoticeReplyDTO replyInfo = nDAO.getReplyInfo(nrNo);
+		return replyInfo;
+	}
 	
 	// 댓글 삭제
 	public void rplDelete(int nrNo) {

@@ -13,6 +13,7 @@
 <title>공지사항 상세보기</title>
 <script src="${libPath}/jquery/3.5.1/jquery.min.js"></script>
 <script src="${basePath}/resources/js/notice/noticeReplyList.js"></script>
+<script src="${basePath}/resources/js/notice/delete.js"></script>
 <style type="text/css">
 	a {
 		float: right;
@@ -41,7 +42,7 @@
 	<div class="row float-right" style="margin-bottom: 10px;">
 		<a class="btn btn-sm btn-secondary" href="/notice/list">목록</a>
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
-			<a class="btn btn-sm btn-danger" href="/notice/delete?nNo=${ndto.nNo}">삭제</a>
+			<a class="btn btn-sm btn-danger text-white" id="deleteBtn">삭제</a>
 			<a class="btn btn-sm btn-primary" href="/notice/modify?nNo=${ndto.nNo}">수정</a>
 		</sec:authorize>
 	</div>
@@ -111,7 +112,7 @@
 				</div>
 				<div class="modal-footer">
 					<input type="hidden" id="nNo" value="${ndto.nNo}">
-					<input type="submit" class="btn btn-sm btn-primary" id="btnReply2" value="댓글 작성">
+					<input type="submit" class="btn btn-sm btn-primary" id="btnReply2" name="btnReply2" value="댓글 작성">
 					<button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
 				</div>
 			</div>
