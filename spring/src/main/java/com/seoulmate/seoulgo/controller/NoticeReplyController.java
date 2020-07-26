@@ -27,9 +27,7 @@ public class NoticeReplyController {
 	// 대댓글(댓글의 답글) 작성
 	@RequestMapping("/reReply/{nNo}/{nrNo}/{nrParent}")
 	public ModelAndView reReply(NoticeReplyDTO nrdto, ModelAndView mv, @RequestParam String nrContent2, @PathVariable("nNo") int nNo, @PathVariable("nrNo") int nrNo, @PathVariable("nrParent") int nrParent) {
-		System.out.println("RequestParam으로 넘어온 nrContent2: "+nrContent2+"/nNo:"+nNo
-		+"/nrNo:"+nrNo+"/nrParent:"+nrParent+
-				"/nrdto:"+nrdto);
+		System.out.println("RequestParam으로 넘어온 nrContent2: "+nrContent2+"/nNo: "+nNo+"/nrNo: "+nrNo+"/nrParent: "+nrParent+"/nrdto: "+nrdto);
 		
 		// 댓글 정보 가져오기
 		NoticeReplyDTO replyInfo = nService.getReplyInfo(nrNo);
@@ -43,13 +41,6 @@ public class NoticeReplyController {
 		nrdto.setNrContent(nrContent2);
 		nrdto.setNrParent(nrNo);
 		nrdto.setNrOrder(replyInfo.getNrOrder()+1);
-		
-		// 대댓글(댓글의 답글)이 0개일 경우
-		if(replyInfo.getNrNo()!=replyInfo.getNrParent()) {
-			//nrdto.setNrOrder(1);
-		}else {
-			// 대댓글(댓글의 답글)이 1개 이상일 경우
-		}
 				
 		System.out.println("nService로 넘어갈 nrdto: "+nrdto);
 		nService.reReply(nrdto);
