@@ -24,9 +24,14 @@
 	
 	<!-- 댓글 삭제 -->
 	<delete id="rplDelete" parameterType="int">
-		delete 
+		delete
 		from noticeReply
-		where nrNo=#{nrNo}
+		where nrNo in (
+		    select nrNo
+		    from noticeReply
+		    start with nrNo = #{nrNo}
+		    connect by prior nrNo = nrParent
+		)
 	</delete>
 
 	<!-- 댓글 리스트 -->
