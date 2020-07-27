@@ -93,6 +93,13 @@ public class ReviewDAO extends SqlSessionDaoSupport {
 	public Integer badgetcnt(int rNo){
 		return session.selectOne("review.badCount", rNo);
 	}
-
 	
+	// 더보기 게시글 수 가져오기
+	public Integer getMoreCount(String memberID) {
+		return session.selectOne("review.moreCount", memberID);
+	}
+	// 더보기 상세정보 가져오기
+	public ArrayList<ReviewDTO> getMoreList(ReviewPage reviewPage) {
+		return (ArrayList)session.selectList("review.moreList", reviewPage);
+	}
 }

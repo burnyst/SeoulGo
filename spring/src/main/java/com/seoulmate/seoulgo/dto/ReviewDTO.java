@@ -29,6 +29,12 @@ public class ReviewDTO {
 	private String oriName; 	// 원래 이름
 	private String iSaveName; 	// 저장된 이름
 	
+	// 더보기 처리를 위한 장소 필드
+	private String placeName;
+	private String addr1;
+	private String addr2;
+	private String tel;
+	
 	// 회원 프로필 사진 처리 필드
 	private String proSaveName;
 	
@@ -149,15 +155,39 @@ public class ReviewDTO {
 	public void setProSaveName(String proSaveName) {
 		this.proSaveName = proSaveName;
 	}
+	public String getPlaceName() {
+		return placeName;
+	}
+	public void setPlaceName(String placeName) {
+		this.placeName = placeName;
+	}
+	public String getAddr1() {
+		return addr1;
+	}
+	public void setAddr1(String addr1) {
+		this.addr1 = addr1;
+	}
+	public String getAddr2() {
+		return addr2;
+	}
+	public void setAddr2(String addr2) {
+		this.addr2 = addr2;
+	}
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+	
 	@Override
 	public String toString() {
 		return "ReviewDTO [rNo=" + rNo + ", rTitle=" + rTitle + ", rContent=" + rContent + ", rDate=" + rDate
 				+ ", rGood=" + rGood + ", rBad=" + rBad + ", rVisit=" + rVisit + ", rCate=" + rCate + ", rRate=" + rRate
 				+ ", placeNo=" + placeNo + ", memberID=" + memberID + ", len=" + len + ", path=" + path + ", fileCount="
-				+ fileCount + ", oriName=" + oriName + ", iSaveName=" + iSaveName + ", proSaveName=" + proSaveName
-				+ ", files=" + Arrays.toString(files) + "]";
+				+ fileCount + ", oriName=" + oriName + ", iSaveName=" + iSaveName + ", placeName=" + placeName
+				+ ", addr1=" + addr1 + ", addr2=" + addr2 + ", tel=" + tel + ", proSaveName=" + proSaveName + ", files="
+				+ Arrays.toString(files) + "]";
 	}
-
-
 
 }

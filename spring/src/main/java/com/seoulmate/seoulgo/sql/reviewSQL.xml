@@ -164,4 +164,35 @@
 		FROM 	BADCNT
 		WHERE	RNO = #{rNo}
 	</select>
+	
+	<!-- 더보기 처리를 위한 게시물 검색 -->
+	<select id="moreCount" parameterType="string" resultType="Integer">
+		SELECT	COUNT(*)
+		FROM 	REVIEWBOARD
+		WHERE	MEMBERID 	= 	#{memberID}
+		AND		RISSHOW 	=	1 
+	</select>
+	
+	<!-- 더보기 페이징 처리를 위한 검색 -->
+	<select id="moreList" parameterType="com.seoulmate.seoulgo.page.ReviewPage" resultType="rdto">
+		SELECT *
+		FROM(
+			SELECT 	ROWNUM RNUM, RNO, RTITLE, RCONTENT, RDATE, 
+				RVISIT, RCATE, RRATE, MEMBERID, PLACENO, PROSAVENAME,
+				PLACENAME, ADDR1, ADDR2, TEL				
+			FROM 
+			(SELECT 
+				A.RNO, A.RTITLE, A.RCONTENT, A.RDATE, A.RCATE, 
+				A.RVISIT, A.RRATE, A.MEMBERID, A.PLACENO, B.PROSAVENAME,
+				C.PLACENAME, C.ADDR1, C.ADDR2, C.TEL
+			FROM 	REVIEWBOARD A, MEMBER_T B, PLACE C
+			WHERE	A.MEMBERID	= B.MEMBERID
+			AND	A.PLACENO	= C.PLACENO
+			AND	A.MEMBERID	= #{memberID}
+			AND	A.RISSHOW	= 1
+			ORDER 	BY RNO DESC)
+		)
+		WHERE RNUM BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
 </mapper>
