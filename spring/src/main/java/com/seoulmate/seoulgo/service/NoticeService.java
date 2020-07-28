@@ -1,11 +1,13 @@
 package com.seoulmate.seoulgo.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.seoulmate.seoulgo.dao.NoticeDAO;
+import com.seoulmate.seoulgo.dto.MemberDTO;
 import com.seoulmate.seoulgo.dto.NoticeDTO;
 import com.seoulmate.seoulgo.dto.NoticeReplyDTO;
 
@@ -15,9 +17,15 @@ public class NoticeService {
 	@Autowired
 	NoticeDAO nDAO;
 
+	// 댓글 작성자의 정보 가져오기
+	public List<MemberDTO> getMemberInfo(NoticeReplyDTO nrdto) {
+		List<MemberDTO> list = nDAO.getMemberInfo(nrdto);
+		return list;
+	}
+	
 	// 대댓글(댓글의 답글) 작성
-	public void reReply(NoticeReplyDTO nrdto) {
-		nDAO.reReply(nrdto);
+	public void reply(NoticeReplyDTO nrdto) {
+		nDAO.reply(nrdto);
 	}
 	
 	// 댓글 정보 가져오기
@@ -27,8 +35,8 @@ public class NoticeService {
 	}
 	
 	// 댓글 삭제
-	public void rplDelete(int nrNo) {
-		nDAO.rplDelete(nrNo);
+	public void delete(int nrNo) {
+		nDAO.delete(nrNo);
 	}
 	
 	// 댓글 리스트
@@ -37,8 +45,8 @@ public class NoticeService {
 	}
 	
 	// 댓글 작성
-	public void replyProc(NoticeReplyDTO nrdto) {
-		nDAO.replyProc(nrdto);
+	public void commentProc(NoticeReplyDTO nrdto) {
+		nDAO.commentProc(nrdto);
 	}
 	
 	// 공지사항 수정 처리

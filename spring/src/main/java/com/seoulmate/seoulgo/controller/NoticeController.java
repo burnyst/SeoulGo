@@ -26,8 +26,8 @@ public class NoticeController {
 	NoticeService nService;
 	
 	// 댓글 작성
-	@RequestMapping("/replyProc")
-	public ModelAndView replyProc(NoticeReplyDTO nrdto, HttpServletRequest request, ModelAndView mv, @RequestParam String nrContent) {
+	@RequestMapping("/commentProc")
+	public ModelAndView commentProc(NoticeReplyDTO nrdto, HttpServletRequest request, ModelAndView mv, @RequestParam String nrContent) {
 		// 작성 댓글의 해당 공지사항 정보 가져오기
 		int nNo = Integer.parseInt(request.getParameter("nNo"));
 		
@@ -38,7 +38,7 @@ public class NoticeController {
 		nrdto.setNrWriter(nrWriter);
 		nrdto.setnNo(nNo);
 		nrdto.setNrContent(nrContent);
-		nService.replyProc(nrdto);
+		nService.commentProc(nrdto);
 		
 		RedirectView rv = new RedirectView("/notice/detailView?nNo="+nNo);
 		mv.setView(rv);

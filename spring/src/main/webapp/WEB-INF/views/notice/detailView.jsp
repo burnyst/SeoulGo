@@ -49,7 +49,7 @@
 	<table class="table table-striped">
 		<tbody>
 			<tr>
-				<th class="text-center">공지번호</th>
+				<th class="text-center">공지번호/level:${level}/memberInfo:${memberInfo}</th>
 				<td class="text-center">${ndto.nNo}</td>
 			</tr>
 			<tr>
@@ -82,11 +82,11 @@
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">New Reply</h4>
+					<h4 class="modal-title">New Comment</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
-					<form id="replyFrm" action="${basePath}/notice/replyProc?nNo=${ndto.nNo}" method="post">
+					<form id="replyFrm" action="${basePath}/notice/commentProc?nNo=${ndto.nNo}" method="post">
 						<textarea id="nrContent" name="nrContent" class="form-control" rows="3" placeholder="댓글을 입력해 주세요"></textarea>
 					</form>
 				</div>
@@ -98,11 +98,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade reReply" id="myModal">
+	<div class="modal fade reply" id="myModal">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title">New Reply44</h4>
+					<h4 class="modal-title">New Comment</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
@@ -119,9 +119,9 @@
 		</div>
 	</div>
 	<div class="my-3 p-3 bg-white rounded shadow-sm">
-		<h6 class="border-bottom pb-2 mb-0" style="height: 40px;"><i class="fa fa-comments fa-fw"></i> Reply list
+		<h6 class="border-bottom pb-2 mb-0" style="height: 40px;"><i class="fa fa-comments fa-fw"></i> Comment list
 			<sec:authorize access="isAuthenticated()">
-				<button type="button" style="float: right;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal">New Reply</button>
+				<button type="button" style="float: right;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal">New Comment</button>
 			</sec:authorize>
 		</h6>
 		<div class="comment_list"></div>

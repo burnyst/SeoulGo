@@ -38,7 +38,7 @@ $(function(){
 			location.href = url;
 			console.log(url);
 		}else {
-			alert("검색유형 혹은 검색어가 입력되지 않았습니다..");
+			alert("검색유형 혹은 검색어가 입력되지 않았습니다.");
 		}
 	});
 });

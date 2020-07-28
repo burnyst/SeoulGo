@@ -35,7 +35,6 @@ public class AdminController {
 		System.out.println("aService.getMemberList(search):"+aService.getMemberList(search));
 		
 		model.addAttribute("memberList", aService.getMemberList(search));
-		//model.addAttribute("pageUri", "/admin/memberManagement");
 		model.addAttribute("search", search);
 		
 		return "/admin/memberManagement";

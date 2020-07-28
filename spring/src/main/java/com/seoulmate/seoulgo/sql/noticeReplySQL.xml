@@ -3,8 +3,15 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="reply">
+	<!-- 댓글 작성자의 정보 가져오기 -->
+	<select id="getMemberInfo" parameterType="com.seoulmate.seoulgo.dto.NoticeReplyDTO" resultType="mdto">
+		select memberID, mLevel, proSaveName
+		from noticeReply, member_t
+		where noticeReply.nrWriter = member_t.memberID and memberID = #{nrWriter} and nrNo = #{nrNo}
+	</select>
+
 	<!-- 대댓글(댓글의 답글) 작성 -->
-	<insert id="reReply" parameterType="com.seoulmate.seoulgo.dto.NoticeReplyDTO">
+	<insert id="reply" parameterType="com.seoulmate.seoulgo.dto.NoticeReplyDTO">
 		insert into noticeReply
 		values 
 		(
@@ -23,7 +30,7 @@
 	</select>
 	
 	<!-- 댓글 삭제 -->
-	<delete id="rplDelete" parameterType="int">
+	<delete id="delete" parameterType="int">
 		delete
 		from noticeReply
 		where nrNo in (
@@ -45,7 +52,7 @@
 	</select>
 
 	<!-- 댓글 작성 -->
-	<insert id="replyProc" parameterType="com.seoulmate.seoulgo.dto.NoticeReplyDTO">
+	<insert id="commentProc" parameterType="com.seoulmate.seoulgo.dto.NoticeReplyDTO">
 		insert into noticeReply
 		values 
 		(
