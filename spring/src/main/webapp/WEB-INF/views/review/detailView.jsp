@@ -27,6 +27,10 @@
 		width: 100px;
 		height: 100px;
 	}
+	.img {
+		width: 100px;
+		height: 100px;
+	}
 </style>
 </head>
 <body>
@@ -46,6 +50,7 @@
 		</div>
 	</div>
 	<hr>
+
 <c:forEach items="${more}" var="more">
 <div class="container">
 <input type="hidden" value="${more.rNo}" name="rNo">
@@ -64,17 +69,16 @@
 					<input type="button" class="btn btn-outline-primary btn-sm" id="wBtn" value="리뷰 작성"/>
 				</a>
 			</sec:authorize>
-			<c:if test="${more.memberID eq mem.memberID || fn:contains(mem.mLevel,'ROLE_ADMIN')}">
+			<c:if test="${more.memberID eq mem.memberID}">
 				<a href="../review/modifyReview?placeNo=${more.placeNo}&rNo=${more.rNo}" style="text-decoration:none;">
 					<input type="button" class="btn btn-outline-primary btn-sm" id="mBtn" value="리뷰 수정"/>
 				</a>
+			</c:if>
+			<c:if test="${more.memberID eq mem.memberID || fn:contains(mem.mLevel,'ROLE_ADMIN')}">
 				<a href="../review/deleteReview?placeNo=${more.placeNo}&rNo=${more.rNo}" style="text-decoration:none;">
 					<input type="button" class="btn btn-outline-secondary btn-sm" id="dBtn" value="리뷰 삭제"/>
 				</a>
 			</c:if>
-			<sec:authorize access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')">
-				<input type="button" class="btn btn-outline-info btn-sm" id="pBtn" value="사진 보기"/>
-			</sec:authorize>
 		</div>
 		<br>
 		<!-- 제목 div -->
@@ -107,6 +111,14 @@
 		<div>
 			<span>내용 : ${more.rContent}</span>
 		</div>
+		<br>
+		<span>
+		<c:forEach items="${img}" var="img">
+			<c:if test="${more.rNo eq img.rNo}">
+				<img class="img" src="<spring:url value='/resources/img/review/${img.iSaveName}'/>">
+			</c:if>
+		</c:forEach>
+		</span>
 		<br>
 		
 		<!-- 여행 유형 -->
