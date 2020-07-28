@@ -44,7 +44,7 @@ $(function(){
 <c:forEach items="${Pdto}" var="list" varStatus="status">
 	<input type="hidden" id="addr1"value="${list.addr1}">
 	<input type="hidden" id="addr2"value="${list.addr2}">
-	<input type="hidden" id="placename" value="${list.place }"> 
+	<input type="hidden" id="placename" value="${list.placename }"> 
 </c:forEach>
 <!-- 이 페이지는 일정을 짜는 페이지이다. 
  일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
