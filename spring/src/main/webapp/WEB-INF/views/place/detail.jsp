@@ -5,6 +5,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <t:path>
 <c:set var="defaultImage" value="${imagePath}/place/noimage.jpg" />
 <c:set var="pagePath" value="${basePath}/place" />
@@ -189,7 +190,13 @@ $(function(){
 			<span>내용 : ${review.rContent}</span>
 		</div>
 		<br>
-		
+		<span>
+		<c:forEach items="${img }" var="img">
+			<c:if test="${review.memberID eq img.memberID}">
+				<img class="img" src="<spring:url value='/resources/img/review/${img.iSaveName}'/>">
+			</c:if>
+		</c:forEach>
+		</span>
 		<!-- 여행 유형 -->
 		<div>
 			<span>여행 유형 : ${review.rCate}</span>
