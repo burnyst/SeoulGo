@@ -14,12 +14,19 @@
 		<result property="reviewCount" column="reviewCount" />
 		<result property="placeRate" column="placeRate" />
 		<collection property="imageNames" column="placeNo" ofType="java.lang.String" select="listSub" />
+		<collection property="words" column="placeNo" ofType="java.lang.String" select="listWord" />
 	</resultMap>
 	
 	<sql id="listFields">placeNo, placeName, cate, addr1, addr2, tel, NVL(reviewCount, 0) reviewCount, NVL(placeRate, 0) placeRate</sql>
 	<sql id="listCondition">
 		<if test="keyword != null and keyword != ''">
-			(placeName LIKE '%'||#{keyword}||'%' OR addr1 LIKE '%'||#{keyword}||'%' OR addr2 LIKE '%'||#{keyword}||'%')
+			(placeName LIKE '%'||#{keyword}||'%' OR addr1 LIKE '%'||#{keyword}||'%' OR addr2 LIKE '%'||#{keyword}||'%'
+			OR placeNo=(
+			    SELECT placeNo pNo
+				FROM reviewBoard r JOIN reviewWord w ON r.rNo=w.rNo
+				WHERE word LIKE '%'||#{keyword}||'%'
+				GROUP BY placeNo
+			))
 		</if>
 		<if test="type == '즐길거리'">AND cate = 0</if>
 		<if test="type == '음식점'">AND cate = 1</if>
@@ -43,8 +50,16 @@
 		SELECT iname FROM placeImage WHERE placeNo=#{placeNo} ORDER BY iname ASC
 	</select>
 	
-	<select id="listSubCount" resultType="int">
-		SELECT count(*) FROM placeImage WHERE placeNo=#{placeNo}
+	<select id="listWord" resultType="java.lang.String">
+		SELECT word
+		FROM
+		(
+		    SELECT word, ROW_NUMBER() OVER (ORDER BY SUM(freq) DESC) rn
+		    FROM reviewBoard r JOIN reviewWord w ON r.rNo=w.rNo
+		    WHERE placeNo = #{placeNo}
+		    GROUP BY placeNo, word
+		    HAVING COUNT(*) > 10
+		) WHERE rn BETWEEN 1 AND 5
 	</select>
 	
 	<select id="listCount" resultType="int">
@@ -53,6 +68,10 @@
 		<where>
 			<include refid="listCondition" />
 		</where>
+	</select>
+	
+	<select id="listSubCount" resultType="int">
+		SELECT count(*) FROM placeImage WHERE placeNo=#{placeNo}
 	</select>
 	
 	<select id="detail" parameterType="int" resultMap="listResultMap">
