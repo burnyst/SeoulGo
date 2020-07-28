@@ -1,11 +1,11 @@
-import sys
-from datetime import datetime
-from dao.placeWordDao import PlaceWordDao
+import argparse
+from datetime import datetime, date
+from dao.reviewWordDao import ReviewWordDao
 from konlpy.tag import Okt
 class PlaceWordCount:
     def __init__(self):
         self.okt = Okt()
-        self.dao = PlaceWordDao()
+        self.dao = ReviewWordDao()
     def __wordCount__(self, text):
         rst = {}
         nouns = self.okt.nouns(text)
@@ -24,28 +24,32 @@ class PlaceWordCount:
         for i in reviewList:
             data = self.__wordCount__(i["content"])
             for key, val in data.items():
-                saveList.append({"placeNo": i["placeNo"], "word": key, "freq": val})
+                saveList.append({"rNo": i["rNo"], "word": key, "freq": val})
         self.dao.insertList(saveList)
-    def count(self, reviewNo):
-        review = self.dao.getReview(reviewNo)
+    def count(self, rNo):
+        review = self.dao.getReview(rNo)
         saveList = []
         data = self.__wordCount__(review["content"])
         for key, val in data.items():
-            saveList.append({"placeNo": review["placeNo"], "word": key, "freq": val})
+            saveList.append({"rNo": review["rNo"], "word": key, "freq": val})
         self.dao.insertList(saveList)
-
+def main():
+    target = ['review']
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-t', '--target', type=str, default='review', choices=[target], help="word count target.")
+    parser.add_argument('-k', '--key', type=int, help="key value.")
+    parser.add_argument('-s', '--start', default=date.today(), type=lambda x: datetime.strptime(x, '%Y-%m-%d').date(), help="start date. date in the format yyyy-mm-dd")
+    parser.add_argument('-e', '--end', default=date.today(), type=lambda x: datetime.strptime(x, '%Y-%m-%d').date(), help="end date. date in the format yyyy-mm-dd")
+    args = parser.parse_args()
+    if args.target == 'review':
+        wc = PlaceWordCount()
+        if args.key != None:
+            # wc.count(982)
+            wc.count(args.key)
+        else:
+            # startDate = datetime.strptime('1900-01-01', '%Y-%m-%d')
+            # endDate = datetime.strptime('2009-01-01', '%Y-%m-%d')
+            wc.countList(args.start, args.end)
 if __name__ == '__main__':
-    cnt = len(sys.argv)
-    wc = PlaceWordCount()
-    if cnt == 2:
-        # wc.count(982)
-        wc.count(int(sys.argv[1]))
-    elif cnt == 3:
-    #     startDate = datetime.strptime('1900-01-01', '%Y-%m-%d')
-    #     endDate = datetime.strptime('2009-01-01', '%Y-%m-%d')
-        startDate = datetime.strptime(sys.argv[1], '%Y-%m-%d')
-        endDate = datetime.strptime(sys.argv[2], '%Y-%m-%d')
-        wc.countList(startDate, endDate)
-    else:
-        print('require parameter. it is rno or stareDate and endDate.')
+    main()
 
