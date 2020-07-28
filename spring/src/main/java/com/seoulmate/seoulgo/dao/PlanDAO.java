@@ -18,7 +18,7 @@ public class PlanDAO {
 	SqlSessionTemplate session;
 
 	public List<PlanDTO> getplanboard(PlanPage page2) {
-		List result = (List) session.selectList("plandata.getplanboard", page2);
+		List<PlanDTO> result = session.selectList("plandata.getplanboard", page2);
 		return result;
 	}
 	//planSboard에서 사용하는 DAO
@@ -116,6 +116,16 @@ public class PlanDAO {
 		ArrayList result  =(ArrayList) session.selectList("plandata.placechoice", placeNo);
 		return result;
 	}
+	//선택한 장소의 정보를 찾아온다2
+	public ArrayList<PlanDTO> choiceplace2(int placeNo2) {
+		ArrayList result  =(ArrayList) session.selectList("plandata.placechoice2", placeNo2);
+		return result;
+	}
+	//선택한 장소의 정보를 찾아온다3
+	public ArrayList<PlanDTO> choiceplace3(int placeNo3) {
+		ArrayList result  =(ArrayList) session.selectList("plandata.placechoice3", placeNo3);
+		return result;
+	}
 	//memberid를 찾아온다.
 	public String getmemberid(String memberid) {
 		String result = session.selectOne("plandata.getmemberid",memberid); 
@@ -125,11 +135,14 @@ public class PlanDAO {
 
 		session.delete("plandata.deleteplan", planno);
 	}
-	
-	
-	
+	public List<PlanDTO> getplacename(int pno) {
 
-	
-
-	
+		List<PlanDTO> result = session.selectList("plandata.getplacename",pno);
+		return result;
+	}
+	public List<PlanDTO> getplanum(String mem_id) {
+		
+		List<PlanDTO> result = session.selectList("plandata.getplannum",mem_id);
+		return result;
+	}
 }

@@ -27,16 +27,18 @@ public class PlanService {
 	  
 	@Autowired
 	PlanDAO pdao;
-	
-	
 	public List<PlanDTO> getplanboard(PlanPage page2) {
 		
 		return (List<PlanDTO>) pdao.getplanboard(page2);
 	}
+	
+	
 	public List<PlanDTO> planview(PlanPage plan) {
 
 		return (List<PlanDTO>)pdao.planview(plan);
 	}
+	
+	
 	public List<PlanDTO> paging(PageObject pInfo) {
 		
 		int start =(pInfo.getPage()-1)*pInfo.getPerPageNum()+1;
@@ -169,6 +171,19 @@ public class PlanService {
 		ArrayList<PlanDTO> result = pdao.choiceplace(placeNo);
 		return result;
 	}
+	public ArrayList choiceplace2(int placeNo2) {
+			
+			ArrayList<PlanDTO> result = pdao.choiceplace2(placeNo2);
+			result.get(0).setPlaceNo2(placeNo2);
+			return result;
+		}
+	public ArrayList choiceplace3(int placeNo3) {
+		ArrayList<PlanDTO> result = pdao.choiceplace3(placeNo3);
+		result.get(0).setPlaceNo3(placeNo3);
+		return result;
+	}
+	
+	
 	//memberid를 가져온다
 	public String getmemberid(String memberid) {
 		
@@ -178,6 +193,19 @@ public class PlanService {
 	public void plandelete(int planno) {
 		pdao.deleteplan(planno);
 	}
+	public List<PlanDTO> getplacename(int pno) {
+		
+		List<PlanDTO> result = pdao.getplacename(pno);
+		return result;
+	}
+
+
+	public List<PlanDTO> getplanno(String mem_id) {
+		
+		List<PlanDTO> result = pdao.getplanum(mem_id);
+		return result;
+	}
+	
 	
 	
 

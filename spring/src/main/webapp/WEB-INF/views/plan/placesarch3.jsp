@@ -10,14 +10,14 @@
 <meta charset="UTF-8">
 <title>여행계획짜기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript" src="./jquery.cookie.js"></script>]
  <script>
 $(function(){
 		 $("#ibtn").click(function(){
 			 alert("함수 작동");
 			 $(location).attr("href","/plan/planwrite");
-		 })
+		 })		
 })
+
  </script>
 </head>
 <body>
@@ -41,7 +41,7 @@ $(function(){
 						<input type="hidden" name="addr2"value="${list.addr2}">
 						</td>
 						<td>
-							${list.placename} <input type="hidden" name="placename"value="${list.placename}">
+							${list.place} <input type="hidden" name="placename"value="${list.place}">
 						</td>
 						<td><input type="submit" id="enter" name="enter" value="장소 고르기"></td>
 					</tr>
@@ -50,7 +50,6 @@ $(function(){
 		</tbody>
 	</table>
 	<%-- 페이징 처리 --%>
-
 <t:pageNav
    endPage="${page.endPage}"
    pageNo="${page.pageNo}"

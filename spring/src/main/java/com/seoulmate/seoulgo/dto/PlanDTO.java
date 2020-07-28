@@ -2,6 +2,7 @@ package com.seoulmate.seoulgo.dto;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class PlanDTO {
 	private int planNo;
@@ -11,11 +12,13 @@ public class PlanDTO {
 	private String memberid;
 	
 	
-	private String placename;
-	
+	private List<String> placename;
+
 	private String addr1;
 	private String addr2;
-	private int	   placeNo;
+
+
+	private int	   placeNo,placeNo2,placeNo3;
 	private int    addrNo;
 	private int		start; 		//시작글번호
 	private	int		end;		//끝글번호
@@ -26,6 +29,8 @@ public class PlanDTO {
 	private int perpagenum;
 	private int rno ; 
 
+
+	
 	public int getEndRow() {
 		return endRow;
 	}
@@ -33,15 +38,29 @@ public class PlanDTO {
 	public void setEndRow(int endRow) {
 		this.endRow = endRow;
 	}
+	public int getPlaceNo2() {
+		return placeNo2;
+	}
+
+	public void setPlaceNo2(int placeNo2) {
+		this.placeNo2 = placeNo2;
+	}
+
+	public int getPlaceNo3() {
+		return placeNo3;
+	}
+
+	public void setPlaceNo3(int placeNo3) {
+		this.placeNo3 = placeNo3;
+	}
 	
 	
-	
-	public String getPlace() {
+	public List<String> getPlacename() {
 		return placename;
 	}
 
-	public void setPlace(String place) {
-		this.placename = place;
+	public void setPlacename(List<String> placename) {
+		this.placename = placename;
 	}
 
 	public String getAddr1() {
@@ -104,10 +123,10 @@ public class PlanDTO {
 	@Override
 	public String toString() {
 		return "PlanDTO [planNo=" + planNo + ", planDate=" + planDate + ", planTitle=" + planTitle + ", planCate="
-				+ planCate + ", memberid=" + memberid + ", place=" + placename + ", addr1=" + addr1 + ", addr2=" + addr2
-				+ ", placeNo=" + placeNo + ", addrNo=" + addrNo + ", start=" + start + ", end=" + end + ", nowPage="
-				+ nowPage + ", startRow=" + startRow + ", endRow=" + endRow + ", perpagenum=" + perpagenum + ", rno="
-				+ rno + "]";
+				+ planCate + ", memberid=" + memberid + ", placename=" + placename + ", addr1=" + addr1 + ", addr2="
+				+ addr2 + ", placeNo=" + placeNo + ", placeNo2=" + placeNo2 + ", placeNo3=" + placeNo3 + ", addrNo="
+				+ addrNo + ", start=" + start + ", end=" + end + ", nowPage=" + nowPage + ", startRow=" + startRow
+				+ ", endRow=" + endRow + ", perpagenum=" + perpagenum + ", rno=" + rno + "]";
 	}
 
 	public String getMemberid() {
@@ -126,12 +145,12 @@ public class PlanDTO {
 		this.planCate = planCate;
 	}
 
-	public String getPlanplace() {
-		return placename;
+	public int getStartRow() {
+		return startRow;
 	}
 
-	public void setPlanplace(String planplace) {
-		this.placename = planplace;
+	public void setStartRow(int startRow) {
+		this.startRow = startRow;
 	}
 
 	public int getPlaceNo() {
@@ -172,6 +191,10 @@ public class PlanDTO {
 
 	public void setRno(int rno) {
 		this.rno = rno;
+	}
+
+	public void setPlanplace(String planplace) {
+		
 	}
 	
 

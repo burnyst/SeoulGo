@@ -10,7 +10,6 @@
 <meta charset="UTF-8">
 <title>여행계획짜기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript" src="./jquery.cookie.js"></script>]
  <script>
 $(function(){
 		 $("#ibtn").click(function(){
@@ -18,6 +17,7 @@ $(function(){
 			 $(location).attr("href","/plan/planwrite");
 		 })
 })
+
  </script>
 </head>
 <body>
@@ -30,10 +30,10 @@ $(function(){
 			<th>장소 번호</th><th>	일정장소	</th><th>	장소이름	</th>
 		</tr>
 		<c:forEach var="list" items="${placeview}"  varStatus="status">
-			<form method="get" id="placesarch" name="placesarch" action="/plan/planwritenter">
+			<form method="get" id="placesarch" name="placesarch" action="/plan/planwritenter2">
 					<tr>
 						<td>
-							 ${list.placeNo}<input type="hidden" value="${list.placeNo}" id="placeNo" name="placeNo">
+							 ${list.placeNo}<input type="hidden" value="${list.placeNo}" id="placeNo2" name="placeNo2">
 						</td>
 						<td>
 							${list.addr1 }${list.addr2 } 
@@ -50,7 +50,6 @@ $(function(){
 		</tbody>
 	</table>
 	<%-- 페이징 처리 --%>
-
 <t:pageNav
    endPage="${page.endPage}"
    pageNo="${page.pageNo}"

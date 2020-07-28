@@ -38,7 +38,7 @@ $(function(){
 <c:forEach items="${Pdto}" var="list" varStatus="status">
 	<input type="hidden" id="addr1" value="${list.addr1}"/>
 	<input type="hidden" id="addr2" value="${list.addr2}"/>
-	<input type="hidden" id="placename" value="${list.place}">
+	<input type="hidden" id="placename" value="${list.placename}">
 </c:forEach>
 ${Pdto}
 <!-- 이 페이지는 일정을 짜는 페이지이다. 
@@ -122,7 +122,7 @@ geocoder.addressSearch( addr , function(result, status) {
 	</div>
   </c:forEach>
 
-	<div style="height:250px;">여기는 사진이 출력되어 나올 위치입니다. </div>
+	<div style="height:250px;"><img src="<c:if test=""> </c:if>"> </div>
 	<div style="text-align: center;">
 		<input type="submit" class="btn btn-primary"  value="수정하기"/>
 		<button id="delmodi"type="submit" name="delmodi" class="btn btn-danger">삭제하기</button> 
