@@ -47,6 +47,11 @@ $(function(){
 <input id="pagePath" type="hidden" value="${pagePath}" />
 <input id="placeNo" type="hidden" value="${item.placeNo}" name="dplaceNo"/>
 <h4 class="title">${item.placeName}</h4>
+<div class="pb-3">
+	<c:forEach var="i" items="${item.words}">
+		<a href="${pagePath}/list?keyword=${i}">#${i}&nbsp;&nbsp;</a>
+	</c:forEach>
+</div>
 <div class="row">
 	<c:set var="imageCnt" value="${fn:length(item.imageNames)}" />
 	<div id="images" class="carousel slide" data-ride="carousel">
