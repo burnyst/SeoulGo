@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class WordCountService {
 	private Logger logger = LoggerFactory.getLogger(WordCountService.class);
 	public void ReviewCount(String rootPath, Integer rno) {
-		String[] cmd = new String[] {rootPath+"WEB-INF/ep/nlp/wordCount.exe", rno.toString()};
+		String[] cmd = new String[] {rootPath+"WEB-INF/ep/nlp/wordCount.exe", "-k", rno.toString()};
 		try {
 			Process process = new ProcessBuilder(cmd).start();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
