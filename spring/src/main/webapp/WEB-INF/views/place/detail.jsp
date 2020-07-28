@@ -23,6 +23,19 @@
 <script src="${pageContext.request.contextPath}/resources/js/review/likecnt.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/review/dislikecnt.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/review/deleteReview.js"></script>
+<script type="text/javascript">
+$(function(){
+	var morememberID = document.getElementsByName("morememberID");
+	var list = new Array();	
+	
+	for (let i=0; i<morememberID.length; i++){
+		list[i] = morememberID[i].value
+		$("#moreView"+morememberID[i].value).click(function(){
+			location.href = "../review/detailView?pageNo=1&memberID="+list[i];
+		});
+	}
+});
+</script>
 <style type="text/css">
 	#pro {
 		width: 50px;
@@ -34,6 +47,11 @@
 <input id="pagePath" type="hidden" value="${pagePath}" />
 <input id="placeNo" type="hidden" value="${item.placeNo}" name="dplaceNo"/>
 <h4 class="title">${item.placeName}</h4>
+<div class="pb-3">
+	<c:forEach var="i" items="${item.words}">
+		<a href="${pagePath}/list?keyword=${i}">#${i}&nbsp;&nbsp;</a>
+	</c:forEach>
+</div>
 <div class="row">
 	<c:set var="imageCnt" value="${fn:length(item.imageNames)}" />
 	<div id="images" class="carousel slide" data-ride="carousel">
@@ -98,6 +116,8 @@
 <c:forEach items="${review}" var="review">
 <div>
 <input type="hidden" value="${review.rNo}" name="rNo">
+<input type="hidden" value="${review.placeNo}" name="dplaceNo">
+<input type="hidden" value="${review.memberID}" name="morememberID">
 	<!-- 작성자 정보 표시 div -->
 	<div class="row">
 		<div id="profilepic">
@@ -111,7 +131,7 @@
 		<div class="col-sm-8">
 			<span>${review.memberID}</span>가 &nbsp;<span><fmt:formatDate value="${review.rDate}" pattern="yyyy년 MM월 dd일 "/>에</span>&nbsp;작성한 리뷰입니다.<br>
 			<span>00 건의 다른 장소 리뷰&nbsp;&nbsp;
-			<button style="border:0; outline:0; background: none; font-size:15px;"><b>더보기</b></button></span>
+			<button id="moreView${review.memberID}" style="border:0; outline:0; background: none; font-size:15px;"><b>더보기</b></button></span>
 		</div>
 	</div>
 	
@@ -170,7 +190,11 @@
 			<span>여행 유형 : ${review.rCate}</span>
 		</div>
 		<br>
-		<sec:authorize access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')"></sec:authorize>	
+		<sec:authorize access="hasRole('ANONYMOUS')">
+			추천은<a href="../user/login" style="text-decoration:none;">
+			로그인</a>해야 가능해요!
+		</sec:authorize>
+		<sec:authorize access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')">
 			<div>
 				<!-- 좋아요 -->
 				<button class="btn btn-outline-success btn-sm" id="good_update${review.rNo}">
@@ -183,7 +207,7 @@
 				&nbsp; 싫어요 : <span class="bad_count${review.rNo}"></span>
 				</button>
 			</div>
-		
+		</sec:authorize>	
 	</div>
 </div>
 <hr>

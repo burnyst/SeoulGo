@@ -167,7 +167,7 @@ geocoder.addressSearch( addr , function(result, status) {
 		    <a href="/plan/planwrite/iljung3">장소3</a>
 	  	</div>
 	</div>
-<c:forEach items="${placename }" var="list" >
+<c:forEach items="${place }" var="list" >
 </c:forEach>
 </div>
 <form action="/plan/planwrited" method="post">
@@ -179,16 +179,16 @@ geocoder.addressSearch( addr , function(result, status) {
 		</script>
 		<div style="float:left; margin-right:10px">여행장소1</div>
 		<div>
-			<c:forEach items="${choice}" var="list" >
+			<c:forEach items="${choice1}" var="list" >
 				<input type="text" id="planplace" name="planplace" readonly="readonly" value="${list.placename}">
 				<input type="hidden" id="placeNo" name="placeNo" value="${list.placeNo}">
 				<input type="hidden" id="addr1" name="addr1" value="${list.addr1}">
 				<input type="hidden" id="addr2" name="addr2" value="${list.addr2}">
 			</c:forEach>
 		<input type="button" id="placesarch" value="검색하기"></div>
-		<c:if test="${choice eq null} "> 
+		<c:if test="${choice1 eq null}"> 
 		</c:if>
-		<c:if test="${choice ne null}"> 
+		<c:if test="${choice1 ne null}"> 
 		<div style="float:left; margin-right:10px">여행장소2</div>
 			<div>
 				<c:forEach items="${choice2}" var="list" >
@@ -208,7 +208,7 @@ geocoder.addressSearch( addr , function(result, status) {
 			<div style="float:left; margin-right:10px">여행장소3</div>
 			<div>
 				<c:forEach items="${choice3}" var="list" >
-					<input type="text" id="planplace3" name="planplace3" readonly="readonly" value="${list.placename}">
+					<input type="text" id="planplace3" name="planplace3" readonly="readonly" value="${list.place}">
 					<input type="hidden" id="placeNo3" name="placeNo3" value="${list.placeNo3}">
 					<input type="hidden" id="addr1" name="addr1" value="${list.addr1}">
 					<input type="hidden" id="addr2" name="addr2" value="${list.addr2}">

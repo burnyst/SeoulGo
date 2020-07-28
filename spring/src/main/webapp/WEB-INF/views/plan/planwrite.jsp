@@ -7,6 +7,7 @@
 <head>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04926447ff4e969a08d92e18379b0176&libraries=services"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="./jquery.cookie.js"></script>
 <script>
 /* When the user clicks on the button, 
 toggle between hiding and showing the dropdown content */
@@ -19,6 +20,14 @@ $(function(){
 		 $(location).attr("href","../plan/plan");
 	 })
 	 $("#placesarch").click(function(){
+		 alert("장소검색페이지로 넘어갑니다.");
+		 $(location).attr("href","../plan/placesarch");
+	 })
+	 $("#placesarch2").click(function(){
+		 alert("장소검색페이지로 넘어갑니다.");
+	     $(location).attr("href","../plan/placesarch"); 
+	 })
+	 $("#placesarch3").click(function(){
 		 alert("장소검색페이지로 넘어갑니다.");
 		 $(location).attr("href","../plan/placesarch");
 	 })
@@ -136,9 +145,15 @@ geocoder.addressSearch('세종로 사직로 161', function(result, status) {
 		<script>
 	  		document.getElementById('plandate').value = new Date().toISOString().substring(0, 10);;
 		</script>
-		<div style="float:left; margin-right:10px">여행장소</div>
+		<div style="float:left; margin-right:10px">여행장소1</div>
 		<div><input type="text" id="planplace" name="planplace" readonly="readonly">
 			 <input type="button" id="placesarch" value="검색하기"></div>
+	    <div style="float:left; margin-right:10px">여행장소2</div>
+		<div><input type="text" id="planplace2" name="planplace2" readonly="readonly">
+		 	<input type="button" id="placesarch2" value="검색하기"></div>
+	 	<div style="float:left; margin-right:10px">여행장소3</div>
+		<div><input type="text" id="planplace3" name="planplace3" readonly="readonly">
+		 	<input type="button" id="placesarch3" value="검색하기"></div>
 		<div style="float:left; margin-right:10px border-top-width: 10px; ">여행 제목</div>
 		<div><input type="text" id="planTitle" name="planTitle"></div>
 		<div style="float:left; margin-right:10px">여행유형</div>

@@ -107,4 +107,10 @@ public class ReviewService {
 	public int badgetcnt(int rNo){
 		return rDAO.badgetcnt(rNo);
 	}
+	// 더보기 상세정보 가져오기
+	public ArrayList<ReviewDTO> getMoreList(ReviewPage reviewPage, String memberID) {
+		reviewPage.setTotalRow(rDAO.getMoreCount(memberID));
+		ArrayList<ReviewDTO> list = rDAO.getMoreList(reviewPage);
+		return list;
+	}
 }

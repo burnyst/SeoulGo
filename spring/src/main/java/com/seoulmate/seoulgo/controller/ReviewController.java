@@ -20,7 +20,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.seoulmate.seoulgo.dto.MemberDTO;
 import com.seoulmate.seoulgo.dto.PlaceDto;
 import com.seoulmate.seoulgo.dto.ReviewDTO;
 import com.seoulmate.seoulgo.page.PlacePage;
@@ -108,31 +107,27 @@ public class ReviewController {
 
 		rService.insertReview(rDTO, session, list);
 		
-		return "redirect:http://localhost:9000/review/detailView?placeNo="+placeNo;
+		return "redirect:../place/detail?placeNo="+placeNo;
 	}
 
 	// 3. 리뷰 상세 폼 보기
 	@RequestMapping("detailView")
-	public String getDetailViewForm(ReviewPage reviewPage, HttpServletRequest request)
+	public String getDetailViewForm(ReviewPage reviewPage,
+			HttpServletRequest request, ReviewDTO rDTO)
 	{
-		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
-		
-		ArrayList<PlaceDto> Info = rService.getPlaceInfo(placeNo);		// 장소 목록 조회
-		reviewPage.setPlaceNo(placeNo);
-		ArrayList<ReviewDTO> review = rService.getDetailList(reviewPage);	// 리뷰 상세 내용 조회
+		String memberID = request.getParameter("memberID");
+		reviewPage.setMemberID(memberID);
 		
 		// 로그인 정보 가져오기
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String mem_id = principal.toString();
-		// 권한 가져오기
-		MemberDTO mdto = mService.findMember(mem_id);
 		
-		request.setAttribute("mem", mdto);
-		request.setAttribute("placeNo", placeNo);
-		request.setAttribute("Info",Info);
-		request.setAttribute("review",review);
+		request.setAttribute("memberID", memberID);
+		request.setAttribute("info", mService.findMember(memberID));
+		request.setAttribute("mem", mService.findMember(mem_id));
+		request.setAttribute("more",rService.getMoreList(reviewPage, memberID));
 		request.setAttribute("page", reviewPage);
-		
+
 		return "review/detailView";
 	} 
 	
@@ -243,7 +238,7 @@ public class ReviewController {
 		
 		request.setAttribute("placeNo", placeNo);
 		request.setAttribute("Info",Info);
-		return "redirect:../review/detailView?placeNo="+placeNo;
+		return "redirect:../place/detail?placeNo="+placeNo;
 	}
 	
 	// 5. 리뷰 삭제 

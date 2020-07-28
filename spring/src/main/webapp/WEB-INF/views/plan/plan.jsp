@@ -24,9 +24,7 @@ $(function(){
 				var viewbutton = $(this);
 			var tr = viewbutton.parent().parent();
 			var td = tr.children();
-			
 			var pno = td.eq(0).text();
-			
 			var param = pno
 			 //alert(pno+"번 글입니다.");
 			 $(location).attr("href","/plan/planview"+'?&planNo='+pno);
@@ -35,6 +33,7 @@ $(function(){
  </script>
 </head>
 <body>
+
 <div align="center">
 <h3>나의 일정 페이지</h3>
 
@@ -43,9 +42,9 @@ http://127.0.0.1:9000/plan/plan
 <table border="1" width="100%" class="table table-bordered table-hover text-center" id="example-table-2">
 	 <tbody>
 		<tr>
-			<th>일정 번호</th><th>일정날짜</th><th>	일정장소	</th><th>	일정이름	</th><th>여행 유형</th>
+			<th>일정 번호</th><th>일정날짜</th><th>	일정이름	</th><th>여행 유형</th><th>	일정장소	</th>
 		</tr>
-		<c:if test="${planNo=null}">
+		<c:if test="${PLANNO=null}">
 			<tr>
 				<td>
 					일정을 만들어주세요!
@@ -56,20 +55,23 @@ http://127.0.0.1:9000/plan/plan
 			<form method="post" id="planlist" name="planlist" action="/plan/planmodi">
 					<tr>
 						<td>
-							${list.planNo } <input type="hidden" value="${list.planNo }" id="pno" name="pno">
+							${list.planNo } <input type="hidden" value="${list.planNo}" id="pno" name="pno">
 						</td>
-						<td>
-							<fmt:formatDate value="${list.planDate}" pattern="yyyy년MM월dd일"/>
-						</td>
-						<td>
-							${list.addr1 } <input type="hidden" value="${list.addr1}">
-										   <input type="hidden" value="${list.addr2}">
-						</td>
+							<td>
+								<fmt:formatDate value="${list.planDate}" pattern="yyyy년MM월dd일"/>
+							</td>
+						
 						<td>
 							${list.planTitle}<input type="hidden" value="${list.planTitle }">
 						</td>
 						<td>
-							${list.planCate}<input type="hidden" value="${planCate }">
+							${list.planCate}<input type="hidden" value="${list.planCate}">
+						</td>
+						<td>${list.placename}<br>
+							${list.placename2}<br>
+							${list.placename3}
+							<input type="hidden" value="${list.addr1}">
+							<input type="hidden" value="${list.addr2}">
 						</td>
 						<td><input type="submit" id="mobtn" name="mobtn" value="일정수정하기"></td>
 						
