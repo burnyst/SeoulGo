@@ -46,6 +46,9 @@ $(function(){
 <body>
 <input id="pagePath" type="hidden" value="${pagePath}" />
 <input id="placeNo" type="hidden" value="${item.placeNo}" name="dplaceNo"/>
+<input id="placeName" type="hidden" value="${item.placeName}"/>
+<input id="addr1" type="hidden" value="${item.addr1}"/>
+<input id="addr2" type="hidden" value="${item.addr2}"/>
 <h4 class="title">${item.placeName}</h4>
 <div class="pb-3">
 	<c:forEach var="i" items="${item.words}">
