@@ -98,9 +98,9 @@ public class PlaceDao {
 		return page;
 	}
 
-	public int listSubCount(int placeNo) {
-		return session.selectOne("place.listSubCount", placeNo);
-	}
+//	public int listSubCount(int placeNo) {
+//		return session.selectOne("place.listSubCount", placeNo);
+//	}
 
 	public PlaceDto detail(int placeNo) {
 		return session.selectOne("place.detail", placeNo);

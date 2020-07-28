@@ -70,9 +70,9 @@
 		</where>
 	</select>
 	
-	<select id="listSubCount" resultType="int">
+	<!-- <select id="listSubCount" resultType="int">
 		SELECT count(*) FROM placeImage WHERE placeNo=#{placeNo}
-	</select>
+	</select> -->
 	
 	<select id="detail" parameterType="int" resultMap="listResultMap">
 		SELECT <include refid="listFields" />
