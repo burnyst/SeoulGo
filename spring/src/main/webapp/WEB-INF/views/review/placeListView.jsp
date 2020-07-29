@@ -66,11 +66,10 @@ $(function(){
 					<td width="20%">${dto.placeName}</td>
 					<td width="45%">${dto.addr1}&nbsp;${dto.addr2}</td>
 					<td width="15%">${dto.tel}</td>
-					<td width="10%">100건</td>
-					<td width="10%">4.8점</td>
+					<td width="10%">${dto.reviewCount}건</td>
+					<td width="10%">${dto.placeRate}점</td>
 				</tr>
 			</c:forEach>
-			
 		</tbody>
 	</table>
 	<!-- 페이징 -->

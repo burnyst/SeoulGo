@@ -5,6 +5,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <t:path>
 <c:set var="defaultImage" value="${imagePath}/place/noimage.jpg" />
 <c:set var="pagePath" value="${basePath}/place" />
@@ -40,6 +41,10 @@ $(function(){
 	#pro {
 		width: 50px;
 		height: 50px;
+	}
+	.img {
+		width: 100px;
+		height: 100px;
 	}
 </style>
 </head>
@@ -132,25 +137,23 @@ $(function(){
 			</c:if>
 		</div>
 		<div class="col-sm-8">
-			<span>${review.memberID}</span>가 &nbsp;<span><fmt:formatDate value="${review.rDate}" pattern="yyyy년 MM월 dd일 "/>에</span>&nbsp;작성한 리뷰입니다.<br>
-			<span>00 건의 다른 장소 리뷰&nbsp;&nbsp;
-			<button id="moreView${review.memberID}" style="border:0; outline:0; background: none; font-size:15px;"><b>더보기</b></button></span>
+			<span>${review.memberID}</span>님이 &nbsp;<span><fmt:formatDate value="${review.rDate}" pattern="yyyy년 MM월 dd일 "/>에</span>&nbsp;작성한 리뷰입니다.<br>
+			<span>작성자의 다른 리뷰<button id="moreView${review.memberID}" style="border:0; outline:0; background: none; font-size:15px;"><b>보러가기</b></button></span>
 		</div>
 	</div>
 	
 	<!-- 버튼들, 나중에 c:if로 구분 -->
 	<div class="float-right">
-		<c:if test="${review.memberID eq mem.memberID || fn:contains(mem.mLevel,'ROLE_ADMIN')}">
+		<c:if test="${review.memberID eq mem.memberID}">
 			<a href="../review/modifyReview?placeNo=${item.placeNo}&rNo=${review.rNo}" style="text-decoration:none;">
 				<input type="button" class="btn btn-outline-primary btn-sm" id="mBtn" value="리뷰 수정"/>
 			</a>
+		</c:if>
+		<c:if test="${review.memberID eq mem.memberID || fn:contains(mem.mLevel,'ROLE_ADMIN')}">
 			<a href="../review/deleteReview?placeNo=${item.placeNo}&rNo=${review.rNo}" style="text-decoration:none;">
 				<input type="button" class="btn btn-outline-secondary btn-sm" id="dBtn" value="리뷰 삭제"/>
 			</a>
 		</c:if>
-		<sec:authorize access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')">
-			<input type="button" class="btn btn-outline-info btn-sm" id="pBtn" value="사진 보기"/>
-		</sec:authorize>
 	</div>
 	<br>
 	
@@ -187,7 +190,13 @@ $(function(){
 			<span>내용 : ${review.rContent}</span>
 		</div>
 		<br>
-		
+		<span>
+		<c:forEach items="${img }" var="img">
+			<c:if test="${review.memberID eq img.memberID}">
+				<img class="img" src="<spring:url value='/resources/img/review/${img.iSaveName}'/>">
+			</c:if>
+		</c:forEach>
+		</span>
 		<!-- 여행 유형 -->
 		<div>
 			<span>여행 유형 : ${review.rCate}</span>
