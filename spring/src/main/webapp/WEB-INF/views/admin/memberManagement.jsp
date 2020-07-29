@@ -31,6 +31,7 @@
 </style>
 </head>
 <body>
+	<input id="basePath" type="hidden" value="${basePath}" />
 	<!-- 검색 부분 -->
 	<div class="form-group row justify-content-center">
 		<div class="w100" style="padding-right:10px">
@@ -77,10 +78,10 @@
 								<td class="text-center">
 									<c:choose>
 										<c:when test="${list.proSaveName eq null}">
-											<img id="pro" src="${imagePath}/member/default.png">
+											<img id="pro" class="rounded-circle" src="${imagePath}/member/default.png">
 										</c:when>
 										<c:when test="${list.proSaveName != null}">
-											<img id="pro" src="${imagePath}/member/${list.proSaveName}">
+											<img id="pro" class="rounded-circle" src="${imagePath}/member/${list.proSaveName}">
 										</c:when>
 									</c:choose>
 								</td>

@@ -13,12 +13,15 @@
     <context:annotation-config/>
 	
 	<!--	컨넥션 풀 설정을 위한 작업 부분	-->
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">		
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 		<property name="url" value="jdbc:oracle:thin:@301-PC002:1521/orcl"/>
 		<property name="username" value="seoulmate"/>
 		<property name="password" value="seoulgo"/>
 	</bean>
+
+
+
 	
 	<!-- myBatis 등록 부분 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

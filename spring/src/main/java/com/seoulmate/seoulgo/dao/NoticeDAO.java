@@ -1,11 +1,13 @@
 package com.seoulmate.seoulgo.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.seoulmate.seoulgo.dto.MemberDTO;
 import com.seoulmate.seoulgo.dto.NoticeDTO;
 import com.seoulmate.seoulgo.dto.NoticeReplyDTO;
 
@@ -13,10 +15,27 @@ public class NoticeDAO extends SqlSessionDaoSupport {
 
 	@Autowired
 	SqlSessionTemplate session;
+
+	// 댓글 작성자의 정보 가져오기
+	public List<MemberDTO> getMemberInfo(NoticeReplyDTO nrdto) {
+		List<MemberDTO> list = session.selectList("reply.getMemberInfo", nrdto);
+		System.out.println("NoticeDAO.getMemberInfo() "+list);
+		return list;
+	}
+	
+	// 대댓글(댓글의 답글) 작성
+	public void reply(NoticeReplyDTO nrdto) {
+		session.insert("reply.reply", nrdto);
+	}
+	
+	// 댓글 정보 가져오기
+	public NoticeReplyDTO getReplyInfo(int nrNo) {
+		return session.selectOne("reply.getReplyInfo", nrNo);
+	}
 	
 	// 댓글 삭제
-	public void rplDelete(int nrNo) {
-		session.delete("reply.rplDelete", nrNo);
+	public void delete(int nrNo) {
+		session.delete("reply.delete", nrNo);
 	}
 	
 	// 댓글 리스트 
@@ -26,8 +45,8 @@ public class NoticeDAO extends SqlSessionDaoSupport {
 	}
 	
 	// 댓글 작성
-	public void replyProc(NoticeReplyDTO nrdto) {
-		session.insert("reply.replyProc", nrdto);
+	public void commentProc(NoticeReplyDTO nrdto) {
+		session.insert("reply.commentProc", nrdto);
 	}
 	
 	// 공지사항 수정 처리

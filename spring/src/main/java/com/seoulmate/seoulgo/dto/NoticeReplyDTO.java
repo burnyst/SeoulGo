@@ -9,6 +9,8 @@ public class NoticeReplyDTO {
 	private String nrWriter;
 	private String nrContent;
 	private Date nrDate;
+	private int nrParent;
+	private int nrOrder;
 
 	public int getNrNo() {
 		return nrNo;
@@ -50,10 +52,26 @@ public class NoticeReplyDTO {
 		this.nrDate = nrDate;
 	}
 
+	public int getNrParent() {
+		return nrParent;
+	}
+
+	public void setNrParent(int nrParent) {
+		this.nrParent = nrParent;
+	}
+
+	public int getNrOrder() {
+		return nrOrder;
+	}
+
+	public void setNrOrder(int nrOrder) {
+		this.nrOrder = nrOrder;
+	}
+
 	@Override
 	public String toString() {
 		return "NoticeReplyDTO [nrNo=" + nrNo + ", nNo=" + nNo + ", nrWriter=" + nrWriter + ", nrContent=" + nrContent
-				+ ", nrDate=" + nrDate + "]";
+				+ ", nrDate=" + nrDate + ", nrParent=" + nrParent + ", nrOrder=" + nrOrder + "]";
 	}
 
 }

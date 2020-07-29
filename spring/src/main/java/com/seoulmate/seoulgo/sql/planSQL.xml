@@ -31,10 +31,22 @@
 		MEMBERID 	
 </sql>
 <!-- 아이디를 조회하는 쿼리문 -->
-<select id="getmemberid" parameterType="java.lang.String" resultType="pdto">
+<select id="getmemberid" parameterType="string" resultType="pdto">
 select MEMBERID from MEMBER_T
 where MEMBERID= '#{memberid}'
- 
+</select>
+<!--planno를 구해오는 쿼리문  -->
+<select id="getplannum" parameterType="pdto" resultType="pdto">
+select PLANNO from plan
+where MEMBERID=#{mem_id}
+</select>
+<!--중복되는 placename을 찾을때 쓰는 쿼리문  -->
+<select id="getplacename" parameterType="int" resultType="pdto">
+ SELECT placeno,placename
+    FROM PLACE 
+     WHERE place.placeno in(SELECT p1.PLACENO
+                                         FROM PLANPLACE P1
+                                         WHERE #{pno}=P1.PLANNO)
 </select>
 <!--장소의 정보를 조회하는 쿼리문  -->
 <select id="placechoice" parameterType="int" resultType="pdto">
@@ -46,6 +58,28 @@ where MEMBERID= '#{memberid}'
 	 from place
 	where PLACENO = #{placeNo}
 </select>
+<select id="placechoice2" parameterType="int" resultType="pdto">
+	select 
+	PLACENAME,
+    PLACENO,
+    ADDR1, 
+    ADDR2
+	 from place
+	where PLACENO = #{placeNo2}
+</select>
+<select id="placechoice3" parameterType="int" resultType="pdto">
+	select 
+	PLACENAME,
+    PLACENO,
+    ADDR1, 
+    ADDR2
+	 from place
+	where PLACENO = #{placeNo3}
+</select>
+
+
+
+
 <select id="plist" parameterType="pdto" resultType="pdto">
 select <include refid="selectColumns"/> from plan ORDER BY PLAN.PLANNO DESC
 </select>
@@ -61,14 +95,15 @@ SELECT * FROM(
 
 
 <!-- plan과 place의 일부 데이터 조회 -->
-<select id="getplanboard" parameterType="pdto" resultType="pdto">
+<select id="getplanboard" parameterType="pdto" resultType="com.seoulmate.seoulgo.dto.PlanDTO">
 
 select *  from (
     	SELECT PLAN.PLANNO,
     	PLAN.PLANTITLE,
     	PLAN.PLANCATE,
     	PLAN.MEMBERID,
-    	plan.plandate,
+    	plan.PLANDATE,
+    	PLACE.PLACENAME,
    	    PLACE.ADDR1, 
    	    PLACE.ADDR2 , 
    	    rownum as rnum from plan,planplace,place
@@ -78,6 +113,7 @@ select *  from (
 		) where rnum between #{startRow} and #{endRow}
 		
 </select>
+
 
 <!-- 총 계획 숫자 조회 -->
 <select id="totalCnt" resultType="int">
@@ -162,7 +198,7 @@ select *  from (
 </select>
 	
 <select id="addr" parameterType="int" resultType="pdto">
- SELECT ADDR1,ADDR2
+ SELECT PLACENAME , PLACENO
 			FROM PLACE 
 			WHERE place.placeno in(SELECT p1.PLACENO
                                          FROM PLANPLACE P1

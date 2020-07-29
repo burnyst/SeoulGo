@@ -24,7 +24,6 @@ import com.seoulmate.seoulgo.service.ReviewService;
 @Controller
 @RequestMapping("/place")
 public class PlaceController {
-	private final String VIEW_PATH = "/place";
 	@Autowired
 	private PlaceService service;
 	@Autowired
@@ -33,13 +32,12 @@ public class PlaceController {
 	private MemberService mService;
 	
 	@GetMapping("/list")
-	public String list(PlacePage page, Model model) {
+	public void list(PlacePage page, Model model) {
 		model.addAttribute("page", service.list(page));
-		return VIEW_PATH+"/list";
 	}
 	
 	@GetMapping("/detail")
-	public String detail(int placeNo, Model model, ReviewPage reviewPage) {
+	public void detail(int placeNo, Model model, ReviewPage reviewPage) {
 		reviewPage.setPlaceNo(placeNo);
 		// 로그인 정보 가져오기
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -47,14 +45,13 @@ public class PlaceController {
 	
 		model.addAttribute("item", service.detail(placeNo));
 		model.addAttribute("review",rService.getDetailList(reviewPage));
+		model.addAttribute("img",rService.getImg(placeNo));
 		model.addAttribute("mem", mService.findMember(mem_id));
 		model.addAttribute("page", reviewPage);
-		return VIEW_PATH+"/detail";
 	}
 	
 	@GetMapping("/insert")
-	public String insertForm() {
-		return VIEW_PATH+"/insert";
+	public void insertForm() {
 	}
 	@PostMapping("/insert")
 	@ResponseBody
@@ -63,9 +60,8 @@ public class PlaceController {
 	}
 	
 	@GetMapping("/update")
-	public String updateForm(int placeNo, Model model) {
+	public void updateForm(int placeNo, Model model) {
 		model.addAttribute("item", service.detail(placeNo));
-		return VIEW_PATH+"/update";
 	}
 	@PostMapping("/update")
 	@ResponseBody

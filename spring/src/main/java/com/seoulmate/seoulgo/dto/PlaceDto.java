@@ -12,15 +12,9 @@ public class PlaceDto {
 	private int reviewCount;
 	private float placeRate;
 	private List<String> imageNames;
+	private List<String> words;
 	
 	public PlaceDto() {
-	}
-	public PlaceDto(String placeName, String addr1, String addr2, int cate, String tel) {
-		this.placeName = placeName;
-		this.addr1 = addr1;
-		this.addr2 = addr2;
-		this.cate = cate;
-		this.tel = tel;
 	}
 	
 	public int getPlaceNo() {
@@ -53,6 +47,9 @@ public class PlaceDto {
 	public List<String> getImageNames() {
 		return imageNames;
 	}
+	public List<String> getWords() {
+		return words;
+	}
 	public void setPlaceNo(int placeNo) {
 		this.placeNo = placeNo;
 	}
@@ -80,11 +77,14 @@ public class PlaceDto {
 	public void setImageNames(List<String> imageNames) {
 		this.imageNames = imageNames;
 	}
+	public void setWords(List<String> words) {
+		this.words = words;
+	}
 	
 	@Override
 	public String toString() {
 		return "PlaceDto [placeNo=" + placeNo + ", placeName=" + placeName + ", addr1=" + addr1 + ", addr2=" + addr2
 				+ ", cate=" + cate + ", tel=" + tel + ", reviewCount=" + reviewCount + ", placeRate=" + placeRate
-				+ ", imageNames=" + imageNames + "]";
+				+ ", imageNames=" + imageNames + ", words=" + words + "]";
 	}
 }

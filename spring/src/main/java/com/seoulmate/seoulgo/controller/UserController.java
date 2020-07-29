@@ -205,7 +205,7 @@ public class UserController {
 
 		uService.registerProc(mdto);
 
-		RedirectView rv = new RedirectView("/user/login");
+		RedirectView rv = new RedirectView(request.getContextPath()+"/user/login");
 		mv.setView(rv);
 
 		return mv;

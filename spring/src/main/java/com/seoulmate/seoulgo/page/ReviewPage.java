@@ -14,9 +14,14 @@ public class ReviewPage {
 	private int totalPage;
 	private int totalRow; // DB에서 구한다.
 
-	// 쿼리 where절에 필요한 변수 선언
+	// 쿼리 where절에 필요한 필드 선언
 	private int placeNo;
-
+	private String memberID;
+	
+	// 검색에 필요한 필드 선언
+	private String searchType;
+	private String keyword;
+	
 	// Spring에서는 파라메터 값을 전달 받을때 기본 생성자와 setter()를 이용해서 데이터를 전달 받는다.
 	public ReviewPage() {
 		// 처음 리스트로 들어올 때는 데이터가 안 넘어 오므로 초기값을 1페이지에
@@ -109,6 +114,13 @@ public class ReviewPage {
 	public void setPlaceNo(int placeNo) {
 		this.placeNo = placeNo;
 	}
+	public String getMemberID() {
+		return memberID;
+	}
+
+	public void setMemberID(String memberID) {
+		this.memberID = memberID;
+	}
 
 	// 페이지에 따른 데이터의 startRow와 endRow, totalPage, startPage, endPage
 	public void setTotalRow(int totalRow) {
@@ -134,11 +146,28 @@ public class ReviewPage {
 		}
 	}
 
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
 	@Override
 	public String toString() {
 		return "ReviewPage [pageNo=" + pageNo + ", perPageNum=" + perPageNum + ", startRow=" + startRow + ", endRow="
 				+ endRow + ", perGroupPageNum=" + perGroupPageNum + ", startPage=" + startPage + ", endPage=" + endPage
-				+ ", totalPage=" + totalPage + ", totalRow=" + totalRow + ", placeNo=" + placeNo + "]";
+				+ ", totalPage=" + totalPage + ", totalRow=" + totalRow + ", placeNo=" + placeNo + ", memberID="
+				+ memberID + ", searchType=" + searchType + ", keyword=" + keyword + "]";
 	}
-
+	
 }

@@ -2,9 +2,14 @@ package com.seoulmate.seoulgo.controller;
 
 
 
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,22 +40,58 @@ public PlanService planservice;
 		
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String mem_id = principal.toString();
+		
 		System.out.println(mem_id);
 		page2.setMemberid(mem_id);
 		
 		int TotalRow = planservice.personrow(page2);
 		page2.setTotalRow(TotalRow);
 		
-		ArrayList<PlanDTO> pdto = (ArrayList) planservice.getplanboard(page2);
+		ArrayList<PlanDTO> pdto = (ArrayList)planservice.getplanboard(page2);
+		
 		System.out.println(pdto);
 		System.out.println("page2의 초기값 조회합니다."+page2);
-		System.out.println("pdto의 최종값을 조회합니다."+pdto);
 		
+			for(int i=0;i<pdto.size();i++) {
+				
+				
+			}	
+		
+//			if(pdto.get(i).getPlacename()==null) {
+//			int e =pdto.get(i).getPlanNo();
+//			List<PlanDTO> pnomany = planservice.getplacename(e);
+//			pdto.get(i).setPlacename((pnomany.get(0).toString()));
+//		}
+//		if(pdto.get(i).getPlacename()==null) {
+//			int e = pdto.get(i).getPlanNo();
+//			List<PlanDTO> pnomany = planservice.getplacename(e);
+//			pdto.get(i).setPlacename2((pnomany.get(1).getPlacename()));
+//		}
+//		if(pdto.get(i).getPlacename3()==null) {
+//			int e = pdto.get(i).getPlanNo();
+//			List<PlanDTO> pnomany = planservice.getplacename(e);
+//			System.out.println("pnomany의 값"+pnomany);
+//			pdto.get(i).setPlacename3((pnomany.get(2).getPlacename()));
+//		}
+			
+//		List<PlanDTO>planno = planservice.getplanno(mem_id);
+//		for (int i=0;i<planno.size();i++ ) {
+//			int e =planno.get(i).getPlanNo();
+//			
+//			ArrayList pnomany =(ArrayList)planservice.getplacename(e);
+//			pnomany.add(pnomany.toString());
+//			System.out.println("pnomany의 값"+pnomany);
+//			mv.addObject("placemany",pnomany);
+//		}
+		System.out.println("pdto의 최종값을 조회합니다."+pdto);
 		mv.addObject("plist",pdto);
 		mv.addObject("page",page2);
 		mv.setViewName("plan/plan");
 		return mv;
 	}
+	
+
+
 	//http://127.0.0.1:9000/plan/planmodi
 	@RequestMapping("/plan/planmodi")
 	public ModelAndView planredirect(ModelAndView mv,HttpServletRequest req) {
@@ -67,7 +108,7 @@ public PlanService planservice;
 			pdto.get(i).setAddr1(view2.get(0).getAddr1());
 			//view2.get(0).getAdd2();
 			pdto.get(i).setAddr2(view2.get(0).getAddr2());
-			pdto.get(i).setPlace(view2.get(0).getPlace());
+			pdto.get(i).setPlacename(view2.get(0).getPlacename());
 		}
 		mv.setViewName("plan/planmodi");
 		mv.addObject("Pdto",pdto);
@@ -104,42 +145,56 @@ public PlanService planservice;
 	@RequestMapping("/plan/planwrite")
 	public ModelAndView planwrite(ModelAndView mv) {
 		System.out.println("planwrite 호출완료");
-		
-		
 		mv.setViewName("plan/planwrite");
 		return mv;
 	}
 	@RequestMapping("/plan/planwritenter")
-	public ModelAndView planwritenter(ModelAndView mv,HttpServletRequest req) {
+	public ModelAndView planwritenter(ModelAndView mv,HttpServletRequest req,HttpServletResponse res) {
 		System.out.println("planwritenter 호출완료");
-		
-		int placeNo = Integer.parseInt(req.getParameter("placeNo"));
-		
-		ArrayList choiceplace = (ArrayList)planservice.choiceplace(placeNo);
-		System.out.println("choiceplace 변수의 내용 : 컨트롤러 "+choiceplace);
-		mv.addObject("choice", choiceplace);
+		try{
+			if(req.getParameter("placeNo") != null) {
+				HttpSession session = req.getSession();	
+				int placeNo = Integer.parseInt(req.getParameter("placeNo"));
+				System.out.println("첫번째 장소 번호 : "+placeNo);
+				ArrayList choiceplace = (ArrayList)planservice.choiceplace(placeNo);
+				mv.addObject("choice", choiceplace);
+				session.setAttribute("choice1", choiceplace);
+			}
+			else if(req.getParameter("placeNo3")!=null) {
+				HttpSession session = req.getSession();
+				int placeNo3 = Integer.parseInt(req.getParameter("placeNo3"));
+				
+				session.setAttribute("placeNo3", placeNo3);
+				System.out.println("세번째 장소 번호 : "+placeNo3);
+				ArrayList choiceplace3 = (ArrayList)planservice.choiceplace3(placeNo3);
+				System.out.println("세번째 받은 값 :"+choiceplace3);
+				mv.addObject("choice3", choiceplace3);
+			}
+		}catch(Exception e){
+			System.out.println("일정 중 일부는 등록되지 않았습니다.");
+		}
 		mv.setViewName("plan/planwritenter");
 		return mv;
 	}
-	//1.작성된 정보를  2.db로 날리는 작업 
-	@PostMapping("/plan/planwrited")
-	public ModelAndView planwriteed(ModelAndView mv,HttpServletRequest req,PlanDTO plan,PlanPage page) {
+	@RequestMapping("/plan/planwritenter2")
+	public ModelAndView planwritenter2(ModelAndView mv,HttpServletRequest req,HttpServletResponse res) {
+		System.out.println("planwritenter2 호출완료");
 		
-		planservice.planwritedservice(plan,req);
-		
-		
-		int TotalRow = planservice.getTotalRow(page);
-		page.setTotalRow(TotalRow);
-		
-		ArrayList<PlanDTO> pdto = (ArrayList) planservice.getplanboard(page);
-		System.out.println(pdto);
-		System.out.println("page2의 초기값 조회합니다."+page);
-		System.out.println("pdto의 최종값을 조회합니다."+pdto);
-		
-		RedirectView rv = new RedirectView("/plan/plan");
-		mv.addObject("plist",pdto);
-		mv.addObject("page",page);
-		mv.setView(rv);
+			HttpSession session = req.getSession();
+			ArrayList dto =(ArrayList)session.getAttribute("choice1");
+			int placeNo2 = Integer.parseInt(req.getParameter("placeNo2"));
+			
+			session.setAttribute("placeNo2", placeNo2);
+			
+			System.out.println("두번째 장소 번호 : "+placeNo2);
+			
+			ArrayList choiceplace2 = (ArrayList)planservice.choiceplace2(placeNo2);
+			
+			System.out.println("두번째 받은 값"+choiceplace2);
+			
+			mv.addObject("choice2", choiceplace2);
+			mv.addObject("choice1", dto );
+			mv.setViewName("plan/planwritenter2");
 		return mv;
 	}
 	
@@ -160,7 +215,7 @@ public PlanService planservice;
 			detailview.get(i).setAddr1(view2.get(0).getAddr1());
 			//view2.get(0).getAdd2();
 			detailview.get(i).setAddr2(view2.get(0).getAddr2());
-			detailview.get(i).setPlace(view2.get(0).getPlace());
+			detailview.get(i).setPlacename(view2.get(0).getPlacename());
 		}
 		System.out.println("dtd를 어레이 리스트로-planview : "+detailview);
 		
@@ -185,6 +240,40 @@ public PlanService planservice;
 		mv.setViewName("plan/placesarch");
 		return mv;
 	}
+	//장소검색 폼
+		@RequestMapping("plan/placesarch2")
+		public ModelAndView placeSarch2(ModelAndView mv,PlanPage page){
+			
+			
+			//페이징 시작
+			int TotalRow = planservice.sarchplaceint(page);
+			page.setTotalRow(TotalRow);
+			ArrayList<PlanDTO> view = (ArrayList<PlanDTO>) planservice.placeSarch(page);
+			
+			System.out.println("totalrow의 값: "+TotalRow);
+			System.out.println("view 변수의 값 : "+view);
+			mv.addObject("placeview", view);
+			mv.addObject("page",page);
+			mv.setViewName("plan/placesarch2");
+			return mv;
+		}
+		//장소검색 폼
+		@RequestMapping("plan/placesarch3")
+		public ModelAndView placeSarch3(ModelAndView mv,PlanPage page){
+			//place정보를 다 긁어와야 한다.
+			
+			//페이징 시작
+			int TotalRow = planservice.sarchplaceint(page);
+			page.setTotalRow(TotalRow);
+			ArrayList<PlanDTO> view = (ArrayList<PlanDTO>) planservice.placeSarch(page);
+			
+			System.out.println("totalrow의 값: "+TotalRow);
+			System.out.println("view 변수의 값 : "+view);
+			mv.addObject("placeview", view);
+			mv.addObject("page",page);
+			mv.setViewName("plan/placesarch3");
+			return mv;
+		}
 	@RequestMapping("/plan/plandelete")
 	public ModelAndView plandelete(PlanDTO page,HttpServletRequest req,ModelAndView mv) {
 		System.out.println("plandelete 페이지 호출함수★★★");
@@ -214,6 +303,27 @@ public PlanService planservice;
 		System.out.println("viewplan페이지 호출함수.,");
 		return "plan/viewplan";
 	}
+	//1.작성된 정보를  2.db로 날리는 작업 
+		@PostMapping("/plan/planwrited")
+		public ModelAndView planwriteed(ModelAndView mv,HttpServletRequest req,PlanDTO plan,PlanPage page) {
+			
+			planservice.planwritedservice(plan,req);
+			
+			
+			int TotalRow = planservice.getTotalRow(page);
+			page.setTotalRow(TotalRow);
+			
+			ArrayList<PlanDTO> pdto = (ArrayList) planservice.getplanboard(page);
+			System.out.println(pdto);
+			System.out.println("page2의 초기값 조회합니다."+page);
+			System.out.println("pdto의 최종값을 조회합니다."+pdto);
+			
+			RedirectView rv = new RedirectView("/plan/plan");
+			mv.addObject("plist",pdto);
+			mv.addObject("page",page);
+			mv.setView(rv);
+			return mv;
+		}
 
 	
 }

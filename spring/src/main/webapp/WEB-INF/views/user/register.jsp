@@ -15,6 +15,31 @@
 	table {
 		margin: 0 auto;
 	}
+	
+	.filebox label {
+		display: inline-block;
+		padding: .5em .75em;
+		color: #999;
+		font-size: inherit;
+		line-height: normal;
+		vertical-align: middle;
+		background-color: #fdfdfd;
+		cursor: pointer;
+		border: 1px solid #ebebeb;
+		border-bottom-color: #e2e2e2;
+		border-radius: .25em;
+	}
+	
+	.filebox input[type="file"] { /* 파일 필드 숨기기 */
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		border: 0;
+	}
 </style>
 </head>
 <body>
@@ -24,10 +49,11 @@
 				<tr>
 					<th class="text-center" width="55%">프로필 사진</th>
 					<td>
-						<input type="file" name="files" id="files" accept=".jpg, .jpeg, .gif, .png, .bmp"/>
-						<br>
+						<div class="filebox">
+							<label for="files">업로드</label>
+							<input type="file" name="files" id="files" accept=".jpg, .jpeg, .gif, .png, .bmp"/>
+						</div>
 						<div class="profile"><img src=""></div>
-						<!-- <input type="hidden" name="proSaveName" value="" id="profile-file"> -->
 					</td>
 				</tr>
 				<tr>

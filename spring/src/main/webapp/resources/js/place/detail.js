@@ -40,7 +40,7 @@ $(document).ready(function() {
 	var geocoder = new kakao.maps.services.Geocoder();
 
 	// 주소로 좌표를 검색합니다
-	geocoder.addressSearch('${item.addr2}', function(result, status) {
+	geocoder.addressSearch($("#addr2").val(), function(result, status) {
 	    // 정상적으로 검색이 완료됐으면 
 	     if (status === kakao.maps.services.Status.OK) {
 
@@ -54,7 +54,7 @@ $(document).ready(function() {
 
 	        // 인포윈도우로 장소에 대한 설명을 표시합니다
 	        var infowindow = new kakao.maps.InfoWindow({
-	            content: '<div style="width:150px;text-align:center;padding:6px 0;">${item.placeName}</div>'
+	            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+$("#placeName").val()+'</div>'
 	        });
 	        infowindow.open(map, marker);
 

@@ -20,7 +20,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.seoulmate.seoulgo.dto.MemberDTO;
 import com.seoulmate.seoulgo.dto.PlaceDto;
 import com.seoulmate.seoulgo.dto.ReviewDTO;
 import com.seoulmate.seoulgo.page.PlacePage;
@@ -58,12 +57,11 @@ public class ReviewController {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String mem_id = principal.toString();
 		
-		// 장소정보 가져오기
-		ArrayList<PlaceDto> Info = rService.getPlaceInfo(placeNo);
-
+		request.setAttribute("img",rService.getImg(placeNo));
 		request.setAttribute("placeNo", placeNo);
-		request.setAttribute("Info",Info);
+		request.setAttribute("Info",rService.getPlaceInfo(placeNo));
 		request.setAttribute("mem_id", mem_id);
+		
 		return "review/writeReview";
 	}
 	
@@ -75,7 +73,7 @@ public class ReviewController {
 				
 		// 파일 업로드 
 		// 1. 업로드한 파일 저장할 폴더 지정
-		String path="D:\\upload";
+		String path= request.getSession().getServletContext().getRealPath("/resources/img")+"/review/";
 		// 2. 파일이름 뽑아내기
 		ArrayList list = new ArrayList();
 		for(int i=0; i<rDTO.getFiles().length; i++) {
@@ -108,46 +106,50 @@ public class ReviewController {
 
 		rService.insertReview(rDTO, session, list);
 		
-		return "redirect:http://localhost:9000/review/detailView?placeNo="+placeNo;
+		return "redirect:../place/detail?placeNo="+placeNo;
 	}
 
 	// 3. 리뷰 상세 폼 보기
 	@RequestMapping("detailView")
-	public String getDetailViewForm(ReviewPage reviewPage, HttpServletRequest request)
+	public String getDetailViewForm(ReviewPage reviewPage,
+			HttpServletRequest request, ReviewDTO rDTO)
 	{
-		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
-		
-		ArrayList<PlaceDto> Info = rService.getPlaceInfo(placeNo);		// 장소 목록 조회
-		reviewPage.setPlaceNo(placeNo);
-		ArrayList<ReviewDTO> review = rService.getDetailList(reviewPage);	// 리뷰 상세 내용 조회
+		String memberID = request.getParameter("memberID");
+		reviewPage.setMemberID(memberID);
 		
 		// 로그인 정보 가져오기
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String mem_id = principal.toString();
-		// 권한 가져오기
-		MemberDTO mdto = mService.findMember(mem_id);
 		
-		request.setAttribute("mem", mdto);
-		request.setAttribute("placeNo", placeNo);
-		request.setAttribute("Info",Info);
-		request.setAttribute("review",review);
+		request.setAttribute("memberID", memberID);
+		request.setAttribute("info", mService.findMember(memberID));
+		request.setAttribute("mem", mService.findMember(mem_id));
+		request.setAttribute("more",rService.getMoreList(reviewPage, memberID));
+		request.setAttribute("img", rService.getMoreImg(memberID));
 		request.setAttribute("page", reviewPage);
-		
+
 		return "review/detailView";
 	} 
 	
 	// 4. 리뷰 수정 폼 보기
 	@RequestMapping("modifyReview")
-	public String getModifyViewForm(Model model, HttpServletRequest request) {
+	public String getModifyViewForm(Model model, HttpServletRequest request, 
+			ReviewDTO rDTO) {
 		// 파라미터 placeNo=글번호
 		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
 		int rNo = Integer.parseInt(request.getParameter("rNo"));
 		
-		ArrayList<PlaceDto> Info = rService.getPlaceInfo(placeNo);
+		// 로그인 정보 가져오기
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String mem_id = principal.toString();
 		
+		rDTO.setplaceNo(placeNo);
+		rDTO.setMemberID(mem_id);
+		
+		request.setAttribute("img",rService.getImg(placeNo));
 		request.setAttribute("placeNo", placeNo);
 		request.setAttribute("rNo", rNo);
-		request.setAttribute("Info",Info);
+		request.setAttribute("Info",rService.getPlaceInfo(placeNo));
 		
 		return "review/modifyReview";
 	}
@@ -170,7 +172,7 @@ public class ReviewController {
 				break; 
 			}
 		}
-		String path="D:\\upload";
+		String path= request.getSession().getServletContext().getRealPath("/resources/img")+"/review/";
 		ArrayList fileList = new ArrayList();
 				
 		//2.첨부파일에 대한 정보 알아두기(첨부파일이 ★ '있는 경우에만'★  정보를 알아두면 된다.) + 파일복사
@@ -243,7 +245,7 @@ public class ReviewController {
 		
 		request.setAttribute("placeNo", placeNo);
 		request.setAttribute("Info",Info);
-		return "redirect:../review/detailView?placeNo="+placeNo;
+		return "redirect:../place/detail?placeNo="+placeNo;
 	}
 	
 	// 5. 리뷰 삭제 
@@ -259,7 +261,7 @@ public class ReviewController {
 		
 		rService.deleteReview(rDTO);
 		
-		return "redirect:../review/detailView?placeNo="+placeNo;
+		return "redirect:../place/detail?placeNo="+placeNo;
 	}
 	// 작성일(String->Date) 타입 변환 메서드
 	@InitBinder
@@ -286,15 +288,15 @@ public class ReviewController {
 
 		// 비즈니스 로직
 		int number = rService.goodcheck(rDTO); // 체크	
+		System.out.println("number"+number);
 		if( number == 0 ){
 			rService.goodupdate(rDTO); // 좋아요 +1
 		} else {
 			rService.gooddelete(rDTO); // 좋아요 삭제
 		}
-
 		request.setAttribute("placeNo", placeNo);
 		// View
-		return "redirect:../review/detailView?placeNo="+placeNo;
+		return "redirect:../place/detail?placeNo="+placeNo;
 	}	
 	
 	// 좋아요 수 검색
@@ -355,5 +357,4 @@ public class ReviewController {
 		out.println(count);
 		out.close();
 	}
-		
 }
