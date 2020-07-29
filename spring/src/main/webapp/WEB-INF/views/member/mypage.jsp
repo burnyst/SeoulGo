@@ -46,10 +46,10 @@
 				<td class="text-center">
 					<c:choose>
 						<c:when test="${mem.proSaveName eq null}">
-							<img id="pro" src="${imagePath}/member/default.png">
+							<img id="pro" class="rounded-circle" src="${imagePath}/member/default.png">
 						</c:when>
 						<c:when test="${mem.proSaveName != null}">
-							<img id="pro" src="${imagePath}/member/${mem.proSaveName}">
+							<img id="pro" class="rounded-circle" src="${imagePath}/member/${mem.proSaveName}">
 						</c:when>
 					</c:choose>
 				</td>
@@ -85,11 +85,21 @@
 	
 	<h3>마이 플랜</h3>
 	<br>
-	
+
 	<table class="table table-hover">
-		<tr>
-			<td></td>
-		</tr>
+		<thead>
+			<tr>
+				<th>일정 날짜</th>
+				<th>일정 이름</th>
+				<th>일정 장소</th>
+				<th>여행 유형</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td></td>
+			</tr>
+		</tbody>
 	</table>
 </body>
 </html>

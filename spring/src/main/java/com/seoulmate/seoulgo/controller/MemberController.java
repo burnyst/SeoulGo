@@ -100,7 +100,7 @@ public class MemberController {
 	// 회원정보 수정
 	@RequestMapping("/memberInfoUpdate")
 	public ModelAndView memberInfoUpdate(MemberDTO mdto, MultipartHttpServletRequest multipartRequest, HttpServletRequest request, ModelAndView mv, MultipartFile files, @RequestParam String phone, @RequestParam String nickname, @RequestParam String email) {
-		System.out.println("MemberController.memberInfoUpdate() 진입");
+		System.out.println("MemberController.memberInfoUpdate() 진입"+mdto);
 		
 		//현재 로그인 한 회원 아이디 가져오기
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -173,8 +173,10 @@ public class MemberController {
 
 			mService.memberInfoUpdate(findMember);
 			
-			mv.setViewName("/member/updateSuccess");
+			RedirectView rv = new RedirectView("/member/mypage");
+			mv.addObject("mem", findMember);
 			mv.addObject("msg", "updateSuccess");
+			mv.setView(rv);
 		}else {
 			mv.setViewName("/member/mypage");
 			mv.addObject("msg", "updateFail");

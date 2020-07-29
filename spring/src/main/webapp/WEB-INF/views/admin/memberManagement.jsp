@@ -77,10 +77,10 @@
 								<td class="text-center">
 									<c:choose>
 										<c:when test="${list.proSaveName eq null}">
-											<img id="pro" src="${imagePath}/member/default.png">
+											<img id="pro" class="rounded-circle" src="${imagePath}/member/default.png">
 										</c:when>
 										<c:when test="${list.proSaveName != null}">
-											<img id="pro" src="${imagePath}/member/${list.proSaveName}">
+											<img id="pro" class="rounded-circle" src="${imagePath}/member/${list.proSaveName}">
 										</c:when>
 									</c:choose>
 								</td>
