@@ -56,7 +56,9 @@
 		(
 		    SELECT word, ROW_NUMBER() OVER (ORDER BY SUM(freq) DESC) rn
 		    FROM reviewBoard r JOIN reviewWord w ON r.rNo=w.rNo
-		    WHERE placeNo = #{placeNo} AND (SELECT COUNT(*) FROM (SELECT rNo FROM reviewWord WHERE rNo IN (SELECT rNo FROM reviewBoard WHERE placeNo = #{placeNo}) GROUP BY rNo)) > 10
+		    WHERE placeNo = #{placeNo}
+		    AND (SELECT COUNT(*) FROM (SELECT rNo FROM reviewWord WHERE rNo IN (SELECT rNo FROM reviewBoard WHERE placeNo = #{placeNo} AND rIsShow=1) GROUP BY rNo)) > 10
+		    AND rIsShow=1
 		    GROUP BY placeNo, word
 		) WHERE rn BETWEEN 1 AND 5
 	</select>
