@@ -58,3 +58,10 @@ class ReviewWordDao:
         except Exception as e:
             for i in list:
                 self.logger.error(e, 'rNo=' + str(i['rNo']) + ', word=' + i['word'] + ', freq=' + str(i['freq']))
+
+    def delete(self, rNo):
+        sql = """delete from reviewWord where rNo=:rNo"""
+        try:
+            self.db.execute_dml(sql, rNo=rNo)
+        except Exception as e:
+            self.logger.error(e, 'rNo=' + str(rNo))

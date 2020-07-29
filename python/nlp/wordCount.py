@@ -6,13 +6,14 @@ class PlaceWordCount:
     def __init__(self):
         self.okt = Okt()
         self.dao = ReviewWordDao()
+        self.ruleout = []
+        with open('ruleout.txt', 'r', encoding='utf-8') as f:
+            self.ruleout = f.read().replace(' ', '').split()
     def __wordCount__(self, text):
         rst = {}
         nouns = self.okt.nouns(text)
         for n in nouns:
-            if n not in ['나', '내', '제', '이', '이것', '이곳',
-                         '저', '저것', '저곳', '그', '그것', '그곳', '곳', '것',
-                         '때', '및', '를', '더', '수', '후']:
+            if n not in self.ruleout:
                 if n not in rst:
                     rst[n] = 0
                 rst[n] = rst[n] + 1
@@ -22,12 +23,15 @@ class PlaceWordCount:
         reviewList = self.dao.getReviewList(startDate, endDate)
         saveList = []
         for i in reviewList:
+            self.dao.delete(i["rNo"])
             data = self.__wordCount__(i["content"])
             for key, val in data.items():
                 saveList.append({"rNo": i["rNo"], "word": key, "freq": val})
         self.dao.insertList(saveList)
     def count(self, rNo):
         review = self.dao.getReview(rNo)
+        if review is not None:
+            self.dao.delete(rNo)
         saveList = []
         data = self.__wordCount__(review["content"])
         for key, val in data.items():
