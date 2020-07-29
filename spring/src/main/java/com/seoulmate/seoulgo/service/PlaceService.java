@@ -22,9 +22,8 @@ import com.seoulmate.seoulgo.page.PlacePage;
 public class PlaceService {
 	
 	private Logger logger = LoggerFactory.getLogger(PlaceService.class);
-	
 	@Autowired
-	PlaceDao dao;
+	private PlaceDao dao;
 	
 	private boolean uploadFile(MultipartFile srcFile, File uploadFolder, String fileName) {
 		boolean rv = false;
@@ -136,11 +135,11 @@ public class PlaceService {
 
 	public boolean delete(int placeNo) {
 		boolean rv = false;
-		if (dao.listSubCount(placeNo) == dao.deleteSub(placeNo)) {
+//		if (dao.listSubCount(placeNo) == dao.deleteSub(placeNo)) {
 			if (dao.delete(placeNo) > 0) {
 				rv = true;
 			}
-		}
+//		}
 		return rv;
 	}
 }

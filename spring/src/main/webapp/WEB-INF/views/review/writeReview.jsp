@@ -25,7 +25,6 @@
 		<h5>${dto.tel}</h5>
 	</c:forEach>
 </div>
-
 <div class="container">
 	
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -34,24 +33,11 @@
     <div class="carousel-item active">
     	<img src="<spring:url value='/resources/img/review/11.jpg'/>">
     </div>
+  <c:forEach items="${img}" var="img">
     <div class="carousel-item">
-    	<img src="<spring:url value='/resources/img/review/22.jpg'/>">
+    	<img style="width: 1200px; height: 400px;" src="<spring:url value='/resources/img/review/${img.iSaveName}'/>">
     </div>
-    <div class="carousel-item">
-    	<img src="<spring:url value='/resources/img/review/33.jpg'/>">
-    </div>
-    <div class="carousel-item">
-    	<img src="<spring:url value='/resources/img/review/44.jpg'/>">
-    </div>
-    <div class="carousel-item">
-    	<img src="<spring:url value='/resources/img/review/55.jpg'/>">
-    </div>
-    <div class="carousel-item">
-    	<img src="<spring:url value='/resources/img/review/66.jpg'/>">
-    </div>
-    <div class="carousel-item">
-    	<img src="<spring:url value='/resources/img/review/77.jpg'/>">
-    </div>
+  </c:forEach>
   </div>
   <!-- Left and right controls -->
   <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">

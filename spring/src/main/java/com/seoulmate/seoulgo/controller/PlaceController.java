@@ -45,6 +45,7 @@ public class PlaceController {
 	
 		model.addAttribute("item", service.detail(placeNo));
 		model.addAttribute("review",rService.getDetailList(reviewPage));
+		model.addAttribute("img",rService.getImg(placeNo));
 		model.addAttribute("mem", mService.findMember(mem_id));
 		model.addAttribute("page", reviewPage);
 	}

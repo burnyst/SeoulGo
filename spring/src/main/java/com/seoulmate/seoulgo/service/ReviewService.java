@@ -113,4 +113,12 @@ public class ReviewService {
 		ArrayList<ReviewDTO> list = rDAO.getMoreList(reviewPage);
 		return list;
 	}
+	// 리뷰 사진 가져오기
+	public ArrayList<ReviewDTO> getImg(int placeNo) {
+		return rDAO.getImg(placeNo);
+	}
+	// 더보기 사진 가져오기
+	public ArrayList<ReviewDTO> getMoreImg(String memberID) {
+		return rDAO.getMoreImg(memberID);
+	}
 }

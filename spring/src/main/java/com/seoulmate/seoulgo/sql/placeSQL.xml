@@ -56,9 +56,8 @@
 		(
 		    SELECT word, ROW_NUMBER() OVER (ORDER BY SUM(freq) DESC) rn
 		    FROM reviewBoard r JOIN reviewWord w ON r.rNo=w.rNo
-		    WHERE placeNo = #{placeNo}
+		    WHERE placeNo = #{placeNo} AND (SELECT COUNT(*) FROM (SELECT rNo FROM reviewWord WHERE rNo IN (SELECT rNo FROM reviewBoard WHERE placeNo = #{placeNo}) GROUP BY rNo)) > 10
 		    GROUP BY placeNo, word
-		    HAVING COUNT(*) > 10
 		) WHERE rn BETWEEN 1 AND 5
 	</select>
 	
@@ -70,9 +69,9 @@
 		</where>
 	</select>
 	
-	<select id="listSubCount" resultType="int">
+	<!-- <select id="listSubCount" resultType="int">
 		SELECT count(*) FROM placeImage WHERE placeNo=#{placeNo}
-	</select>
+	</select> -->
 	
 	<select id="detail" parameterType="int" resultMap="listResultMap">
 		SELECT <include refid="listFields" />
