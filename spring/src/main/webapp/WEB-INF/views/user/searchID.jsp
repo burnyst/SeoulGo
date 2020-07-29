@@ -30,7 +30,7 @@
 					<th class="text-center" width="35%">이메일</th>
 					<td>
 						<input type="text" name="email" id="email" placeholder="이메일을 입력해주세요" required="required"/>
-						<input type="button" name="emailBtn" id="emailBtn" class="btn btn-outline-secondary btn-sm" value="인증번호 전송"/>
+						<button type="button" name="emailBtn" id="emailBtn" class="btn btn-outline-secondary btn-sm">인증번호 전송</button>
 						<div class="check_font" id="email_check"></div>
 					</td>
 				</tr>
@@ -43,7 +43,7 @@
 				</tr>
 				<tr>
 					<td colspan="2" class="text-center">
-						<input type="submit" id="searchIDProc" class="btn btn-primary btn-sm" value="아이디 찾기"/>
+						<input type="button" id="searchIDProc" class="btn btn-primary btn-sm" value="아이디 찾기"/>
 						<input type="button" id="cancelBtn" class="btn btn-secondary btn-sm" value="취소"/>
 					</td>
 				</tr>

@@ -7,6 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>로그인</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+<script src="${basePath}/resources/js/user/msg.js"></script>
 <style type="text/css">
 	table {
 		margin: 0 auto;
@@ -41,16 +43,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:if test="${msg=='pwUpdate'}">
-					<tr class="text-center">
-						<td colspan="2" id="pwUpdate">비밀번호 변경에 성공했습니다. 다시 로그인해주세요.</td>
-					</tr>
-				</c:if>
-				<c:if test="${msg=='deleteSuccess'}">
-					<tr class="text-center">
-						<td colspan="2" id="deleteSuccess">회원탈퇴 완료되었습니다. 그동안 이용해주셔서 감사합니다.</td>
-					</tr>
-				</c:if>
+				<tr class="text-center msg"></tr>
 				<tr>
 					<td class="text-center">
 						<input type="text" name="memberID" id="memberID" placeholder="Username" required="required"/>

@@ -10,6 +10,7 @@ import com.seoulmate.seoulgo.dao.NoticeDAO;
 import com.seoulmate.seoulgo.dto.MemberDTO;
 import com.seoulmate.seoulgo.dto.NoticeDTO;
 import com.seoulmate.seoulgo.dto.NoticeReplyDTO;
+import com.seoulmate.seoulgo.page.NoticePage;
 
 @Service
 public class NoticeService {
@@ -75,18 +76,23 @@ public class NoticeService {
 		return nDAO.findMlevel(ndto);
 	}
 	
-	// 글 상세보기
+	// 공지사항 상세보기
 	public NoticeDTO detailView(int nNo) {
 		NoticeDTO ndto = nDAO.detailView(nNo);
 		return ndto;
 	}
 	
-	// 글목록
-	public ArrayList<NoticeDTO> list(NoticeDTO ndto) {
-		return nDAO.list(ndto);
+	// 공지사항 목록
+	public List<NoticeDTO> list(NoticePage notice) {
+		return nDAO.list(notice);
+	}
+	
+	// 공지사항 검색 결과수
+	public int getCnt(NoticePage notice) {
+		return nDAO.getCnt(notice);
 	}
 
-	// 글쓰기 처리
+	// 공지사항 작성 처리
 	public void writeProc(NoticeDTO ndto) {
 		nDAO.writeProc(ndto);
 	}

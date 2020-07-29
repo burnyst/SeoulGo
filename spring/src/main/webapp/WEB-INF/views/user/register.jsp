@@ -53,7 +53,7 @@
 							<label for="files">업로드</label>
 							<input type="file" name="files" id="files" accept=".jpg, .jpeg, .gif, .png, .bmp"/>
 						</div>
-						<div class="profile"><img src=""></div>
+						<div class="profile"><img class="rounded-circle" src=""></div>
 					</td>
 				</tr>
 				<tr>

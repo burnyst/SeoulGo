@@ -15,10 +15,10 @@
 		width: 50px;
 		height: 50px;
 	}
-	#pwFail {
+	#pwFail, #deleteFail {
 		color: red;
 		font-weight: bold;
-		font-size: xx-large;
+		font-size: x-large;
 		align: center;
 		margin: auto;
 	}
@@ -28,7 +28,7 @@
 	<h3>마이페이지</h3>
 	<br>
 	
-	<table class="table table-hover">
+	<table class="table">
 		<thead>
 			<tr>
 				<td class="text-center">프로필 사진</td>
@@ -69,12 +69,17 @@
 				<td class="text-center">${mem.phone1}-${mem.phone2}-${mem.phone3}</td>
 			</tr>
 		</tbody>
-	</table>
 	<c:if test="${msg=='pwFail'}">
 		<tr class="text-center">
-			<td id="pwFail" colspan="2">비밀번호 변경이 실패했습니다.</td>
+			<td id="pwFail" colspan="8">비밀번호 변경이 실패했습니다.</td>
 		</tr>
 	</c:if>
+	<c:if test="${msg=='deleteFail'}">
+		<tr class="text-center">
+			<td id="deleteFail" colspan="8">비밀번호가 일치하지 않아 회원탈퇴 실패했습니다.</td>
+		</tr>
+	</c:if>
+	</table>
 	<div class="text-center">
 		<a href="./changePW" class="btn btn-secondary btn-sm">비밀번호 변경</a>
 		<a href="./memberInfo" class="btn btn-primary btn-sm">회원정보 수정</a>

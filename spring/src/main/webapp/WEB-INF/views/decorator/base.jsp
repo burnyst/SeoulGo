@@ -41,9 +41,6 @@
 					<li class="nav-item p-1">
 						<a class="nav-link" href="${basePath}/member/mypage">마이페이지</a>
 					</li>
-					<li class="nav-item p-1">
-						<a class="nav-link" href="${basePath}/member/memberInfo">회원정보수정</a>
-					</li>
 				</sec:authorize>
 				<li class="nav-item p-1">
 					<a class="nav-link" href="${basePath}/notice/list">공지사항</a>

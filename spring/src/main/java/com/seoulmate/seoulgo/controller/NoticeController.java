@@ -1,6 +1,6 @@
 package com.seoulmate.seoulgo.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,6 +15,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.seoulmate.seoulgo.dto.NoticeDTO;
 import com.seoulmate.seoulgo.dto.NoticeReplyDTO;
+import com.seoulmate.seoulgo.page.NoticePage;
 import com.seoulmate.seoulgo.service.NoticeService;
 
 @RequestMapping("/notice")
@@ -95,7 +96,7 @@ public class NoticeController {
 		return mv;
 	}
 	
-	// 글 상세보기
+	// 공지사항 상세보기
 	@RequestMapping("/detailView")
 	public void detailView(Model model, HttpServletRequest request) {
 		int nNo = Integer.parseInt(request.getParameter("nNo"));
@@ -111,14 +112,21 @@ public class NoticeController {
 		model.addAttribute("ndto", ndto);
 	}
 	
-	// 글목록
+	// 공지사항 목록 페이징
 	@RequestMapping("/list")
-	public void list(NoticeDTO ndto, Model model) {
-		ArrayList<NoticeDTO> list = nService.list(ndto);
+	public void list(NoticeDTO ndto, Model model, NoticePage notice) {
+		// 공지사항 결과수
+		int cnt = nService.getCnt(notice);
+		notice.setTotalRow(cnt);
+		System.out.println("NoticeController.list().cnt: "+cnt);
+		
+		List<NoticeDTO> list = nService.list(notice);
+		System.out.println("NoticeController.list(): "+list);
 		model.addAttribute("LIST", list);
+		model.addAttribute("notice", notice);
 	}
 	
-	// 글쓰기 처리
+	// 공지사항 작성 처리
 	@RequestMapping("/writeProc")
 	public ModelAndView writeProc(NoticeDTO ndto, ModelAndView mv, HttpServletRequest request) {
 		System.out.println("NoticeController.writeProc() 진입");
@@ -140,7 +148,7 @@ public class NoticeController {
 		return mv;
 	}
 	
-	// 글쓰기 폼 보여주기
+	// 공지사항 작성 폼 보여주기
 	@RequestMapping("/write")
 	public void write() {
 	}

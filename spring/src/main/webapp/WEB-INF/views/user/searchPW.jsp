@@ -60,7 +60,7 @@
 				</tr>
 				<tr>
 					<td colspan="2" class="text-center">
-						<input type="submit" id="searchPWProc" class="btn btn-primary btn-sm" value="비밀번호 재설정"/>
+						<input type="button" id="searchPWProc" class="btn btn-primary btn-sm" value="비밀번호 재설정"/>
 						<input type="reset" id="cancelBtn" class="btn btn-secondary btn-sm" value="취소"/>
 					</td>
 				</tr>

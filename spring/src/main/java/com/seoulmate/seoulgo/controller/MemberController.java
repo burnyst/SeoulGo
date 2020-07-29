@@ -41,7 +41,7 @@ public class MemberController {
 
 	// 회원탈퇴
 	@RequestMapping("/deleteSuccess")
-	public ModelAndView deleteSuccess(MemberDTO mdto, HttpSession session, ModelAndView mv, @RequestParam String memberPW, @RequestParam String memberID) {
+	public ModelAndView deleteSuccess(MemberDTO mdto, HttpSession session, ModelAndView mv, HttpServletRequest request, @RequestParam String memberPW, @RequestParam String memberID) {
 		MemberDTO pwCheck = mService.findMember(memberID);
 		boolean result = pwEncoder.matches(memberPW, pwCheck.getMemberPW());
 		System.out.println("회원탈퇴 비밀번호 일치여부 result=" + result);
@@ -49,13 +49,14 @@ public class MemberController {
 			pwCheck.setEnabled(false);
 			mService.deleteSuccess(pwCheck);
 			
-			mv.setViewName("/user/login");
+			RedirectView rv = new RedirectView(request.getContextPath()+"/user/login");
+			mv.setView(rv);
 			mv.addObject("msg", "deleteSuccess");
-
-			// 비밀번호 변경 후 세션 무효화
+			
+			// 회원탈퇴 후 세션 무효화
 			session.invalidate();
 		}else {
-			mv.setViewName("/member/mypage");
+			mv.setViewName(request.getContextPath()+"/member/mypage");
 			mv.addObject("msg", "deleteFail");
 		}
 		return mv;
@@ -68,7 +69,7 @@ public class MemberController {
 
 	// 비밀번호 변경 처리
 	@RequestMapping("/pwUpdate")
-	public ModelAndView pwUpdate(MemberDTO mdto, ModelAndView mv, HttpSession session, @RequestParam String pw) {
+	public ModelAndView pwUpdate(MemberDTO mdto, ModelAndView mv, HttpSession session, HttpServletRequest request,@RequestParam String pw) {
 		System.out.println("MemberController.pwUpdate() 진입");
 
 		// 비밀번호 일치 여부 확인
@@ -80,13 +81,14 @@ public class MemberController {
 			mdto.setMemberPW(newPW);
 			mService.pwUpdate(mdto);
 
-			mv.setViewName("/user/login");
+			RedirectView rv = new RedirectView(request.getContextPath()+"/user/login");
+			mv.setView(rv);
 			mv.addObject("msg", "pwUpdate");
 
 			// 비밀번호 변경 후 세션 무효화
 			session.invalidate();
 		} else {
-			mv.setViewName("/member/mypage");
+			mv.setViewName(request.getContextPath()+"/member/mypage");
 			mv.addObject("msg", "pwFail");
 		}
 		return mv;

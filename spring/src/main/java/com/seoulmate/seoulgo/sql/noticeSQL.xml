@@ -3,6 +3,23 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="notice">
+	<sql id="fields">
+		nNo, nTitle, nContent, nWriter, nDate, nCnt 
+	</sql>
+
+	<sql id="condition">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="keyword != null and keyword !=''">
+				<if test="searchType == 'nTitle'">
+					AND nTitle LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test="searchType == 'nContent'">
+					AND nContent LIKE '%'||#{keyword}||'%'
+				</if>
+			</if>
+		</trim>
+	</sql>
+
 	<!-- 공지사항 수정 -->
 	<update id="modifyProc" parameterType="com.seoulmate.seoulgo.dto.NoticeDTO">
 		update notice
@@ -41,24 +58,33 @@
 			 			and nNo=#{nNo})
 	</select>
 
-	<!-- 글 상세보기 -->
+	<!-- 공지사항 상세보기 -->
 	<select id="detailView" parameterType="int" resultType="com.seoulmate.seoulgo.dto.NoticeDTO">
 		select *
 		from notice
 		where nNo=#{nNo}
 	</select>
 
-	<!-- 글목록 -->
+	<!-- 공지사항 목록 -->
 	<select id="list" parameterType="com.seoulmate.seoulgo.dto.NoticeDTO" resultType="com.seoulmate.seoulgo.dto.NoticeDTO">
 		select *
-		from 
-		(select nNo, nTitle, nContent, nWriter, nDate, nCnt 
-		from notice 
-		where nExp=1
-		order by nNo DESC)
+		from (
+		    select row_number() over(order by nNo DESC) listNo,
+		    <include refid="fields"/>
+		    from notice
+		    <include refid="condition"/>
+		)
+		where listNo between #{startRow} and #{endRow}
 	</select>
 
-	<!-- 글쓰기 처리 -->
+	<!-- 공지사항 검색 결과수 -->
+	<select id="getCnt" resultType="int">
+		select count(*)
+		from notice
+		<include refid="condition"/>
+	</select>
+
+	<!-- 공지사항 작성 처리 -->
 	<insert id="writeProc" parameterType="com.seoulmate.seoulgo.dto.NoticeDTO">
 		insert 
 		into notice

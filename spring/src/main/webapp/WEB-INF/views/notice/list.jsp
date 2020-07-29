@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="pageNav" tagdir="/WEB-INF/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}" />
 <c:set var="resourcePath" value="${basePath}/resources" scope="request" />
 <c:set var="libPath" value="${resourcePath}/lib" />
@@ -17,6 +18,21 @@
 </head>
 <body>
 	<input id="basePath" type="hidden" value="${basePath}" />
+	<div class="form-group row justify-content-center">
+		<div class="w100" style="padding-right:10px">
+			<select class="form-control form-control-sm" name="searchType" id="searchType">
+				<option value="">검색유형</option>
+				<option value="nTitle">제목</option>
+				<option value="nContent">내용</option>
+			</select>
+		</div>
+		<div class="w400" style="padding-right:10px">
+			<input type="text" class="form-control form-control-sm" name="keyword" id="keyword" placeholder="검색어를 입력해주세요">
+		</div>	
+		<div>
+			<button class="btn btn-sm btn-outline-primary" name="btnSearch" id="btnSearch">검색</button>
+		</div>
+	</div>
 	<table class="table table-hover">
 		<thead class="thead-light">
 			<tr>
@@ -60,5 +76,17 @@
 	<sec:authorize access="hasRole('ROLE_ADMIN')">
 		<a class="btn btn-primary" href="${basePath}/notice/write">작성</a>
 	</sec:authorize>
+	<c:if test="${notice.totalRow > notice.perPageNum}">
+		<tr class="dataRow">
+			<td colspan="5">
+				<pageNav:pageNav endPage="${notice.endPage}" 
+								 totalPage="${notice.totalPage}" 
+								 startPage="${notice.startPage}" 
+								 uri="${pageUri}"
+								 params="&keyword=${notice.keyword}&searchType=${notice.searchType}"
+								 pageNo="${notice.pageNo}"/>
+			</td>
+		</tr>
+	</c:if>
 </body>
 </html>
