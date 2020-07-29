@@ -76,7 +76,7 @@ public class NoticeReplyController {
 	
 	// 대댓글(댓글의 답글) 작성
 	@RequestMapping("/reply/{nNo}/{nrNo}/{nrParent}")
-	public ModelAndView reply(NoticeReplyDTO nrdto, ModelAndView mv, @RequestParam String nrContent2, @PathVariable("nNo") int nNo, @PathVariable("nrNo") int nrNo, @PathVariable("nrParent") int nrParent) {
+	public ModelAndView reply(NoticeReplyDTO nrdto, ModelAndView mv, HttpServletRequest request, @RequestParam String nrContent2, @PathVariable("nNo") int nNo, @PathVariable("nrNo") int nrNo, @PathVariable("nrParent") int nrParent) {
 		System.out.println("RequestParam으로 넘어온 nrContent2: "+nrContent2+"/nNo: "+nNo+"/nrNo: "+nrNo+"/nrParent: "+nrParent+"/nrdto: "+nrdto);
 		
 		// 댓글 정보 가져오기
@@ -95,18 +95,18 @@ public class NoticeReplyController {
 		System.out.println("nService로 넘어갈 nrdto: "+nrdto);
 		nService.reply(nrdto);
 		
-		RedirectView rv = new RedirectView("/notice/detailView?nNo="+nNo);
+		RedirectView rv = new RedirectView(request.getContextPath()+"/notice/detailView?nNo="+nNo);
 		mv.setView(rv);
 		return mv;
 	}
 	
 	// 댓글 삭제
 	@RequestMapping("/delete/{nNo}/{nrNo}")
-	public ModelAndView rplDelete(ModelAndView mv, @PathVariable("nNo") int nNo, @PathVariable("nrNo") int nrNo, HttpServletRequest request) {
+	public ModelAndView rplDelete(ModelAndView mv, HttpServletRequest request, @PathVariable("nNo") int nNo, @PathVariable("nrNo") int nrNo) {
 		System.out.println("NoticeReplyController.delete() 진입"+nNo);
 		nService.delete(nrNo);
 		
-		RedirectView rv = new RedirectView("/notice/detailView?nNo="+nNo);
+		RedirectView rv = new RedirectView(request.getContextPath()+"/notice/detailView?nNo="+nNo);
 		mv.setView(rv);
 		return mv;
 	}

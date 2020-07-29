@@ -39,17 +39,18 @@
 </style>
 </head>
 <body>
+	<input id="basePath" type="hidden" value="${basePath}" />
 	<div class="row float-right" style="margin-bottom: 10px;">
-		<a class="btn btn-sm btn-secondary" href="/notice/list">목록</a>
+		<a class="btn btn-sm btn-secondary" href="${basePath}/notice/list">목록</a>
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
 			<a class="btn btn-sm btn-danger text-white" id="deleteBtn">삭제</a>
-			<a class="btn btn-sm btn-primary" href="/notice/modify?nNo=${ndto.nNo}">수정</a>
+			<a class="btn btn-sm btn-primary" href="${basePath}/notice/modify?nNo=${ndto.nNo}">수정</a>
 		</sec:authorize>
 	</div>
 	<table class="table table-striped">
 		<tbody>
 			<tr>
-				<th class="text-center">공지번호/level:${level}/memberInfo:${memberInfo}</th>
+				<th class="text-center">공지번호</th>
 				<td class="text-center">${ndto.nNo}</td>
 			</tr>
 			<tr>

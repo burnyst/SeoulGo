@@ -24,7 +24,7 @@
 </style>
 </head>
 <body>
-	<form id="searchIDForm" class="" action="${basePath}/user/loginForm" method="post">
+	<form id="searchIDForm" class="" action="${basePath}/user/login" method="post">
 		<table>
 			<tbody>
 				<c:if test="${msg == 'fail'}">

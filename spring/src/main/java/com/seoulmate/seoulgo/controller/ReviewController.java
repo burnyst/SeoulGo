@@ -288,12 +288,12 @@ public class ReviewController {
 
 		// 비즈니스 로직
 		int number = rService.goodcheck(rDTO); // 체크	
+		System.out.println("number"+number);
 		if( number == 0 ){
 			rService.goodupdate(rDTO); // 좋아요 +1
 		} else {
 			rService.gooddelete(rDTO); // 좋아요 삭제
 		}
-
 		request.setAttribute("placeNo", placeNo);
 		// View
 		return "redirect:../place/detail?placeNo="+placeNo;

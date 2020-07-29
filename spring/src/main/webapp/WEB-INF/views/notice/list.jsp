@@ -16,6 +16,7 @@
 <script src="${basePath}/resources/js/notice/list.js"></script>
 </head>
 <body>
+	<input id="basePath" type="hidden" value="${basePath}" />
 	<table class="table table-hover">
 		<thead class="thead-light">
 			<tr>
@@ -57,7 +58,7 @@
 		</tbody>
 	</table>
 	<sec:authorize access="hasRole('ROLE_ADMIN')">
-		<a class="btn btn-primary" href="/notice/write">작성</a>
+		<a class="btn btn-primary" href="${basePath}/notice/write">작성</a>
 	</sec:authorize>
 </body>
 </html>

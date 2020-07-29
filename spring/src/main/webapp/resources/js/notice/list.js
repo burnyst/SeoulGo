@@ -3,7 +3,7 @@ $(function(){
 	var nNo = document.getElementsByName("nNo");
 	for (let i=0; i < rowArr.length; i++) {
 		$(rowArr[i]).click(function(){
-			var url = "/notice/cntUpdate";
+			var url = $("#basePath").val()+"/notice/cntUpdate";
 			url = url + "?nNo=" + nNo[i].value;
 			location.href = url;
 		});

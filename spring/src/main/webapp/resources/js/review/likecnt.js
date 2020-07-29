@@ -15,7 +15,7 @@ $(function(){
 	$("#good_update"+goodrNoArr[i].value).click(function(){
 		 if (confirm("추천은 한번만 가능합니다. 다시 누르면 취소됩니다.")) {
 			$.ajax({
-				url: "/review/goodcnt",
+				url: $("#basePath").val()+"/review/goodcnt",
 	            type: "POST",
 	            data: {
 	           		rNo: list[i],
@@ -34,7 +34,7 @@ $(function(){
 	// 게시글 추천수
     function goodCount() {
 		$.ajax({
-			url: "/review/goodcount",
+			url: $("#basePath").val()+"/review/goodcount",
         	type: "POST",
         	data: {
         		rNo: list[i],

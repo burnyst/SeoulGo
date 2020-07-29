@@ -18,7 +18,7 @@
 		<intercept-url pattern="/comment/infoCheck" access="hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')"/>
 		<intercept-url pattern="/notice/commentProc" access="hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')"/>
 		<intercept-url pattern="/plan/planwrite" access="hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')"/>
-		<intercept-url pattern="/review/writeReview" access="hasRole('ROLE_MEMBER')"/>
+		<intercept-url pattern="/review/writeReview" access="hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')"/>
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
 		<intercept-url pattern="/notice/write" access="hasRole('ROLE_ADMIN')"/>
 		<intercept-url pattern="/place/insert" access="hasRole('ROLE_ADMIN')"/>

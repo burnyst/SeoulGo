@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	var nNo = $("#nNo").val();
-	var url = "../comment/";
+	var url = "/comment/";
 	url = url + nNo;
 	var replyUL = $(".comment_list");
 	var str = "";
@@ -37,7 +37,7 @@ $(document).ready(function(){
 					nrOrder = (nrOrder * 30) + "px;";
 					
 					// 댓글 삭제 url
-					var rplDelete = "../comment/delete/";
+					var rplDelete = $("#basePath").val()+"/comment/delete/";
 					rplDelete = rplDelete + data[i].nNo + "/" +data[i].nrNo;
 					
 					// 댓글, 대댓글(댓글의 답글) 작성자 정보 가져와서 프로필 사진 및 작성자 아이디 처리하기
@@ -46,7 +46,7 @@ $(document).ready(function(){
 					arr[i] = data[i].nrNo;
 					nrWriterarr[i] = data[i].nrWriter;
 					$.ajax({
-						url: "../comment/getInfo",
+						url: $("#basePath").val()+"/comment/getInfo",
 						type: "POST",
 						data: {
 							nrNo: arr[i],
@@ -59,24 +59,24 @@ $(document).ready(function(){
 								$.each(values, function(index, value){
 									if(value.proSaveName === '' || value.proSaveName === null) {
 										if(value.mLevel === "ROLE_ADMIN") {
-											proSaveName = "/resources/img/admin/default.png";
+											proSaveName = $("#basePath").val()+"/resources/img/admin/default.png";
 											nrWriter = "관리자";
 										}else {
-											proSaveName = "/resources/img/member/default.png";
+											proSaveName = $("#basePath").val()+"/resources/img/member/default.png";
 											nrWriter = value.memberID;
 										}
 									}else if(value.proSaveName !== '' || value.proSaveName !== null) {
 										if(value.mLevel === "ROLE_MEMBER") {
 											nrWriter = value.memberID;
 											var obj = new Image();
-											obj.src = "/resources/img/member/"+value.proSaveName;
+											obj.src = $("#basePath").val()+"/resources/img/member/"+value.proSaveName;
 											if(!obj.complete) {
-												proSaveName = "/resources/img/member/default.png";
+												proSaveName = $("#basePath").val()+"/resources/img/member/default.png";
 											}else {
-												proSaveName = "/resources/img/member/"+value.proSaveName;
+												proSaveName = $("#basePath").val()+"/resources/img/member/"+value.proSaveName;
 											}
 										}else {
-											proSaveName = "/resources/img/admin/default.png";
+											proSaveName = $("#basePath").val()+"/resources/img/admin/default.png";
 											nrWriter = "관리자";
 										}
 									}else if(value.mLevel === "ROLE_ADMIN") {
@@ -114,8 +114,8 @@ $(document).ready(function(){
 				// 대댓글(댓글의 답글) 작성, 댓글 삭제
 				$(".primary-font").click(function(){
 					var index = $(".media-body h5").index(this);
-					var url = "../comment/reply/" + data[index].nNo + "/" +data[index].nrNo + "/" + data[index].nrParent;
-					var infoUrl = "../comment/infoCheck";
+					var url = $("#basePath").val()+"/comment/reply/" + data[index].nNo + "/" +data[index].nrNo + "/" + data[index].nrParent;
+					var infoUrl = $("#basePath").val()+"/comment/infoCheck";
 					var nNo = data[index].nNo;
 					var nrNo = data[index].nrNo;
 					

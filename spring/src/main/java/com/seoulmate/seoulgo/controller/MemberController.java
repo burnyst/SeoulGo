@@ -173,7 +173,7 @@ public class MemberController {
 
 			mService.memberInfoUpdate(findMember);
 			
-			RedirectView rv = new RedirectView("/member/mypage");
+			RedirectView rv = new RedirectView(request.getContextPath()+"/member/mypage");
 			mv.addObject("mem", findMember);
 			mv.addObject("msg", "updateSuccess");
 			mv.setView(rv);

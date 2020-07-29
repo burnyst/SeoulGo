@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,7 +39,7 @@ public class NoticeController {
 		nrdto.setNrContent(nrContent);
 		nService.commentProc(nrdto);
 		
-		RedirectView rv = new RedirectView("/notice/detailView?nNo="+nNo);
+		RedirectView rv = new RedirectView(request.getContextPath()+"/notice/detailView?nNo="+nNo);
 		mv.setView(rv);
 		return mv;
 	}
@@ -56,7 +55,7 @@ public class NoticeController {
 		ndto.setnContent(nContent);
 		nService.modifyProc(ndto);
 		
-		RedirectView rv = new RedirectView("/notice/list");
+		RedirectView rv = new RedirectView(request.getContextPath()+"/notice/list");
 		mv.setView(rv);
 		return mv;
 	}
@@ -78,7 +77,7 @@ public class NoticeController {
 		ndto.setnExp(false);
 		
 		nService.delete(ndto);
-		RedirectView rv = new RedirectView("/notice/list");
+		RedirectView rv = new RedirectView(request.getContextPath()+"/notice/list");
 		mv.setView(rv);
 		return mv;
 	}
@@ -90,7 +89,7 @@ public class NoticeController {
 		nService.cntUpdate(nNo);
 		
 		mv.addObject("nNo", nNo);
-		RedirectView rv = new RedirectView("/notice/detailView");
+		RedirectView rv = new RedirectView(request.getContextPath()+"/notice/detailView");
 		mv.setView(rv);
 		
 		return mv;
@@ -121,7 +120,7 @@ public class NoticeController {
 	
 	// 글쓰기 처리
 	@RequestMapping("/writeProc")
-	public ModelAndView writeProc(NoticeDTO ndto, ModelAndView mv) {
+	public ModelAndView writeProc(NoticeDTO ndto, ModelAndView mv, HttpServletRequest request) {
 		System.out.println("NoticeController.writeProc() 진입");
 		
 		String nTitle = ndto.getnTitle();
@@ -136,7 +135,7 @@ public class NoticeController {
 		System.out.println("ndto="+ndto);
 		
 		nService.writeProc(ndto);
-		RedirectView rv = new RedirectView("/notice/list");
+		RedirectView rv = new RedirectView(request.getContextPath()+"/notice/list");
 		mv.setView(rv);
 		return mv;
 	}

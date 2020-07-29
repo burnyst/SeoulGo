@@ -49,6 +49,7 @@ $(function(){
 </style>
 </head>
 <body>
+<input id="basePath" type="hidden" value="${basePath}" />
 <input id="pagePath" type="hidden" value="${pagePath}" />
 <input id="placeNo" type="hidden" value="${item.placeNo}" name="dplaceNo"/>
 <input id="placeName" type="hidden" value="${item.placeName}"/>

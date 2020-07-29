@@ -31,6 +31,7 @@
 </style>
 </head>
 <body>
+	<input id="basePath" type="hidden" value="${basePath}" />
 	<!-- 검색 부분 -->
 	<div class="form-group row justify-content-center">
 		<div class="w100" style="padding-right:10px">

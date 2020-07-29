@@ -32,7 +32,7 @@ $(function(){
 		var searchType = $("#searchType").val();
 		
 		if(keyword != null && keyword != '' && searchType != null && searchType != '') {
-			var url = "/admin/search";
+			var url = $("#basePath").val()+"/admin/search";
 			url = url + "?pageNo=1&searchType=" + searchType;
 			url = url + "&keyword=" + keyword;
 			location.href = url;
