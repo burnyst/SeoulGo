@@ -24,19 +24,21 @@ class PlaceWordCount:
         saveList = []
         for i in reviewList:
             self.dao.delete(i["rNo"])
-            data = self.__wordCount__(i["content"])
-            for key, val in data.items():
-                saveList.append({"rNo": i["rNo"], "word": key, "freq": val})
+            if i["rIsShow"] == 1:
+                data = self.__wordCount__(i["rContent"])
+                for key, val in data.items():
+                    saveList.append({"rNo": i["rNo"], "word": key, "freq": val})
         self.dao.insertList(saveList)
     def count(self, rNo):
         review = self.dao.getReview(rNo)
         if review is not None:
             self.dao.delete(rNo)
-        saveList = []
-        data = self.__wordCount__(review["content"])
-        for key, val in data.items():
-            saveList.append({"rNo": review["rNo"], "word": key, "freq": val})
-        self.dao.insertList(saveList)
+            if review["rIsShow"] == 1:
+                saveList = []
+                data = self.__wordCount__(review["rContent"])
+                for key, val in data.items():
+                    saveList.append({"rNo": review["rNo"], "word": key, "freq": val})
+                self.dao.insertList(saveList)
 def main():
     target = ['review']
     parser = argparse.ArgumentParser()
