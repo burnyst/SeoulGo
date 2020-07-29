@@ -16,13 +16,6 @@ public class PlaceDto {
 	
 	public PlaceDto() {
 	}
-//	public PlaceDto(String placeName, String addr1, String addr2, int cate, String tel) {
-//		this.placeName = placeName;
-//		this.addr1 = addr1;
-//		this.addr2 = addr2;
-//		this.cate = cate;
-//		this.tel = tel;
-//	}
 	
 	public int getPlaceNo() {
 		return placeNo;

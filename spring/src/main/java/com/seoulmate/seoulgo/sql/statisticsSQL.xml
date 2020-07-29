@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="statistics">
+	<sql id="selectReview">
+		SELECT placeNo, COUNT(*) reviewCount, ROUND(AVG(rRate),2) placeRate
+		FROM reviewBoard
+		WHERE placeNo = (
+		SELECT placeNo
+		FROM reviewBoard
+		WHERE rNo=#{rNo})
+        GROUP BY placeNo
+	</sql>
+	<update id="updateReview" parameterType="com.seoulmate.seoulgo.dto.ReviewStatisticsDto">
+		<selectKey keyProperty="placeNo,reviewCount,placeRate" resultType="com.seoulmate.seoulgo.dto.ReviewStatisticsDto" order="BEFORE">
+			SELECT placeNo, COUNT(*) reviewCount, ROUND(AVG(rRate),2) placeRate
+			FROM reviewBoard
+			WHERE placeNo = (
+			SELECT placeNo
+			FROM reviewBoard
+			WHERE rNo=#{rNo})
+	        GROUP BY placeNo
+		</selectKey>
+		UPDATE place SET reviewCount=#{reviewCount}, placeRate=#{placeRate} WHERE placeNo=#{placeNo}
+	</update>
+</mapper>
