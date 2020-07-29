@@ -15,12 +15,9 @@
 	<!--	컨넥션 풀 설정을 위한 작업 부분	-->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-		<!-- <property name="url" value="jdbc:oracle:thin:@301-PC002:1521/orcl"/>
+		<property name="url" value="jdbc:oracle:thin:@301-PC002:1521/orcl"/>
 		<property name="username" value="seoulmate"/>
-		<property name="password" value="seoulgo"/> -->
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521/orcl"/>
-		<property name="username" value="fri"/>
-		<property name="password" value="day1"/>
+		<property name="password" value="seoulgo"/>
 	</bean>
 	
 	<!-- myBatis 등록 부분 -->
@@ -45,10 +42,18 @@
 	<bean id ="aDAO" class = "com.seoulmate.seoulgo.dao.AdminDAO">
 		<property name ="sqlSessionTemplate" ref="sqlSession"/>
 	</bean>
+	<bean id ="nDAO" class = "com.seoulmate.seoulgo.dao.NoticeDAO">
+		<property name ="sqlSessionTemplate" ref="sqlSession"/>
+	</bean>
+	<bean id ="rDAO" class = "com.seoulmate.seoulgo.dao.ReviewDAO">
+		<property name ="sqlSessionTemplate" ref="sqlSession"/>
+	</bean>
 	
 	<bean id="uService" class="com.seoulmate.seoulgo.service.UserService"/>
 	<bean id="mService" class="com.seoulmate.seoulgo.service.MemberService"/>
 	<bean id="aService" class="com.seoulmate.seoulgo.service.AdminService"/>
+	<bean id="nService" class="com.seoulmate.seoulgo.service.NoticeService"/>
+	<bean id="rService" class="com.seoulmate.seoulgo.service.ReviewService"/>
 
 	<context:component-scan base-package="com.seoulmate.seoulgo"></context:component-scan>
 </beans>

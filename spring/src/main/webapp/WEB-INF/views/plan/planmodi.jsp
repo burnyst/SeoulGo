@@ -6,26 +6,26 @@
 <html>
 <head>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04926447ff4e969a08d92e18379b0176&libraries=services"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
 $(function(){
-	 $("#nomodi").click(function(){
-		 alert("함수 작동");
-		 $(location).attr("href","../plan/plan");
-		
-	 })
-	 
-	 $("#delmodi").click(function(){
-		 alert("삭제페이지로 이동합니다.");
-		 
-		 $(location).attr("href","./plandelete");
-		 
-		 alert("./plandelete");
-	 })
-});
-$(document).ready(function(){
+ $("#nomodi").click(function(){
+	 //alert("함수 작동");
+	 $(location).attr("href","../plan/plan");
 	
+ });
+ 
+ $("#delmodi").click(function(){
+	 alert("삭제페이지로 이동합니다.");
+	 $('#frm').attr("method", "get");
+	 $('#frm').attr("action","../plan/plandelete").submit();
+	 
+	 alert();
+ });
+ 
 });
+
 
 </script>
 <style>
@@ -35,6 +35,11 @@ $(document).ready(function(){
 <title>일정수정하기</title>
 </head>
 <body>
+<c:forEach items="${Pdto}" var="list" varStatus="status">
+	<input type="hidden" id="addr1" value="${list.addr1}"/>
+	<input type="hidden" id="addr2" value="${list.addr2}"/>
+	<input type="hidden" id="placename" value="${list.place}">
+</c:forEach>
 ${Pdto}
 <!-- 이 페이지는 일정을 짜는 페이지이다. 
  일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
@@ -47,21 +52,29 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
         level: 3 // 지도의 확대 레벨
     };  
-
 // 지도를 생성합니다    
 var map = new kakao.maps.Map(mapContainer, mapOption); 
 
 // 주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
-
+var addr1 = $('#addr1').val();
+var addr2 = $('#addr2').val();
+var placename = $('#placename').val();
+var addr = addr1 + addr2
+//alert(addr);
 // 주소로 좌표를 검색합니다
-geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
 
+
+geocoder.addressSearch( addr , function(result, status) {
+	//zero_result가 나오면 
+	if(status === kakao.maps.services.Status.ZERO_RESULT){
+		alert("아직 지원되지 않는 주소입니다.");
+	}
     // 정상적으로 검색이 완료됐으면 
      if (status === kakao.maps.services.Status.OK) {
-
+    	
         var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
+        
         // 결과값으로 받은 위치를 마커로 표시합니다
         var marker = new kakao.maps.Marker({
             map: map,
@@ -70,7 +83,7 @@ geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function
 
         // 인포윈도우로 장소에 대한 설명을 표시합니다
         var infowindow = new kakao.maps.InfoWindow({
-            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+placename+'</div>'
         });
         
         infowindow.open(map, marker);
@@ -82,7 +95,7 @@ geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function
     } 
 });    
 </script>
-<form method="post" action="/plan/planmodifin">
+<form method="post" id="frm" action="/plan/planmodifin">
   <c:forEach var="list"  items="${Pdto}"  varStatus="status" >
 	<div class="planlist">
 		<div style="float:left; margin-right:10px">여행 날짜</div>
@@ -90,7 +103,7 @@ geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function
 		<div><input type="date" id="plandate" name="plandate" value="${list.planDate}"></div>
 		
 		<div style="float:left; margin-right:10px">여행장소</div>
-		<div><input type="text" id="planplace" name="planplace" value="${list.addr1}${list.addr2}" readonly="readonly"></div>
+		<div id="place"><input type="text" id="planplace" name="planplace" value="${list.addr1}${list.addr2}" readonly="readonly"></div>
 		
 		<div style="float:left; margin-right:10px">일정제목</div>
 		
@@ -99,19 +112,20 @@ geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function
 		<div style="float:left; margin-right:10px">여행유형</div>
 		<div>
 			<select name="plancate" id="plancate">
-					<option value="0" <c:if test="${list.planCate eq '가족'}">selected</c:if>>가족과 함께</option>
-					<option value="1" <c:if test="${list.planCate eq '커플'}">selected</c:if>>커플 여행</option>
-					<option value="2" <c:if test="${list.planCate eq '단독'}">selected</c:if>>나만의 여행</option>
-					<option value="3" <c:if test="${list.planCate eq '비즈니스'}">selected</c:if>>비즈니스 여행</option>
-					<option value="4" <c:if test="${list.planCate eq '친구'}">selected</c:if>>우정 여행</option>
+					<option value="가족" <c:if test="${list.planCate eq '가족'}">selected</c:if>>가족과 함께</option>
+					<option value="커플" <c:if test="${list.planCate eq '커플'}">selected</c:if>>커플 여행</option>
+					<option value="단독" <c:if test="${list.planCate eq '단독'}">selected</c:if>>나만의 여행</option>
+					<option value="비즈니스" <c:if test="${list.planCate eq '비즈니스'}">selected</c:if>>비즈니스 여행</option>
+					<option value="친구" <c:if test="${list.planCate eq '친구'}">selected</c:if>>우정 여행</option>
 			</select>
 		</div>
 	</div>
   </c:forEach>
+
 	<div style="height:250px;">여기는 사진이 출력되어 나올 위치입니다. </div>
 	<div style="text-align: center;">
 		<input type="submit" class="btn btn-primary"  value="수정하기"/>
-		<button type="submit" id="delmodi" class="btn btn-danger">삭제하기</button> 
+		<button id="delmodi"type="submit" name="delmodi" class="btn btn-danger">삭제하기</button> 
 		<button id="nomodi" type="button" class="btn btn-info">수정취소하기</button>
 	</div>
 </form>

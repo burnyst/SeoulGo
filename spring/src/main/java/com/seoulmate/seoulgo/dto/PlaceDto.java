@@ -1,6 +1,5 @@
 package com.seoulmate.seoulgo.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlaceDto {
@@ -48,8 +47,8 @@ public class PlaceDto {
 	public float getPlaceRate() {
 		return placeRate;
 	}
-	public int getPlaceRate10X() {
-		return ((int)(placeRate * 20))/2;
+	public int getPlaceRate20X() {
+		return (int)(placeRate * 20);
 	}
 	public List<String> getImageNames() {
 		return imageNames;

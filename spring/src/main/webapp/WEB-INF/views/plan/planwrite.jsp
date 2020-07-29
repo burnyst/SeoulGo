@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,8 +17,12 @@ $(function(){
 	 $("#backBtn").click(function(){
 		 alert("함수 작동");
 		 $(location).attr("href","../plan/plan");
-		 //../주소부터는 컨트롤러를 만든 뒤 수정해야 한다..
 	 })
+	 $("#placesarch").click(function(){
+		 alert("장소검색페이지로 넘어갑니다.");
+		 $(location).attr("href","../plan/placesarch");
+	 })
+	 
 })
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
@@ -70,7 +75,7 @@ window.onclick = function(event) {
 <title>일정짜기</title>
 </head>
 <body>
-
+<sec:authorize access="isAuthenticated()">
 <!-- 이 페이지는 일정을 짜는 페이지이다. 
  일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
    -->
@@ -83,7 +88,9 @@ $(function(){
 		var myTag = element.attr('value');
 		idval.val(myTag);
 	 });
+	 
 });
+
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 mapOption = {
     center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -97,7 +104,7 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 var geocoder = new kakao.maps.services.Geocoder();
 
 //주소로 좌표를 검색합니다
-geocoder.addressSearch('목동로 23길', function(result, status) {
+geocoder.addressSearch('세종로 사직로 161', function(result, status) {
 
 // 정상적으로 검색이 완료됐으면 
  if (status === kakao.maps.services.Status.OK) {
@@ -112,7 +119,7 @@ geocoder.addressSearch('목동로 23길', function(result, status) {
 
     // 인포윈도우로 장소에 대한 설명을 표시합니다
     var infowindow = new kakao.maps.InfoWindow({
-        content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+        content: '<div style="width:150px;text-align:center;padding:6px 0;">광화문</div>'
     });
     infowindow.open(map, marker);
 
@@ -121,30 +128,17 @@ geocoder.addressSearch('목동로 23길', function(result, status) {
 } 
 });    
 
-
-
 </script>
-	<div id="clickLatlng"></div>
-<div style="float:left">
-	<div class="dropdown">
-  	<button onclick="dropdownfunction()" class="dropbtn">일정장소</button>
-	  	<div id="myDropdown" class="dropdown-content">
-		    <a href="/plan/planwrite/iljung1" onclick="javascript:document.myform.submit">장소1</a>
-		    <a href="/plan/planwrite/iljung2">장소2</a>
-		    <a href="/plan/planwrite/iljung3">장소3</a>
-	  	</div>
-	</div>
-<c:forEach items="${place }" var="list" >
-	<input type="hidden" value="${list.addr1}${list.addr2}">
-	<input type="hidden" value="${list.placeNo}}"/>
-</c:forEach>
-</div>
 <form action="/plan/planwrited" method="post">
 	<div id="planlist" style="margin-top: 100px;">
 		<div style="float:left; margin-right:10px">여행날짜</div> 
 		<div><input type="date" id="plandate"name="plandate" class="date"></div>
+		<script>
+	  		document.getElementById('plandate').value = new Date().toISOString().substring(0, 10);;
+		</script>
 		<div style="float:left; margin-right:10px">여행장소</div>
-		<div><input type="text" id="planplace" name="planplace">경북궁</div>
+		<div><input type="text" id="planplace" name="planplace" readonly="readonly">
+			 <input type="button" id="placesarch" value="검색하기"></div>
 		<div style="float:left; margin-right:10px border-top-width: 10px; ">여행 제목</div>
 		<div><input type="text" id="planTitle" name="planTitle"></div>
 		<div style="float:left; margin-right:10px">여행유형</div>
@@ -167,5 +161,9 @@ geocoder.addressSearch('목동로 23길', function(result, status) {
 	<a class ="btn btn-warning" id="backBtn">뒤로가기</a>
 </div>
 </form>
+</sec:authorize>
+<sec:authorize access="isAnonymous()">
+	<button id="bla" type="button" class="btn btn-info">로그인이 필요한 페이지입니다.</button>
+</sec:authorize>
 </body>
 </html>

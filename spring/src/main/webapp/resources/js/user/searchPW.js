@@ -15,7 +15,7 @@ $(function() {
 		var id = $("#memberID").val();
 		
 		$.ajax({
-			url: "/user/idCheck",
+			url: "./idCheck",
 			type: "POST",
 			dataType: "json",
 			async: false,
@@ -69,7 +69,7 @@ $(function() {
 
 	        $.ajax({
 	        	type : "POST",
-	        	url : "/user/emailAuth",
+	        	url : "./emailAuth",
 	        	dataType: "json",
 	        	async: false,
 	        	data : {

@@ -1,16 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="basePath" value="${pageContext.request.contextPath}" />
 <c:set var="resourcePath" value="${basePath}/resources" />
+<c:set var="libPath" value="${resourcePath}/lib" />
 <c:set var="imagePath" value="${resourcePath}/img" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>회원정보 수정</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/member/memberInfo.js"></script>
+<script src="${libPath}/jquery/3.5.1/jquery.min.js"></script>
+<script src="${basePath}/resources/js/member/memberInfo.js"></script>
 <style type="text/css">
 	#pro {
 		width: 50px;
@@ -19,7 +21,7 @@
 </style>
 </head>
 <body>
-	<form action="/member/memberInfoUpdate" method="post" enctype="multipart/form-data">
+	<form action="${basePath}/member/memberInfoUpdate" method="post" enctype="multipart/form-data">
 		<table class="table table-hover">
 			<tbody>
 				<tr>
@@ -47,8 +49,7 @@
 				<tr>
 					<th class="text-center">닉네임</th>
 					<td class="text-center">
-						<input type="text" name="nickname" id="nickname" placeholder="nickname" required="required"/>
-						<!-- <input type="button" id="nicknameChk" class="btn btn-outline-secondary btn-sm" value="확인"/> -->
+						<input type="text" name="nickname" id="nickname" placeholder="nickname" value="${mem.nickname}" required="required"/>
 					</td>
 				</tr>
 				<tr>
@@ -69,14 +70,13 @@
 				<tr>
 					<th class="text-center">이메일</th>
 					<td class="text-center">
-						<input type="email" id="email" name="email" placeholder="Email" required="required"/>
-						<!-- <input type="button" id="emailChk" class="btn btn-outline-secondary btn-sm" value="확인"/> -->
+						<input type="email" id="email" name="email" placeholder="Email" value="${mem.email}" required="required"/>
 					</td>
 				</tr>
 				<tr>
 					<th class="text-center">전화번호</th>
 					<td class="text-center">
-						<input type="text" id="phone" name="phone" placeholder="'-'없이 번호만 입력해주세요" required="required"/>
+						<input type="text" id="phone" name="phone" placeholder="'-'없이 번호만 입력해주세요" value="${mem.phone1}${mem.phone2}${mem.phone3}" required="required"/>
 					</td>
 				</tr>
 			</tbody>

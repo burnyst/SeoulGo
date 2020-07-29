@@ -6,7 +6,7 @@ import com.seoulmate.seoulgo.dto.PlaceDto;
 
 public class PlacePage {
 	private int pageNo, pageNum, pageRowNum;
-	private String keyword, type, orderCol;
+	private String keyword, type, order;
 	private int startRow, endRow, totalRow;
 	private int startPage, endPage, totalPage;
 	private List<PlaceDto> content;
@@ -15,13 +15,13 @@ public class PlacePage {
 		pageNum = 5;
 		pageRowNum = 12;
 	}
-	public PlacePage(int pageNo, int pageNum, int pageRowNum, String keyword, String type, String orderCol, int totalRow) {
+	public PlacePage(int pageNo, int pageNum, int pageRowNum, String keyword, String type, String order, int totalRow) {
 		this.pageNo = pageNo;
 		this.pageNum = pageNum;
 		this.pageRowNum = pageRowNum;
 		this.keyword = keyword;
 		this.type = type;
-		this.orderCol = orderCol;
+		this.order = order;
 		this.totalRow = totalRow;
 	}
 	public int getPageNo() {
@@ -39,8 +39,8 @@ public class PlacePage {
 	public String getType() {
 		return type;
 	}
-	public String getOrderCol() {
-		return orderCol;
+	public String getOrder() {
+		return order;
 	}
 	public int getStartRow() {
 		return startRow;
@@ -66,15 +66,17 @@ public class PlacePage {
 	public void setPageNo(int pageNo) {
 		if (pageNo > 0) {
 			this.pageNo = pageNo;
-		} else {
-			this.pageNo = 1;
 		}
 	}
 	public void setPageNum(int pageNum) {
-		this.pageNum = pageNum;
+		if (pageNum > 0) {
+			this.pageNum = pageNum;
+		}
 	}
 	public void setPageRowNum(int pageRowNum) {
-		this.pageRowNum = pageRowNum;
+		if (pageRowNum > 0) {
+			this.pageRowNum = pageRowNum;
+		}
 	}
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
@@ -82,8 +84,8 @@ public class PlacePage {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public void setOrderCol(String orderCol) {
-		this.orderCol = orderCol;
+	public void setOrder(String order) {
+		this.order = order;
 	}
 	public void setTotalRow(int totalRow) {
 		if (totalRow < 1) {
@@ -109,7 +111,7 @@ public class PlacePage {
 	@Override
 	public String toString() {
 		return "PlacePage [pageNo=" + pageNo + ", pageNum=" + pageNum + ", pageRowNum=" + pageRowNum + ", keyword="
-				+ keyword + ", type=" + type + ", orderCol=" + orderCol + ", startRow=" + startRow + ", endRow="
+				+ keyword + ", type=" + type + ", order=" + order + ", startRow=" + startRow + ", endRow="
 				+ endRow + ", totalRow=" + totalRow + ", startPage=" + startPage + ", endPage=" + endPage
 				+ ", totalPage=" + totalPage + ", content=" + content + "]";
 	}

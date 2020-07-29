@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix ="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +13,7 @@
  <script>
 $(function(){
 		 $("#ibtn").click(function(){
-			 alert("함수 작동");
+			 //alert("함수 작동");
 			 $(location).attr("href","/plan/planwrite");
 		 })		
 })
@@ -26,8 +28,8 @@ $(function(){
 			var pno = td.eq(0).text();
 			
 			var param = pno
-			 alert("함수 작동"+pno+"숫자를 담았다");
-			 $(location).attr("href","/plan/planview"+'?&pno='+pno);
+			 //alert(pno+"번 글입니다.");
+			 $(location).attr("href","/plan/planview"+'?&planNo='+pno);
 		 })	
 })
  </script>
@@ -35,10 +37,9 @@ $(function(){
 <body>
 <div align="center">
 <h3>나의 일정 페이지</h3>
+
 http://127.0.0.1:9000/plan/plan
-${Viewlist}
-<input type="text" value="${PINFO.nowPage}">
-<input type="text" value="${PINFO.totalPage}">
+<!-- {Viewlist}-->
 <table border="1" width="100%" class="table table-bordered table-hover text-center" id="example-table-2">
 	 <tbody>
 		<tr>
@@ -51,8 +52,7 @@ ${Viewlist}
 				</td>
 			</tr>	
 		</c:if>
-		
-			<c:forEach var="list" items="${Viewlist}"  varStatus="status">
+			<c:forEach var="list" items="${plist}"  varStatus="status">
 			<form method="post" id="planlist" name="planlist" action="/plan/planmodi">
 					<tr>
 						<td>
@@ -79,32 +79,17 @@ ${Viewlist}
 			</c:forEach>
 		</tbody>
 	</table>
-	<form method="post" name="inputform" id="inputform" action="/plan/planview">
-		<input type="hidden" id="viewinput" name="viewinput" onclick="" value=""/>
-	</form>
 	<%-- 페이징 처리 --%>
-	<table border="1">
-		<tbody>
-			<tr>
-				<td>
-				
-				<c:if test="${PINFO.nowPage eq 1}">[prev]</c:if>
-				<c:if test="${PINFO.nowPage ne 1}">
-					<a href="../plan/plan?nowPage=${PINFO.nowPage-1}">[prev]</a></c:if>
-				<c:forEach var="pg" begin="${PINFO.startPage }" end="${PINFO.endPage}">
-					<a href="../plan/plan?nowPage=${pg}">[${pg}]</a>
-				</c:forEach>
-				<c:if test="${PINFO.nowPage eq PINFO.totalPage -2}">[next]</c:if>
-				<c:if test="${PINFO.nowPage ne PINFO.totalPage -2}">
-					<a href="../plan/plan?nowPage=${PINFO.nowPage+1 }">[next]</a>
-				</c:if>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+<t:pageNav
+   endPage="${page.endPage}"
+   pageNo="${page.pageNo}"
+   totalPage="${page.totalPage}"
+   startPage="${page.startPage}"
+   uri="${pageUri}">
+</t:pageNav>	
 	
-	<div class="Result2" id="Result2" >
-	</div>
+<div class="Result2" id="Result2" >
+</div>
 	<table class="right" width="700" >
 		<tbody>
 			<tr class="right" align="center">

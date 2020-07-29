@@ -1,13 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="basePath" value="${pageContext.request.contextPath}" />
+<c:set var="resourcePath" value="${basePath}/resources" />
+<c:set var="libPath" value="${resourcePath}/lib" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/user/register_info_check.js"></script>
+<script src="${libPath}/jquery/3.5.1/jquery.min.js"></script>
+<script src="${basePath}/resources/js/user/register_info_check.js"></script>
 <style>
 	table {
 		margin: 0 auto;
@@ -15,11 +18,11 @@
 </style>
 </head>
 <body>
-	<form id="registerForm" class="" action="/user/registerProc" method="post" enctype="multipart/form-data">
+	<form id="registerForm" action="${basePath}/user/registerProc" method="post" enctype="multipart/form-data">
 		<table class="table table-hover">
 			<tbody>
 				<tr>
-					<th class="text-center">프로필 사진</th>
+					<th class="text-center" width="55%">프로필 사진</th>
 					<td>
 						<input type="file" name="files" id="files" accept=".jpg, .jpeg, .gif, .png, .bmp"/>
 						<br>

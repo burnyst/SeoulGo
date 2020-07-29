@@ -21,15 +21,16 @@
 		<if test="keyword != null and keyword != ''">
 			(placeName LIKE '%'||#{keyword}||'%' OR addr1 LIKE '%'||#{keyword}||'%' OR addr2 LIKE '%'||#{keyword}||'%')
 		</if>
-		<if test="type != null and type != ''">AND cate = #{type}</if>
+		<if test="type == '즐길거리'">AND cate = 0</if>
+		<if test="type == '음식점'">AND cate = 1</if>
 	</sql>
 	<select id="list" parameterType="com.seoulmate.seoulgo.page.PlacePage" resultMap="listResultMap">
 		SELECT *
 		FROM
 		(
 		    SELECT
-		    <if test="orderCol == 'placeRate'">ROW_NUMBER() OVER (ORDER BY NVL(placeRate, 0) DESC) rn, </if>
-		    <if test="orderCol != 'placeRate'">ROW_NUMBER() OVER (ORDER BY NVL(reviewCount, 0) DESC) rn, </if>
+		    <if test="order == '평점순'">ROW_NUMBER() OVER (ORDER BY NVL(placeRate, 0) DESC) rn, </if>
+		    <if test="order != '평점순'">ROW_NUMBER() OVER (ORDER BY NVL(reviewCount, 0) DESC) rn, </if>
 		    <include refid="listFields" />
 		    FROM place
 			<where>
@@ -39,7 +40,11 @@
 	</select>
 	
 	<select id="listSub" resultType="java.lang.String">
-		SELECT iname FROM placeImage WHERE placeNo=#{placeNo}
+		SELECT iname FROM placeImage WHERE placeNo=#{placeNo} ORDER BY iname ASC
+	</select>
+	
+	<select id="listSubCount" resultType="int">
+		SELECT count(*) FROM placeImage WHERE placeNo=#{placeNo}
 	</select>
 	
 	<select id="listCount" resultType="int">
@@ -85,5 +90,15 @@
 		DELETE
 		FROM placeImage
 		WHERE placeNo=#{placeNo}
+	</delete>
+	
+	<delete id="deleteSubIn" parameterType="java.util.List">
+		DELETE
+		FROM placeImage
+		<where>
+			<foreach index="index" item="item" collection="list" open="iname in (" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
 	</delete>
 </mapper>

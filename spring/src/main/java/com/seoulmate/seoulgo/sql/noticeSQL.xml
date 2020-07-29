@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="notice">
+	<!-- 공지사항 수정 -->
+	<update id="modifyProc" parameterType="com.seoulmate.seoulgo.dto.NoticeDTO">
+		update notice
+		set nTitle=#{nTitle}, nContent=#{nContent}
+		where nNo=#{nNo}
+	</update>
+
+	<!-- 공지사항 삭제 -->
+	<update id="delete">
+		update notice
+		set nExp=#{nExp}
+		where nNo=#{nNo}
+	</update>
+	
+	<!-- 공지사항 정보 가져오기 -->
+	<select id="findNo" parameterType="int" resultType="com.seoulmate.seoulgo.dto.NoticeDTO">
+		select *
+		from notice
+		where nNo=#{nNo}
+	</select>
+
+	<!-- 조회수 증가 -->
+	<update id="cntUpdate">
+		update notice
+		set nCnt=nCnt+1
+		where nNo=#{nNo}
+	</update>
+
+	<!-- 관리자 권한 가져오기 -->
+	<select id="findMlevel" parameterType="com.seoulmate.seoulgo.dto.NoticeDTO" resultType="string">
+		select *
+		from 
+			(select member_t.mLevel 
+			 from member_t, notice 
+			 where member_t.memberID=#{nWriter}
+			 			and nNo=#{nNo})
+	</select>
+
+	<!-- 글 상세보기 -->
+	<select id="detailView" parameterType="int" resultType="com.seoulmate.seoulgo.dto.NoticeDTO">
+		select *
+		from notice
+		where nNo=#{nNo}
+	</select>
+
+	<!-- 글목록 -->
+	<select id="list" parameterType="com.seoulmate.seoulgo.dto.NoticeDTO" resultType="com.seoulmate.seoulgo.dto.NoticeDTO">
+		select *
+		from 
+		(select nNo, nTitle, nContent, nWriter, nDate, nCnt 
+		from notice 
+		where nExp=1
+		order by nNo DESC)
+	</select>
+
+	<!-- 글쓰기 처리 -->
+	<insert id="writeProc" parameterType="com.seoulmate.seoulgo.dto.NoticeDTO">
+		insert 
+		into notice
+		values (
+			(select NVL(MAX(nNo),0)+1 from notice), #{nTitle}, 
+			(select memberID from member_t where member_t.memberID=#{nWriter} and member_t.mLevel='ROLE_ADMIN'),
+			#{nContent}, SYSDATE, #{nExp}, 0
+		)
+	</insert>
+</mapper>

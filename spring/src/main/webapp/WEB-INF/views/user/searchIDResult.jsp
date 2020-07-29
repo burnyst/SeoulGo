@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="basePath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +24,7 @@
 </style>
 </head>
 <body>
-	<form id="searchIDForm" class="" action="/user/loginForm" method="post">
+	<form id="searchIDForm" class="" action="${basePath}/user/loginForm" method="post">
 		<table>
 			<tbody>
 				<c:if test="${msg == 'fail'}">

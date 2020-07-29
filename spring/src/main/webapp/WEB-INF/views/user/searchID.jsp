@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="basePath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>아이디 찾기</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/user/searchID.js"></script>
+<script src="${basePath}/resources/js/user/searchID.js"></script>
 </head>
 <body>
-	<form id="searchID" action="/user/searchIDProc" method="post">
+	<form id="searchID" action="${basePath}/user/searchIDProc" method="post">
 		<table class="table table-hover">
 			<thead class="thead-dark">
 				<tr>

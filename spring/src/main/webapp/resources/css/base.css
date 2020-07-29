@@ -1,5 +1,57 @@
 @charset "UTF-8";
-article {
-	min-height: 200px;
-	margin-top: 80px;
+.navbar-custom {
+	background-color: #3fc1c9;
+}
+.carousel-indicators li {
+	width: 10px;
+	height: 10px;
+	border-radius: 100%;
+}
+.carousel-inner img {
+	width: 100%;
+	height: 100%;
+}
+.overlap-bg {
+	position: relative;
+	display: inline-block;
+}
+.overlap-fg {
+	left: 0px;
+	position: absolute;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: clip;
+}
+.overlap-bg .w-0 {
+	width: 0%;
+}
+.overlap-bg .w-10 {
+	width: 8%;
+}
+.overlap-bg .w-20 {
+	width: 20%;
+}
+.overlap-bg .w-30 {
+	width: 30%;
+}
+.overlap-bg .w-40 {
+	width: 40%;
+}
+.overlap-bg .w-50 {
+	width: 50%;
+}
+.overlap-bg .w-60 {
+	width: 60%;
+}
+.overlap-bg .w-70 {
+	width: 72%;
+}
+.overlap-bg .w-80 {
+	width: 80%;
+}
+.overlap-bg .w-90 {
+	width: 92%;
+}
+.overlap-bg .w-100 {
+	width: 100%;
 }

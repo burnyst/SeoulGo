@@ -8,5 +8,6 @@
 		<pattern>/user/*</pattern>
 		<pattern>/member/*</pattern>
 		<pattern>/admin/*</pattern>
+		<pattern>/notice/*</pattern>
 	</decorator>
 </decorators>

@@ -17,6 +17,7 @@
 		<typeAlias type="java.lang.Integer" alias="int"/>
 		<typeAlias type="com.seoulmate.seoulgo.dto.MemberDTO" alias="mdto"/>
 		<typeAlias type="com.seoulmate.seoulgo.dto.PlanDTO" alias="pdto"/>
+		<typeAlias type="com.seoulmate.seoulgo.dto.ReviewDTO" alias="rdto"/>
 	</typeAliases>
 	
 	<mappers>
@@ -25,5 +26,8 @@
 		<mapper resource="/com/seoulmate/seoulgo/sql/memberSQL.xml"/>
 		<mapper resource="/com/seoulmate/seoulgo/sql/adminSQL.xml"/>
 		<mapper resource="/com/seoulmate/seoulgo/sql/placeSQL.xml"/>
+		<mapper resource="/com/seoulmate/seoulgo/sql/noticeSQL.xml"/>
+		<mapper resource="/com/seoulmate/seoulgo/sql/noticeReplySQL.xml"/>
+		<mapper resource="/com/seoulmate/seoulgo/sql/reviewSQL.xml"/>
 	</mappers>
 </configuration>

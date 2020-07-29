@@ -42,7 +42,7 @@ $(function(){
       }
       
       $.ajax({
-         url: "/user/idCheck",
+         url: "./idCheck",
          type: "POST",
          dataType: "json",
          async: false,
@@ -56,6 +56,7 @@ $(function(){
                }else {
             	  alert("이미 사용 중인 아이디입니다. 다시 입력해주세요.");
             	  $("#memberID").val("");
+            	  $("#memberID").focus();
                }
             }
             $("#id_check").html(message);
@@ -73,8 +74,9 @@ $(function(){
 		   $("#memberPW").focus();
 		   check.set("memberPW", 0);
 	   } else if(!pwRegExp.test(pw)) {
-		   alert("비밀번호는 6~12자리의 영어 소문자+대문자, 숫자, 특수문자만 가능합니다.");
+		   message = "<span class='pw_msg fail_msg'>비밀번호는 6~12자리의 영어 소문자+대문자, 숫자, 특수문자만 가능합니다.</span>";
 		   $("#memberPW").val("");
+		   $("#memberPW").focus();
 		   check.set("memberPW", 0);
 	   } else {
 		   message = "";
@@ -131,7 +133,7 @@ $(function(){
 		}
 		
 		$.ajax({
-			url: "/user/nickCheck",
+			url: "./nickCheck",
 			type: "POST",
 			dataType: "json",
 			async: false,
@@ -145,6 +147,7 @@ $(function(){
 	               }else {
 	                  alert("이미 사용 중인 닉네임입니다. 다시 입력해주세요.");
 	                  $("#nickname").val("");
+	                  $("#nickname").focus();
 	               }
 	            }
 	            $("#nickname_check").html(message);
@@ -182,7 +185,7 @@ $(function(){
        }
        
        $.ajax({
-    	   url: "/user/emailCheck",
+    	   url: "./emailCheck",
     	   type: "POST",
     	   dataType: "json",
     	   async: false,
@@ -201,6 +204,7 @@ $(function(){
 	               }else {
                 	   alert("이미 사용 중인 이메일입니다. 다시 입력해주세요.");
  	            	   $("#email").val("");
+ 	            	   $("#email").focus();
 	               }
         	   }
 	            $("#email_check").html(message);

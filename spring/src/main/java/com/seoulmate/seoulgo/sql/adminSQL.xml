@@ -1,13 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
+
 <mapper namespace="admin">
-	<!-- 가입된 회원정보 조회 -->
-	<select id="getMemberList" resultType="mdto">
+	<sql id="fields">
+		memberID, mName, nickname, gender, birth, enrollDate,
+		phone1, phone2, phone3, email, proSaveName
+	</sql>
+
+	<sql id="condition">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="keyword != null and keyword !=''">
+				<if test="searchType == 'memberID'">
+					AND memberID LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test="searchType == 'mName'">
+					AND mName LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test="searchType == 'nickname'">
+					AND nickname LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test="searchType == 'email'">
+					AND email LIKE '%'||#{keyword}||'%'
+				</if>
+			</if>
+			AND mlevel='ROLE_MEMBER' AND enabled='1'
+		</trim>
+	</sql>
+
+	<!-- 회원 리스트 검색 결과수 -->
+	<select id="searchList" resultType="int">
+		SELECT count(*)
+		FROM member_t
+		<include refid="condition" />
+	</select>
+
+	<!-- 회원 리스트에서 회원 탈퇴 시키기 -->
+	<update id="deleteAccount" parameterType="mdto">
+		UPDATE member_t
+		SET
+		enabled=#{enabled}
+		WHERE memberID=#{memberID}
+	</update>
+
+	<!-- 회원 정보 조회 -->
+	<select id="findMember" resultType="mdto" parameterType="mdto">
 		SELECT *
 		FROM member_t
-		WHERE mlevel='ROLE_MEMBER'
-		ORDER BY memberID DESC
+		WHERE memberID=#{memberID}
+	</select>
+
+	<!-- 가입된 회원정보 조회 & 검색 결과 -->
+	<select id="getMemberList" parameterType="com.seoulmate.seoulgo.page.MemberSearchPage" resultType="mdto">
+		SELECT *
+		FROM 
+		(
+			select row_number() over(order by memberID desc) mno,
+			<include refid="fields"/>
+			from member_t
+			<include refid="condition"/>
+		)
+		where mno between #{startRow} and #{endRow}
 	</select>
 </mapper>
