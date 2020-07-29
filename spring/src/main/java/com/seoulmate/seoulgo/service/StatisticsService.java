@@ -42,7 +42,8 @@ public class StatisticsService {
 		dao.update(new ReviewStatisticsDto(rNo));
 		reviewWordCount(req, rNo);
 	}
-	public void delete(Integer rNo) {
+	public void delete(HttpServletRequest req, Integer rNo) {
 		dao.update(new ReviewStatisticsDto(rNo));
+		reviewWordCount(req, rNo);
 	}
 }

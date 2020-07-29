@@ -24,22 +24,22 @@ class ReviewWordDao:
         return rst
     def getReview(self, rNo):
         rst = None
-        sql = """select rNo, rtitle, rcontent
-                from reviewBoard
-                where rNo=:rNo"""
+        sql = """SELECT rNo, rTitle, rContent, rIsShow
+                FROM reviewBoard
+                WHERE rNo=:rNo"""
         cur = self.db.execute(sql, rNo=rNo)
         for i in cur:
-            rst = {"rNo": i[0], "title": i[1], "content": i[2]}
+            rst = {"rNo": i[0], "rTitle": i[1], "rContent": i[2], "rIsShow": i[3]}
             break
         return rst
     def getReviewList(self, startDate, endDate):
         rst = []
-        sql = """select rNo, rTitle, rContent
-        from reviewBoard
-        where rContent not like '%더 보기%' AND (rDate between :startDate and :endDate)"""
+        sql = """SELECT rNo, rTitle, rContent, rIsShow
+        FROM reviewBoard
+        WHERE rContent not like '%더 보기%' AND (rDate between :startDate and :endDate)"""
         cur = self.db.execute(sql, startDate=startDate, endDate=endDate)
         for i in cur:
-            rst.append({"rNo": i[0], "title": i[1], "content": i[2]})
+            rst.append({"rNo": i[0], "rTitle": i[1], "rContent": i[2], "rIsShow": i[3]})
         return rst
     def insertList(self, list):
         insertSql = """insert into reviewWord (rNo, word, freq) values (:rNo, :word, :freq)"""
