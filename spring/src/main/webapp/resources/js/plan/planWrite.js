@@ -71,30 +71,7 @@ $(function(){
 			//alert(nameArr[i].value)
 			$("#planplace"+j).attr("value", nameArr[i].value);
 			j++;
-			addrArr.push({
-				'groupAddress' : addr1Arr[i].value + " " + addr2Arr[i].value
-			})
 		})
 	}
 	
-	for(var i=0; i<addrArr.length; i++) {
-		geocoder.addressSearch(addrArr[i].groupAddress, function(result, status, data){
-			
-			if(status === kakao.maps.services.Status.OK) {
-				var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-				
-				// 결과값으로 받은 위치를 마커로 표시
-				var marker = new kakao.maps.Marker({
-					map: map,
-					position: coords
-				});
-				
-				// 마커를 지도에 표시
-				maker.setMap(map);
-				
-				var content = '<div class="labelWish"><span class="leftWish"></span><span class="centerWish">' + result[0].address_name
-				+ '</span><span class="rightWish">'
-			}
-		})
-	}
 });
