@@ -19,6 +19,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>장소 상세정보</title>
+<link rel="stylesheet" href="${resourcePath}/css/place/detail.css">
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04926447ff4e969a08d92e18379b0176&libraries=services,clusterer,drawing"></script>
 <script type="text/javascript" src="${resourcePath}/js/place/detail.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/review/likecnt.js"></script>
@@ -37,16 +38,6 @@ $(function(){
 	}
 });
 </script>
-<style type="text/css">
-	#pro {
-		width: 50px;
-		height: 50px;
-	}
-	.img {
-		width: 100px;
-		height: 100px;
-	}
-</style>
 </head>
 <body>
 <input id="basePath" type="hidden" value="${basePath}" />
@@ -76,17 +67,29 @@ $(function(){
 			<c:choose>
 				<c:when test="${imageCnt > 0}">
 					<div class="carousel-item active">
-						<img src="${imagePath}/place/${item.imageNames[0]}" onerror="this.src='${defaultImage}'" alt="place 1">
+						<div class="thumbnail-wrapper">
+							<div class="thumbnail">
+								<div class="thumbnail-centered">
+									<div class="place-image-container">
+										<img src="${imagePath}/place/${item.imageNames[0]}" onerror="this.src='${defaultImage}'" alt="place 1">
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 					<c:forEach var="i" begin="1" end="${imageCnt-1}">
 						<div class="carousel-item">
-							<img src="${imagePath}/place/${item.imageNames[i]}" onerror="this.src='${defaultImage}'" alt="place image ${i+1}">
+							<div class="place-image-container">
+								<img src="${imagePath}/place/${item.imageNames[i]}" onerror="this.src='${defaultImage}'" alt="place image ${i+1}">
+							</div>
 						</div>
 					</c:forEach>
 				</c:when>
 				<c:otherwise>
 					<div class="carousel-item active">
-						<img src="${defaultImage}" alt="place image">
+						<div class="place-image-container">
+							<img src="${defaultImage}" alt="place image">
+						</div>
 					</div>
 				</c:otherwise>
 			</c:choose>
