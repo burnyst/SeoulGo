@@ -19,9 +19,6 @@
 		<property name="username" value="seoulmate"/>
 		<property name="password" value="seoulgo"/>
 	</bean>
-
-
-
 	
 	<!-- myBatis 등록 부분 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

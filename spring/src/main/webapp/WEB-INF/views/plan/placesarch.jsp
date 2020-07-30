@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>여행계획짜기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript" src="./jquery.cookie.js"></script>]
+<script type="text/javascript" src="./jquery.cookie.js"></script>
  <script>
 $(function(){
 		 $("#ibtn").click(function(){
@@ -27,7 +27,10 @@ $(function(){
 <table border="1" width="100%" class="table table-bordered table-hover text-center" id="example-table-2">
 	 <tbody>
 		<tr>
-			<th>장소 번호</th><th>	일정장소	</th><th>	장소이름	</th>
+			<th>장소 번호</th>
+			<th>주소</th>
+			<th>장소명</th>
+			<th></th>
 		</tr>
 		<c:forEach var="list" items="${placeview}"  varStatus="status">
 			<form method="get" id="placesarch" name="placesarch" action="/plan/planwritenter">
@@ -36,14 +39,14 @@ $(function(){
 							 ${list.placeNo}<input type="hidden" value="${list.placeNo}" id="placeNo" name="placeNo">
 						</td>
 						<td>
-							${list.addr1 }${list.addr2 } 
+							${list.addr1} ${list.addr2} 
 						<input type="hidden" name="addr1"value="${list.addr1}">
 						<input type="hidden" name="addr2"value="${list.addr2}">
 						</td>
 						<td>
-							${list.placename} <input type="hidden" name="placename"value="${list.placename}">
+							${list.placeName} <input type="hidden" name="placename"value="${list.placename}">
 						</td>
-						<td><input type="submit" id="enter" name="enter" value="장소 고르기"></td>
+						<td><input type="submit" class="btn btn-sm btn-outline-secondary" id="enter" name="enter" value="장소 고르기"></td>
 					</tr>
 				</form>
 			</c:forEach>

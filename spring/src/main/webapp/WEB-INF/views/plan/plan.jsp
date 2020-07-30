@@ -35,7 +35,7 @@ $(function(){
 <body>
 
 <div align="center">
-<h3>나의 일정 페이지</h3>
+<h3>마이 플랜</h3>
 
 http://127.0.0.1:9000/plan/plan
 <!-- {Viewlist}-->
@@ -95,7 +95,7 @@ http://127.0.0.1:9000/plan/plan
 	<table class="right" width="700" >
 		<tbody>
 			<tr class="right" align="center">
-				<td><input type="button" id="ibtn" name="ibtn" value="일정짜보기"/></td>
+				<td><input type="button" class="btn btn-primary" id="ibtn" name="ibtn" value="일정 작성"/></td>
 			</tr>
 		</tbody>
 	</table>
