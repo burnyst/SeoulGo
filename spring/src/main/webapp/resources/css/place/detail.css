@@ -5,26 +5,43 @@
 	--padding: 64px;
 }
 .place-image-container {
+	--width: calc(100vw - var(--border) - var(--scrollbar-width));
 	background-color: black;
-	width: 100%;
-	height: calc((100vw - var(--border) - var(--scrollbar-width)) * var(--img-ratio));
+	width: var(--width);
+	height: calc(var(--width) * var(--img-ratio));
 	display:flex;
 	justify-content: center;
 }
-.place-image-container > img {
+.place-image-container img {
 	max-width: 100%;
 	max-height: 100%;
 	object-fit: contain;
 }
 @media only screen and (min-width: 576px) {
-	.place-image-container {height: calc((540px - var(--border) - var(--scrollbar-width)) * var(--img-ratio));}
+	.place-image-container {
+		--width: calc(540px - var(--border) - var(--scrollbar-width));
+		width: var(--width);
+		height: calc(var(--width) * var(--img-ratio));
+	}
 }
 @media only screen and (min-width: 768px) {
-	.place-image-container {height: calc((768px - var(--border) - var(--padding) - var(--scrollbar-width)) * var(--img-ratio));}
+	.place-image-container {
+		--width: calc(768px - var(--border) - var(--padding) - var(--scrollbar-width));
+		width: var(--width);
+		height: calc(var(--width) * var(--img-ratio));
+	}
 }
 @media only screen and (min-width: 992px) {
-	.place-image-container {height: calc((992px - var(--border) - var(--padding) - var(--scrollbar-width)) * var(--img-ratio));}
+	.place-image-container {
+		--width: calc(992px - var(--border) - var(--padding) - var(--scrollbar-width));
+		width: var(--width);
+		height: calc(var(--width) * var(--img-ratio));
+	}
 }
 @media only screen and (min-width: 1200px) {
-	.place-image-container {height: calc((1200px - var(--border) - var(--padding) - var(--scrollbar-width)) * var(--img-ratio));}
+	.place-image-container {
+		--width: calc(1200px - var(--border) - var(--padding) - var(--scrollbar-width));
+		width: var(--width);
+		height: calc(var(--width) * var(--img-ratio));
+	}
 }
