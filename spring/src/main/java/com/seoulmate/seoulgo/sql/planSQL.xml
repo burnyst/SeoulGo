@@ -43,8 +43,69 @@
 		PLANDATE ,
 		PLANTITLE ,
 		PLANCATE ,
-		MEMBERID
-	</sql>
+
+		MEMBERID 	
+</sql>
+<!-- placeno를 중복 조회하는 쿼리문 -->
+<select id="getlistname" parameterType="int" resultType="java.lang.String">
+	 SELECT placename
+    	FROM PLACE 
+     		WHERE place.placeno in(SELECT p1.PLACENO
+	                                         FROM PLANPLACE P1
+	                                         	WHERE #{pno}=P1.PLANNO)
+</select>
+<!-- 아이디를 조회하는 쿼리문 -->
+<!--planno를 구해오는 쿼리문  -->
+
+<!--중복되는 placename을 찾을때 쓰는 쿼리문  -->
+<select id="getplacename" parameterType="int" resultType="java.lang.String">
+ SELECT placename
+    FROM PLACE 
+     WHERE place.placeno in(SELECT p1.PLACENO
+                                         FROM PLANPLACE P1
+                                         WHERE #{pno}=P1.PLANNO)
+</select>
+<!--장소의 정보를 조회하는 쿼리문  -->
+
+
+
+
+
+
+
+
+
+<!-- plan과 place의 일부 데이터 조회 -->
+<select id="getplanboard" parameterType="com.seoulmate.seoulgo.dto.PlanDTO" resultType="com.seoulmate.seoulgo.dto.PlanDTO">
+select * from (
+    	SELECT 
+        PLAN.PLANNO,
+    	PLAN.PLANTITLE,
+    	PLAN.PLANCATE,
+    	PLAN.MEMBERID,
+    	plan.PLANDATE,
+    	PLACE.PLACENAME,
+   	    PLACE.ADDR1, 
+   	    PLACE.ADDR2, 
+	   	    row_number() over(partition by plan.planno ORDER BY plan.planno)row_num from plan,planplace,place
+	            where plan.planno=planplace.planno and planplace.placeno=place.placeno
+	            	and plan.memberid=#{memberid}
+                     order by plan.planno
+		)   where row_num =1
+</select>
+
+<!-- 총 계획 숫자 조회 -->
+
+<select id="personalCnt" resultType="int">
+	select count(*) from plan where MEMBERID=#{memberid}
+</select>
+
+
+
+
+
+
+	
 	<!-- 아이디를 조회하는 쿼리문 -->
 	<select id="getmemberid" parameterType="string"
 		resultType="pdto">
@@ -56,15 +117,6 @@
 		select
 		PLANNO from plan
 		where MEMBERID=#{mem_id}
-	</select>
-	<!--중복되는 placename을 찾을때 쓰는 쿼리문 -->
-	<select id="getplacename" parameterType="int" resultType="pdto">
-		SELECT
-		placeno,placename
-		FROM PLACE
-		WHERE place.placeno in(SELECT p1.PLACENO
-		FROM PLANPLACE P1
-		WHERE #{pno}=P1.PLANNO)
 	</select>
 	<!--장소의 정보를 조회하는 쿼리문 -->
 	<select id="placechoice" parameterType="int" resultType="pdto">
@@ -132,27 +184,7 @@
 	</select>
 	
 
-	<!-- plan과 place의 일부 데이터 조회 -->
-	<select id="getplanboard" parameterType="pdto"
-		resultType="com.seoulmate.seoulgo.dto.PlanDTO">
 
-		select * from (
-		SELECT PLAN.PLANNO,
-		PLAN.PLANTITLE,
-		PLAN.PLANCATE,
-		PLAN.MEMBERID,
-		plan.PLANDATE,
-		PLACE.PLACENAME,
-		PLACE.ADDR1,
-		PLACE.ADDR2 ,
-		rownum as rnum from plan,planplace,place
-		where plan.planno=planplace.planno and planplace.placeno=place.placeno
-		and plan.memberid=#{memberid}
-		order by plan.planno desc
-		) where rnum
-		between #{startRow} and #{endRow}
-
-	</select>
 
 
 	<!-- 총 계획 숫자 조회 -->
@@ -164,10 +196,7 @@
 		from place
 		<include refid="searchCondition"/>
 	</select>
-	<select id="personalCnt" resultType="int">
-		select count(*) from plan
-		where memberid=#{memberid}
-	</select>
+
 	<!--planSboard에서 보여지는데이터들 -->
 	<select id="plandatav" parameterType="pdto" resultType="pdto">
 		select *

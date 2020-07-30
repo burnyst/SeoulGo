@@ -20,6 +20,7 @@ public class PlanDAO {
 
 	public List<PlanDTO> getplanboard(PlanPage page2) {
 		List<PlanDTO> result = session.selectList("plandata.getplanboard", page2);
+
 		return result;
 	}
 
@@ -139,20 +140,18 @@ public class PlanDAO {
 		return result;
 	}
 
-	// memberid를 찾아온다.
-	public String getmemberid(String memberid) {
-		String result = session.selectOne("plandata.getmemberid", memberid);
-		return result;
-	}
+
 
 	public void deleteplan(int planno) {
 
 		session.delete("plandata.deleteplan", planno);
 	}
 
-	public List<PlanDTO> getplacename(int pno) {
 
-		List<PlanDTO> result = session.selectList("plandata.getplacename", pno);
+
+	public List<String> getplacename(int pno) {
+
+		List<String> result = session.selectList("plandata.getplacename", pno);
 		return result;
 	}
 
@@ -161,4 +160,6 @@ public class PlanDAO {
 		List<PlanDTO> result = session.selectList("plandata.getplannum", mem_id);
 		return result;
 	}
+
+	
 }

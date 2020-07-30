@@ -2,6 +2,13 @@ package com.seoulmate.seoulgo.controller;
 
 import java.util.ArrayList;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.StringJoiner;
+
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -34,13 +41,66 @@ public class PlanController {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String mem_id = principal.toString();
 
+		//System.out.println(mem_id);
+
+
 		System.out.println(mem_id);
+
 		page2.setMemberid(mem_id);
+
+		//회원의 아이디 가져오기
+		
+		//총 게시물 수 조회하기.
+
 
 		int TotalRow = planservice.personrow(page2);
 		page2.setTotalRow(TotalRow);
 
-		ArrayList<PlanDTO> pdto = (ArrayList) planservice.getplanboard(page2);
+		List<PlanDTO> pdto = (ArrayList)planservice.getplanboard(page2);
+		//System.out.println("pdto의 값   : 컨트롤러 "+pdto);
+		for (int i=0; i<pdto.size();i++) {
+			try {
+				if(pdto.get(i).getPlanNo()==pdto.get(i-1).getPlanNo()) {
+					//System.out.println("if문 안에 들어왔습니다. 어떻게 할까요??"+pdto.get(i).getPlanNo());
+					pdto.remove(i);
+					pdto.remove(i-1);
+					continue;
+				}
+			}catch(Exception e) {
+			}
+		}
+
+		//System.out.println(pdto.get(0).getPlacename()); // null
+		System.out.println("page2의 초기값 조회합니다."+page2);
+		for(int i=0;i<pdto.size();i++) {
+			//System.out.println(pdto.size());
+			try {
+				if(pdto.get(i).getPlanNo()==pdto.get(i-1).getPlanNo()) {
+					continue;
+				}
+			}catch(Exception ex) {}
+			
+			if(pdto.get(i).getPlacename()==null) {
+				int e = pdto.get(i).getPlanNo();
+				System.out.println("planNo숫자의 값 - 컨트롤러 "+e);
+				List<String> placemany = planservice.getplacename(e);
+				
+//				for(int j=0;j<placemany.size() ; j++) {
+//					String many=placemany.get(j).toString();
+//					List<String> plusString = new ArrayList<String>();
+//					plusString.add(many);
+//					
+//				}
+				pdto.get(i).setPlacename(placemany);
+				System.out.println("placemany의 값  :  "+placemany);
+			}
+		}
+		mv.addObject("plist",pdto);
+		System.out.println("pdto의 최종값을 조회합니다."+pdto);
+		mv.addObject("page",page2);
+
+
+//		ArrayList<PlanDTO> pdto = (ArrayList) planservice.getplanboard(page2);
 
 		System.out.println(pdto);
 		System.out.println("page2의 초기값 조회합니다." + page2);
@@ -82,29 +142,28 @@ public class PlanController {
 		return mv;
 	}
 
-	// http://127.0.0.1:9000/plan/planmodi
-	@RequestMapping("/plan/planmodi")
-	public ModelAndView planredirect(ModelAndView mv, HttpServletRequest req) {
-		int pno = Integer.parseInt(req.getParameter("pno"));// 글번호
-		System.out.println("planmodi도착, pno의 숫자: " + pno);
-
-		ArrayList<PlanDTO> pdto = (ArrayList) planservice.detailView(pno);// DTO에 내용 넣기.
-		for (int i = 0; i < pdto.size(); i++) {
-			int j = pdto.get(i).getPlanNo();
-			System.out.println(j + "j의값");
-			ArrayList<PlanDTO> view2 = planservice.addrservice(j);
-			System.out.println(view2);
-			// view2.get(0).getAdd1();
-			pdto.get(i).setAddr1(view2.get(0).getAddr1());
-			// view2.get(0).getAdd2();
-			pdto.get(i).setAddr2(view2.get(0).getAddr2());
-			pdto.get(i).setPlacename(view2.get(0).getPlacename());
+	//http://127.0.0.1:9000/plan/planmodi
+		@RequestMapping("/plan/planmodi")
+		public ModelAndView planredirect(ModelAndView mv,HttpServletRequest req) {
+			int pno  =  Integer.parseInt(req.getParameter("pno"));//글번호
+			System.out.println("planmodi도착, pno의 숫자: "+pno);
+			
+			ArrayList<PlanDTO> pdto = (ArrayList)planservice.detailView(pno);//DTO에 내용 넣기.
+			for (int i=0;i<pdto.size(); i++) {
+				int j = pdto.get(i).getPlanNo();
+				System.out.println(j+"j의값");
+				ArrayList<PlanDTO> view2 = planservice.addrservice(j);
+				System.out.println(view2);
+				//view2.get(0).getAdd1();
+				pdto.get(i).setAddr1(view2.get(0).getAddr1());
+				//view2.get(0).getAdd2();
+				pdto.get(i).setAddr2(view2.get(0).getAddr2());
+				pdto.get(i).setPlacename(view2.get(0).getPlacename());
+			}
+			mv.setViewName("plan/planmodi");
+			mv.addObject("Pdto",pdto);
+			return mv;
 		}
-		mv.setViewName("plan/planmodi");
-		mv.addObject("Pdto", pdto);
-		return mv;
-	}
-
 	@PostMapping("/plan/planmodifin")
 	public ModelAndView planmodifin(ModelAndView mv, HttpServletRequest req, PlanDTO plan) {
 		planservice.planmodifinservice(plan, req);
@@ -199,7 +258,13 @@ public class PlanController {
 		return mv;
 	}
 
+	
+	
+	//일정 상세보기 페이지<비회원, 회원 공용 
+
+
 	// 일정 상세보기 페이지<비회원, 회원 공용 (?)
+
 	@RequestMapping("/plan/planview")
 	public ModelAndView planviews(ModelAndView mv, HttpServletRequest req, PlanDTO plan, int planNo) {
 		System.out.println("planview 호출완료");

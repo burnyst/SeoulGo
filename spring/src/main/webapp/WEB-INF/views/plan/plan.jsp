@@ -4,45 +4,25 @@
 <%@ taglib prefix ="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<c:set var="resourcePath" value="${basePath}/resources" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>여행계획짜기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- <script>
-$(function(){
-		 $("#ibtn").click(function(){
-			 //alert("함수 작동");
-			 $(location).attr("href","/plan/planwrite");
-		 })		
-})
-$(function(){
-		 $(".viewbutton").click(function(){
-		    var str = ""
-				var tdArr = new Array();	// 배열 선언
-				var viewbutton = $(this);
-			var tr = viewbutton.parent().parent();
-			var td = tr.children();
-			var pno = td.eq(0).text();
-			var param = pno
-			 //alert(pno+"번 글입니다.");
-			 $(location).attr("href","/plan/planview"+'?&planNo='+pno);
-		 })	
-})
- </script>
+<script type="text/javascript" src="${resourcePath}/js/plan/plan.js"></script>
 </head>
 <body>
 
 <div align="center">
 <h3>마이 플랜</h3>
 
-http://127.0.0.1:9000/plan/plan
 <!-- {Viewlist}-->
 <table border="1" width="100%" class="table table-bordered table-hover text-center" id="example-table-2">
 	 <tbody>
 		<tr>
-			<th>일정 번호</th><th>일정날짜</th><th>	일정이름	</th><th>여행 유형</th><th>	일정장소	</th>
+			<th>일정 번호</th><th>일정날짜</th><th>	일정이름	</th><th>여행유형</th><th>	일정장소	</th>
 		</tr>
 		<c:if test="${PLANNO=null}">
 			<tr>
@@ -51,31 +31,34 @@ http://127.0.0.1:9000/plan/plan
 				</td>
 			</tr>	
 		</c:if>
-			<c:forEach var="list" items="${plist}"  varStatus="status">
-			<form method="post" id="planlist" name="planlist" action="/plan/planmodi">
-					<tr>
+			<tbody>
+			<c:forEach var="list" items="${plist}" varStatus="status">
+				<form method="post" id="planlist" name="planlist" action="/plan/planmodi">
+					<tr onclick="location.href='/plan/planview?&planNo=${list.planNo}'" style="cursor:hand">
 						<td>
-							${list.planNo } <input type="hidden" value="${list.planNo}" id="pno" name="pno">
+							 
+							 ${list.planNo } <input type="hidden" value="${list.planNo}" id=planNo name="planNo">
 						</td>
 							<td>
 								<fmt:formatDate value="${list.planDate}" pattern="yyyy년MM월dd일"/>
 							</td>
 						
 						<td>
-							${list.planTitle}<input type="hidden" value="${list.planTitle }">
+							${list.planTitle}
+								
+							<input type="hidden" id="plantitle" value="${list.planTitle}">
 						</td>
 						<td>
-							${list.planCate}<input type="hidden" value="${list.planCate}">
+							${list.planCate}
+							<input type="hidden" value="${list.planCate}">
 						</td>
 						<td>${list.placename}<br>
-							${list.placename2}<br>
-							${list.placename3}
+							<br>
+							<input type="hidden" id="placename" value="${list.placename }">
 							<input type="hidden" value="${list.addr1}">
 							<input type="hidden" value="${list.addr2}">
 						</td>
-						<td><input type="submit" id="mobtn" name="mobtn" value="일정수정하기"></td>
-						
-						<td><input type="button" class="viewbutton" name="viewbutton"  value="일정상세보기" ></td>
+						<!--<td><input type="submit" id="mobtn" name="mobtn" value="일정수정하기"></td>-->
 					</tr>
 				</form>
 			</c:forEach>
