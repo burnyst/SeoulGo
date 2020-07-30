@@ -180,7 +180,7 @@ public class MemberController {
 			mv.addObject("msg", "updateSuccess");
 			mv.setView(rv);
 		}else {
-			mv.setViewName("/member/mypage");
+			mv.setViewName(request.getContextPath()+"/member/mypage");
 			mv.addObject("msg", "updateFail");
 		}
 		return mv;

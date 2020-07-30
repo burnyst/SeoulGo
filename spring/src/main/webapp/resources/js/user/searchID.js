@@ -1,8 +1,6 @@
-var check = new Map();
-
 $(function() {
 	// mName check
-	$("#mName").blur(function(){
+	$("#mName").change(function(){
 		var name = $("#mName").val();
 		if (name === "") {
 			alert("필수 정보입니다.");
@@ -11,7 +9,7 @@ $(function() {
 	});
 
 	// email check
-	$("#email").blur(function(){
+	$("#email").change(function(){
 		var email = $("#email").val();
 		var emailRegExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 		if (email === "") {

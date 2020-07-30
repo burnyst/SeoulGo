@@ -84,7 +84,7 @@ public class UserController {
 
 	// 비밀번호 찾기 처리
 	@RequestMapping("/searchPWProc")
-	public ModelAndView searchPWProc(MemberDTO mdto, @RequestParam String memberPW, ModelAndView mv) {
+	public ModelAndView searchPWProc(MemberDTO mdto, HttpServletRequest request, @RequestParam String memberPW, ModelAndView mv) {
 		System.out.println("UserController.searchPWProc() 진입");
 		
 		String memberID = mdto.getMemberID();
@@ -96,7 +96,7 @@ public class UserController {
 		
 		uService.searchPWProc(mdto);
 
-		mv.setViewName("/user/login");
+		mv.setViewName(request.getContextPath()+"/user/login");
 		return mv;
 	}
 
@@ -112,7 +112,7 @@ public class UserController {
 	
 	// 아이디 찾기
 	@RequestMapping("/searchIDProc")
-	public ModelAndView searchIDProc(MemberDTO mdto, ModelAndView mv) {
+	public ModelAndView searchIDProc(MemberDTO mdto, ModelAndView mv, HttpServletRequest request) {
 		System.out.println("UserController.searchIDProc() 진입");
 
 		String mName = mdto.getmName();
@@ -120,7 +120,7 @@ public class UserController {
 
 		MemberDTO result = uService.emailAuth(mdto);
 
-		mv.setViewName("/user/searchIDResult");
+		mv.setViewName(request.getContextPath()+"/user/searchIDResult");
 		mv.addObject("result", result);
 		return mv;
 	}
