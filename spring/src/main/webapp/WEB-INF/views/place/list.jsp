@@ -11,6 +11,7 @@
 <head>
 <meta charset="utf-8">
 <title>장소찾기</title>
+<link rel="stylesheet" href="${resourcePath}/css/place/list.css">
 <script type="text/javascript" src="${resourcePath}/js/place/list.js"></script>
 </head>
 <body>

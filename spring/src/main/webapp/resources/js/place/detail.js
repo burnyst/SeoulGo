@@ -62,4 +62,8 @@ $(document).ready(function() {
 	        map.setCenter(coords);
 	    }
 	});
+	document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");
+	$(window).resize(function () {
+		document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");
+	});
 });

@@ -7,7 +7,9 @@
 <%@ attribute name="detailUri" type="java.lang.String" required="true" %>
 <c:forEach var="item" items="${list}" varStatus="status">
 	<div class="card col-md-6 col-lg-4">
-		<img class="card-img-top img-fluid" src="${imagePath}/${item.imageNames[0]}" onerror="this.src='${defaultImage}'" alt="place">
+		<div class="place-image-container">
+			<img class="card-img-top img-fluid" src="${imagePath}/${item.imageNames[0]}" onerror="this.src='${defaultImage}'" alt="place">
+		</div>
 		<div class="card-body">
 			<h4 class="card-title">${item.placeName}</h4>
 			<span class="card-text">
