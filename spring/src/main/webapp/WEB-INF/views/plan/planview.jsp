@@ -11,17 +11,12 @@
 
 $(function(){
 	 $("#nomodi").click(function(){
-		 //alert("함수 작동");
-		 $(location).attr("href","../plan/plan");
 		
+		 $(location).attr("href","../plan/plan");
 	 })
-	 
 	 $("#delmodi").click(function(){
 		 alert("삭제페이지로 이동합니다.");
-		 
 		 $(location).attr("href","./plandelete");
-		 
-		 //alert("./plandelete");
 	 })
 	 $("#back").click(function(){
 		 alert("일정공유 게시판으로 이동합니다.");
@@ -44,7 +39,7 @@ $(function(){
 <c:forEach items="${Pdto}" var="list" varStatus="status">
 	<input type="hidden" id="addr1"value="${list.addr1}">
 	<input type="hidden" id="addr2"value="${list.addr2}">
-	<input type="hidden" id="placename" value="${list.placename }"> 
+	<input type="hidden" id="placeName" value="${list.placeName }"> 
 </c:forEach>
 <!-- 이 페이지는 일정을 짜는 페이지이다. 
  일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
@@ -65,7 +60,7 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 var geocoder = new kakao.maps.services.Geocoder();
 var addr1 = $('#addr1').val();
 var addr2 = $('#addr2').val();
-var placename = $('#placename').val();
+var placename = $('#placeName').val();
 var addr = addr1 + addr2
 //alert (addr);
 // 주소로 좌표를 검색합니다

@@ -47,21 +47,6 @@ public class PlanService {
 	}
 
 
-	public List<PlanDTO> paging(PageObject pInfo) {
-
-		int start = (pInfo.getPage() - 1) * pInfo.getPerPageNum() + 1;
-		int end = start + pInfo.getPerPageNum() - 1;
-		int perpagenum = pInfo.getPerPageNum();
-		PlanDTO PDTO = new PlanDTO();
-		PDTO.setStart(start);
-		PDTO.setEnd(end);
-		PDTO.setPerpagenum(perpagenum);
-		System.out.println("paging메소드의 start와 end" + start + "," + end + perpagenum);
-		ArrayList<PlanDTO> list = (ArrayList<PlanDTO>) pdao.planSboard(PDTO);
-		System.out.println("paging메소드의 list 변수의 값" + list);
-		return list;
-	}
-
 	public ArrayList addrservice(int addrNo) {
 
 		return pdao.addrdao(addrNo);

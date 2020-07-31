@@ -151,7 +151,7 @@ public class PlanDAO {
 
 	public List<String> getplacename(int pno) {
 
-		List<String> result = session.selectList("plandata.getplacename", pno);
+		List<String> result = session.selectList("plandata.getplaceName", pno);
 		return result;
 	}
 

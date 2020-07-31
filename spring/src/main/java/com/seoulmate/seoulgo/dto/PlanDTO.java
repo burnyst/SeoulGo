@@ -11,29 +11,17 @@ public class PlanDTO {
 	private String planCate;
 	private String memberid;
 
-
-	private List<String> placename;
+	private List<String> placeName;
 
 	private String addr1;
 	private String addr2;
 
 	private int placeNo, placeNo2, placeNo3;
 	private int addrNo;
-	private int start; // 시작글번호
-	private int end; // 끝글번호
-	private int nowPage; // 보고싶은 글 번호
-	private int startRow, endRow;// 현재 페이지의 첫글과 끝글번호
+	
+	
 
-	private int perpagenum;
-	private int rno;
 
-	public int getEndRow() {
-		return endRow;
-	}
-
-	public void setEndRow(int endRow) {
-		this.endRow = endRow;
-	}
 
 	public int getPlaceNo2() {
 		return placeNo2;
@@ -51,13 +39,6 @@ public class PlanDTO {
 		this.placeNo3 = placeNo3;
 	}
 
-	public List<String> getPlacename() {
-		return placename;
-	}
-
-	public void setPlacename(List<String> placename) {
-		this.placename = placename;
-	}
 
 	public String getAddr1() {
 		return addr1;
@@ -75,21 +56,7 @@ public class PlanDTO {
 		this.addr2 = addr2;
 	}
 
-	public int getStart() {
-		return start;
-	}
 
-	public void setStart(int start) {
-		this.start = start;
-	}
-
-	public int getEnd() {
-		return end;
-	}
-
-	public void setEnd(int end) {
-		this.end = end;
-	}
 
 	public int getPlanNo() {
 		return planNo;
@@ -138,13 +105,7 @@ public class PlanDTO {
 		this.planCate = planCate;
 	}
 
-	public int getStartRow() {
-		return startRow;
-	}
 
-	public void setStartRow(int startRow) {
-		this.startRow = startRow;
-	}
 
 	public int getPlaceNo() {
 		return placeNo;
@@ -154,13 +115,7 @@ public class PlanDTO {
 		this.placeNo = placeNo;
 	}
 
-	public int getNowPage() {
-		return nowPage;
-	}
 
-	public void setNowPage(int nowPage) {
-		this.nowPage = nowPage;
-	}
 
 	public int getAddrNo() {
 		return addrNo;
@@ -170,21 +125,9 @@ public class PlanDTO {
 		this.addrNo = addrNo;
 	}
 
-	public int getPerpagenum() {
-		return perpagenum;
-	}
 
-	public void setPerpagenum(int perpagenum) {
-		this.perpagenum = perpagenum;
-	}
 
-	public int getRno() {
-		return rno;
-	}
 
-	public void setRno(int rno) {
-		this.rno = rno;
-	}
 
 	public void setPlanplace(String planplace) {
 
@@ -195,11 +138,17 @@ public class PlanDTO {
 	@Override
 	public String toString() {
 		return "PlanDTO [planNo=" + planNo + ", planDate=" + planDate + ", planTitle=" + planTitle + ", planCate="
-				+ planCate + ", memberid=" + memberid + ", placename=" + placename
-				+ ", addr1=" + addr1 + ", addr2=" + addr2 + ", placeNo=" + placeNo + ", placeNo2=" + placeNo2
-				+ ", placeNo3=" + placeNo3 + ", addrNo=" + addrNo + ", start=" + start + ", end=" + end + ", nowPage="
-				+ nowPage + ", startRow=" + startRow + ", endRow=" + endRow + ", perpagenum=" + perpagenum + ", rno="
-				+ rno + "]";
+				+ planCate + ", memberid=" + memberid + ", placeName=" + placeName + ", addr1=" + addr1 + ", addr2="
+				+ addr2 + ", placeNo=" + placeNo + ", placeNo2=" + placeNo2 + ", placeNo3=" + placeNo3 + ", addrNo="
+				+ addrNo   + "]";
+	}
+
+	public List<String> getPlaceName() {
+		return placeName;
+	}
+
+	public void setPlaceName(List<String> placeName) {
+		this.placeName = placeName;
 	}
 
 

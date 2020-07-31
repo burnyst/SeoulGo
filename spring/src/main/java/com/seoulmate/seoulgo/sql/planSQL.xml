@@ -4,6 +4,30 @@
 
 <mapper namespace="plandata">
 	<!-- parameter, result가 한 개이면 자바의 데이터타입명시 여러개이면 VO(DTO), Map으로 처리해야 한다 -->
+<resultMap id="listResultMap" type="com.seoulmate.seoulgo.dto.PlanDTO">
+	<id property="planNo" column="planNo" />
+	<result property="planDate" column="planDate" />
+	<result property="planTitle" column="planTitle" />
+	<result property="planCate" column="planCate" />
+	<result property="placeNo" column="placeNo" />
+	<result property="addrNo" column="addrNo" />
+	<collection property="placeName" column="planNo" ofType="java.lang.String" select="listSub" />
+	
+</resultMap>
+	
+<select id="listSub" resultType="java.lang.String">
+	 select *  from (
+       SELECT 
+        PLACE.PLACENAME  
+             from plan,planplace,place
+               where plan.planno=planplace.planno
+                 and planplace.placeno=place.placeno
+                  and plan.PLANNO=#{planNo} 
+            order by plan.planno desc
+      ) 
+</select>	
+
+	
 	<!-- sql요소는 다른 구문에서 재사용가능한 SQL 구문을 정의할 때 사용된다. 
 		선언형식
 		<sql id="id값">쿼리문</sql> 
@@ -58,26 +82,30 @@
 <!--planno를 구해오는 쿼리문  -->
 
 <!--중복되는 placename을 찾을때 쓰는 쿼리문  -->
-<select id="getplacename" parameterType="int" resultType="java.lang.String">
+<select id="getplaceName" parameterType="int" resultType="java.lang.String">
  SELECT placename
     FROM PLACE 
      WHERE place.placeno in(SELECT p1.PLACENO
                                          FROM PLANPLACE P1
                                          WHERE #{pno}=P1.PLANNO)
 </select>
-<!--장소의 정보를 조회하는 쿼리문  -->
-
-
-
-
-
-
-
-
-
 <!-- plan과 place의 일부 데이터 조회 -->
-<select id="getplanboard" parameterType="com.seoulmate.seoulgo.dto.PlanDTO" resultType="com.seoulmate.seoulgo.dto.PlanDTO">
-       select *  from (
+<select id="getplanboard" parameterType="com.seoulmate.seoulgo.dto.PlanDTO" resultMap="listResultMap">
+select*
+	from
+	(select ROWNUM rnum, PLANNO, PLANDATE, PLANTITLE,
+	    PLANCATE, MEMBERID    
+	from
+	    (select PLANNO,PLANDATE,PLANTITLE,
+	       PLANCATE,MEMBERID
+	       from plan 
+	       where MEMBERID=#{memberid}
+	       order by PLAN.PLANDATE desc)
+	)where rnum between #{startRow} and #{endRow} 
+
+</select>
+<!-- 
+select *  from (
        SELECT 
         PLAN.PLANNO,
        PLAN.PLANTITLE,
@@ -93,35 +121,13 @@
             order by plan.planno desc
       ) 
         where rnum between #{startRow} and #{endRow}
-
-</select>
-<!-- 
-select * from (
-    	SELECT 
-        PLAN.PLANNO,
-    	PLAN.PLANTITLE,
-    	PLAN.PLANCATE,
-    	PLAN.MEMBERID,
-    	plan.PLANDATE,
-    	PLACE.PLACENAME,
-   	    PLACE.ADDR1, 
-   	    PLACE.ADDR2, 
-   	    PLACE.PLACENO,
-	   	    row_number() over(partition by plan.planno ORDER BY plan.planno)row_num from plan,planplace,place
-	            where plan.planno=planplace.planno and planplace.placeno=place.placeno
-	            	and plan.memberid=#{memberid}
-                     order by plan.planno
-		)   where row_num =1
-
-
  -->
 <select id="personalCnt" parameterType="com.seoulmate.seoulgo.dto.PlanDTO" resultType="int">
-		select count (planno)from planplace
-        where planplace.planno in (select plan.planno from plan where plan.memberid=#{memberid})
-        
+		select count(*)from plan where MEMBERID = #{memberid}
 </select>
-
-<!-- select count(*)from plan -->
+<!-- select count (planno)from planplace
+        where planplace.planno in (select plan.planno from plan where plan.memberid=#{memberid}) 
+ select count(*)from plan -->
 
 	<!-- 아이디를 조회하는 쿼리문 -->
 	<select id="getmemberid" parameterType="string"
