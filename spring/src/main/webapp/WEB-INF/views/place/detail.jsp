@@ -22,9 +22,9 @@
 <link rel="stylesheet" href="${resourcePath}/css/place/detail.css">
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04926447ff4e969a08d92e18379b0176&libraries=services,clusterer,drawing"></script>
 <script type="text/javascript" src="${resourcePath}/js/place/detail.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/review/likecnt.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/review/dislikecnt.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/review/deleteReview.js"></script>
+<script type="text/javascript" src="${resourcePath}/js/review/likecnt.js"></script>
+<script type="text/javascript" src="${resourcePath}/js/review/dislikecnt.js"></script>
+<script type="text/javascript" src="${resourcePath}/js/review/deleteReview.js"></script>
 <script type="text/javascript">
 $(function(){
 	var morememberID = document.getElementsByName("morememberID");
@@ -38,6 +38,12 @@ $(function(){
 	}
 });
 </script>
+<style type="text/css">
+#pro{
+	width:50px;
+	height:50px;
+}
+</style>
 </head>
 <body>
 <input id="basePath" type="hidden" value="${basePath}" />

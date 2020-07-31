@@ -25,7 +25,9 @@ import com.seoulmate.seoulgo.dto.ReviewDTO;
 import com.seoulmate.seoulgo.page.PlacePage;
 import com.seoulmate.seoulgo.page.ReviewPage;
 import com.seoulmate.seoulgo.service.MemberService;
+import com.seoulmate.seoulgo.service.PlaceService;
 import com.seoulmate.seoulgo.service.ReviewService;
+import com.seoulmate.seoulgo.service.StatisticsService;
 import com.seoulmate.seoulgo.util.FileUtil;
 
 @Controller
@@ -36,6 +38,10 @@ public class ReviewController {
 	ReviewService rService;
 	@Autowired
 	MemberService mService;
+	@Autowired
+	StatisticsService sService;
+	@Autowired
+	PlaceService service;
 	
 	// 1. 장소 리스트 폼 보기
 	@RequestMapping("PlaceListView")
@@ -43,7 +49,8 @@ public class ReviewController {
 		// 해당 페이지에 출력할 목록조회
 		model.addAttribute("list", rService.getPlaceListView(placePage));
 		// 페이징처리
-		model.addAttribute("page", placePage);
+		model.addAttribute("rpage", placePage);
+		model.addAttribute("page", service.list(placePage));
 		
 		return "review/placeListView";
 	}
@@ -70,7 +77,6 @@ public class ReviewController {
 	public String writeProc(ReviewDTO rDTO, HttpSession session, HttpServletRequest request) {
 		// 파라미터 placeNo=글번호
 		int placeNo = Integer.parseInt(request.getParameter("placeNo"));
-				
 		// 파일 업로드 
 		// 1. 업로드한 파일 저장할 폴더 지정
 		String path= request.getSession().getServletContext().getRealPath("/resources/img")+"/review/";
@@ -105,7 +111,7 @@ public class ReviewController {
 		}
 
 		rService.insertReview(rDTO, session, list);
-		
+		sService.insert(request, rDTO.getrNo());
 		return "redirect:../place/detail?placeNo="+placeNo;
 	}
 
@@ -145,11 +151,14 @@ public class ReviewController {
 		
 		rDTO.setplaceNo(placeNo);
 		rDTO.setMemberID(mem_id);
+		rDTO.setrNo(rNo);
 		
 		request.setAttribute("img",rService.getImg(placeNo));
 		request.setAttribute("placeNo", placeNo);
 		request.setAttribute("rNo", rNo);
 		request.setAttribute("Info",rService.getPlaceInfo(placeNo));
+		request.setAttribute("modi", rService.getModinfo(rDTO));
+		request.setAttribute("modimg", rService.getModimg(rDTO));
 		
 		return "review/modifyReview";
 	}
@@ -242,9 +251,10 @@ public class ReviewController {
 
 		//3.Model & 4.View    상세보기
 		ArrayList<PlaceDto> Info = rService.getPlaceInfo(placeNo);
-		
 		request.setAttribute("placeNo", placeNo);
 		request.setAttribute("Info",Info);
+		sService.update(request, rNo);
+		
 		return "redirect:../place/detail?placeNo="+placeNo;
 	}
 	
@@ -260,7 +270,7 @@ public class ReviewController {
 		rDTO.setrNo(rNo);
 		
 		rService.deleteReview(rDTO);
-		
+		sService.delete(request, rNo);
 		return "redirect:../place/detail?placeNo="+placeNo;
 	}
 	// 작성일(String->Date) 타입 변환 메서드

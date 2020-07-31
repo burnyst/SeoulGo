@@ -218,4 +218,28 @@
 		AND 	A.RISSHOW	= 1
 		AND	 	A.MEMBERID	= #{memberID}
 	</select>
+	
+	<!-- 리뷰 수정시 물고 들어오는 기존 정보 -->
+	<select id="forModi" parameterType="rdto" resultType="rdto">
+		SELECT 	
+			RNO, RTITLE, RCONTENT, RDATE, RVISIT, 
+			RCATE, RRATE, PLACENO, MEMBERID
+		FROM	REVIEWBOARD
+		WHERE	PLACENO 	= #{placeNo}
+		AND		MEMBERID	= #{memberID}
+		AND		RNO			= #{rNo}
+		AND		RISSHOW		= 1
+	</select>
+	
+	<!-- 리뷰 수정시 사진가져오기 -->
+	<select id="Modimg" parameterType="rdto" resultMap="ImgMap">
+		SELECT 
+			A.MEMBERID, B.ISAVENAME, A.RNO, B.INO
+		FROM 	REVIEWBOARD A, IMGINFO B
+		WHERE 	A.RNO 		= B.RNO
+		AND 	A.PLACENO 	= #{placeNo}
+		AND		A.MEMBERID	= #{memberID}
+		AND		A.RNO		= #{rNo}
+		AND 	A.RISSHOW	= 1
+	</select>
 </mapper>
