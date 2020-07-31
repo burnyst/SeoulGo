@@ -27,7 +27,6 @@
       ) 
 </select>	
 
-	
 	<!-- sql요소는 다른 구문에서 재사용가능한 SQL 구문을 정의할 때 사용된다. 
 		선언형식
 		<sql id="id값">쿼리문</sql> 
@@ -38,6 +37,7 @@
 			id,username,password 
 		</sql> 
 		select <include refid=”userColumns”/> from some_table -->
+		
 	<sql id="searchCondition">
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<if test="keyword != null and keyword !=''">
@@ -67,7 +67,6 @@
 		PLANDATE ,
 		PLANTITLE ,
 		PLANCATE ,
-
 		MEMBERID 	
 </sql>
 <!-- placeno를 중복 조회하는 쿼리문 -->
@@ -102,7 +101,6 @@ select*
 	       where MEMBERID=#{memberid}
 	       order by PLAN.PLANDATE desc)
 	)where rnum between #{startRow} and #{endRow} 
-
 </select>
 <!-- 
 select *  from (
@@ -125,10 +123,8 @@ select *  from (
 <select id="personalCnt" parameterType="com.seoulmate.seoulgo.dto.PlanDTO" resultType="int">
 		select count(*)from plan where MEMBERID = #{memberid}
 </select>
-<!-- select count (planno)from planplace
-        where planplace.planno in (select plan.planno from plan where plan.memberid=#{memberid}) 
+<!-- 
  select count(*)from plan -->
-
 	<!-- 아이디를 조회하는 쿼리문 -->
 	<select id="getmemberid" parameterType="string"
 		resultType="pdto">
@@ -206,9 +202,6 @@ select *  from (
 		WHERE rnum between #{startRow} and #{endRow}
 	</select>
 	
-
-
-
 
 	<!-- 총 계획 숫자 조회 -->
 	<select id="totalCnt" resultType="int">

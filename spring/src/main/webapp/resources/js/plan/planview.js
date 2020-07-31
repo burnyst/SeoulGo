@@ -15,8 +15,6 @@ $(function(){
 		 alert("이전페이지로 이동합니다.")
 		 $(location).attr("href","./planSboard")
 	 })
-	 
-	 
 	 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	    mapOption = {
 	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -61,3 +59,24 @@ $(function(){
 	    } 
 	});    
 });
+
+$( document ).ready(function() {
+	
+	$('div').each(function(){
+		var texts = $(this).text();
+		if(texts.includes('\[')){
+			var texts = texts.replace(/\[/g,'');
+			$(this).text(texts);
+		}
+		if(texts.includes('\]')){
+			var texts = texts.replace(/\]/g,'');
+			$(this).text(texts);
+		
+		}
+		if(texts.includes('\,')){
+			var texts = texts.replace(/\,/g,'->');
+			$(this).text(texts);
+		}
+	
+	})
+});	 

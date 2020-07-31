@@ -24,6 +24,7 @@
 	<input type="hidden" id="placeName" value="${list.placeName }">
 	<input type="hidden" id="planTitle" value="${list.planTitle }">  
 </c:forEach>
+
 <!-- 카카오 맵의 div  -->
 <div id="map" style="width:500px;height:330px;float:left; position:relative;'">
 </div>
