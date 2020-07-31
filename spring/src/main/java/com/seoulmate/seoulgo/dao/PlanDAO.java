@@ -41,10 +41,11 @@ public class PlanDAO {
 		return result;
 	}
 
-	public ArrayList addrdao(int addrNo) {
+	public List<PlanDTO> addrdao(int addrNo) {
 		// System.out.println("addrdao도착"+addrNo);
-		ArrayList result = (ArrayList) session.selectList("plandata.addr2", addrNo);
+		List<PlanDTO> result = session.selectList("plandata.addr2", addrNo);
 		System.out.println("addrdao나감" + addrNo);
+		System.out.println("addrdao나가면서"+result);
 		return result;
 	}
 
@@ -146,9 +147,6 @@ public class PlanDAO {
 
 		session.delete("plandata.deleteplan", planno);
 	}
-
-
-
 	public List<String> getplacename(int pno) {
 
 		List<String> result = session.selectList("plandata.getplaceName", pno);

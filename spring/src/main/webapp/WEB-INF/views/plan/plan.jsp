@@ -50,7 +50,8 @@
 						</td>
 						<td>${list.placeName}<br>
 							<br>
-							<input type="hidden" id="placename" value="${list.placeName }">
+							<input type="hidden" id="placeName" value="${list.placeName }">
+							
 							<input type="hidden" value="${list.addr1}">
 							<input type="hidden" value="${list.addr2}">
 						</td>

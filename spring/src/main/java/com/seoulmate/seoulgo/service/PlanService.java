@@ -47,7 +47,7 @@ public class PlanService {
 	}
 
 
-	public ArrayList addrservice(int addrNo) {
+	public List<PlanDTO> addrservice(int addrNo) {
 
 		return pdao.addrdao(addrNo);
 	}
@@ -179,15 +179,9 @@ public class PlanService {
 		result.get(0).setPlaceNo3(placeNo3);
 		return result;
 	}
-
-	// memberid를 가져온다
-
-
 	public void plandelete(int planno) {
 		pdao.deleteplan(planno);
 	}
-
-
 
 	public List<String> getplacename(int pno) {
 

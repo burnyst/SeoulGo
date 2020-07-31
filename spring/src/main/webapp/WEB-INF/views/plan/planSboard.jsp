@@ -13,7 +13,7 @@
 <c:forEach items="${pageview}" var="list" varStatus="status">
 	<input type="hidden" id="addr1" name="addr1" value="${list.addr1}"/>
 	<input type="hidden" id="addr2" name="addr2" value="${list.addr2}"/>
-	<input type="hidden" id="placename" name="placename"value="${list.placename}">
+	<input type="hidden" id="placename" name="placename"value="${list.placeName}">
 	<input type="hidden" id="address" name="address" value="${list.addr1}${list.addr2}"/>
 </c:forEach>
 
@@ -52,22 +52,22 @@ marker.setMap(map);
 				<th>일정제목</th>
 				<th>일정유형</th>
 			</tr>
-		<c:forEach items="${pageview}" var="list" varStatus="status">
-				<tr>
-					<td>
-						<a href="/plan/planview?planNo=${list.planNo}">${list.addr1}${list.addr2}</a>
-					</td>
-					<td>
-						${list.memberid}
-					</td>
-					<td>
-						${list.planTitle}
-					</td>
-					<td>
-						${list.planCate}
-					</td>
-				</tr>
-			</c:forEach>
+<c:forEach items="${pageview}" var="list" varStatus="status">
+		<tr>
+			<td>
+				<a href="/plan/planview?planNo=${list.planNo}">${list.addr1}${list.addr2}</a>
+			</td>
+			<td>
+				${list.memberid}
+			</td>
+			<td>
+				${list.planTitle}
+			</td>
+			<td>
+				${list.planCate}
+			</td>
+		</tr>
+</c:forEach>
 		</table>
 	<t:pageNav
 	   endPage="${page.endPage}"

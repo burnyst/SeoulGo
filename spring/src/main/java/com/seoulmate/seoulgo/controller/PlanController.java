@@ -88,7 +88,7 @@ public class PlanController {
 			for (int i=0;i<pdto.size(); i++) {
 				int j = pdto.get(i).getPlanNo();
 				System.out.println(j+"j의값");
-				ArrayList<PlanDTO> view2 = planservice.addrservice(j);
+				List<PlanDTO> view2 = planservice.addrservice(j);
 				System.out.println(view2);
 				//view2.get(0).getAdd1();
 				pdto.get(i).setAddr1(view2.get(0).getAddr1());
@@ -194,11 +194,6 @@ public class PlanController {
 		return mv;
 	}
 
-	
-	
-	//일정 상세보기 페이지<비회원, 회원 공용 
-
-
 	// 일정 상세보기 페이지<비회원, 회원 공용 (?)
 
 	@RequestMapping("/plan/planview")
@@ -207,18 +202,19 @@ public class PlanController {
 		System.out.println("지금 받은 planno의 값 : " + planNo);
 		// detailview에서 어레이 리스트로 해당 planno에 들어있는 게시글을 받았다.
 		ArrayList<PlanDTO> detailview = planservice.detailView(planNo);
+		
 		for (int i = 0; i < detailview.size(); i++) {
 			int j = detailview.get(i).getPlanNo();
 			System.out.println(j + "j의값");
-			ArrayList<PlanDTO> view2 = planservice.addrservice(j);
-			System.out.println(view2);
+			List<PlanDTO> view2 = planservice.addrservice(j);
+			System.out.println("view2의 값들 "+view2);
 			// view2.get(0).getAdd1();
 			detailview.get(i).setAddr1(view2.get(0).getAddr1());
 			// view2.get(0).getAdd2();
 			detailview.get(i).setAddr2(view2.get(0).getAddr2());
-			detailview.get(i).setPlaceName(view2.get(0).getPlaceName());
 		}
-		System.out.println("dtd를 어레이 리스트로-planview : " + detailview);
+		
+		System.out.println("컨트롤러의 detailview 변수 : " + detailview);
 
 		mv.addObject("Pdto", detailview);
 		return mv;
