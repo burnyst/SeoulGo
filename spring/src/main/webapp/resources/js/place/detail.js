@@ -66,4 +66,12 @@ $(document).ready(function() {
 	$(window).resize(function () {
 		document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");
 	});
+	let morememberID = document.getElementsByName("morememberID");
+	let list = [];	
+	for (let i=0; i<morememberID.length; i++){
+		list[i] = morememberID[i].value
+		$("#moreView"+morememberID[i].value).click(function(){
+			location.href = "../review/detailView?pageNo=1&memberID="+list[i];
+		});
+	}
 });

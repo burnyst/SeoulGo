@@ -9,9 +9,6 @@
 <t:path>
 <c:set var="defaultImage" value="${imagePath}/place/noimage.jpg" />
 <c:set var="pagePath" value="${basePath}/place" />
-<c:set var="basePath" value="${pageContext.request.contextPath}" />
-<c:set var="resourcePath" value="${basePath}/resources" />
-<c:set var="imagePath" value="${resourcePath}/img" />
 </t:path>
 <!DOCTYPE html>
 <html>
@@ -25,25 +22,6 @@
 <script type="text/javascript" src="${resourcePath}/js/review/likecnt.js"></script>
 <script type="text/javascript" src="${resourcePath}/js/review/dislikecnt.js"></script>
 <script type="text/javascript" src="${resourcePath}/js/review/deleteReview.js"></script>
-<script type="text/javascript">
-$(function(){
-	var morememberID = document.getElementsByName("morememberID");
-	var list = new Array();	
-	
-	for (let i=0; i<morememberID.length; i++){
-		list[i] = morememberID[i].value
-		$("#moreView"+morememberID[i].value).click(function(){
-			location.href = "../review/detailView?pageNo=1&memberID="+list[i];
-		});
-	}
-});
-</script>
-<style type="text/css">
-#pro{
-	width:50px;
-	height:50px;
-}
-</style>
 </head>
 <body>
 <input id="basePath" type="hidden" value="${basePath}" />
