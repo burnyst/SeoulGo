@@ -2,8 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <c:set var="basePath" value="${pageContext.request.contextPath}" />
+<c:set var="date" value="<%= new java.util.Date() %>"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -194,10 +196,7 @@ form {
 		<div id="planlist">
 			<div class="form-group">
 				<div style="float:left; margin-right:10px">여행날짜</div> 
-				<div><input type="date" id="plandate"name="plandate" class="date"></div>
-				<script>
-			  		document.getElementById('plandate').value = new Date().toISOString().substring(0, 10);;
-				</script>
+				<div><input type="date" id="plandate" name="plandate" class="date" value="<fmt:formatDate value="${date}" pattern='yyyy-MM-dd'/>"></div>
 			</div>
 			<div class="form-group">
 				<div style="float:left; margin-right:10px;">여행 제목</div>
