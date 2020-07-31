@@ -118,7 +118,9 @@ select * from (
 <select id="personalCnt" parameterType="com.seoulmate.seoulgo.dto.PlanDTO" resultType="int">
 		select count (planno)from planplace
         where planplace.planno in (select plan.planno from plan where plan.memberid=#{memberid})
+        
 </select>
+
 <!-- select count(*)from plan -->
 
 	<!-- 아이디를 조회하는 쿼리문 -->
