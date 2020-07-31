@@ -121,4 +121,12 @@ public class ReviewService {
 	public ArrayList<ReviewDTO> getMoreImg(String memberID) {
 		return rDAO.getMoreImg(memberID);
 	}
+	// 리뷰 수정시 값 가져오기
+	public ArrayList<ReviewDTO> getModinfo(ReviewDTO rDTO) {
+		return rDAO.getModinfo(rDTO);
+	}
+	// 리뷰 수정시 사진 가져오기
+	public ArrayList<ReviewDTO> getModimg(ReviewDTO rDTO) {
+		return rDAO.getModimg(rDTO);
+	}
 }

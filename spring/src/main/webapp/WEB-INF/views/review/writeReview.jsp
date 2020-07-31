@@ -14,7 +14,68 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/review/starRating.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/review/fileUpload.js"></script>
+<script type="text/javascript">
+var cnt=0;
+	function setThumbnail(event) { 
+		var reader = new FileReader(); 
+		reader.onload = function(event) {
+			cnt++;
+			var img = document.createElement("img"); 
+				img.setAttribute("src", event.target.result)
+				img.setAttribute("class", "img")
+				document.querySelector("span#image_container"+cnt).appendChild(img); 
+		}; 
+		reader.readAsDataURL(event.target.files[0]); 
+	};
+	/*
+	function deleteImageAction(index){
+		console.log("index : "+index);
+		sel_files.splice(index, 1);
+		
+		var img_id = "#img_container1_"+index;
+		$(img_id).remove();
+		
+		console.log(sel_files);
+	}
+	*/
+	
+	/*
+	var sel_file;
+	
+	$(document).ready(function(){
+		$("#files").on("change", handleImgFileSelect);
+	});
+	
+	function handleImgFileSelect(e){
+		var files = e.target.files;
+		var filesArr = Array.prototype.slice.call(files);
+		
+		filesArr.forEach(function(f){
+			if(!f.type.match("image.*")){
+				alert("확장자는 이미지 확장자만 가능합니다.");
+				return;
+			}
+			
+			sel_file = f;
+			
+			var reader = new FileReader();
+			reader.onload = function(e){
+				$("#img").attr("src", e.target.result);
+			}
+			reader.readAsDataURL(f);
+		});
+	}
+	*/
+	
+	
+</script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/review/starRating.css">
+<style>
+.img {
+	height: 100px;
+	width: 100px;
+}
+</style>
 </head>
 <body>
 <div class="text">
@@ -114,7 +175,8 @@
 			<tr>
  				<th class="text-center"></th>
  				<td colspan="4">
- 					<input type="file" name="files" id="files"/>
+ 					<input type="file" name="files" id="files1" accept="image/*" onchange="setThumbnail(event);"/>
+ 					<span id="image_container1"></span>
  				</td>
  			</tr>
  			<tr id="copy">
@@ -130,6 +192,6 @@
 			<button type="reset" class="btn btn-outline-secondary">다시 작성</button>
 		</div>
 </form>
-
+			
 </body>
 </html>

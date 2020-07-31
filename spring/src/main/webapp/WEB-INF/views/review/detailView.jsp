@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>  
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<t:path>
 <c:set var="basePath" value="${pageContext.request.contextPath}" />
 <c:set var="resourcePath" value="${basePath}/resources" />
 <c:set var="imagePath" value="${resourcePath}/img" />
+</t:path>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -19,9 +21,9 @@
 
 <!-- jQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/review/likecnt.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/review/dislikecnt.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/review/deleteReview.js"></script>
+<script type="text/javascript" src="${resourcePath}/js/review/likecnt.js"></script>
+<script type="text/javascript" src="${resourcePath}/js/review/dislikecnt.js"></script>
+<script type="text/javascript" src="${resourcePath}/js/review/deleteReview.js"></script>
 <style type="text/css">
 	#pro {
 		width: 100px;
@@ -34,6 +36,7 @@
 </style>
 </head>
 <body>
+<input id="basePath" type="hidden" value="${basePath}" />
 	<!-- 작성자 정보 표시 div -->
 	<div class="row">
 		<div id="profilepic">

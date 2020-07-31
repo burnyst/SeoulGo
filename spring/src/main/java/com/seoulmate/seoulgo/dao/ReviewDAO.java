@@ -110,4 +110,12 @@ public class ReviewDAO extends SqlSessionDaoSupport {
 	public ArrayList<ReviewDTO> getMoreImg(String memberID) {
 		return (ArrayList)session.selectList("review.moreImg", memberID);		
 	}
+	// 리뷰 수정시 값 가져오기
+	public ArrayList<ReviewDTO> getModinfo(ReviewDTO rDTO) {
+		return (ArrayList)session.selectList("review.forModi",rDTO);
+	}
+	// 리뷰 수정시 사진 가져오기
+	public ArrayList<ReviewDTO> getModimg(ReviewDTO rDTO) {
+		return (ArrayList)session.selectList("review.Modimg",rDTO);
+	}
 }

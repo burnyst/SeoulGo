@@ -2,8 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <c:set var="basePath" value="${pageContext.request.contextPath}" />
+<c:set var="date" value="<%= new java.util.Date() %>"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -190,14 +192,11 @@ form {
 		</t:pageNav>
 	</div>
 	<div id="map" style="width:40%; height:450px; float:left;"></div>
-	<form action="/plan/planwrited" method="post">
+	<form action="${basePath}/plan/planwrited" method="post" id="planWrite" enctype="multipart/form-data">
 		<div id="planlist">
 			<div class="form-group">
 				<div style="float:left; margin-right:10px">여행날짜</div> 
-				<div><input type="date" id="plandate"name="plandate" class="date"></div>
-				<script>
-			  		document.getElementById('plandate').value = new Date().toISOString().substring(0, 10);;
-				</script>
+				<div><input type="date" id="plandate" name="plandate" class="date" value="<fmt:formatDate value="${date}" pattern='yyyy-MM-dd'/>"></div>
 			</div>
 			<div class="form-group">
 				<div style="float:left; margin-right:10px;">여행 제목</div>
@@ -233,13 +232,13 @@ form {
 		</div>
 		<!-- <div style="height:250px">
 		</div> -->
+		<div style="text-align: center;">
+			<input class="btn btn-success" type="submit" id="wBtn" value="일정짜기"> 
+			<input class="btn btn-info" type="reset" value="다시쓰기">
+			<a class ="btn btn-warning" id="backBtn">뒤로가기</a>
+		</div>
 	</form>
 </div><br>
-<div style="text-align: center;">
-	<input class="btn btn-success" type="submit" value="일정짜기"> 
-	<input class="btn btn-info" type="reset" value="다시쓰기">
-	<a class ="btn btn-warning" id="backBtn">뒤로가기</a>
-</div>
 </sec:authorize>
 <sec:authorize access="isAnonymous()">
 	<button id="bla" type="button" class="btn btn-info">로그인이 필요한 페이지입니다.</button>
