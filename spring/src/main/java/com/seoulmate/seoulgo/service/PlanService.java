@@ -31,22 +31,9 @@ public class PlanService {
 
 		
 		List<PlanDTO>result = (List<PlanDTO>) pdao.getplanboard(page2);
-		
-		
+
 		//System.out.println("result의 사이즈 - 서비스단 : "+result.size());
-/*		for(int i=0;i<result.size();i++) {
-			//System.out.println("for문 안에 들어왔습니다. if문으로 들어갈까요?");
-			try {
-				if(result.get(i).getPlanNo()==result.get(i-1).getPlanNo()) {
-					//System.out.println("if문 안에 들어왔습니다. 어떻게 할까요??"+result.get(i).getPlanNo());
-					result.remove(i);
-					result.remove(i-1);
-					continue;
-				}
-			}catch(Exception e) {
-			}
-		}*/
-		
+
 		return result;
 
 	}

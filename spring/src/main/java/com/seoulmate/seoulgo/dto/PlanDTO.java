@@ -11,7 +11,7 @@ public class PlanDTO {
 	private String planCate;
 	private String memberid;
 
-	private String placeName;
+
 	private List<String> placename;
 
 	private String addr1;
@@ -190,22 +190,18 @@ public class PlanDTO {
 
 	}
 
-	public String getPlaceName() {
-		return placeName;
-	}
 
-	public void setPlaceName(String placeName) {
-		this.placeName = placeName;
-	}
 
 	@Override
 	public String toString() {
 		return "PlanDTO [planNo=" + planNo + ", planDate=" + planDate + ", planTitle=" + planTitle + ", planCate="
-				+ planCate + ", memberid=" + memberid + ", placeName=" + placeName + ", placename=" + placename
+				+ planCate + ", memberid=" + memberid + ", placename=" + placename
 				+ ", addr1=" + addr1 + ", addr2=" + addr2 + ", placeNo=" + placeNo + ", placeNo2=" + placeNo2
 				+ ", placeNo3=" + placeNo3 + ", addrNo=" + addrNo + ", start=" + start + ", end=" + end + ", nowPage="
 				+ nowPage + ", startRow=" + startRow + ", endRow=" + endRow + ", perpagenum=" + perpagenum + ", rno="
 				+ rno + "]";
 	}
+
+
 
 }

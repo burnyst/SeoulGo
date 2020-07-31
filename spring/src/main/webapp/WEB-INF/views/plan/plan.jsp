@@ -36,16 +36,13 @@
 				<form method="post" id="planlist" name="planlist" action="/plan/planmodi">
 					<tr onclick="location.href='/plan/planview?&planNo=${list.planNo}'" style="cursor:hand">
 						<td>
-							 
 							 ${list.planNo } <input type="hidden" value="${list.planNo}" id=planNo name="planNo">
 						</td>
 							<td>
 								<fmt:formatDate value="${list.planDate}" pattern="yyyy년MM월dd일"/>
 							</td>
-						
 						<td>
 							${list.planTitle}
-								
 							<input type="hidden" id="plantitle" value="${list.planTitle}">
 						</td>
 						<td>

@@ -41,37 +41,31 @@ public class PlanController {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String mem_id = principal.toString();
 
-		//System.out.println(mem_id);
-
-
 		System.out.println(mem_id);
 
 		page2.setMemberid(mem_id);
-
-		//회원의 아이디 가져오기
-		
-		//총 게시물 수 조회하기.
-
-
 		int TotalRow = planservice.personrow(page2);
 		page2.setTotalRow(TotalRow);
 
 		List<PlanDTO> pdto = (ArrayList)planservice.getplanboard(page2);
-		//System.out.println("pdto의 값   : 컨트롤러 "+pdto);
-		for (int i=0; i<pdto.size();i++) {
-			try {
-				if(pdto.get(i).getPlanNo()==pdto.get(i-1).getPlanNo()) {
-					//System.out.println("if문 안에 들어왔습니다. 어떻게 할까요??"+pdto.get(i).getPlanNo());
-					pdto.remove(i);
-					pdto.remove(i-1);
-					continue;
-				}
-			}catch(Exception e) {
-			}
-		}
+		System.out.println("pdto 초기값 :  "+pdto);
+		
+//		for (int i=0; i<pdto.size();i++) {
+//			try {
+//			   
+//				if(pdto.get(i).getPlanNo()==pdto.get(i-1).getPlanNo()) {
+//					//System.out.println("if문 안에 들어왔습니다. 어떻게 할까요??"+pdto.get(i).getPlanNo());
+//					pdto.remove(i);
+//					pdto.remove(i-1);
+//					continue;
+//				}
+//			}catch(Exception e) {
+//			}
+//		}
 
 		//System.out.println(pdto.get(0).getPlacename()); // null
 		System.out.println("page2의 초기값 조회합니다."+page2);
+		
 		for(int i=0;i<pdto.size();i++) {
 			//System.out.println(pdto.size());
 			try {
@@ -79,20 +73,21 @@ public class PlanController {
 					continue;
 				}
 			}catch(Exception ex) {}
-			
+			List<PlanDTO> list = new ArrayList<PlanDTO>();
 			if(pdto.get(i).getPlacename()==null) {
+				
 				int e = pdto.get(i).getPlanNo();
 				System.out.println("planNo숫자의 값 - 컨트롤러 "+e);
 				List<String> placemany = planservice.getplacename(e);
 				
-//				for(int j=0;j<placemany.size() ; j++) {
-//					String many=placemany.get(j).toString();
-//					List<String> plusString = new ArrayList<String>();
-//					plusString.add(many);
-//					
-//				}
-				pdto.get(i).setPlacename(placemany);
+				for(int j=0;j<placemany.size() ; j++) {
+					String many=placemany.get(j).toString();
+					
+				}
+				
 				System.out.println("placemany의 값  :  "+placemany);
+				pdto.get(i).setPlacename(placemany);
+				
 			}
 		}
 		mv.addObject("plist",pdto);
