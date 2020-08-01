@@ -1,6 +1,7 @@
 package com.seoulmate.seoulgo.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class PlanDTO {
    private int planNo;
@@ -9,6 +10,9 @@ public class PlanDTO {
    private String planCate;
    private String memberid;
 
+   private List<String> placenamelist; // placename을 모은 list
+   
+   
    public int getPlanNo() {
       return planNo;
    }
@@ -50,8 +54,16 @@ public class PlanDTO {
    }
 
    @Override
-   public String toString() {
-      return "PlanDTO [planNo=" + planNo + ", planDate=" + planDate + ", planTitle=" + planTitle + ", planCate="
-            + planCate + ", memberid=" + memberid + "]";
-   }
+public String toString() {
+	return "PlanDTO [planNo=" + planNo + ", planDate=" + planDate + ", planTitle=" + planTitle + ", planCate="
+			+ planCate + ", memberid=" + memberid + ", placenamelist=" + placenamelist + "]";
+}
+
+public List<String> getPlacenamelist() {
+	return placenamelist;
+}
+
+public void setPlacenamelist(List<String> placenamelist) {
+	this.placenamelist = placenamelist;
+}
 }

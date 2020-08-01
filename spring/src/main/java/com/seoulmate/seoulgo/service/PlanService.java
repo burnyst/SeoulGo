@@ -42,10 +42,9 @@ public class PlanService {
 		return pdao.detailView(pno);
 	}
 
-	public void planWrited(PlanDTO plan,PlaceDto place, HttpServletRequest req) {
-		System.out.println("PlanService.planWrited() PlanDTO=" + plan);
+	public void planwritedservice(PlanDTO plan,PlaceDto place, HttpServletRequest req) {
+		System.out.println("planwritedservice도착 PlanDTO의 값" + plan);
 		Date planDate = null;
-		
 		// 현재 로그인한 유저의 아이디
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String mem_id = principal.toString();
@@ -53,23 +52,23 @@ public class PlanService {
 		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			planDate = fm.parse(plandate);
-			System.out.println("날짜 변환 성공: "+planDate);
+			System.out.println(planDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			System.out.println("날짜변환중 오류발생");
+			System.out.println("날짜변환중 오류발생.");
 		}
 		String planplace = req.getParameter("planplace"); //planplace를 jsp페이지에서 요청받음.
-		//String planTitle = req.getParameter("planTitle");
-		//String planCate = req.getParameter("plancate");
+		String planTitle = req.getParameter("planTitle");
+		String planCate = req.getParameter("plancate");
 		int placeNo = Integer.parseInt(req.getParameter("placeNo"));
 		plan.setMemberid(mem_id);
 		plan.setPlanDate(planDate);
-		plan.setPlanTitle(req.getParameter("planTitle"));
-		plan.setPlanCate(req.getParameter("planCate"));
-		//plan.setPlanNo(placeNo);
+		plan.setPlanTitle(planTitle);
+		plan.setPlanCate(planCate);
+		plan.setPlanNo(placeNo);
 		place.setPlaceName(planplace);
 		System.out.println("변수를 확인합니다." + plan);
-		//pdao.planWrited(plan);
+		pdao.planwriteddao(plan);
 	}
 
 	public void planmodifinservice(PlanDTO plan,PlaceDto place, HttpServletRequest req) {
@@ -167,6 +166,17 @@ public class PlanService {
 
 	public List<PlaceDto> getplacenamelist(PlanPage page2) {
 		List<PlaceDto> result = pdao.getplacenamelist(page2);
+		return result;
+	}
+
+	public List<PlaceDto> getplaceinfo(int planno) {
+		List<PlaceDto> result = pdao.getplaceinfo(planno);
+		return result;
+	}
+
+	public List<PlanDTO> getplanNofromplaceno(int placeno) {
+		
+		List<PlanDTO> result = pdao.getplanNofromplaceno(placeno);
 		return result;
 	}
 

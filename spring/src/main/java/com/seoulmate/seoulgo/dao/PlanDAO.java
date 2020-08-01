@@ -45,7 +45,7 @@ public class PlanDAO {
 		return (ArrayList) session.selectList("plandata.planview", pno);
 	}
 
-	public void planWrited(PlanDTO plan) {
+	public void planwriteddao(PlanDTO plan) {
 		session.insert("plandata.planinsert", plan);
 		System.out.println("planDAO 글쓰기 진입:" + plan);
 		session.insert("plandata.planinsert2", plan);
@@ -135,6 +135,16 @@ public class PlanDAO {
 
 	public List<PlaceDto> getplacenamelist(PlanPage page2) {
 		List<PlaceDto> result = session.selectList("plandata.getplacenamelist",page2);
+		return result;
+	}
+
+	public List<PlaceDto> getplaceinfo(int planno) {
+		List<PlaceDto> result = session.selectList("plandata.getplaceinfo",planno);
+		return result;
+	}
+
+	public List<PlanDTO> getplanNofromplaceno(int placeno) {
+		List<PlanDTO> result = session.selectList("plandata.getplanNofromplaceno",placeno);
 		return result;
 	}
 
