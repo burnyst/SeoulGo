@@ -137,5 +137,14 @@ public class PlanDAO {
 		List<PlaceDto> result = session.selectList("plandata.getplacenamelist",page2);
 		return result;
 	}
+	public List<PlaceDto> getplaceinfo(int planno) {
+		List<PlaceDto> result = session.selectList("plandata.getplaceinfo",planno);
+		return result;
+	}
+
+	public List<PlanDTO> getplanNofromplaceno(int placeno) {
+		List<PlanDTO> result = session.selectList("plandata.getplanNofromplaceno",placeno);
+		return result;
+	}
 
 }

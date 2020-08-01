@@ -169,5 +169,15 @@ public class PlanService {
 		List<PlaceDto> result = pdao.getplacenamelist(page2);
 		return result;
 	}
+	public List<PlaceDto> getplaceinfo(int planno) {
+		List<PlaceDto> result = pdao.getplaceinfo(planno);
+		return result;
+	}
+
+	public List<PlanDTO> getplanNofromplaceno(int placeno) {
+		
+		List<PlanDTO> result = pdao.getplanNofromplaceno(placeno);
+		return result;
+	}
 
 }

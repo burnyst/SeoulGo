@@ -48,14 +48,11 @@
 							${list.planCate}
 							<input type="hidden" value="${list.planCate}">
 						</td>
-						<c:forEach items="${placelist}" var="placelist">
-						<td>${placelist.placeName}<br>
+						
+						<td>${list.placenamelist}<br>
 							<br>
-							<input type="hidden" id="placeName" value="${placelist.placeName }">
-							<input type="hidden" value="${list.addr1}">
-							<input type="hidden" value="${list.addr2}">
+							<input type="hidden" id="placeName" value="${list.placenamelist }">
 						</td>
-						</c:forEach>
 					</tr>
 				</form>
 			</c:forEach>

@@ -50,12 +50,22 @@ public class PlanController {
 		page2.setTotalRow(TotalRow);
 
 		List<PlanDTO> pdto = (ArrayList)planservice.getplanboard(page2);
-		List<PlaceDto> placelist = (ArrayList)planservice.getplacenamelist(page2);
-		
-		System.out.println("placelist의 초기값  :  "+placelist);
 		System.out.println("pdto 초기값 :"+pdto);
+		for(int i =0; i<pdto.size();i++) { //게시판 수만큼 반복
+			int planno = pdto.get(i).getPlanNo();
+			List<PlaceDto> placeinfo =(ArrayList)planservice.getplaceinfo(planno);
+			List<String> placenamelist = new ArrayList();
+			for(int j=0;j<placeinfo.size();j++) {
+				String placename = placeinfo.get(j).getPlaceName();
+				placenamelist.add(placename);
+				System.out.println("placename의 값들 : "+placename);
 
-		//System.out.println(pdto.get(0).getPlacename()); // null
+			}
+			
+			pdto.get(i).setPlacenamelist(placenamelist);
+		}
+		
+		
 		System.out.println("page2의 초기값 조회합니다."+page2);
 		
 		for(int i=0;i<pdto.size();i++) {
@@ -65,24 +75,11 @@ public class PlanController {
 					continue;
 				}
 			}catch(Exception ex) {}
-			List<PlanDTO> list = new ArrayList<PlanDTO>();
-			
-//			if(pdto.get(i).getPlaceName()==null) {
-//				int e = pdto.get(i).getPlanNo();
-//				System.out.println("planNo숫자의 값 - 컨트롤러 "+e);
-//				List<String> placemany = planservice.getplacename(e);
-//				System.out.println("placemany의 값  :  "+placemany);
-//				pdto.get(i).setPlaceName(placemany);
-//			}
-			
-			
-			
-			
 		}
 		
 		
 		mv.addObject("plist",pdto);
-		mv.addObject("placelist",placelist);
+		//mv.addObject("placelist",placelist);
 		System.out.println("pdto의 최종값을 조회합니다."+pdto);
 		mv.addObject("page",page2);
 		mv.setViewName("plan/plan");

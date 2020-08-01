@@ -17,7 +17,7 @@ $(function(){
 	 })
 	 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	    mapOption = {
-	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        center: new kakao.maps.LatLng( 37.576004, 126.976902 ), // 지도의 중심좌표
 	        level: 3 // 지도의 확대 레벨
 	    };  
 
@@ -28,7 +28,7 @@ $(function(){
 	var geocoder = new kakao.maps.services.Geocoder();
 	var addr1 = $('#addr1').val();
 	var addr2 = $('#addr2').val();
-	var placeName = $('#planTitle').val();
+	var placeName = $('#placeName').val();
 	var addr = addr1 + addr2
 	//alert (addr);
 	// 주소로 좌표를 검색합니다

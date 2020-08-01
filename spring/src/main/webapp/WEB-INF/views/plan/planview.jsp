@@ -17,16 +17,19 @@
 <title>일정상세보기</title>
 </head>
 <body>
-
+<c:forEach items="${placeview }" var="list">
+	<input type="hidden" id="addr1" value="${list.addr1}">
+	<input type="hidden" id="addr2" value="${list.addr2}">
+	<input type="hidden" id="placeName" value="${list.placeName}">
+</c:forEach>
 <c:forEach items="${Pdto}" var="list" varStatus="status">
-
 	<input type="hidden" id="planTitle" value="${list.planTitle }">  
 </c:forEach>
 
 <!-- 카카오 맵의 div  -->
 <div id="map" style="width:500px;height:330px;float:left; position:relative;'">
 </div>
-
+<div class="col-xs-6">
 <form method="post" action="/plan/planmodifin">
   <c:forEach var="list"  items="${Pdto}"  varStatus="status" >
 	<!--  <div class="planlist" style="height:250px; position:relative;">-->
@@ -52,17 +55,21 @@
 		</div>
 	<!--  </div>-->
   </c:forEach>
-  <div style="height:250px;"> </div>
-<div > 
-	<!-- <img alt="" src="/resources/img/plan/default.jpg" width="25%" height="240px">
-	 -->
+ </div>
+  
+<div>
+	<img alt="" src="/resources/img/plan/default.jpg" width="40%" height="240px">
 </div>
+  <!-- <div style="height:250px;"> </div> -->
+
 		<div style="text-align: center;">
 		<sec:authorize access="isAuthenticated()">
 			<button id="nomodi" type="button" class="btn btn-info">리스트 페이지로</button>
 			<button id="back" type="button" class="btn btn-primary">일정공유 게시판으로</button>
 		</sec:authorize>
-		
+		<sec:authorize access="isAnonymous()">
+			<button id="back" type="button" class="btn btn-primary">일정공유 게시판으로 돌아가기</button>
+		</sec:authorize>
 	</div>
 </form>
 </body>
