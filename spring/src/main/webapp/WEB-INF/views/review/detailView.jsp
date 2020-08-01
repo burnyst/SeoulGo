@@ -29,7 +29,7 @@
 		width: 100px;
 		height: 100px;
 	}
-	.img {
+	.rimg {
 		width: 100px;
 		height: 100px;
 	}
@@ -118,7 +118,7 @@
 		<span>
 		<c:forEach items="${img}" var="img">
 			<c:if test="${more.rNo eq img.rNo}">
-				<img class="img" src="<spring:url value='/resources/img/review/${img.iSaveName}'/>">
+				<img class="rimg" src="<spring:url value='/resources/img/review/${img.iSaveName}'/>">
 			</c:if>
 		</c:forEach>
 		</span>
