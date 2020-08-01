@@ -181,7 +181,7 @@
 		<span>
 		<c:forEach items="${img }" var="img">
 			<c:if test="${review.memberID eq img.memberID}">
-				<img class="img" src="<spring:url value='/resources/img/review/${img.iSaveName}'/>">
+				<img class="rimg" src="<spring:url value='/resources/img/review/${img.iSaveName}'/>">
 			</c:if>
 		</c:forEach>
 		</span>

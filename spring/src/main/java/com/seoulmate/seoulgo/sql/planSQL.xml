@@ -11,9 +11,20 @@
 		<result property="planCate" column="planCate" />
 		<result property="placeNo" column="placeNo" />
 		<result property="addrNo" column="addrNo" />
-		<collection property="placeName" column="planNo" ofType="java.lang.String" select="listSub" />
 	</resultMap>
-
+	<resultMap id="placeResultMap" type="com.seoulmate.seoulgo.dto.PlaceDto">
+		<id property="placeNo" column="placeNo" />
+		<result property="placeName" column="placeName" />
+		<result property="cate" column="cate" />
+		<result property="addr1" column="addr1" />
+		<result property="addr2" column="addr2" />
+		<result property="tel" column="tel" />
+		<result property="reviewCount" column="reviewCount" />
+		<result property="placeRate" column="placeRate" />
+		<collection property="imageNames" column="placeNo" ofType="java.lang.String" select="listSub" />
+		<collection property="words" column="placeNo" ofType="java.lang.String" select="listWord" />
+	</resultMap>
+<!-- <collection property="placeName" column="planNo" ofType="java.lang.String" select="listSub" /> -->
 	<select id="listSub" resultType="java.lang.String">
 		select * from (
 		SELECT
@@ -79,7 +90,21 @@
 	<!-- plan과 place의 일부 데이터 조회 -->
 	<select id="getplanboard"
 		parameterType="com.seoulmate.seoulgo.dto.PlanDTO"
-		resultMap="listResultMap">
+		resultMap="placeResultMap">
+		select*
+		from
+		(select ROWNUM rnum, PLANNO, PLANDATE, PLANTITLE,
+		PLANCATE, MEMBERID
+		from
+		(select PLANNO,PLANDATE,PLANTITLE,
+		PLANCATE,MEMBERID
+		from plan
+		where MEMBERID=#{memberid}
+		order by PLAN.PLANDATE desc)
+		)where rnum between #{startRow} and #{endRow}
+	</select>
+	<sql id="listFields">placeNo, placeName, cate, addr1, addr2, tel, NVL(reviewCount, 0) reviewCount, NVL(placeRate, 0) placeRate</sql>
+	<select id="getplacenamelist" parameterType="com.seoulmate.seoulgo.dto.PlaceDto" resultMap="listResultMap">
 		select*
 		from
 		(select ROWNUM rnum, PLANNO, PLANDATE, PLANTITLE,
