@@ -35,7 +35,7 @@ $(function(){
 		}
 		
 		$.ajax({
-			url: "../user/nickCheck",
+			url: $("#basePath").val()+"/user/nickCheck",
 			type: "POST",
 			dataType: "json",
 			data: {
@@ -65,7 +65,7 @@ $(function(){
        }
        
        $.ajax({
-    	   url: "../user/emailCheck",
+    	   url: $("#basePath").val()+"/user/emailCheck",
     	   type: "POST",
     	   dataType: "json",
     	   data: {
