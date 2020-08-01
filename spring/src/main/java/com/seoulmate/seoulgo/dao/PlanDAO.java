@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.seoulmate.seoulgo.dto.PlaceDto;
 import com.seoulmate.seoulgo.dto.PlanDTO;
 import com.seoulmate.seoulgo.page.PlanPage;
 
@@ -37,8 +38,6 @@ public class PlanDAO {
 	public List<PlanDTO> addrdao(int addrNo) {
 		// System.out.println("addrdao도착"+addrNo);
 		List<PlanDTO> result = session.selectList("plandata.addr2", addrNo);
-		System.out.println("addrdao나감" + addrNo);
-		System.out.println("addrdao나가면서" + result);
 		return result;
 	}
 
@@ -131,6 +130,11 @@ public class PlanDAO {
 
 	public List<PlanDTO> getplanum(String mem_id) {
 		List<PlanDTO> result = session.selectList("plandata.getplannum", mem_id);
+		return result;
+	}
+
+	public List<PlaceDto> getplacenamelist(PlanPage page2) {
+		List<PlaceDto> result = session.selectList("plandata.getplacenamelist",page2);
 		return result;
 	}
 

@@ -19,9 +19,7 @@
 <body>
 
 <c:forEach items="${Pdto}" var="list" varStatus="status">
-	<input type="hidden" id="addr1"value="${list.addr1}">
-	<input type="hidden" id="addr2"value="${list.addr2}">
-	<input type="hidden" id="placeName" value="${list.placeName }">
+
 	<input type="hidden" id="planTitle" value="${list.planTitle }">  
 </c:forEach>
 
@@ -31,13 +29,15 @@
 
 <form method="post" action="/plan/planmodifin">
   <c:forEach var="list"  items="${Pdto}"  varStatus="status" >
-	<div class="planlist">
+	<!--  <div class="planlist" style="height:250px; position:relative;">-->
 		<div style="float:left; margin-right:10px">여행 날짜</div>
 		 <input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
 		<div><fmt:formatDate value="${list.planDate}" pattern="yyyy년MM월dd일"/></div>
 		
 		<div style="float:left; margin-right:10px">여행장소</div>
-		<div>${list.addr1}${list.addr2}</div>
+		
+		<div>${placelist } </div>
+		
 		<div style="float:left; margin-right:10px">일정제목</div>
 		
 		<div>${list.planTitle}</div>
@@ -50,11 +50,12 @@
 			<c:if test="${list.planCate eq '비즈니스'}">비즈니스 여행</c:if>
 			<c:if test="${list.planCate eq '친구'}">우정 여행</c:if>
 		</div>
-	</div>
+	<!--  </div>-->
   </c:forEach>
-<div style="height:250px;"> 
-	<img alt="" src="/resources/img/plan/default.jpg" width="25%" height="240px">
-	
+  <div style="height:250px;"> </div>
+<div > 
+	<!-- <img alt="" src="/resources/img/plan/default.jpg" width="25%" height="240px">
+	 -->
 </div>
 		<div style="text-align: center;">
 		<sec:authorize access="isAuthenticated()">

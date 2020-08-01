@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.seoulmate.seoulgo.dao.PlanDAO;
+import com.seoulmate.seoulgo.dto.PlaceDto;
 import com.seoulmate.seoulgo.dto.PlanDTO;
 import com.seoulmate.seoulgo.page.PlanPage;
 
@@ -41,7 +42,7 @@ public class PlanService {
 		return pdao.detailView(pno);
 	}
 
-	public void planwritedservice(PlanDTO plan, HttpServletRequest req) {
+	public void planwritedservice(PlanDTO plan,PlaceDto place, HttpServletRequest req) {
 		System.out.println("planwritedservice도착 PlanDTO의 값" + plan);
 		Date planDate = null;
 		// 현재 로그인한 유저의 아이디
@@ -56,21 +57,21 @@ public class PlanService {
 			e.printStackTrace();
 			System.out.println("날짜변환중 오류발생.");
 		}
-		String planplace = req.getParameter("planplace");
+		String planplace = req.getParameter("planplace"); //planplace를 jsp페이지에서 요청받음.
 		String planTitle = req.getParameter("planTitle");
 		String planCate = req.getParameter("plancate");
 		int placeNo = Integer.parseInt(req.getParameter("placeNo"));
 		plan.setMemberid(mem_id);
 		plan.setPlanDate(planDate);
-		plan.setPlanplace(planplace);
 		plan.setPlanTitle(planTitle);
 		plan.setPlanCate(planCate);
 		plan.setPlanNo(placeNo);
+		place.setPlaceName(planplace);
 		System.out.println("변수를 확인합니다." + plan);
 		pdao.planwriteddao(plan);
 	}
 
-	public void planmodifinservice(PlanDTO plan, HttpServletRequest req) {
+	public void planmodifinservice(PlanDTO plan,PlaceDto place, HttpServletRequest req) {
 		System.out.println("planmodifinservice도착");
 		Date planDate = null;
 		String plandate = req.getParameter("plandate");
@@ -83,14 +84,14 @@ public class PlanService {
 		}
 		int planno = Integer.parseInt(req.getParameter("planNo"));
 		String memberid = req.getParameter("memberid");
-		String planplace = req.getParameter("planplace");
+		String planplace = req.getParameter("planplace"); //planplace = plan에서 사용하는 placename
 		String planTitle = req.getParameter("planTitle");
 		String planCate = req.getParameter("plancate");
 
 		plan.setPlanNo(planno);
 		plan.setMemberid(memberid);
 		plan.setPlanDate(planDate);
-		plan.setPlanplace(planplace);
+		place.setPlaceName(planplace);
 		plan.setPlanTitle(planTitle);
 		plan.setPlanCate(planCate);
 
@@ -137,18 +138,18 @@ public class PlanService {
 		return result;
 	}
 
-	public ArrayList<PlanDTO> choiceplace2(int placeNo2) {
-		ArrayList<PlanDTO> result = pdao.choiceplace2(placeNo2);
-		result.get(0).setPlaceNo2(placeNo2);
-		return result;
-	}
-
-	public ArrayList<PlanDTO> choiceplace3(int placeNo3) {
-		ArrayList<PlanDTO> result = pdao.choiceplace3(placeNo3);
-		result.get(0).setPlaceNo3(placeNo3);
-		return result;
-	}
-	
+//	public ArrayList<PlanDTO> choiceplace2(int placeNo2) {
+//		ArrayList<PlanDTO> result = pdao.choiceplace2(placeNo2);
+//		result.get(0).setPlaceNo2(placeNo2);
+//		return result;
+//	}
+//
+//	public ArrayList<PlanDTO> choiceplace3(int placeNo3) {
+//		ArrayList<PlanDTO> result = pdao.choiceplace3(placeNo3);
+//		result.get(0).setPlaceNo3(placeNo3);
+//		return result;
+//	}
+//	
 	public void plandelete(int planno) {
 		pdao.deleteplan(planno);
 	}
@@ -157,9 +158,14 @@ public class PlanService {
 		List<String> result = pdao.getplacename(pno);
 		return result;
 	}
-
+	
 	public List<PlanDTO> getplanno(String mem_id) {
 		List<PlanDTO> result = pdao.getplanum(mem_id);
+		return result;
+	}
+
+	public List<PlaceDto> getplacenamelist(PlanPage page2) {
+		List<PlaceDto> result = pdao.getplacenamelist(page2);
 		return result;
 	}
 

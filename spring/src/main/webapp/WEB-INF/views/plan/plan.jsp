@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>여행계획짜기</title>
+<title>여행계획보기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="${resourcePath}/js/plan/plan.js"></script>
 </head>
@@ -48,13 +48,14 @@
 							${list.planCate}
 							<input type="hidden" value="${list.planCate}">
 						</td>
-						<td>${list.placeName}<br>
+						<c:forEach items="${placelist}" var="placelist">
+						<td>${placelist.placeName}<br>
 							<br>
-							<input type="hidden" id="placeName" value="${list.placeName }">
-							
+							<input type="hidden" id="placeName" value="${placelist.placeName }">
 							<input type="hidden" value="${list.addr1}">
 							<input type="hidden" value="${list.addr2}">
 						</td>
+						</c:forEach>
 					</tr>
 				</form>
 			</c:forEach>
