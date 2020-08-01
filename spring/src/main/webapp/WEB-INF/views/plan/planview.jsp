@@ -29,7 +29,7 @@
 <!-- 카카오 맵의 div  -->
 <div id="map" style="width:500px;height:330px;float:left; position:relative;'">
 </div>
-<div class="col-xs-6">
+
 <form method="post" action="/plan/planmodifin">
   <c:forEach var="list"  items="${Pdto}"  varStatus="status" >
 	<!--  <div class="planlist" style="height:250px; position:relative;">-->
@@ -55,7 +55,7 @@
 		</div>
 	<!--  </div>-->
   </c:forEach>
- </div>
+
   
 <div>
 	<img alt="" src="/resources/img/plan/default.jpg" width="40%" height="240px">

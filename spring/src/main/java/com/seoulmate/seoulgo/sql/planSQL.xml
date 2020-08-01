@@ -102,10 +102,6 @@
 		order by PLAN.PLANDATE desc)
 		)where rnum between #{startRow} and #{endRow}
 	</select>
-	<select id="placeResultMap"
-		parameterType="com.seoulmate.seoulgo.dto.PlaceDto"
-		resultMap="placeResultMap">
-	</select>
 	<select id="getplaceinfo" parameterType="com.seoulmate.seoulgo.dto.PlaceDto" resultType="com.seoulmate.seoulgo.dto.PlaceDto">
 	select * from place 
     where placeno in (select placeno from planplace where 
@@ -129,8 +125,6 @@
 		select
 		count(*)from plan where MEMBERID = #{memberid}
 	</select>
-	
-	<!-- select count(*)from plan -->
 	<!-- 아이디를 조회하는 쿼리문 -->
 	<select id="getmemberid" parameterType="string"
 		resultType="pdto">
@@ -320,20 +314,20 @@
 		VALUES(#{planNo},#{planDate},#{planTitle},#{planCate},#{memberid}) INTO PLANPLACE 
 		(PLANNO) VALUES(#{planNo}) SELECT PLAN.PLANNO,PLANPLACE.PLANNO,PLANDATE,PLANTITLE,PLANCATE,MEMBERID 
 		FROM PLAN,PLANPLACE -->
-	<update id="planupdate" parameterType="pdto">
-		update plan
-		set
-		PLANDATE=#{planDate},PLANTITLE=#{planTitle},PLANCATE=#{planCate}
-		WHERE
-		PLANNO=#{planNo}
-	</update>
+<update id="planupdate" parameterType="pdto">
+	update plan
+	set
+	PLANDATE=#{planDate},PLANTITLE=#{planTitle},PLANCATE=#{planCate}
+	WHERE
+	PLANNO=#{planNo}
+</update>
 	
 	<!-- values( #{no}, #{oriName},#{saveName},#{len},#{path} ) -->
 	<!-- select NVL(MAX(bNo),0)+1 from fileBoard -->
 	<!-- 전체게시물 수 조회 -->
-	<delete id="deleteplan" parameterType="int">
-		delete plan where PLANNO =
-		#{planno}
-	</delete>
+<delete id="deleteplan" parameterType="int">
+	delete plan where PLANNO =
+	#{planno}
+</delete>
 	
 </mapper>	

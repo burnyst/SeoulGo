@@ -60,16 +60,11 @@ public class PlanController {
 			for(int j=0;j<placeinfo.size();j++) {
 				String placename = placeinfo.get(j).getPlaceName();
 				placenamelist.add(placename);
-				System.out.println("placename의 값들 : "+placename);
-
+				//System.out.println("placename의 값들 : "+placename);
 			}
-			
 			pdto.get(i).setPlacenamelist(placenamelist);
 		}
-		
-		
 		System.out.println("page2의 초기값 조회합니다."+page2);
-		
 		for(int i=0;i<pdto.size();i++) {
 			//System.out.println(pdto.size());
 			try {
@@ -78,8 +73,6 @@ public class PlanController {
 				}
 			}catch(Exception ex) {}
 		}
-		
-		
 		mv.addObject("plist",pdto);
 		//mv.addObject("placelist",placelist);
 		System.out.println("pdto의 최종값을 조회합니다."+pdto);
@@ -100,11 +93,6 @@ public class PlanController {
 			System.out.println(j+"j의값");
 			List<PlanDTO> view2 = planservice.addrservice(j);
 			System.out.println(view2);
-			//view2.get(0).getAdd1();
-//			pdto.get(i).setAddr1(view2.get(0).getAddr1());
-			//view2.get(0).getAdd2();
-//			pdto.get(i).setAddr2(view2.get(0).getAddr2());
-			//pdto.get(i).setPlaceName(view2.get(0).getPlaceName()); null값이 들어옴.
 		}
 		mv.setViewName("plan/planmodi");
 		mv.addObject("Pdto",pdto);
