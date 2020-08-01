@@ -4,6 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<c:set var="date" value="<%= new java.util.Date() %>"/>
 <t:path>
 <c:set var="defaultImage" value="${imagePath}/place/noimage.jpg" />
 <c:set var="pagePath" value="${basePath}/plan" />
@@ -11,6 +12,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="${resourcePath}/css/plan/insert.css">
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04926447ff4e969a08d92e18379b0176&libraries=services"></script>
 <script src="${resourcePath}/js/plan/planWrite.js"></script>
@@ -32,7 +34,7 @@
 			<tr>
 				<th>여행날짜</th>
 				<td>
-					<input type="date" id="plandate" name="plandate" class="form-control date" required="required" />
+					<input type="date" id="plandate" name="plandate" class="form-control date" required="required" value="<fmt:formatDate value="${date}" pattern='yyyy-MM-dd'/>"/>
 				</td>
 			</tr>
 			<tr>
@@ -59,7 +61,7 @@
 				<th>여행장소</th>
 				<td class="row">
 				<c:forEach var="item" items="${page.content}" varStatus="status">
-					<div>${item.placeName}</div>->
+					<div id="placeName"></div>
 				</c:forEach>
 				</td>
 			</tr>
@@ -118,11 +120,12 @@
 							<img src="${imagePath}/place/${item.imageNames[0]}" onerror="this.src='${defaultImage}'" alt="place" />
 						</div>
 						<div class="media-body">
-						<a href="${basePath}?/place/detail?placeNo=${item.placeNo}">${item.placeName}</a><br />
+						<a id="aName${item.placeNo}" href="${basePath}?/place/detail?placeNo=${item.placeNo}">${item.placeName}</a><br />
 						리뷰 ${item.reviewCount} / 평점<t:star score="${item.placeRate20X}"></t:star><br />
 						${item.addr1} ${item.addr2}
 						</div>
-						<button class="add btn btn-outline-primary align-self-center mx-3" type="button"><i class="fas fa-plus"></i></button>
+						<input type="hidden" value="${item.placeNo}" name="pNo">
+                  		<button id="pAdd${item.placeNo}" class="add btn btn-outline-primary align-self-center mx-3" type="button"><i class="fas fa-plus"></i></button>
 					</div>
 				</c:forEach>
 			</div>

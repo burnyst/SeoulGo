@@ -47,13 +47,53 @@ $(function(){
 	});
 	
 	var placeCount = 0;
-	$(".fa-plus").click(function(){
-		if (placeCount >= 10) {
-			alert("일정장소는 최대 10곳까지 가능합니다");
-		}
-		placeCount++;
-	});
-	
+	var pNo = document.getElementsByName("pNo");
+	var list = new Array();   
+	var nameList = new Array();
+	   
+	for(let i=0; i<pNo.length; i++){
+		list[i] = parseInt(pNo[i].value);
+		nameList[i] = $(".media-body").children("a[id='aName"+list[i]+"']").text();
+		console.log(list[i]);
+		console.log(nameList[i]);
+		
+		$("#pAdd"+list[i]).click(function(){
+			var placeList = document.createElement("span");
+			var str = nameList[i];
+			if(placeCount >= 1) {
+				str = ' <i class="fas fa-chevron-right"></i> ' + str
+			}
+			placeCount++;
+			if(placeCount == 11) {
+				alert("일정장소는 최대 10곳까지 가능합니다");
+				placeCount = 10;
+				str = "";
+			}
+			placeList.innerHTML=str;
+			document.querySelector("div#placeName").appendChild(placeList);
+			
+			$.ajax({
+				url: $("#basePath").val() + "/plan/planWrited",
+				data: {
+					placeNo: list[i],
+					planTitle: $("#planTitle").val(),
+					planCate: $("#plancate").val(),
+					plandate: $("#plandate").val()
+				},
+				contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+				dataType: 'html',
+				type: "POST",
+				success: function(result) {
+					console.log("success");
+					console.log(result);
+				},
+				error: function() {
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+			})
+			
+		});
+	}
 	
 	var mapContainer = document.getElementById('map');
 	mapOption = {

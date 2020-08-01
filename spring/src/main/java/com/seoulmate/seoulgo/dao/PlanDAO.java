@@ -46,7 +46,7 @@ public class PlanDAO {
 		return (ArrayList) session.selectList("plandata.planview", pno);
 	}
 
-	public void planwriteddao(PlanDTO plan) {
+	public void planWrited(PlanDTO plan) {
 		session.insert("plandata.planinsert", plan);
 		System.out.println("planDAO 글쓰기 진입:" + plan);
 		session.insert("plandata.planinsert2", plan);

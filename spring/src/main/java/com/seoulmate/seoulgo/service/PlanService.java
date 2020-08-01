@@ -41,9 +41,11 @@ public class PlanService {
 		return pdao.detailView(pno);
 	}
 
-	public void planwritedservice(PlanDTO plan, HttpServletRequest req) {
-		System.out.println("planwritedservice도착 PlanDTO의 값" + plan);
+	public void planWrited(PlanDTO plan, HttpServletRequest req) {
+		System.out.println("planTitle="+req.getParameter("planTitle"));
+		System.out.println("PlanService.planWrited() PlanDTO=" + plan);
 		Date planDate = null;
+		
 		// 현재 로그인한 유저의 아이디
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String mem_id = principal.toString();
@@ -58,16 +60,16 @@ public class PlanService {
 		}
 		String planplace = req.getParameter("planplace");
 		String planTitle = req.getParameter("planTitle");
-		String planCate = req.getParameter("plancate");
+		//String planCate = req.getParameter("plancate");
 		int placeNo = Integer.parseInt(req.getParameter("placeNo"));
 		plan.setMemberid(mem_id);
 		plan.setPlanDate(planDate);
 		plan.setPlanplace(planplace);
 		plan.setPlanTitle(planTitle);
-		plan.setPlanCate(planCate);
-		plan.setPlanNo(placeNo);
+		//plan.setPlanCate(planCate);
+		//plan.setPlanNo(placeNo);
 		System.out.println("변수를 확인합니다." + plan);
-		pdao.planwriteddao(plan);
+		//pdao.planWrited(plan);
 	}
 
 	public void planmodifinservice(PlanDTO plan, HttpServletRequest req) {
