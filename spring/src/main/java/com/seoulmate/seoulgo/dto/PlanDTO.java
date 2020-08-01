@@ -18,10 +18,6 @@ public class PlanDTO {
 
 	private int placeNo, placeNo2, placeNo3;
 	private int addrNo;
-	
-	
-
-
 
 	public int getPlaceNo2() {
 		return placeNo2;
@@ -39,7 +35,6 @@ public class PlanDTO {
 		this.placeNo3 = placeNo3;
 	}
 
-
 	public String getAddr1() {
 		return addr1;
 	}
@@ -55,8 +50,6 @@ public class PlanDTO {
 	public void setAddr2(String addr2) {
 		this.addr2 = addr2;
 	}
-
-
 
 	public int getPlanNo() {
 		return planNo;
@@ -105,8 +98,6 @@ public class PlanDTO {
 		this.planCate = planCate;
 	}
 
-
-
 	public int getPlaceNo() {
 		return placeNo;
 	}
@@ -114,8 +105,6 @@ public class PlanDTO {
 	public void setPlaceNo(int placeNo) {
 		this.placeNo = placeNo;
 	}
-
-
 
 	public int getAddrNo() {
 		return addrNo;
@@ -125,22 +114,16 @@ public class PlanDTO {
 		this.addrNo = addrNo;
 	}
 
-
-
-
-
 	public void setPlanplace(String planplace) {
 
 	}
-
-
 
 	@Override
 	public String toString() {
 		return "PlanDTO [planNo=" + planNo + ", planDate=" + planDate + ", planTitle=" + planTitle + ", planCate="
 				+ planCate + ", memberid=" + memberid + ", placeName=" + placeName + ", addr1=" + addr1 + ", addr2="
 				+ addr2 + ", placeNo=" + placeNo + ", placeNo2=" + placeNo2 + ", placeNo3=" + placeNo3 + ", addrNo="
-				+ addrNo   + "]";
+				+ addrNo + "]";
 	}
 
 	public List<String> getPlaceName() {
@@ -150,7 +133,5 @@ public class PlanDTO {
 	public void setPlaceName(List<String> placeName) {
 		this.placeName = placeName;
 	}
-
-
 
 }
