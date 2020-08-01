@@ -43,7 +43,7 @@ public class PlanService {
 	}
 
 	public void planWrited(PlanDTO plan,PlaceDto place, HttpServletRequest req) {
-		System.out.println("planwritedservice도착 PlanDTO의 값" + plan);
+		System.out.println("PlanService.planWrited() PlanDTO=" + plan);
 		Date planDate = null;
 		
 		// 현재 로그인한 유저의 아이디
@@ -53,20 +53,20 @@ public class PlanService {
 		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			planDate = fm.parse(plandate);
-			System.out.println(planDate);
+			System.out.println("날짜 변환 성공: "+planDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			System.out.println("날짜변환중 오류발생.");
+			System.out.println("날짜변환중 오류발생");
 		}
 		String planplace = req.getParameter("planplace"); //planplace를 jsp페이지에서 요청받음.
-		String planTitle = req.getParameter("planTitle");
+		//String planTitle = req.getParameter("planTitle");
 		//String planCate = req.getParameter("plancate");
 		int placeNo = Integer.parseInt(req.getParameter("placeNo"));
 		plan.setMemberid(mem_id);
 		plan.setPlanDate(planDate);
-		plan.setPlanTitle(planTitle);
-		//plan.setPlanCate(planCate);
-		plan.setPlanNo(placeNo);
+		plan.setPlanTitle(req.getParameter("planTitle"));
+		plan.setPlanCate(req.getParameter("planCate"));
+		//plan.setPlanNo(placeNo);
 		place.setPlaceName(planplace);
 		System.out.println("변수를 확인합니다." + plan);
 		//pdao.planWrited(plan);
