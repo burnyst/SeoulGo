@@ -51,34 +51,8 @@ $(function(){
 	var list = new Array();   
 	var nameList = new Array();
 	var placeList = document.createElement("span");
-	   
-	for(let i=0; i<pNo.length; i++){
-		list[i] = parseInt(pNo[i].value);
-		nameList[i] = $(".media-body").children("a[id='aName"+list[i]+"']").text();
-		console.log(list[i]);
-		console.log(nameList[i]);
-		
-		$("#pAdd"+list[i]).click(function(){
-			var str = nameList[i];
-			if(placeCount >= 1) {
-				str = ' <i class="fas fa-chevron-right"></i> ' + str
-			}
-			placeCount++;
-			if(placeCount == 11) {
-				alert("일정장소는 최대 10곳까지 가능합니다");
-				placeCount = 10;
-				str = "";
-			}
-			placeList.innerHTML=str;
-			document.querySelector("div#placeName").appendChild(placeList);
-			
-			sessionStorage.setItem("placeName"+(placeCount-1), str);
-			sessionStorage.setItem("placeNo"+(placeCount-1), list[i]);
-			sessionStorage.setItem("planTitle", $("#planTitle").val());
-			sessionStorage.setItem("planCate", $("#plancate").val());
-			sessionStorage.setItem("plandate", $("#plandate").val());
-		});
-	}
+	var str = "";
+	
 	var count = sessionStorage.length;
 	console.log(count);
 	if(count !== 0) {
@@ -90,16 +64,45 @@ $(function(){
 		$("#plandate").val(sessionStorage.getItem("plandate"))
 		count--;
 		count = count/2;
+		str = sessionStorage.getItem("placeName0");
 		for(let j=0; j<count; j++) {
-			var placeName = new Array();
-			var str = sessionStorage.getItem("placeName"+[j]);
+			if(j >= 1) {
+				str += ' <i class="fas fa-chevron-right"></i> ' + sessionStorage.getItem("placeName"+j);
+			}
 			console.log(str);
 			placeList.innerHTML=str;
 			document.querySelector("div#placeName").appendChild(placeList);
 			console.log(placeList);
 		}
-	}else {
+		placeCount = count;
+	}
+	console.log("count="+count+"placeCount="+placeCount);
+	for(let i=0; i<pNo.length; i++){
+		list[i] = parseInt(pNo[i].value);
+		nameList[i] = $(".media-body").children("a[id='aName"+list[i]+"']").text();
+		console.log(list[i]);
+		console.log(nameList[i]);
 		
+		$("#pAdd"+list[i]).click(function(){
+			str += nameList[i];
+			if(placeCount >= 1) {
+				str += ' <i class="fas fa-chevron-right"></i> ' + str
+			}
+			placeCount++;
+			if(placeCount == 11) {
+				alert("일정장소는 최대 10곳까지 가능합니다");
+				placeCount = 10;
+				str = "";
+			}
+			placeList.innerHTML=str;
+			document.querySelector("div#placeName").appendChild(placeList);
+			
+			sessionStorage.setItem("placeName"+(placeCount-1), nameList[i]);
+			sessionStorage.setItem("placeNo"+(placeCount-1), list[i]);
+			sessionStorage.setItem("planTitle", $("#planTitle").val());
+			sessionStorage.setItem("planCate", $("#plancate").val());
+			sessionStorage.setItem("plandate", $("#plandate").val());
+		});
 	}
 	
 	
