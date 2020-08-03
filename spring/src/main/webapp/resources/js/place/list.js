@@ -6,9 +6,9 @@ $(document).ready(function() {
 		$("#searchForm").submit();
 	});
 	$(document).on("click", ".nav-tabs .nav-link", function() {
-		alert($("#searchForm").type.value);
-		$("#searchForm").type.value = $(this).text();
+		$("#searchForm input[name='type']").val($(this).text());
 		$("#searchForm").submit();
+		return false;
 	});
 	document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");
 	$(window).resize(function () {
