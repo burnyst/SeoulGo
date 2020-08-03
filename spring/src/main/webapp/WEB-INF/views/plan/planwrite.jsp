@@ -59,9 +59,7 @@
 			<tr>
 				<th>여행장소</th>
 				<td class="row">
-				<c:forEach var="item" items="${page.content}" varStatus="status">
-					<div id="placeName"></div>
-				</c:forEach>
+					<div id="placeName" class="d-flex flex-wrap"></div>
 				</td>
 			</tr>
 			<tr>
@@ -71,7 +69,7 @@
 			</tr>
 		</table>
 		<div style="text-align: center;">
-			<input class="btn btn-success" type="submit" id="wBtn" value="일정짜기"> 
+			<input class="btn btn-success" type="button" id="wBtn" value="일정짜기"> 
 			<input class="btn btn-info m-3" type="reset" value="다시쓰기">
 			<a class ="btn btn-warning" id="backBtn">뒤로가기</a>
 		</div>
@@ -135,7 +133,7 @@
 		pageNo="${page.pageNo}"
 		totalPage="${page.totalPage}"
 		startPage="${page.startPage}"
-		uri="${pagePath}/placeList"
+		uri="${pagePath}/planwrite"
 		params="&keyword=${page.keyword}&type=${page.type}&order=${page.order}">
 	</t:pageNav>
 </div>

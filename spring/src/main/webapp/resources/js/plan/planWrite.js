@@ -48,7 +48,6 @@ $(function(){
 	var pNo = document.getElementsByName("pNo");
 	var list = new Array();   
 	var nameList = new Array();
-	var placeList = document.createElement("span");
 	var str = "";
 	
 	var count = sessionStorage.length;
@@ -62,15 +61,12 @@ $(function(){
 		$("#plandate").val(sessionStorage.getItem("plandate"))
 		count--;
 		count = count/2;
-		str = sessionStorage.getItem("placeName0");
 		for(let j=0; j<count; j++) {
-			if(j >= 1) {
-				str += ' <i class="fas fa-chevron-right"></i> ' + sessionStorage.getItem("placeName"+j);
-			}
+			str = '<div class="border border-secondary rounded text-secondary'+j+'" style="margin-bottom: 3px; margin-right: 3px;">&nbsp&nbsp'+sessionStorage.getItem("placeName"+j)
+						+'<button type="button" class="btn btn-sm btn-outline-light text-secondary" id="delBtn'+j+'" style="border: 0; outline: 0;">'
+						+'<span class="text-secondary">×</span><input type="hidden" id="placeNo'+sessionStorage.getItem("placeNo"+j)+'" value="'+sessionStorage.getItem("placeNo"+j)+'"></button></div>';
 			console.log(str);
-			placeList.innerHTML=str;
-			document.querySelector("div#placeName").appendChild(placeList);
-			console.log(placeList);
+			$("#placeName").append(str);
 		}
 		placeCount = count;
 	}
@@ -78,23 +74,20 @@ $(function(){
 	for(let i=0; i<pNo.length; i++){
 		list[i] = parseInt(pNo[i].value);
 		nameList[i] = $(".media-body").children("a[id='aName"+list[i]+"']").text();
-//		console.log(list[i]);
-//		console.log(nameList[i]);
+		//console.log(list[i]);
+		//console.log(nameList[i]);
 		
 		$("#pAdd"+list[i]).click(function(){
-			str += nameList[i];
-			if(placeCount >= 1) {
-				str += ' <i class="fas fa-chevron-right"></i> ' + str
-			}
+			str = '<div class="border border-secondary rounded text-secondary'+placeCount+'" style="margin-bottom: 3px; margin-right: 3px;">&nbsp&nbsp'+nameList[i]
+						+'<button type="button" class="btn btn-sm btn-outline-light text-secondary" id="delBtn'+placeCount+'" style="border: 0; outline: 0;">'
+						+'<span class="text-secondary">×</span><input type="hidden" id="placeNo'+list[i]+'" value="'+list[i]+'"></button></div>';
 			placeCount++;
 			if(placeCount == 11) {
 				alert("일정장소는 최대 10곳까지 가능합니다");
 				placeCount = 10;
-				//str = "";
 				return;
 			}
-			placeList.innerHTML=str;
-			document.querySelector("div#placeName").appendChild(placeList);
+			$("#placeName").append(str);
 			
 			sessionStorage.setItem("placeName"+(placeCount-1), nameList[i]);
 			sessionStorage.setItem("placeNo"+(placeCount-1), list[i]);
@@ -102,8 +95,27 @@ $(function(){
 			sessionStorage.setItem("planCate", $("#plancate").val());
 			sessionStorage.setItem("plandate", $("#plandate").val());
 		});
+		
 	}
 	
+	var btn = $("button[type='button']").length
+	var btnArr = btn/2
+	for(let i=0; i<btnArr; i++) {
+		$("#delBtn"+i).click(function(){
+			$(".text-secondary"+i).remove();
+			sessionStorage.removeItem("placeName"+i);
+			sessionStorage.removeItem("placeNo"+i);
+		});
+	}
+	
+	$("#wBtn").click(function(){
+		var r = confirm("플랜을 등록하시겠습니까?")
+		if(r==true){
+			$("#planWrite").submit();
+			sessionStorage.clear();
+			//return;
+		}
+	});
 	
 	var mapContainer = document.getElementById('map');
 	mapOption = {
