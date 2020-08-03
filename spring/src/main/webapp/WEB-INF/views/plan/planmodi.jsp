@@ -2,30 +2,15 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ taglib prefix ="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="resourcePath" value="${basePath}/resources" />
+
 <!DOCTYPE html>
 <html>
 <head>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04926447ff4e969a08d92e18379b0176&libraries=services"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="${resourcePath}/js/plan/planmodi.js"></script>
 <script>
-
-$(function(){
- $("#nomodi").click(function(){
-	 //alert("함수 작동");
-	 $(location).attr("href","../plan/plan");
-	
- });
- 
- $("#delmodi").click(function(){
-	 alert("삭제페이지로 이동합니다.");
-	 $('#frm').attr("method", "get");
-	 $('#frm').attr("action","../plan/plandelete").submit();
-	 
-	 alert();
- });
- 
-});
-
 
 </script>
 <style>
@@ -36,65 +21,16 @@ $(function(){
 </head>
 <body>
 <c:forEach items="${Pdto}" var="list" varStatus="status">
-	<input type="hidden" id="addr1" value="${list.addr1}"/>
-	<input type="hidden" id="addr2" value="${list.addr2}"/>
-	<input type="hidden" id="placename" value="${list.placename}">
+	<input type="hidden" id="placename" value="${list.placenamelist}">
+</c:forEach>
+<c:forEach items="${placedto}" var="list" varStatus="status">
+	<input type="hidden" id="addr1" value="${list.addr1 }">
+	<input type="hidden" id="addr2" value="${list.addr2 }">
 </c:forEach>
 ${Pdto}
-<!-- 이 페이지는 일정을 짜는 페이지이다. 
- 일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
-   -->
+
 <div id="map" style="width:500px;height:300px;float:left; position:relative;'">
 </div>
-<script>
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };  
-// 지도를 생성합니다    
-var map = new kakao.maps.Map(mapContainer, mapOption); 
-
-// 주소-좌표 변환 객체를 생성합니다
-var geocoder = new kakao.maps.services.Geocoder();
-var addr1 = $('#addr1').val();
-var addr2 = $('#addr2').val();
-var placename = $('#placename').val();
-var addr = addr1 + addr2
-//alert(addr);
-// 주소로 좌표를 검색합니다
-
-
-geocoder.addressSearch( addr , function(result, status) {
-	//zero_result가 나오면 
-	if(status === kakao.maps.services.Status.ZERO_RESULT){
-		alert("아직 지원되지 않는 주소입니다.");
-	}
-    // 정상적으로 검색이 완료됐으면 
-     if (status === kakao.maps.services.Status.OK) {
-    	
-        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-        
-        // 결과값으로 받은 위치를 마커로 표시합니다
-        var marker = new kakao.maps.Marker({
-            map: map,
-            position: coords
-        });
-
-        // 인포윈도우로 장소에 대한 설명을 표시합니다
-        var infowindow = new kakao.maps.InfoWindow({
-            content: '<div style="width:150px;text-align:center;padding:6px 0;">'+placename+'</div>'
-        });
-        
-        infowindow.open(map, marker);
-
-        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-        map.setCenter(coords);
-        var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-        iwRemoveable = true;
-    } 
-});    
-</script>
 <form method="post" id="frm" action="/plan/planmodifin">
   <c:forEach var="list"  items="${Pdto}"  varStatus="status" >
 	<div class="planlist">
@@ -103,7 +39,7 @@ geocoder.addressSearch( addr , function(result, status) {
 		<div><input type="date" id="plandate" name="plandate" value="${list.planDate}"></div>
 		
 		<div style="float:left; margin-right:10px">여행장소</div>
-		<div id="place"><input type="text" id="planplace" name="planplace" value="${list.addr1}${list.addr2}" readonly="readonly"></div>
+		<div id="place"><input type="text" id="planplace" name="planplace" value="${placedto[0].addr1}${placedto[0].addr2}" readonly="readonly"></div>
 		
 		<div style="float:left; margin-right:10px">일정제목</div>
 		

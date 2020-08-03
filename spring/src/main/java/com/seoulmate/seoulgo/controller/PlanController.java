@@ -84,16 +84,29 @@ public class PlanController {
 	//http://127.0.0.1:9000/plan/planmodi
 	@RequestMapping("/plan/planmodi")
 	public ModelAndView planredirect(ModelAndView mv,HttpServletRequest req) {
-		int pno  =  Integer.parseInt(req.getParameter("pno"));//글번호
+		int pno  =  Integer.parseInt(req.getParameter("planNo"));//글번호
 		System.out.println("planmodi도착, pno의 숫자: "+pno);
 		
 		ArrayList<PlanDTO> pdto = (ArrayList)planservice.detailView(pno);//DTO에 내용 넣기.
+		
 		for (int i=0;i<pdto.size(); i++) {
 			int j = pdto.get(i).getPlanNo();
 			System.out.println(j+"j의값");
-			List<PlanDTO> view2 = planservice.addrservice(j);
-			System.out.println(view2);
+			List<PlaceDto> placedto = planservice.getplaceinfo(j);
+			
+			List<String> placenamelist = new ArrayList();
+			for(int k=0;k<placedto.size();k++) {
+				String placename = placedto.get(k).getPlaceName();
+				placenamelist.add(placename);
+			}
+			//System.out.println(placedto);
+			mv.addObject("placedto",placedto);
+			pdto.get(i).setPlacenamelist(placenamelist);
+			
+			
 		}
+		
+		
 		mv.setViewName("plan/planmodi");
 		mv.addObject("Pdto",pdto);
 		return mv;

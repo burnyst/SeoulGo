@@ -34,9 +34,7 @@ public class PlanService {
 		return (List<PlanDTO>) pdao.planview(plan);
 	}
 
-	public List<PlanDTO> addrservice(int addrNo) {
-		return pdao.addrdao(addrNo);
-	}
+
 
 	public ArrayList<PlanDTO> detailView(int pno) {
 		return pdao.detailView(pno);
