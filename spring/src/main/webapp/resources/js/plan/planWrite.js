@@ -199,7 +199,6 @@ $(function(){
 		if(r==true){
 			$("#planWrite").submit();
 			sessionStorage.clear();
-			//return;
 		}
 	});
 	

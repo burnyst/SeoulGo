@@ -4,12 +4,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.seoulmate.seoulgo.dao.PlanDAO;
@@ -40,37 +40,16 @@ public class PlanService {
 		return pdao.detailView(pno);
 	}
 
-	public void planWrited(PlanDTO plan,PlaceDto place, HttpServletRequest req) {
-		System.out.println("PlanService.planWrited() PlanDTO의 값" + plan);
-		
-		Date planDate = null;
-		
-		// 현재 로그인한 유저의 아이디
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String mem_id = principal.toString();
-		String plandate = req.getParameter("plandate");
-		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			planDate = fm.parse(plandate);
-			System.out.println(planDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-			System.out.println("날짜변환중 오류발생.");
+	public void planWrited(PlanDTO plan, PlaceDto place, ArrayList planlist) {
+		System.out.println("PlanService.planWrited() 진입="+plan);
+		pdao.planWrited(plan, place, "plan");
+		for (int i =0; i<planlist.size(); i++) {
+			HashMap map = (HashMap)planlist.get(i);
+			place.setPlaceNo((int)map.get("placeNo"));
+			pdao.planWrited(plan, place, "planplace");
 		}
-		String planplace = req.getParameter("planplace"); //planplace를 jsp페이지에서 요청받음.
-		String planTitle = req.getParameter("planTitle");
-		String planCate = req.getParameter("plancate");
-		int placeNo = Integer.parseInt(req.getParameter("placeNo"));
-		plan.setMemberid(mem_id);
-		plan.setPlanDate(planDate);
-		plan.setPlanTitle(planTitle);
-		plan.setPlanCate(planCate);
-		plan.setPlanNo(placeNo);
-		place.setPlaceName(planplace);
-		System.out.println("PlanDAO로 넘어가기 전 planWrited()의 PlanDTO 확인: " + plan);
-		//pdao.planWrited(plan);
 	}
-
+	
 	public void planmodifinservice(PlanDTO plan,PlaceDto place, HttpServletRequest req) {
 		System.out.println("planmodifinservice도착");
 		Date planDate = null;
