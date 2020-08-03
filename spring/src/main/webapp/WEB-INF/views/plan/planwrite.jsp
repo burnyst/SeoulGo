@@ -39,7 +39,7 @@
 			<tr>
 				<th>여행제목</th>
 				<td> 
-					<input type="text" id="planTitle" name="planTitle" class="form-control" required="required" />
+					<input type="text" id="planTitle" name="planTitle" class="form-control" required="required" maxlength="20"/>
 				</td>
 			</tr>
 			<tr>

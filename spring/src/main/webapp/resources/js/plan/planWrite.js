@@ -44,7 +44,6 @@ $(function(){
 		idval.val(myTag);
 	});
 	
-	var placeCount = 0;
 	var pNo = document.getElementsByName("pNo");
 	var list = new Array();   
 	var nameList = new Array();
@@ -64,38 +63,17 @@ $(function(){
 		for(let j=0; j<count; j++) {
 			str = '<div class="border border-secondary rounded text-secondary'+j+'" style="margin-bottom: 3px; margin-right: 3px;">&nbsp&nbsp'+sessionStorage.getItem("placeName"+j)
 						+'<button type="button" class="btn btn-sm btn-outline-light text-secondary" id="delBtn'+j+'" style="border: 0; outline: 0;">'
-						+'<span class="text-secondary">×</span><input type="hidden" id="placeNo'+sessionStorage.getItem("placeNo"+j)+'" value="'+sessionStorage.getItem("placeNo"+j)+'"></button></div>';
+						+'<span class="text-secondary">×</span></button><input type="hidden" name="placeNo" value="'+sessionStorage.getItem("placeNo"+j)+'"></div>';
 			console.log(str);
 			$("#placeName").append(str);
 		}
 		placeCount = count;
 	}
+	
 	console.log("count="+count+", placeCount="+placeCount);
 	for(let i=0; i<pNo.length; i++){
 		list[i] = parseInt(pNo[i].value);
 		nameList[i] = $(".media-body").children("a[id='aName"+list[i]+"']").text();
-		//console.log(list[i]);
-		//console.log(nameList[i]);
-		
-		$("#pAdd"+list[i]).click(function(){
-			str = '<div class="border border-secondary rounded text-secondary'+placeCount+'" style="margin-bottom: 3px; margin-right: 3px;">&nbsp&nbsp'+nameList[i]
-						+'<button type="button" class="btn btn-sm btn-outline-light text-secondary" id="delBtn'+placeCount+'" style="border: 0; outline: 0;">'
-						+'<span class="text-secondary">×</span><input type="hidden" id="placeNo'+list[i]+'" value="'+list[i]+'"></button></div>';
-			placeCount++;
-			if(placeCount == 11) {
-				alert("일정장소는 최대 10곳까지 가능합니다");
-				placeCount = 10;
-				return;
-			}
-			$("#placeName").append(str);
-			
-			sessionStorage.setItem("placeName"+(placeCount-1), nameList[i]);
-			sessionStorage.setItem("placeNo"+(placeCount-1), list[i]);
-			sessionStorage.setItem("planTitle", $("#planTitle").val());
-			sessionStorage.setItem("planCate", $("#plancate").val());
-			sessionStorage.setItem("plandate", $("#plandate").val());
-		});
-		
 	}
 	
 	var btn = $("button[type='button']").length
@@ -117,6 +95,24 @@ $(function(){
 		}
 	});
 	
+	$("#planTitle").blur(function(){
+		var title = $("#planTitle").val();
+		var strLength = 0;
+		
+		for(let i=0; i<title.length; i++) {
+			if(escape(title.charAt(i)).length == 6) {
+				strLength++;
+			}
+			strLength++;
+		}
+		
+		if(parseInt(maxlength-strLength) <= 0) {
+			alert(maxlength + "자 이상 입력 할 수 없습니다.")
+			$("#planTitle").focus();
+			return false;
+		}
+	})
+	
 	var mapContainer = document.getElementById('map');
 	mapOption = {
 		center: new kakao.maps.LatLng(37.5009565732326, 126.884660819027),
@@ -130,4 +126,5 @@ $(function(){
 	function makePageList(placePage) {
 		console.log(placePage);
 	}
+	$("#searchBtn").click();
 });
