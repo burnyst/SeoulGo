@@ -257,10 +257,10 @@ public class PlanController {
 	}
 
 	// 1.작성된 정보를 2.db로 날리는 작업
-	@PostMapping("/plan/planwrited")
-	public ModelAndView planwriteed(PlanDTO p, ModelAndView mv,PlaceDto place, HttpServletRequest req, PlanDTO plan, PlanPage page) {
-		System.out.println("PlanController.planwriteed() 진입 p=" + p);
-		planservice.planwritedservice(plan, place, req);
+	@PostMapping("/plan/planWrited")
+	public ModelAndView planWrited(PlanDTO p, ModelAndView mv,PlaceDto place, HttpServletRequest req, PlanDTO plan, PlanPage page) {
+		System.out.println("PlanController.planWrited() 진입 p=" + p);
+		planservice.planWrited(plan, place, req);
 
 		int TotalRow = planservice.getTotalRow(page);
 		page.setTotalRow(TotalRow);

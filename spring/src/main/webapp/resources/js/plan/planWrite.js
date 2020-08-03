@@ -76,7 +76,7 @@ $(function(){
 		}
 		placeCount = count;
 	}
-	console.log("count="+count+"placeCount="+placeCount);
+	console.log("count="+count+", placeCount="+placeCount);
 	for(let i=0; i<pNo.length; i++){
 		list[i] = parseInt(pNo[i].value);
 		nameList[i] = $(".media-body").children("a[id='aName"+list[i]+"']").text();
@@ -92,7 +92,8 @@ $(function(){
 			if(placeCount == 11) {
 				alert("일정장소는 최대 10곳까지 가능합니다");
 				placeCount = 10;
-				str = "";
+				//str = "";
+				return;
 			}
 			placeList.innerHTML=str;
 			document.querySelector("div#placeName").appendChild(placeList);

@@ -29,7 +29,7 @@
 </div>
 <div class="row">
 <div class="schedule-form col-lg">
-	<form class="form" method="post" id="planWrite" enctype="multipart/form-data">
+	<form class="form" action="${basePath}/plan/planWrited" method="post" id="planWrite" enctype="multipart/form-data">
 		<table class="table">
 			<tr>
 				<th>여행날짜</th>
