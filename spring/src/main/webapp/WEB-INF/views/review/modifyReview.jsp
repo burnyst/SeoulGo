@@ -34,7 +34,7 @@ $(function(){
 <div class="text">
 	<%-- 반복문을 이용하여 줄 출력  --%>
 	<c:forEach items="${Info}" var="dto">	
-		<h3>${dto.placeName}&nbsp;&nbsp;<a href="detailView?placeNo=${placeNo}" class="btn btn-outline-primary btn-sm">리뷰 보기</a></h3>
+		<h3>${dto.placeName}&nbsp;&nbsp;<a href="../place/detail?placeNo=${placeNo}" class="btn btn-outline-primary btn-sm">리뷰 보기</a></h3>
 		<h5>${dto.addr1}&nbsp;${dto.addr2}</h5>
 		<h5>${dto.tel}</h5>
 	</c:forEach>
@@ -159,7 +159,7 @@ $(function(){
 			<tr>
 	 			<th class="text-center"></th>
 		 		<td colspan="4">
-		 			<input type="file" name="files" id="files" accept="image/*"/>
+		 			<input type="file" name="files" id="files" />
 		 		</td>
 	 		</tr>
  			<tr id="copy">

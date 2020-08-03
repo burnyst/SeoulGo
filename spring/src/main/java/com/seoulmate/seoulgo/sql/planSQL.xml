@@ -3,6 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="plandata">
+<sql id="listFields">placeNo, placeName, cate, addr1, addr2, tel, NVL(reviewCount, 0) reviewCount, NVL(placeRate, 0) placeRate</sql>
 	<!-- parameter, result가 한 개이면 자바의 데이터타입명시 여러개이면 VO(DTO), Map으로 처리해야 한다 -->
 	<resultMap id="listResultMap" type="com.seoulmate.seoulgo.dto.PlanDTO">
 		<id property="planNo" column="planNo" />
@@ -24,6 +25,13 @@
 		<collection property="words" column="placeNo" ofType="java.lang.String" select="listWord" />
 	</resultMap>
 <!-- <collection property="placeName" column="planNo" ofType="java.lang.String" select="listSub" /> -->
+
+	<select id="getplaceimagename" resultType="java.lang.String">
+	select iname from placeImage
+    	where placeNo = #{placeno}
+	</select>
+
+
 	<select id="listSub" resultType="java.lang.String">
 		select * from (
 		SELECT
@@ -63,6 +71,11 @@
 		PLANCATE ,
 		MEMBERID
 	</sql>
+	
+	
+	
+	
+	
 	
 	<!-- placeno를 중복 조회하는 쿼리문 -->
 	<select id="getlistname" parameterType="int"

@@ -7,7 +7,7 @@ $(function(){
 		 $(location).attr("href","./plandelete");
 	 })
 	 $("#back").click(function(){
-		 alert("일정공유 게시판으로 이동합니다.");
+		 //alert("일정공유 게시판으로 이동합니다.");
 		 $(location).attr("href","../plan/planSboard");
 	 })
 	 
