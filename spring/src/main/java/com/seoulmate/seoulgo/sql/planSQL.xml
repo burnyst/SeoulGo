@@ -196,19 +196,15 @@
 
 	<!--planSboard에서 보여지는데이터들 -->
 	<select id="plandatav" parameterType="pdto" resultType="pdto">
-		select *
-		from (
-		SELECT PLAN.PLANNO,
-		PLAN.PLANTITLE,
-		PLAN.PLANCATE,
-		PLAN.MEMBERID,
-		PLACE.ADDR1,
-		PLACE.ADDR2,
-		rownum as rnum from plan,planplace,place
-		where plan.planno=planplace.planno and planplace.placeno=place.placeno
-		order by planplace.planno desc
-		) where rnum between #{startRow} and
-		#{endRow}
+		select * from
+		(select ROWNUM rnum, PLANNO, PLANDATE, PLANTITLE,
+		PLANCATE, MEMBERID
+		from
+		(select PLANNO,PLANDATE,PLANTITLE,
+		PLANCATE,MEMBERID
+		from plan
+		order by PLAN.PLANDATE desc)
+		)where rnum between #{startRow} and #{endRow} 
 	</select>
 	
 	<!-- 공유게시판에 나올 데이터들 -->

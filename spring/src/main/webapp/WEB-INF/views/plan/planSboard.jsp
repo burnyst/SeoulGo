@@ -29,10 +29,8 @@
 </c:forEach>
 
 <h1>일정공유 게시판</h1>
-<div id="map" style="width:400px;height:500px;float:left; position:relative;'">
-</div>
 <div style="height: 400px; width=50%; text-align: center; ">
-	<table border="1" >
+	<table border="1"  class="table table-bordered table-hover text-center">
 		 
 				<tr>
 					<th>여행장소</th>
