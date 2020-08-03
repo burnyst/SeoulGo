@@ -21,6 +21,7 @@
 </style>
 </head>
 <body>
+	<input type="hidden" id="basePath" value="${basePath}">
 	<form action="${basePath}/member/memberInfoUpdate" method="post" enctype="multipart/form-data">
 		<table class="table table-hover">
 			<tbody>

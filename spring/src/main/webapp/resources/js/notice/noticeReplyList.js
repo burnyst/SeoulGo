@@ -70,7 +70,7 @@ $(document).ready(function(){
 											nrWriter = value.memberID;
 											var obj = new Image();
 											obj.src = $("#basePath").val()+"/resources/img/member/"+value.proSaveName;
-											if(!obj.complete) {
+											if(!obj.src) {
 												proSaveName = $("#basePath").val()+"/resources/img/member/default.png";
 											}else {
 												proSaveName = $("#basePath").val()+"/resources/img/member/"+value.proSaveName;

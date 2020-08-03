@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>여행계획짜기</title>
+<title>여행계획보기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="${resourcePath}/js/plan/plan.js"></script>
 </head>
@@ -17,12 +17,11 @@
 
 <div align="center">
 <h3>마이 플랜</h3>
-
 <!-- {Viewlist}-->
-<table border="1" width="100%" class="table table-bordered table-hover text-center" id="example-table-2">
+<table border="1" style="width:100%"  class="table table-bordered table-hover text-center" id="example-table-2">
 	 <tbody>
 		<tr>
-			<th>일정 번호</th><th>일정날짜</th><th>	일정이름	</th><th>여행유형</th><th>	일정장소	</th>
+			<th>글 번호</th><th>일정날짜</th><th>	일정이름	</th><th>여행 유형</th><th>	일정장소	</th>
 		</tr>
 		<c:if test="${PLANNO=null}">
 			<tr>
@@ -34,12 +33,12 @@
 			<tbody>
 			<c:forEach var="list" items="${plist}" varStatus="status">
 				<form method="post" id="planlist" name="planlist" action="/plan/planmodi">
-					<tr onclick="location.href='/plan/planview?&planNo=${list.planNo}'" style="cursor:hand">
+					<tr onclick="location.href='/plan/planview?&planNo=${list.planNo}'" style="cursor:hand" class="info">
 						<td>
-							 ${list.planNo } <input type="hidden" value="${list.planNo}" id=planNo name="planNo">
+							  ${page.endRow-status.index} <input type="hidden" value="${list.planNo}" id=planNo name="planNo">
 						</td>
 							<td>
-								<fmt:formatDate value="${list.planDate}" pattern="yyyy년MM월dd일"/>
+								<fmt:formatDate value="${list.planDate}" pattern="yy년MM월dd일"/>
 							</td>
 						<td>
 							${list.planTitle}
@@ -49,13 +48,11 @@
 							${list.planCate}
 							<input type="hidden" value="${list.planCate}">
 						</td>
-						<td>${list.placename}<br>
+						
+						<td>${list.placenamelist}<br>
 							<br>
-							<input type="hidden" id="placename" value="${list.placename }">
-							<input type="hidden" value="${list.addr1}">
-							<input type="hidden" value="${list.addr2}">
+							<input type="hidden" id="placeName" value="${list.placenamelist }">
 						</td>
-						<!--<td><input type="submit" id="mobtn" name="mobtn" value="일정수정하기"></td>-->
 					</tr>
 				</form>
 			</c:forEach>
