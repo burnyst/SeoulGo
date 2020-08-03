@@ -1,13 +1,14 @@
 $(document).ready(function() {
 	$(document).on("change", "#order", function() {
-		document.forms[0].submit();
+		$("#searchBtn").click();
 	});
 	$(document).on("click", "#searchBtn", function() {
-		document.forms[0].submit();
+		$("#searchForm").submit();
 	});
 	$(document).on("click", ".nav-tabs .nav-link", function() {
-		document.forms[0].type.value = $(this).text();
-		document.forms[0].submit();
+		alert($("#searchForm").type.value);
+		$("#searchForm").type.value = $(this).text();
+		$("#searchForm").submit();
 	});
 	document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");
 	$(window).resize(function () {
