@@ -80,7 +80,7 @@
 		</form>
 		<div style="text-align: center;" >
 			<sec:authorize access="isAuthenticated()">
-				<button id="nomodi" type="button" class="btn btn-info">리스트 페이지로</button>
+				<button id="nomodi" type="button" class="btn btn-info">나의 일정  리스트 페이지로</button>
 				<button id="back" type="button" class="btn btn-primary">일정공유 게시판으로</button>
 			</sec:authorize>
 			<sec:authorize access="isAnonymous()">
@@ -89,7 +89,7 @@
 		</div>
 	</div>
 		<!--  </div>-->
-		<div style="height:350px;"> </div>
+		<div style="height:400px;"> </div>
 </form>
 
 </body>

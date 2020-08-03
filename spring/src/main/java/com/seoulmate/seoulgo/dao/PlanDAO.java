@@ -35,11 +35,7 @@ public class PlanDAO {
 		return result;
 	}
 
-	public List<PlanDTO> addrdao(int addrNo) {
-		// System.out.println("addrdao도착"+addrNo);
-		List<PlanDTO> result = session.selectList("plandata.addr2", addrNo);
-		return result;
-	}
+
 
 	public ArrayList detailView(int pno) {
 		return (ArrayList) session.selectList("plandata.planview", pno);
