@@ -12,7 +12,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="${resourcePath}/css/plan/insert.css">
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04926447ff4e969a08d92e18379b0176&libraries=services"></script>
 <script src="${resourcePath}/js/plan/planWrite.js"></script>
@@ -29,7 +28,7 @@
 </div>
 <div class="row">
 <div class="schedule-form col-lg">
-	<form class="form" method="post" id="planWrite" enctype="multipart/form-data">
+	<form class="form" action="${basePath}/plan/planWrited" method="post" id="planWrite" enctype="multipart/form-data">
 		<table class="table">
 			<tr>
 				<th>여행날짜</th>
