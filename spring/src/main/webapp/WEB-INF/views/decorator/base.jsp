@@ -35,7 +35,10 @@
 					<a class="nav-link" href="${basePath}/place/list">장소찾기</a>
 				</li>
 				<li class="nav-item p-1">
-					<a class="nav-link" href="${basePath}/review/PlaceListView">리뷰 작성</a>
+					<a class="nav-link" href="${basePath}/plan/plan">플래너</a>
+				</li>
+				<li class="nav-item p-1">
+					<a class="nav-link" href="${basePath}/review/PlaceListView">리뷰</a>
 				</li>
 				<sec:authorize access="hasRole('ROLE_MEMBER')">
 					<li class="nav-item p-1">
