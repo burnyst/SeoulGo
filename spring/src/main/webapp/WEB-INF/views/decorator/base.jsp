@@ -22,7 +22,7 @@
 </head>
 <body>
 	<div class="text-center mt-3">
-		<h1><img src="${imagePath}/logo.png" width="308" height="154"/></h1>
+		<h1><a class="navbar-brand" href="${basePath}/place/list"><img src="${imagePath}/logo.png" width="308" height="154"/></a></h1>
 	</div>
 	<nav class="navbar navbar-expand-sm navbar-dark font-weight-bold navbar-custom">
 		<a class="navbar-brand" href="${basePath}/place/list">SeoulGo</a>
