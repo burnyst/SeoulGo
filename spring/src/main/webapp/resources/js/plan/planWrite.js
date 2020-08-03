@@ -113,7 +113,7 @@ $(function(){
 					sessionStorage.setItem("plandate", $("#plandate").val());
 				});
 			},
-			error: function() {
+			error: function(request, status, error) {
 				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			},
 			complete: function() {

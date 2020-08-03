@@ -77,9 +77,9 @@
 </div>
 <div class="place-list-container col-lg border-top p-3">
 	<form id="searchForm" class="form">
-		<input name="pageNo" type="hidden" value="" />
-		<input name="pageNum" type="hidden" value="" />
-		<input name="pageRowNum" type="hidden" value="" />
+		<input name="pageNo" type="hidden" value="1" />
+		<input name="pageNum" type="hidden" value="5" />
+		<input name="pageRowNum" type="hidden" value="5" />
 		<input name="type" type="hidden" value="" />
 		<div class="form-group">
 			<div class="input-group">
