@@ -126,7 +126,6 @@ public class PlanController {
 			for(int j=0;j<placeinfo.size();j++) {
 				String placename = placeinfo.get(j).getPlaceName();
 				placenamelist.add(placename);
-				//System.out.println("placename의 값들 : "+placename);
 			}
 			view.get(i).setPlacenamelist(placenamelist);
 		}
