@@ -77,10 +77,10 @@
 </div>
 <div class="place-list-container col-lg border-top p-3">
 	<form id="searchForm" class="form">
-		<input name="pageNo" type="hidden" value="${page.pageNo}" />
-		<input name="pageNum" type="hidden" value="${page.pageNum}" />
-		<input name="pageRowNum" type="hidden" value="${page.pageRowNum}" />
-		<input name="type" type="hidden" value="${page.type}" />
+		<input name="pageNo" type="hidden" value="" />
+		<input name="pageNum" type="hidden" value="" />
+		<input name="pageRowNum" type="hidden" value="" />
+		<input name="type" type="hidden" value="" />
 		<div class="form-group">
 			<div class="input-group">
 				<input name="keyword" type="text" class="form-control" placeholder="장소명 또는 주소" value="${page.keyword}">
@@ -91,51 +91,30 @@
 		</div>
 		<ul class="nav nav-tabs" role="tablist">
 			<li class="nav-item">
-				<a class="nav-link${page.type != '즐길거리' && page.type != '음식점'?' active':''}" href="#">전체</a>
+				<a class="nav-link" href="#">전체</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link${page.type == '즐길거리'?' active':''}" href="#">즐길거리</a>
+				<a class="nav-link" href="#">즐길거리</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link${page.type == '음식점'?' active':''}" href="#">음식점</a>
+				<a class="nav-link" href="#">음식점</a>
 			</li>
 		</ul>
 		<div class="d-flex pt-3">
 			<h4 class="flex-grow-1">검색결과</h4>
 			<div class="form-group">
 				<select id="order" name="order" class="form-control" >
-					<option ${page.order != '평점순'?'selected':''}>리뷰순</option>
-					<option ${page.order == '평점순'?'selected':''}>평점순</option>
+					<option>리뷰순</option>
+					<option>평점순</option>
 				</select>
 			</div>
 		</div>
 		<div class="tab-content p-3">
-			<div id="all" class="tab-pane active">
-				<c:forEach var="item" items="${page.content}" varStatus="status">
-					<div class="media border">
-						<div class="place-image-container mr-1">
-							<img src="${imagePath}/place/${item.imageNames[0]}" onerror="this.src='${defaultImage}'" alt="place" />
-						</div>
-						<div class="media-body">
-						<a id="aName${item.placeNo}" href="${basePath}?/place/detail?placeNo=${item.placeNo}">${item.placeName}</a><br />
-						리뷰 ${item.reviewCount} / 평점<t:star score="${item.placeRate20X}"></t:star><br />
-						${item.addr1} ${item.addr2}
-						</div>
-						<input type="hidden" value="${item.placeNo}" name="pNo">
-                  		<button id="pAdd${item.placeNo}" class="add btn btn-outline-primary align-self-center mx-3" type="button"><i class="fas fa-plus"></i></button>
-					</div>
-				</c:forEach>
+			<div id="searchResult" class="tab-pane active">
 			</div>
 		</div>
 	</form>
-	<t:pageNav
-		endPage="${page.endPage}"
-		pageNo="${page.pageNo}"
-		totalPage="${page.totalPage}"
-		startPage="${page.startPage}"
-		uri="${pagePath}/planwrite"
-		params="&keyword=${page.keyword}&type=${page.type}&order=${page.order}">
-	</t:pageNav>
+	<ul id="pageNav" class="pagination justify-content-center"></ul>
 </div>
 </div>
 </sec:authorize>

@@ -1,31 +1,139 @@
 $(function(){
-	$(document).on("change", "#order", function() {
-		$("#searchBtn").click();
-	});
+	let placeCount = 0;
+	let basePath = $("#basePath").val();
 	$(document).on("click", "#searchBtn", function(e) {
-		$("#searchBtn").prop("searchBtn", true);
+		$("#searchBtn").prop("disabled", true);
 		let formData = new FormData($("#searchForm")[0]);
-		let requrl = $("#basePath").val()+"/plan/placeList";
+		let requrl = basePath+"/plan/placeList";
 		$.ajax({
-			url: $("#basePath").val()+"/plan/placeList",
+			url: basePath+"/plan/placeList",
 			processData: false,
 			contentType: false,
 			data: formData,
-			type: "GET",
+			type: "POST",
 			dataType: "json",
-			success: function(result) {
-				console.log(result);
+			success: function(page) {
+				$('#searchForm input[name="pageNo"]').val(page.pageNo);
+				$('#searchForm input[name="pageNum"]').val(page.pageNum);
+				$('#searchForm input[name="pageRowNum"]').val(page.pageRowNum);
+				$('#searchForm input[name="type"]').val(page.type);
+				$('#searchForm input[name="keyword"]').val(page.keyword);
+				if (page.type == "") {
+					$(".nav-tabs .nav-link").eq(0).addClass("active");
+				} else {
+					$(".nav-tabs .nav-link").each(function (index, item) {
+						if ($(item).text() == page.type) {
+							$(item).addClass("active");
+						} else {
+							$(item).removeClass("active");
+						}
+					});
+				}
+				$("#order option").each(function (index, item) {
+					if ($(item).text() == page.order) {
+						$(item).prop("selected", true);
+					}
+				});
+				let imagePath = basePath+"/resources/img";
+				let defaultImage = imagePath+"/place/noimage.jpg";
+				$("#searchResult").html("");
+				for (var item of page.content) {
+					let tags = '<div class="media border">';
+					tags += '<div class="place-image-container mr-1">';
+					tags += '<img src="'+imagePath+'/place/'+item.imageNames[0]+'" onerror="this.src=\''+defaultImage+'\'" alt="place" />';
+					tags += '</div>';
+					
+					tags += '<div class="media-body p-1">';
+					tags += '<a href="'+basePath+'/place/detail?placeNo='+item.placeNo+'">'+item.placeName+'</a><br />';
+					tags += '리뷰 '+item.reviewCount;
+					tags += ' / 평점 <div class="overlap-bg">';
+					tags += '<i class="far fa-star text-secondary"></i>';
+					tags += '<i class="far fa-star text-secondary"></i>';
+					tags += '<i class="far fa-star text-secondary"></i>';
+					tags += '<i class="far fa-star text-secondary"></i>';
+					tags += '<i class="far fa-star text-secondary"></i>';
+					tags += '<span class="overlap-fg w-'+item.placeRate20X+'">';
+					tags += '<i class="fa fa-star text-danger"></i>';
+					tags += '<i class="fa fa-star text-danger"></i>';
+					tags += '<i class="fa fa-star text-danger"></i>';
+					tags += '<i class="fa fa-star text-danger"></i>';
+					tags += '<i class="fa fa-star text-danger"></i>';
+					tags += '</span></div><br />';
+					tags += item.addr1+' '+item.addr2;
+					tags += '</div>';
+					
+					tags += '<input name="searchResultPlaceNo" type="hidden" value="'+item.placeNo+'">';
+					tags += '<button class="add btn btn-outline-primary align-self-center mx-3" type="button"><i class="fas fa-plus"></i></button>';
+					tags += '</div>'
+					$("#searchResult").append(tags);
+				}
+				$("#pageNav").html("");
+				let endPage = parseInt(page.endPage);
+				let pageNo = parseInt(page.pageNo);
+				let totalPage = parseInt(page.totalPage);
+				let startPage = parseInt(page.startPage);
+				let uri = basePath+"/plan/placeList"
+				let params = "&keyword="+page.keyword+"&type="+page.type+"&order="+page.order;
+				if (pageNo > 1) {
+					$("#pageNav").append('<li class="page-item"><a class="page-link" href="'+(pageNo-1)+'">Prev</a></li>');
+				} else {
+					$("#pageNav").append('<li class="page-item disabled"><a class="page-link" href="'+(pageNo-1)+'">Prev</a></li>');
+				}
+				for (let i=startPage; i <= endPage; i++) {
+					if (i == pageNo) {
+						$("#pageNav").append('<li class="page-item active"><a class="page-link" href="'+i+'">'+i+'</a></li>');
+					} else {
+						$("#pageNav").append('<li class="page-item"><a class="page-link" href="'+i+'">'+i+'</a></li>');
+					}
+				}
+				if (pageNo < totalPage) {
+					$("#pageNav").append('<li class="page-item"><a class="page-link" href="'+(pageNo+1)+'">Next</a></li>');
+				} else {
+					$("#pageNav").append('<li class="page-item disabled"><a class="page-link" href="'+(pageNo+1)+'">Next</a></li>');
+				}
+				
+				$(document).on("click", ".add", function(){
+					if (placeCount == 10) {
+						alert("일정장소는 최대 10곳까지 가능합니다");
+						return;
+					}
+					placeCount++;
+					let placeNo = $(this).parent().children('input[name="searchResultPlaceNo"]').val();
+					let placeName = $(this).parent().children(".media-body").children("a").text();
+					let tags = '<div class="border border-secondary rounded text-secondary">';
+					tags += '&nbsp&nbsp'+placeName;
+					tags += '<button type="button" class="btn btn-sm btn-outline-light text-secondary" id="delBtn'+placeCount+'" style="border: 0; outline: 0;">'
+					tags += '<span class="text-secondary">×</span></button><input type="hidden" name="placeNo" value="'+placeNo+'"></div>';
+					
+					$("#placeName").append(tags);
+					sessionStorage.setItem("placeName"+(placeCount-1), placeName);
+					sessionStorage.setItem("placeNo"+(placeCount-1), placeNo);
+					sessionStorage.setItem("planTitle", $("#planTitle").val());
+					sessionStorage.setItem("planCate", $("#plancate").val());
+					sessionStorage.setItem("plandate", $("#plandate").val());
+				});
 			},
 			error: function() {
 				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			},
 			complete: function() {
-				$("#uploadBtn").prop("disabled", false);
+				$("#searchBtn").prop("disabled", false);
 			}
 		});
 	});
 	$(document).on("click", ".nav-tabs .nav-link", function() {
+		$('#searchForm input[name="pageNo"]').val(1);
 		$("#searchForm input[name='type']").val($(this).text());
+		$("#searchBtn").click();
+		return false;
+	});
+	$(document).on("change", "#order", function() {
+		$("#searchForm input[name='order']").val($(this).text());
+		$("#searchBtn").click();
+	});
+	$(document).on("click", ".pagination .page-link", function() {
+		var pageNo = $(this).prop("href").split("/").pop();
+		$("#searchForm input[name='pageNo']").val(pageNo);
 		$("#searchBtn").click();
 		return false;
 	});
@@ -123,8 +231,5 @@ $(function(){
 	var map = new kakao.maps.Map(mapContainer, mapOption);
 	var geocoder = new kakao.maps.services.Geocoder();
 	
-	function makePageList(placePage) {
-		console.log(placePage);
-	}
 	$("#searchBtn").click();
 });
