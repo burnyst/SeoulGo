@@ -117,6 +117,12 @@
  					<input type="button" value="삭제" id="dtn"/>
  				</td>
  			</tr>
+ 			<tr>
+	 			<th class="text-center"></th>
+		 		<td colspan="4">
+		 			<input type="file" name="files" id="files" />
+		 		</td>
+	 		</tr>
  			<tr id="copy">
 			<td colspan="5" class="text-center">
 				<input type="checkbox" required="required"/>
