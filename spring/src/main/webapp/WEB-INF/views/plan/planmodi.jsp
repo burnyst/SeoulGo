@@ -22,6 +22,8 @@
 <body>
 <c:forEach items="${Pdto}" var="list" varStatus="status">
 	<input type="hidden" id="placename" value="${list.placenamelist}">
+    <input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
+  	<input type="hidden" id="nowdate" name="nowdate" value="${list.planDate }">
 </c:forEach>
 <c:forEach items="${placedto}" var="list" varStatus="status">
 	<input type="hidden" id="addr1" value="${list.addr1 }">
@@ -33,14 +35,13 @@
   <c:forEach var="list"  items="${Pdto}"  varStatus="status" >
 	<div class="planlist">
 		<div style="float:left; margin-right:10px">여행 날짜</div>
-		 <input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
 		<div>
-		<input type="date" id="plandate" name="plandate" ></div>
-		<input type="hidden" id="nowdate" name="nowdate" value="${list.planDate }">
+		<input type="date" id="plandate" name="plandate" value="<fmt:formatDate value="${list.planDate}" pattern='yyyy-MM-dd'/>" ></div>
 		
 		<div style="float:left; margin-right:10px">여행장소</div>
-		<div id="place"><input type="text" id="planplace" name="planplace" value="${placedto[0].addr1}${placedto[0].addr2}" readonly="readonly"></div>
-		
+		<div id="place"><input type="text" id="planplace" name="planplace" value="${list.placenamelist[0]}" readonly="readonly">
+			
+		</div>
 		<div style="float:left; margin-right:10px">일정제목</div>
 		
 		<div><input type="text" id="planTitle" name="planTitle" value="${list.planTitle}"></div>

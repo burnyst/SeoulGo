@@ -237,7 +237,6 @@ public class PlanController {
 		mv.addObject("Pdto", detailview);
 		return mv;
 	}
-
 	@RequestMapping("/plan/plandelete")
 	public ModelAndView plandelete(PlanDTO page, HttpServletRequest req, ModelAndView mv) {
 		System.out.println("plandelete 페이지 호출함수★★★");
