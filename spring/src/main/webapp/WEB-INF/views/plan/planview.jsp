@@ -103,9 +103,8 @@
 	</div>
 	</form>
 </div>
-
-<div id="map" style="width:500px; height:450px; float:right; position:relative; margin-top:50px;">
-</div>
+	<div id="map" style="width:500px; height:450px; float:right; position:relative; margin-top:50px;">
+	</div>
 </div>
 
 </body>
