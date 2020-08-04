@@ -1,9 +1,11 @@
 package com.seoulmate.seoulgo.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
@@ -267,9 +269,43 @@ public class PlanController {
 
 	// 1.작성된 정보를 2.db로 날리는 작업
 	@PostMapping("/plan/planWrited")
-	public ModelAndView planWrited(PlanDTO p, ModelAndView mv,PlaceDto place, HttpServletRequest req, PlanDTO plan, PlanPage page) {
-		System.out.println("PlanController.planWrited() 진입 p=" + p);
-		planservice.planWrited(plan, place, req);
+	public ModelAndView planWrited(ModelAndView mv, PlaceDto place, HttpServletRequest req, PlanDTO plan, PlanPage page) {
+		System.out.println("PlanController.planWrited() 진입 ");
+		
+		String[] list = req.getParameterValues("placeNo");
+		int[] noArr = new int[list.length];
+		ArrayList planlist = new ArrayList(); 
+		HashMap map = new HashMap();
+		for(int i=0; i<list.length; i++) {
+			System.out.println("placeNo="+list[i]);
+			noArr[i] = Integer.parseInt(list[i]);
+			map.put("placeNo", noArr);
+			planlist.add(map);
+		}
+		
+		// 현재 로그인한 유저의 아이디
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String mem_id = principal.toString();
+		
+		Date planDate = null;
+		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			planDate = fm.parse(req.getParameter("plandate"));
+			System.out.println("형변환된 날짜="+planDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			System.out.println("날짜변환 중 오류발생하였습니다.");
+		}
+		//String planplace = req.getParameter("planplace"); //planplace를 jsp페이지에서 요청받음.
+		//int placeNo = Integer.parseInt(req.getParameter("placeNo"));
+		plan.setMemberid(mem_id);
+		plan.setPlanTitle(req.getParameter("planTitle"));
+		plan.setPlanCate(req.getParameter("plancate"));
+		plan.setPlanDate(planDate);
+		//plan.setPlanNo(placeNo);
+		//place.setPlaceName(planplace);
+
+		planservice.planWrited(plan, place, planlist);
 
 		int TotalRow = planservice.getTotalRow(page);
 		page.setTotalRow(TotalRow);
@@ -285,5 +321,4 @@ public class PlanController {
 		mv.setView(rv);
 		return mv;
 	}
-
 }

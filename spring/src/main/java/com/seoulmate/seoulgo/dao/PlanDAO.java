@@ -35,18 +35,19 @@ public class PlanDAO {
 		return result;
 	}
 
-
-
 	public ArrayList detailView(int pno) {
 		return (ArrayList) session.selectList("plandata.planview", pno);
 	}
 
-	public void planWrited(PlanDTO plan) {
-		session.insert("plandata.planinsert", plan);
+	public void planWrited(PlanDTO plan, PlaceDto place,String hint) {
 		System.out.println("planDAO 글쓰기 진입:" + plan);
-		session.insert("plandata.planinsert2", plan);
+		if(hint.equals("plan")) {
+			session.insert("plandata.planinsert", plan);
+		} else if(hint.equals("planplace")) {
+			session.insert("plandata.planinsert2", place);
+		}
 	}
-
+	
 	public void planmodifin(PlanDTO plan) {
 		session.update("plandata.planupdate", plan);
 	}

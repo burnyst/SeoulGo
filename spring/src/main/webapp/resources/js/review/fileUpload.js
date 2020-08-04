@@ -22,7 +22,7 @@ $(function(){
 		});
 	//삭제버튼 클릭시 첨부파일이 동적으로 삭제 (최소 1개는 남기고)
 		$("#dtn").click(function(){
-			if(cnt==0){
+			if(cnt==1){
 				return;
 			}
 			// 제거 코드
