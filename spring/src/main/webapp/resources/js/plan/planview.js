@@ -62,3 +62,12 @@ $(function(){
 	    } 
 	});    
 });
+
+$("document").ready(function() {  
+	   
+    $(window).scroll(function()  
+    {  
+        $('#map').animate({top:$(window).scrollTop()+"px" },{queue: false, duration: 1000});    
+    });  
+       
+}); 
