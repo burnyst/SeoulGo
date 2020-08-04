@@ -100,7 +100,7 @@ $(function(){
 					placeCount++;
 					let placeNo = $(this).parent().children('input[name="searchResultPlaceNo"]').val();
 					let placeName = $(this).parent().children(".media-body").children("a").text();
-					let tags = '<div class="border border-secondary rounded text-secondary">';
+					let tags = '<div class="border border-secondary rounded text-secondary'+placeCount+'">';
 					tags += '&nbsp&nbsp'+placeName;
 					tags += '<button type="button" class="btn btn-sm btn-outline-light text-secondary" id="delBtn'+placeCount+'" style="border: 0; outline: 0;">'
 					tags += '<span class="text-secondary">×</span></button><input type="hidden" name="placeNo" value="'+placeNo+'"></div>';
@@ -169,19 +169,13 @@ $(function(){
 		count--;
 		count = count/2;
 		for(let j=0; j<count; j++) {
-			str = '<div class="border border-secondary rounded text-secondary'+j+'" style="margin-bottom: 3px; margin-right: 3px;">&nbsp&nbsp'+sessionStorage.getItem("placeName"+j)
+			str = '<div class="border border-secondary rounded text-secondary'+j+'">&nbsp&nbsp'+sessionStorage.getItem("placeName"+j)
 						+'<button type="button" class="btn btn-sm btn-outline-light text-secondary" id="delBtn'+j+'" style="border: 0; outline: 0;">'
 						+'<span class="text-secondary">×</span></button><input type="hidden" name="placeNo" value="'+sessionStorage.getItem("placeNo"+j)+'"></div>';
 			console.log(str);
 			$("#placeName").append(str);
 		}
 		placeCount = count;
-	}
-	
-	console.log("count="+count+", placeCount="+placeCount);
-	for(let i=0; i<pNo.length; i++){
-		list[i] = parseInt(pNo[i].value);
-		nameList[i] = $(".media-body").children("a[id='aName"+list[i]+"']").text();
 	}
 	
 	var btn = $("button[type='button']").length
@@ -204,18 +198,22 @@ $(function(){
 	
 	$("#planTitle").blur(function(){
 		var title = $("#planTitle").val();
+		var maxlength = 100;
 		var strLength = 0;
+		var count = 0;
 		
 		for(let i=0; i<title.length; i++) {
 			if(escape(title.charAt(i)).length == 6) {
 				strLength++;
 			}
 			strLength++;
+			if(strLength <= maxlength) {
+				count++;
+			}
 		}
-		
 		if(parseInt(maxlength-strLength) <= 0) {
 			alert(maxlength + "자 이상 입력 할 수 없습니다.")
-			$("#planTitle").focus();
+			$("#planTitle").val(title.substr(0, count));
 			return false;
 		}
 	})
