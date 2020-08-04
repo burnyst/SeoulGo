@@ -13,11 +13,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="${resourcePath}/js/plan/plan.js"></script>
 </head>
-<body>
+<body>  
+
 
 <div align="center">
 <h3>마이 플랜</h3>
 <!-- {Viewlist}-->
+<form method="post" id="planlist" name="planlist" action="/plan/planmodi">
 <table border="1" style="width:100%"  class="table table-bordered table-hover text-center" id="example-table-2">
 	 <tbody>
 		<tr>
@@ -32,10 +34,9 @@
 		</c:if>
 			<tbody>
 			<c:forEach var="list" items="${plist}" varStatus="status">
-				<form method="post" id="planlist" name="planlist" action="/plan/planmodi">
 					<tr onclick="location.href='/plan/planview?&planNo=${list.planNo}'" style="cursor:hand" class="info">
 						<td>
-							  ${page.endRow-status.index} <input type="hidden" value="${list.planNo}" id=planNo name="planNo">
+							${page.endRow-status.index} <input type="hidden" value="${list.planNo}" id=planNo name="planNo">
 						</td>
 							<td>
 								<fmt:formatDate value="${list.planDate}" pattern="yy년MM월dd일"/>
@@ -54,10 +55,11 @@
 							<input type="hidden" id="placeName" value="${list.placenamelist }">
 						</td>
 					</tr>
-				</form>
-			</c:forEach>
+				</c:forEach>
+		
 		</tbody>
 	</table>
+</form>
 	<%-- 페이징 처리 --%>
 <t:pageNav
    endPage="${page.endPage}"

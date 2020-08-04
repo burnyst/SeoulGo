@@ -27,8 +27,6 @@
 	<input type="hidden" id="addr1" value="${list.addr1 }">
 	<input type="hidden" id="addr2" value="${list.addr2 }">
 </c:forEach>
-${Pdto}
-
 <div id="map" style="width:500px;height:300px;float:left; position:relative;'">
 </div>
 <form method="post" id="frm" action="/plan/planmodifin">
@@ -36,7 +34,9 @@ ${Pdto}
 	<div class="planlist">
 		<div style="float:left; margin-right:10px">여행 날짜</div>
 		 <input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
-		<div><input type="date" id="plandate" name="plandate" value="${list.planDate}"></div>
+		<div>
+		<input type="date" id="plandate" name="plandate" ></div>
+		<input type="hidden" id="nowdate" name="nowdate" value="${list.planDate }">
 		
 		<div style="float:left; margin-right:10px">여행장소</div>
 		<div id="place"><input type="text" id="planplace" name="planplace" value="${placedto[0].addr1}${placedto[0].addr2}" readonly="readonly"></div>

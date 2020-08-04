@@ -122,6 +122,12 @@
 						<div class="check_font" id="phone_check"></div>
 					</td>
 				</tr>
+				<tr>
+					<th class="text-center">약관동의</th>
+					<td>
+						<input type="checkbox" required="required"/>&nbsp;개인정보 이용에 동의합니다.
+					</td>
+				</tr>
 			</tbody>
 		</table>
 		<div class="text-center">

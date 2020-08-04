@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <c:set var="basePath" value="${pageContext.request.contextPath}" />
 <c:set var="resourcePath" value="${basePath}/resources" />
 <c:set var="imagePath" value="${resourcePath}/img" />
@@ -10,6 +12,7 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
+<script type="text/javascript" src="${resourcePath}/js/plan/plan.js"></script>
 <style type="text/css">
 	#pro {
 		width: 50px;
@@ -25,6 +28,7 @@
 </style>
 </head>
 <body>
+
 	<h3>마이페이지</h3>
 	<br>
 	
@@ -101,10 +105,23 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td></td>
-			</tr>
+			<c:forEach items="${plist}" var="plist">
+				<tr onclick="location.href='/plan/planview?planNo=${plist.planNo}'" style="cursor:hand" class="info">					
+					<td width="15%"><fmt:formatDate value="${plist.planDate}" pattern="yyyy년 MM월 dd일 "/></td>
+					<td width="15%">${plist.planTitle}</td>
+					<td width="50%">${plist.placenamelist}</td>
+					<td width="20%">${plist.planCate}</td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
+	<%-- 페이징 처리 --%>
+	<t:pageNav
+	   endPage="${page.endPage}"
+	   pageNo="${page.pageNo}"
+	   totalPage="${page.totalPage}"
+	   startPage="${page.startPage}"
+	   uri="${pageUri}">
+	</t:pageNav>
 </body>
 </html>
