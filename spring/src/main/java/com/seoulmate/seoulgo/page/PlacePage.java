@@ -89,6 +89,12 @@ public class PlacePage {
 	}
 	public void setTotalRow(int totalRow) {
 		if (totalRow < 1) {
+			this.totalRow = 0;
+			totalPage = 0;
+			startPage = 0;
+			endPage = 0;
+			startRow = 0;
+			endRow = 0;
 			return;
 		}
 		this.totalRow = totalRow;
