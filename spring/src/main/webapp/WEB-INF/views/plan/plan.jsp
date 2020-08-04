@@ -23,7 +23,7 @@
 <table border="1" style="width:100%"  class="table table-bordered table-hover text-center" id="example-table-2">
 	 <tbody>
 		<tr>
-			<th>글 번호${plist}</th><th>일정날짜</th><th>	일정이름	</th><th>여행 유형</th><th>	일정장소	</th>
+			<th>글 번호</th><th>일정날짜</th><th>	일정이름	</th><th>여행 유형</th><th>	일정장소	</th>
 		</tr>
 		<c:if test="${PLANNO=null}">
 			<tr>
