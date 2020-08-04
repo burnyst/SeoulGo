@@ -4,6 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> 
 <c:set var="basePath" value="${pageContext.request.contextPath}" />
 <c:set var="resourcePath" value="${basePath}/resources" />
 <c:set var="imagePath" value="${resourcePath}/img" />
@@ -13,6 +14,7 @@
 <meta charset="UTF-8">
 <title>마이페이지</title>
 <script type="text/javascript" src="${resourcePath}/js/plan/plan.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <style type="text/css">
 	#pro {
 		width: 50px;
@@ -95,33 +97,29 @@
 	<h3>마이 플랜</h3>
 	<br>
 
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th class="text-center">일정 날짜</th>
-				<th class="text-center">일정 이름</th>
-				<th class="text-center">일정 장소</th>
-				<th class="text-center">여행 유형</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach items="${plist}" var="plist">
-				<tr onclick="location.href='/plan/planview?planNo=${plist.planNo}'" style="cursor:hand" class="info">					
-					<td width="15%" class="text-center"><fmt:formatDate value="${plist.planDate}" pattern="yyyy년 MM월 dd일 "/></td>
-					<td width="15%" class="text-center">${plist.planTitle}</td>
-					<td width="50%" class="text-center">${plist.placenamelist}</td>
-					<td width="20%" class="text-center">${plist.planCate}</td>
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-	<%-- 페이징 처리 --%>
-	<t:pageNav
-	   endPage="${page.endPage}"
-	   pageNo="${page.pageNo}"
-	   totalPage="${page.totalPage}"
-	   startPage="${page.startPage}"
-	   uri="${pageUri}">
-	</t:pageNav>
+<!-- !PAGE CONTENT! -->
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:10px">
+
+	<!-- First Photo Grid-->
+	<div class="w3-row-padding w3-padding-16 w3-center" id="food">
+		<c:forEach var="list" items="${plist}" varStatus="status">
+			<div class="w3-quarter" onclick="location.href='/plan/planview?&planNo=${list.planNo}'" style="cursor:hand" class="info">
+					<img src="<spring:url value='/resources/img/review/11.jpg'/>" style="width:100%">
+					<div><h5><b><fmt:formatDate value="${list.planDate}" pattern="yy년 MM월 dd일"/></b>&nbsp;<b>${list.planCate}</b></h5></div>
+					<div><h5><b>${list.planTitle}</b></h5></div>
+					<div>${list.placenamelist}</div>  
+			</div>
+		</c:forEach>
+	</div>
+</div>
+<hr>
+<%-- 페이징 처리 --%>
+<t:pageNav
+   endPage="${page.endPage}"
+   pageNo="${page.pageNo}"
+   totalPage="${page.totalPage}"
+   startPage="${page.startPage}"
+   uri="${pageUri}">
+</t:pageNav>	
 </body>
 </html>
