@@ -16,6 +16,10 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04926447ff4e969a08d92e18379b0176&libraries=services"></script>
 <script src="${resourcePath}/js/plan/planWrite.js"></script>
 <style>
+.border {
+	margin-bottom: 3px; 
+	margin-right: 3px;
+}
 </style><!--.show는 block형태로 a링크를 보여줄수 있도록 한다.  -->
 <meta charset="UTF-8">
 <title>일정짜기</title>
@@ -39,7 +43,7 @@
 			<tr>
 				<th>여행제목</th>
 				<td> 
-					<input type="text" id="planTitle" name="planTitle" class="form-control" required="required" maxlength="20"/>
+					<input type="text" id="planTitle" name="planTitle" class="form-control" required="required" maxlength="100"/>
 				</td>
 			</tr>
 			<tr>
