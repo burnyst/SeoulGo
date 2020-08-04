@@ -39,9 +39,7 @@
 	
 	
 				<input name="pageNo" type="hidden" value="${page.pageNo}" />
-				<input name="pageNum" type="hidden" value="${page.pageNum}" />
-				<input name="pageRowNum" type="hidden" value="${page.pageRowNum}" />
-				<input name="type" type="hidden" value="${page.type}" />
+				<input name="pageNum" type="hidden" value="${page.perPageNum}" />
 				
 			<c:forEach var="list"  items="${Pdto}"  varStatus="status" >
 			<!-- <div style="float:left; margin-right:10px">일정제목</div> -->
