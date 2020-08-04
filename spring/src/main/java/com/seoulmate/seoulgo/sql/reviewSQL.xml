@@ -65,7 +65,7 @@
 			WHERE	A.MEMBERID = B.MEMBERID
 			AND		PLACENO = #{placeNo}
 			AND		RISSHOW = 1
-			ORDER 	BY RNO DESC)
+			ORDER 	BY RDATE DESC)
 		)
 		WHERE RNUM BETWEEN #{startRow} AND #{endRow}
 	</select>
@@ -196,7 +196,7 @@
 			AND	A.PLACENO	= C.PLACENO
 			AND	A.MEMBERID	= #{memberID}
 			AND	A.RISSHOW	= 1
-			ORDER 	BY RNO DESC)
+			ORDER 	BY RDATE DESC)
 		)
 		WHERE RNUM BETWEEN #{startRow} AND #{endRow}
 	</select>

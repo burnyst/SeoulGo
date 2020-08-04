@@ -1,6 +1,7 @@
 package com.seoulmate.seoulgo.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -39,12 +40,16 @@ public class PlanDAO {
 		return (ArrayList) session.selectList("plandata.planview", pno);
 	}
 
-	public void planWrited(PlanDTO plan, PlaceDto place,String hint) {
-		System.out.println("planDAO 글쓰기 진입:" + plan);
+	public void planWrited(PlanDTO plan, PlaceDto place, String hint) {
+		System.out.println("planDAO 글쓰기 진입 plan=" + plan + ", place=" + place);
 		if(hint.equals("plan")) {
 			session.insert("plandata.planinsert", plan);
 		} else if(hint.equals("planplace")) {
-			session.insert("plandata.planinsert2", place);
+			HashMap map = new HashMap();
+			System.out.println("PlanNo 들고오니? "+plan.getPlanNo());
+			map.put("planNo", plan.getPlanNo());
+			map.put("placeNo", place.getPlaceNo());
+			session.insert("plandata.planinsert2", map);
 		}
 	}
 	
@@ -122,6 +127,7 @@ public class PlanDAO {
 
 	public List<String> getplacename(int pno) {
 		List<String> result = session.selectList("plandata.getplaceName", pno);
+		System.out.println("result의 값입니다. 장소이름이 들어있을까요????? "+result);
 		return result;
 	}
 

@@ -31,7 +31,6 @@
     	where placeNo = #{placeno}
 	</select>
 
-
 	<select id="listSub" resultType="java.lang.String">
 		select * from (
 		SELECT
@@ -72,11 +71,6 @@
 		MEMBERID
 	</sql>
 	
-	
-	
-	
-	
-	
 	<!-- placeno를 중복 조회하는 쿼리문 -->
 	<select id="getlistname" parameterType="int"
 		resultType="java.lang.String">
@@ -100,27 +94,30 @@
 	</select>
 	
 	<!-- plan과 place의 일부 데이터 조회 -->
-	<select id="getplanboard"
-		parameterType="com.seoulmate.seoulgo.dto.PlanDTO"
-		resultMap="listResultMap">
-		select*
+	<select id="getplanboard" parameterType="com.seoulmate.seoulgo.dto.PlanDTO" resultMap="listResultMap">
+		select *
 		from
-		(select ROWNUM rnum, PLANNO, PLANDATE, PLANTITLE,
-		PLANCATE, MEMBERID
-		from
-		(select PLANNO,PLANDATE,PLANTITLE,
-		PLANCATE,MEMBERID
-		from plan
-		where MEMBERID=#{memberid}
-		order by PLAN.PLANDATE desc)
-		)where rnum between #{startRow} and #{endRow}
+			(select ROWNUM rnum, PLANNO, PLANDATE, PLANTITLE,
+			PLANCATE, MEMBERID
+			from
+				(select PLANNO,PLANDATE,PLANTITLE,
+				PLANCATE,MEMBERID
+				from plan
+				where MEMBERID=#{memberid}
+				order by PLAN.PLANDATE DESC)
+			)
+		where rnum between #{startRow} and #{endRow}
 	</select>
+	
 	<select id="getplaceinfo" parameterType="com.seoulmate.seoulgo.dto.PlaceDto" resultType="com.seoulmate.seoulgo.dto.PlaceDto">
-	select * from place 
-    where placeno in (select placeno from planplace where 
-        planno in (select planno from plan 
-            where planno = #{planno}))
+		select * from place 
+	    where placeno 
+	    in (select placeno from planplace where 
+	        planno 
+	        in (select planno from plan 
+	            where planno = #{planno}))
 	</select>
+	
 	<select id="getplanNofromplaceno" parameterType="pdto" resultType="pdto">
 		select planno from plan
     where planno in (select planno from planplace where
@@ -298,17 +295,15 @@
 		MEMBERID) VALUES ('3', TO_DATE('2020-07-15 12:31:27', 'YYYY-MM-DD HH24:MI:SS'), 
 		'plantitle3', '4', 'test') -->
 	<insert id="planinsert" parameterType="pdto">
-		<selectKey keyProperty="planNo" resultType="int"
-			order="BEFORE">
+		<selectKey keyProperty="planNo" resultType="int" order="BEFORE">
 			select NVL(MAX(planNo),0)+1 from plan
 		</selectKey>
 		insert into plan (PLANNO,PLANDATE,PLANTITLE,PLANCATE,MEMBERID)
 		VALUES(#{planNo},#{planDate},#{planTitle},#{planCate},#{memberid})
 	</insert>
 	
-	<insert id="planinsert2" parameterType="pdto">
-		insert into PLANPLACE
-		(PLANNO,PLACENO)
+	<insert id="planinsert2" parameterType="java.util.HashMap">
+		insert into PLANPLACE (PLANNO,PLACENO)
 		VALUES(#{planNo},#{placeNo})
 	</insert>
 	

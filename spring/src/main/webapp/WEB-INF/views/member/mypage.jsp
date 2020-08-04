@@ -35,14 +35,14 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<td class="text-center">프로필 사진</td>
-				<td class="text-center">아이디</td>
-				<td class="text-center">이름</td>
-				<td class="text-center">닉네임</td>
-				<td class="text-center">생년월일</td>
-				<td class="text-center">성별</td>
-				<td class="text-center">이메일</td>
-				<td class="text-center">휴대전화</td>
+				<th class="text-center">프로필 사진</th>
+				<th class="text-center">아이디</th>
+				<th class="text-center">이름</th>
+				<th class="text-center">닉네임</th>
+				<th class="text-center">생년월일</th>
+				<th class="text-center">성별</th>
+				<th class="text-center">이메일</th>
+				<th class="text-center">휴대전화</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -98,19 +98,19 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th>일정 날짜</th>
-				<th>일정 이름</th>
-				<th>일정 장소</th>
-				<th>여행 유형</th>
+				<th class="text-center">일정 날짜</th>
+				<th class="text-center">일정 이름</th>
+				<th class="text-center">일정 장소</th>
+				<th class="text-center">여행 유형</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${plist}" var="plist">
 				<tr onclick="location.href='/plan/planview?planNo=${plist.planNo}'" style="cursor:hand" class="info">					
-					<td width="15%"><fmt:formatDate value="${plist.planDate}" pattern="yyyy년 MM월 dd일 "/></td>
-					<td width="15%">${plist.planTitle}</td>
-					<td width="50%">${plist.placenamelist}</td>
-					<td width="20%">${plist.planCate}</td>
+					<td width="15%" class="text-center"><fmt:formatDate value="${plist.planDate}" pattern="yyyy년 MM월 dd일 "/></td>
+					<td width="15%" class="text-center">${plist.planTitle}</td>
+					<td width="50%" class="text-center">${plist.placenamelist}</td>
+					<td width="20%" class="text-center">${plist.planCate}</td>
 				</tr>
 			</c:forEach>
 		</tbody>

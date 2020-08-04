@@ -52,7 +52,7 @@
 						
 						<td>${list.placenamelist}<br>
 							<br>
-							<input type="hidden" id="placeName" value="${list.placenamelist }">
+							<input type="hidden" id="placeName" value="${list.placenamelist}">
 						</td>
 					</tr>
 				</c:forEach>
