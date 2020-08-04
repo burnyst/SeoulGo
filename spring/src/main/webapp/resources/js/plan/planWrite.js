@@ -1,6 +1,40 @@
-$(function(){
-	let placeCount = 0;
+$(document).ready(function() {
 	let basePath = $("#basePath").val();
+	let placeCount = 0;
+	function addPlaceList(placeNo, placeName, addr2) {
+		if (placeCount == 10) {
+			alert("일정장소는 최대 10곳까지 가능합니다");
+			return;
+		}
+		
+		let placeList = JSON.parse(sessionStorage.getItem("placeList"));
+		if (placeList == null) {
+			placeList = [];
+		}
+		let newPlaceList = [];
+		for (let i of placeList) {
+			if (i.placeNo != placeNo) {
+				newPlaceList.push(i);
+			} else {
+				return;
+			}
+		}
+		
+		placeCount++;
+		let tags = '<div class="border border-secondary rounded text-secondary'+placeCount+'">';
+		tags += '<input type="hidden" name="placeNo" value="'+placeNo+'">';
+		tags += '<input type="hidden" name="placeName" value="'+placeName+'">';
+		tags += '<input type="hidden" name="addr2" value="'+addr2+'">';
+		tags += '&nbsp&nbsp'+placeName;
+		tags += '<button type="button" class="del btn btn-sm btn-outline-light text-secondary" id="delBtn'+placeCount+'" style="border: 0; outline: 0;">'
+		tags += '<span class="text-secondary">×</span></button></div>';
+		$("#placeName").append(tags);
+		
+		newPlaceList.push({placeNo: placeNo, placeName: placeName, addr2: addr2});
+		console.log("placeList:"+JSON.stringify(newPlaceList));
+		sessionStorage.setItem("placeList", JSON.stringify(newPlaceList));
+	}
+	
 	$(document).on("click", "#searchBtn", function(e) {
 		$("#searchBtn").prop("disabled", true);
 		let formData = new FormData($("#searchForm")[0]);
@@ -61,8 +95,9 @@ $(function(){
 					tags += '</span></div><br />';
 					tags += item.addr1+' '+item.addr2;
 					tags += '</div>';
-					
 					tags += '<input name="searchResultPlaceNo" type="hidden" value="'+item.placeNo+'">';
+					tags += '<input name="searchResultPlaceName" type="hidden" value="'+item.placeName+'">';
+					tags += '<input name="searchResultAddr2" type="hidden" value="'+item.addr2+'">';
 					tags += '<button class="add btn btn-outline-primary align-self-center mx-3" type="button"><i class="fas fa-plus"></i></button>';
 					tags += '</div>'
 					$("#searchResult").append(tags);
@@ -93,24 +128,10 @@ $(function(){
 				}
 				
 				$(document).on("click", ".add", function(){
-					if (placeCount == 10) {
-						alert("일정장소는 최대 10곳까지 가능합니다");
-						return;
-					}
-					placeCount++;
 					let placeNo = $(this).parent().children('input[name="searchResultPlaceNo"]').val();
-					let placeName = $(this).parent().children(".media-body").children("a").text();
-					let tags = '<div class="border border-secondary rounded text-secondary'+placeCount+'">';
-					tags += '&nbsp&nbsp'+placeName;
-					tags += '<button type="button" class="btn btn-sm btn-outline-light text-secondary" id="delBtn'+placeCount+'" style="border: 0; outline: 0;">'
-					tags += '<span class="text-secondary">×</span></button><input type="hidden" name="placeNo" value="'+placeNo+'"></div>';
-					
-					$("#placeName").append(tags);
-					sessionStorage.setItem("placeName"+(placeCount-1), placeName);
-					sessionStorage.setItem("placeNo"+(placeCount-1), placeNo);
-					sessionStorage.setItem("planTitle", $("#planTitle").val());
-					sessionStorage.setItem("planCate", $("#plancate").val());
-					sessionStorage.setItem("plandate", $("#plandate").val());
+					let placeName = $(this).parent().children('input[name="searchResultPlaceName"]').val();
+					let addr2 = $(this).parent().children('input[name="searchResultAddr2"]').val();
+					addPlaceList(placeNo, placeName, addr2);
 				});
 			},
 			error: function(request, status, error) {
@@ -160,34 +181,36 @@ $(function(){
 	var count = sessionStorage.length;
 	console.log(count);
 	if(count !== 0) {
-		console.log("sessionStorage에 값이 존재합니다.")
 		$("#planTitle").val(sessionStorage.getItem("planTitle"))
-		count--;
 		$("#plancate").val(sessionStorage.getItem("planCate"))
-		count--;
 		$("#plandate").val(sessionStorage.getItem("plandate"))
-		count--;
-		count = count/2;
-		for(let j=0; j<count; j++) {
-			str = '<div class="border border-secondary rounded text-secondary'+j+'">&nbsp&nbsp'+sessionStorage.getItem("placeName"+j)
-						+'<button type="button" class="btn btn-sm btn-outline-light text-secondary" id="delBtn'+j+'" style="border: 0; outline: 0;">'
-						+'<span class="text-secondary">×</span></button><input type="hidden" name="placeNo" value="'+sessionStorage.getItem("placeNo"+j)+'"></div>';
-			console.log(str);
-			$("#placeName").append(str);
+	}
+	
+	let placeList = JSON.parse(sessionStorage.getItem("placeList"));
+	if (placeList == null) {
+		placeList = [];
+	}
+	sessionStorage.removeItem("placeList");
+	for (let i of placeList) {
+		addPlaceList(i.placeNo, i.placeName, i.addr2);
+	}
+	
+	$(document).on("click", ".del", function(){
+		let placeNo = $(this).parent().children('input[name="placeNo"]').val();
+		$(this).parent().remove();
+		let placeList = JSON.parse(sessionStorage.getItem("placeList"));
+		if (placeList == null) {
+			placeList = [];
 		}
-		placeCount = count;
-	}
-	
-	var btn = $("button[type='button']").length
-	var btnArr = btn/2
-	for(let i=0; i<btnArr; i++) {
-		$("#delBtn"+i).click(function(){
-			$(".text-secondary"+i).remove();
-			sessionStorage.removeItem("placeName"+i);
-			sessionStorage.removeItem("placeNo"+i);
-		});
-	}
-	
+		let newPlaceList = [];
+		for (let i of placeList) {
+			if (i.placeNo != placeNo) {
+				newPlaceList.push(i);
+			}
+		}
+		console.log(JSON.stringify(newPlaceList));
+		sessionStorage.setItem("placeList", JSON.stringify(newPlaceList));
+	});
 	$("#wBtn").click(function(){
 		var r = confirm("플랜을 등록하시겠습니까?")
 		if(r==true){
