@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>장소입력</title>
+<title>장소수정</title>
 <style type="text/css">
 th {
 	width:8rem;
@@ -23,7 +23,7 @@ th {
 <body>
 <input id="pageUri" type="hidden" value="${pageUri}" />
 <div class="p-3">
-	<h4>장소 입력</h4>
+	<h4>장소 수정</h4>
 </div>
 <div class="p-3">
 	<form method="post" class="form" enctype="multipart/form-data">
