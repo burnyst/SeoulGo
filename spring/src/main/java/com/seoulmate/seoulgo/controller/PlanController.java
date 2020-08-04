@@ -37,7 +37,7 @@ public class PlanController {
 	@Autowired
 	PlaceService service;
 
-	// http://127.0.0.1:9000/plan/plan ?nowPage=1
+	// http://localhost/plan/plan
 	@RequestMapping("/plan/plan")
 	public ModelAndView planpage(ModelAndView mv, PlanDTO plan,PlaceDto place, Model model, PlanPage page2, HttpSession session)
 			throws Exception {
@@ -191,27 +191,6 @@ public class PlanController {
 		return mv;
 	}
 
-	@RequestMapping("/plan/planwritenter2")
-	public ModelAndView planwritenter2(ModelAndView mv, HttpServletRequest req, HttpServletResponse res) {
-		System.out.println("planwritenter2 호출완료");
-
-		HttpSession session = req.getSession();
-		ArrayList dto = (ArrayList) session.getAttribute("choice1");
-		int placeNo2 = Integer.parseInt(req.getParameter("placeNo2"));
-
-		session.setAttribute("placeNo2", placeNo2);
-
-		System.out.println("두번째 장소 번호 : " + placeNo2);
-
-//		ArrayList choiceplace2 = (ArrayList) planservice.choiceplace2(placeNo2);
-
-//		System.out.println("두번째 받은 값" + choiceplace2);
-
-//		mv.addObject("choice2", choiceplace2);
-		mv.addObject("choice1", dto);
-		mv.setViewName("plan/planwritenter2");
-		return mv;
-	}
 
 	// 일정 상세보기 페이지<비회원, 회원 공용 (?)
 	@RequestMapping("/plan/planview")
