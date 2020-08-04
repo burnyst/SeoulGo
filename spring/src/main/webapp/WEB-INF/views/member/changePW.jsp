@@ -30,8 +30,8 @@
 			<tr>
 				<td colspan="2" class="text-center">
 					<input type="hidden" value="${mem.memberID}" name="memberID">
-					<input type="submit" class="btn btn-primary btn-sm" value="비밀번호 변경">
-					<input type="reset" class="btn btn-secondary btn-sm" id="cancelBtn" value="취소">
+					<input type="submit" class="btn btn-outline-primary btn-sm" value="비밀번호 변경">
+					<input type="reset" class="btn btn-outline-secondary btn-sm" id="cancelBtn" value="취소">
 				</td>
 			</tr>
 		</table>

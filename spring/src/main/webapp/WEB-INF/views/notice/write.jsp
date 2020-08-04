@@ -46,8 +46,8 @@
 			</tbody>
 			<tr>
 				<td class="text-center" colspan="2">
-					<input type="submit" class="btn btn-primary" value="작성">
-					<input type="reset" class="btn btn-secondary" value="취소">
+					<input type="submit" class="btn btn-outline-primary" value="작성">
+					<input type="reset" class="btn btn-outline-secondary" value="취소">
 				</td>
 			</tr>
 		</table>

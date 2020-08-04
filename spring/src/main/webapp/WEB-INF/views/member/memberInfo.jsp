@@ -83,8 +83,8 @@
 			</tbody>
 		</table>
 		<div class="text-center">
-			<input type="submit" class="btn btn-primary btn-sm" value="수정하기">
-			<input type="reset" id="cancelBtn" class="btn btn-secondary btn-sm" value="취소">
+			<input type="submit" class="btn btn-outline-primary btn-sm" value="수정하기">
+			<input type="reset" id="cancelBtn" class="btn btn-outline-secondary btn-sm" value="취소">
 		</div>
 	</form>
 </body>
