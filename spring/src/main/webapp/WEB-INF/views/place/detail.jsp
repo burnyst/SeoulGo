@@ -104,7 +104,7 @@
 	</div>
 </div>
 <h4 class="my-3">위치</h4>
-<div id="map" style="width:100%;height:400px;"></div>
+<div id="map" class="border" style="width:100%;height:350px;"></div>
 <br>
 <!-- 리뷰 -->
 <h4 class="my-3">리뷰</h4>
