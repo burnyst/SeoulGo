@@ -33,7 +33,9 @@ public class PlanService {
 		return (List<PlanDTO>) pdao.planview(plan);
 	}
 
-
+	public List getpNo(int pno) {
+		return pdao.getpNo(pno);
+	}
 
 	public ArrayList<PlanDTO> detailView(int pno) {
 		return pdao.detailView(pno);

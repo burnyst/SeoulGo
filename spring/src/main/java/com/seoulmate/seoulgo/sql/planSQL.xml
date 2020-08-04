@@ -262,6 +262,12 @@
 		and #{endRow}
 	</select>
 
+	<select id="getpNo" parameterType="int" resultType="int">
+		select placeNo
+		from planPlace
+		where planNo = #{pNo}
+	</select>
+
 	<select id="planview" resultType="pdto">
 		select PLANNO,
 		PLANDATE,
@@ -280,7 +286,11 @@
 		WHERE #{pno}=P1.PLANNO)
 	</select>
 	
-
+	<select id="getpNo" parameterType="int" resultType="int">
+		select placeNo
+		from planPlace
+		where planNo = #{pNo}
+	</select>
 	
 	<select id="placeview" resultType="pdto">
 		select

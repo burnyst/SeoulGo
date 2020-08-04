@@ -155,4 +155,8 @@ public class PlanDAO {
 		return result;
 	}
 
+	public List getpNo(int pno) {
+		return session.selectList("plandata.getpNo", pno);
+	}
+	
 }

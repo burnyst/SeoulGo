@@ -41,7 +41,7 @@ public class PlanController {
 	@RequestMapping("/plan/plan")
 	public ModelAndView planpage(ModelAndView mv, PlanDTO plan,PlaceDto place, Model model, PlanPage page2, HttpSession session)
 			throws Exception {
-		System.out.println("planpage진입요청함수");
+		System.out.println("PlanController.planpage() 진입");
 		
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String mem_id = principal.toString();
@@ -88,15 +88,15 @@ public class PlanController {
 
 	
 	@RequestMapping("/plan/planmodi")
-	public ModelAndView planredirect(ModelAndView mv,HttpServletRequest req) {
-		int pno  =  Integer.parseInt(req.getParameter("planNo"));//글번호
-		System.out.println("planmodi도착, pno의 숫자: "+pno);
+	public ModelAndView planredirect(ModelAndView mv, HttpServletRequest req, PlacePage page) {
+		int pno = Integer.parseInt(req.getParameter("planNo"));	//글번호
+		System.out.println("PlanControler.planredirect() pno= "+pno);
 		
-		ArrayList<PlanDTO> pdto = (ArrayList)planservice.detailView(pno);//DTO에 내용 넣기.
+		ArrayList<PlanDTO> pdto = (ArrayList)planservice.detailView(pno);	//DTO에 내용 넣기.
 		
 		for (int i=0;i<pdto.size(); i++) {
 			int j = pdto.get(i).getPlanNo();
-			System.out.println(j+"j의값");
+			System.out.println("j= "+j);
 			List<PlaceDto> placedto = planservice.getplaceinfo(j);
 			
 			List<String> placenamelist = new ArrayList();
@@ -108,8 +108,11 @@ public class PlanController {
 			pdto.get(i).setPlacenamelist(placenamelist);
 		}
 		
-		mv.setViewName("plan/planmodi");
+		page.setPageRowNum(5);
+		mv.addObject("placeNo", planservice.getpNo(pno));
+		mv.addObject("page", service.list(page));
 		mv.addObject("Pdto",pdto);
+		mv.setViewName("plan/planmodi");
 		return mv;
 	}
 	
