@@ -4,7 +4,7 @@ $(function(){
 	 })
 	 var planno = $('#planNo').val();
 	 $("#planmodi").click(function(){
-		 alert("수정페이지로 이동합니다.");
+		 //alert("수정페이지로 이동합니다.");
 		 $(location).attr("href","../plan/planmodi?&planNo="+planno);
 	 })
 	 $("#back").click(function(){

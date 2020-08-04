@@ -39,7 +39,7 @@
 							${page.endRow-status.index} <input type="hidden" value="${list.planNo}" id=planNo name="planNo">
 						</td>
 							<td>
-								<fmt:formatDate value="${list.planDate}" pattern="yy년MM월dd일"/>
+								<fmt:formatDate value="${list.planDate}" pattern="yy년 MM월 dd일"/>
 							</td>
 						<td>
 							${list.planTitle}
