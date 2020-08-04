@@ -15,7 +15,7 @@
 <script src="${basePath}/resources/js/notice/noticeReplyList.js"></script>
 <script src="${basePath}/resources/js/notice/delete.js"></script>
 <style type="text/css">
-	a {
+	.btn-sm {
 		float: right;
 		font-size: small;
 	}
@@ -29,7 +29,6 @@
 	}
 
 	h5 {
-		/* margin-block-start: 1em; */
 		margin-block-end: 0.5em;
 	}
 	

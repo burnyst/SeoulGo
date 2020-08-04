@@ -100,7 +100,12 @@
 				<th>여행장소${placeNo}</th>
 				<td class="row">
 					<c:forEach items="${list.placenamelist}" var="placeName">
-						<div class="border border-secondary rounded text-secondary">${placeName}</div>
+						<div class="border border-secondary rounded text-secondary">
+						<input type="hidden" name="placeName" value="${placeName}">
+						<button type="button" class="del btn btn-sm btn-outline-light text-secondary" id="delBtn" style="border: 0; outline: 0;">
+							${placeName}
+						<span class="text-secondary">×</span></button>
+						</div>
 					</c:forEach>
 					<div id="placeName" class="d-flex flex-wrap"></div>
 				</td>
