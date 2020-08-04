@@ -74,7 +74,7 @@
 								</div>
 								<input type="hidden" value="${item.placeNo}" name="pNo">
 							</div>
-						</c:forEach>
+						</c:forEach> 
 					</div>
 				</div>
 			
