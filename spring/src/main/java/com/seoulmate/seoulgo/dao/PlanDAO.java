@@ -150,4 +150,9 @@ public class PlanDAO {
 		return result;
 	}
 
+	public List<String> getplaceimagename(int placeno) {
+		List<String> result = session.selectList("getplaceimagename", placeno);
+		return result;
+	}
+
 }

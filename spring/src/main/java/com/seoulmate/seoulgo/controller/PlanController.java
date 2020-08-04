@@ -204,8 +204,11 @@ public class PlanController {
 			int j = detailview.get(i).getPlanNo();
 			System.out.println(j + "j의값");
 			List<String> placelist = planservice.getplacename(j);
+			List<String> piclist = planservice.getplaceimagename(j);
 			System.out.println("placelist의 값들 : "+placelist);
+			placeview.get(i).setImageNames(piclist);
 			mv.addObject("placelist",placelist);
+			
 		}
 		System.out.println("컨트롤러의 detailview 변수 : " + detailview);
 		System.out.println("컨트롤러의 placeview 변수 : "+ placeview);

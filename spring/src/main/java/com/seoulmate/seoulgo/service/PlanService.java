@@ -160,4 +160,9 @@ public class PlanService {
 		return result;
 	}
 
+	public List<String> getplaceimagename(int placeno) {
+		List<String> result = pdao.getplaceimagename(placeno);
+		return result;
+	}
+
 }
