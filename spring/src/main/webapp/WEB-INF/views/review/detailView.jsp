@@ -17,7 +17,7 @@
 <meta charset="UTF-8">
 <!-- Responsive Web Design - The Viewport -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Insert title here</title>
+<title>리뷰 더보기</title>
 
 <!-- jQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

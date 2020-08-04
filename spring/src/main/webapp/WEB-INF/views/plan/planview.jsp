@@ -30,6 +30,8 @@
 </c:forEach>
 
 <!-- 카카오 맵의 div  -->
+<h4>일정 상세보기</h4>
+<hr>
 <div class="row">
 <div class="w-100 p-3 schedule-form col-lg" >
 	<form method="get" action="${basePath}/plan/planmodi" >
@@ -83,14 +85,14 @@
 					</div>
 				</c:forEach>
 		</div>
-	</form><br>
-	<div>
+		<br>
+	<div class="float-right">
 		<sec:authorize access="isAuthenticated()">
-			<button id="nomodi" type="button" class="btn btn-outline-primary">마이 플랜 리스트</button>
+			<button id="nomodi" type="button" class="btn btn-outline-primary">목록</button>
 			<!-- <button id="back" type="button" class="btn btn-primary">일정공유 게시판으로</button> -->
 			<c:forEach items="${Pdto }" var="list"> 
 				<c:if test="${list.memberid eq memberid }">
-					<button id="planmodi" name="planmodi" class="btn btn-outline-info">일정 수정하기</button>
+					<button id="planmodi" name="planmodi" class="btn btn-outline-info">수정</button>
 				</c:if>
 			</c:forEach>
 		</sec:authorize>
@@ -98,6 +100,7 @@
 			<button id="back" type="button" class="btn btn-primary">일정공유 게시판으로 돌아가기</button>
 		</sec:authorize> --%>
 	</div>
+	</form>
 </div>
 <div id="map" style="width:500px; height:450px; float:right; position:relative; margin-top:50px;">
 </div>
