@@ -85,9 +85,9 @@
 	</c:if>
 	</table>
 	<div class="text-center">
-		<a href="./changePW" class="btn btn-secondary btn-sm">비밀번호 변경</a>
-		<a href="./memberInfo" class="btn btn-primary btn-sm">회원정보 수정</a>
-		<a href="./deleteAccount" class="btn btn-danger btn-sm">회원탈퇴</a>
+		<a href="./changePW" class="btn btn-outline-secondary btn-sm">비밀번호 변경</a>
+		<a href="./memberInfo" class="btn btn-outline-primary btn-sm">회원정보 수정</a>
+		<a href="./deleteAccount" class="btn btn-outline-danger btn-sm">회원탈퇴</a>
 	</div>
 	
 	<hr>

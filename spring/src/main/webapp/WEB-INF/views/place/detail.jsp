@@ -93,12 +93,12 @@
 			${item.addr2}
 		</span>
 		<div class="mt-3 text-center">
-			<button type="button" class="btn btn-primary mb-3">일정 계획</button>
-			<button id="writeBtn" type="button" class="btn btn-success mb-3 ml-3">리뷰 작성</button>
-			<button id="backBtn" type="button" class="btn btn-secondary mb-3 ml-3">이전</button>
+			<button type="button" class="btn btn-outline-primary mb-3">일정 계획</button>
+			<button id="writeBtn" type="button" class="btn btn-outline-success mb-3 ml-3">리뷰 작성</button>
+			<button id="backBtn" type="button" class="btn btn-outline-secondary mb-3 ml-3">이전</button>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
-				<button id="updateBtn" type="button" class="btn btn-warning mb-3 ml-3">수정</button>
-				<button id="deleteBtn" type="button" class="btn btn-danger mb-3 ml-3">삭제</button>
+				<button id="updateBtn" type="button" class="btn btn-outline-warning mb-3 ml-3">수정</button>
+				<button id="deleteBtn" type="button" class="btn btn-outline-danger mb-3 ml-3">삭제</button>
 			</sec:authorize>
 		</div>
 	</div>

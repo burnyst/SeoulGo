@@ -127,7 +127,6 @@ public class PlanDAO {
 
 	public List<String> getplacename(int pno) {
 		List<String> result = session.selectList("plandata.getplaceName", pno);
-		System.out.println("result의 값입니다. 장소이름이 들어있을까요????? "+result);
 		return result;
 	}
 
@@ -151,4 +150,13 @@ public class PlanDAO {
 		return result;
 	}
 
+	public List<String> getplaceimagename(int placeno) {
+		List<String> result = session.selectList("getplaceimagename", placeno);
+		return result;
+	}
+
+	public List getpNo(int pno) {
+		return session.selectList("plandata.getpNo", pno);
+	}
+	
 }

@@ -1,16 +1,24 @@
 $(function(){
- $("#nomodi").click(function(){
-	 //alert("함수 작동");
-	 $(location).attr("href","../plan/plan");
+	var basePath = $("#basePath").val();
 	
- });
+	var idval =$('#planCate');
+	$('#plancate').change(function(){
+		var element =$(this).find('option:selected');
+		var myTag = element.attr('value');
+		idval.val(myTag);
+	});
+	
+	$("#nomodi").click(function(){
+		//alert("함수 작동");
+		$(location).attr("href", basePath+"/plan/plan");
+	});
  
- $("#delmodi").click(function(){
-	 alert("삭제페이지로 이동합니다.");
-	 $('#frm').attr("method", "get");
-	 $('#frm').attr("action","../plan/plandelete").submit();
-	
- });
+	$("#delmodi").click(function(){
+		//alert("삭제페이지로 이동합니다.");
+		$('#planModify').attr("method", "get");
+		$('#planModify').attr("action", basePath+"/plan/plandelete").submit();
+	});
+ 
  var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
  mapOption = {
      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표

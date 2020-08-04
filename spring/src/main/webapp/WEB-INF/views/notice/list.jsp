@@ -74,7 +74,7 @@
 		</tbody>
 	</table>
 	<sec:authorize access="hasRole('ROLE_ADMIN')">
-		<a class="btn btn-primary" href="${basePath}/notice/write">작성</a>
+		<a class="btn btn-outline-primary" href="${basePath}/notice/write">작성</a>
 	</sec:authorize>
 	<c:if test="${notice.totalRow > notice.perPageNum}">
 		<tr class="dataRow">

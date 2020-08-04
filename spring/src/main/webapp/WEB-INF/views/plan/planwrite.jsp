@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
@@ -22,13 +22,13 @@
 }
 </style><!--.show는 block형태로 a링크를 보여줄수 있도록 한다.  -->
 <meta charset="UTF-8">
-<title>일정짜기</title>
+<title>플랜 작성</title>
 </head>
 <body>
 <sec:authorize access="isAuthenticated()">
 <input type="hidden" value="${basePath}" id="basePath">
 <div class="p-3">
-	<h4>일정 짜기</h4>
+	<h4>플랜 작성</h4>
 </div>
 <div class="row">
 <div class="schedule-form col-lg">
@@ -114,8 +114,7 @@
 			</div>
 		</div>
 		<div class="tab-content p-3">
-			<div id="searchResult" class="tab-pane active">
-			</div>
+			<div id="searchResult" class="tab-pane active"></div>
 		</div>
 	</form>
 	<ul id="pageNav" class="pagination justify-content-center"></ul>

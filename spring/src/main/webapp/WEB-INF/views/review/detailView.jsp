@@ -17,7 +17,7 @@
 <meta charset="UTF-8">
 <!-- Responsive Web Design - The Viewport -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Insert title here</title>
+<title>리뷰 더보기</title>
 
 <!-- jQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -68,9 +68,11 @@
 		<!-- 버튼들, 나중에 c:if로 구분 -->
 		<div class="float-right">
 			<sec:authorize access="hasAnyRole('ANONYMOUS', 'ROLE_MEMBER')">
+				<c:if test="${more.memberID ne mem.memberID}">
 				<a href="../review/writeReview?placeNo=${more.placeNo}" style="text-decoration:none;">
 					<input type="button" class="btn btn-outline-primary btn-sm" id="wBtn" value="리뷰 작성"/>
 				</a>
+				</c:if>
 			</sec:authorize>
 			<c:if test="${more.memberID eq mem.memberID}">
 				<a href="../review/modifyReview?placeNo=${more.placeNo}&rNo=${more.rNo}" style="text-decoration:none;">

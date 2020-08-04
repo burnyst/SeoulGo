@@ -4,7 +4,7 @@ $(function(){
 	 })
 	 var planno = $('#planNo').val();
 	 $("#planmodi").click(function(){
-		 alert("수정페이지로 이동합니다.");
+		 //alert("수정페이지로 이동합니다.");
 		 $(location).attr("href","../plan/planmodi?&planNo="+planno);
 	 })
 	 $("#back").click(function(){
@@ -16,6 +16,7 @@ $(function(){
 		 alert("이전페이지로 이동합니다.")
 		 $(location).attr("href","./planSboard")
 	 })
+
 	 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	    mapOption = {
 	        center: new kakao.maps.LatLng( 37.576004, 126.976902 ), // 지도의 중심좌표
@@ -53,11 +54,11 @@ $(function(){
 	        });
 	        
 	        infowindow.open(map, marker);
-
+	        
 	        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 	        map.setCenter(coords);
 	        var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 	        iwRemoveable = true;
-	    } 
-	});    
+	    }
+	}); 
 });

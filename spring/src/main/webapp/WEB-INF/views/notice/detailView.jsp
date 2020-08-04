@@ -41,10 +41,10 @@
 <body>
 	<input id="basePath" type="hidden" value="${basePath}" />
 	<div class="row float-right" style="margin-bottom: 10px;">
-		<a class="btn btn-sm btn-secondary" href="${basePath}/notice/list">목록</a>
+		<a class="btn btn-sm btn-outline-secondary" href="${basePath}/notice/list">목록</a>
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
-			<a class="btn btn-sm btn-danger text-white" id="deleteBtn">삭제</a>
-			<a class="btn btn-sm btn-primary" href="${basePath}/notice/modify?nNo=${ndto.nNo}">수정</a>
+			<a class="btn btn-sm btn-outline-danger text-white" id="deleteBtn">삭제</a>
+			<a class="btn btn-sm btn-outline-primary" href="${basePath}/notice/modify?nNo=${ndto.nNo}">수정</a>
 		</sec:authorize>
 	</div>
 	<table class="table table-striped">
@@ -93,8 +93,8 @@
 				</div>
 				<div class="modal-footer">
 					<input type="hidden" id="nNo" value="${ndto.nNo}">
-					<input type="submit" class="btn btn-sm btn-primary" id="btnReply" value="댓글 작성">
-					<button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+					<input type="submit" class="btn btn-sm btn-outline-primary" id="btnReply" value="댓글 작성">
+					<button type="button" class="btn btn-sm btn-outline-danger" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
@@ -113,8 +113,8 @@
 				</div>
 				<div class="modal-footer">
 					<input type="hidden" id="nNo" value="${ndto.nNo}">
-					<input type="submit" class="btn btn-sm btn-primary" id="btnReply2" name="btnReply2" value="댓글 작성">
-					<button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+					<input type="submit" class="btn btn-sm btn-outline-primary" id="btnReply2" name="btnReply2" value="댓글 작성">
+					<button type="button" class="btn btn-sm btn-outline-danger" data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
@@ -122,7 +122,7 @@
 	<div class="my-3 p-3 bg-white rounded shadow-sm">
 		<h6 class="border-bottom pb-2 mb-0" style="height: 40px;"><i class="fa fa-comments fa-fw"></i> Comment list
 			<sec:authorize access="isAuthenticated()">
-				<button type="button" style="float: right;" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal">New Comment</button>
+				<button type="button" style="float: right;" class="btn btn-sm btn-outline-primary" data-toggle="modal" data-target="#myModal">New Comment</button>
 			</sec:authorize>
 		</h6>
 		<div class="comment_list"></div>

@@ -16,15 +16,12 @@ public class PlanDTO {
    public int getPlanNo() {
       return planNo;
    }
-
    public void setPlanNo(int planNo) {
       this.planNo = planNo;
    }
-
    public Date getPlanDate() {
       return planDate;
    }
-
    public void setPlanDate(Date planDate) {
       this.planDate = planDate;
    }
