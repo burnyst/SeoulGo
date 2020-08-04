@@ -42,21 +42,22 @@ $(document).ready(function() {
 			location.href = "../review/detailView?pageNo=1&memberID="+list[i];
 		});
 	}
-	
-	var mapContainer = document.getElementById('map'), 
-    mapOption = { 
+
+	var mapContainer = document.getElementById('map');
+	var mapOption = { 
         center: new kakao.maps.LatLng(33.450701, 126.570667),
         level: 3
     };
 	var map = new kakao.maps.Map(mapContainer, mapOption);
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+	        map.setCenter(new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude));
+		});
+	}
 	map.setZoomable(false);
-	var mapTypeControl = new kakao.maps.MapTypeControl();
-	map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-	var zoomControl = new kakao.maps.ZoomControl();
-	map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-	
+	map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
+	map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 	var geocoder = new kakao.maps.services.Geocoder();
-	var coords = null;
 	geocoder.addressSearch($("#addr2").val(), function(result, status) {
 	     if (status === kakao.maps.services.Status.OK) {
 	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
