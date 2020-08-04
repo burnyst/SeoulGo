@@ -47,6 +47,7 @@
 					<input type="hidden" id="placename" value="${list.placenamelist}">
 				    <input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
 				  	<input type="hidden" id="nowdate" name="nowdate" value="${list.planDate }">
+				  	
 					<input type="date" id="plandate" name="plandate" class="form-control date" required="required" value="<fmt:formatDate value="${list.planDate}" pattern='yyyy-MM-dd'/>"/>
 				</td>
 			</tr>

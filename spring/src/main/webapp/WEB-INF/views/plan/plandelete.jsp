@@ -34,6 +34,7 @@ $(function(){
 	        results = regex.exec(location.search);
 	    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
+	
 	var addr = getParameterByName("planplace")
 	var planTitle = getParameterByName("planTitle")
 	//	
@@ -86,8 +87,8 @@ $(function(){
 	 			
 	 		</tr>
 	 		<tr>
-	 			<td><input type="submit" class="btn btn-danger"  value="예"></td>
-	 			<td><input type="button" class="btn btn-primary" name="delno" id="delno"value="아니오"></td>
+	 			<td><input type="submit" class="btn btn-outline-danger"  value="예"></td>
+	 			<td><input type="button" class="btn btn-outline-primary" name="delno" id="delno"value="아니오"></td>
 	 		</tr>
  		</table>
  	</form>
