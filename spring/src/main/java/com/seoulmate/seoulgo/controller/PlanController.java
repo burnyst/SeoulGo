@@ -46,39 +46,41 @@ public class PlanController {
 
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String mem_id = principal.toString();
-
-		System.out.println(mem_id);
-
+		System.out.println(mem_id+"님의 마이 플랜 페이지입니다.");
 		page2.setMemberid(mem_id);
+		
 		int TotalRow = planservice.personrow(page2);
+		System.out.println("Plan.TotalRow="+TotalRow);
 		page2.setTotalRow(TotalRow);
 
-		List<PlanDTO> pdto = (ArrayList)planservice.getplanboard(page2);
-		System.out.println("pdto 초기값 :"+pdto);
-		for(int i =0; i<pdto.size();i++) { //게시판 수만큼 반복
-			int planno = pdto.get(i).getPlanNo();
-			List<PlaceDto> placeinfo =(ArrayList)planservice.getplaceinfo(planno);
+		List<PlanDTO> pList = (ArrayList)planservice.getplanboard(page2);
+		//System.out.println("pdto 초기값 :"+pList);
+		for(int i =0; i<pList.size();i++) { //게시판 수만큼 반복
+			int planno = pList.get(i).getPlanNo();
+			List<PlaceDto> placeinfo = (ArrayList)planservice.getplaceinfo(planno);
+			System.out.println("placeinfo="+placeinfo);
 			List<String> placenamelist = new ArrayList();
 			for(int j=0;j<placeinfo.size();j++) {
 				String placename = placeinfo.get(j).getPlaceName();
 				placenamelist.add(placename);
-				//System.out.println("placename의 값들 : "+placename);
+				System.out.println("placenamelist="+placenamelist);
 			}
-			pdto.get(i).setPlacenamelist(placenamelist);
+			pList.get(i).setPlacenamelist(placenamelist);
+			System.out.println("pdto="+pList.get(i).getPlacenamelist());
 		}
 		System.out.println("page2의 초기값 조회합니다."+page2);
-		for(int i=0;i<pdto.size();i++) {
+		for(int i=0;i<pList.size();i++) {
 			//System.out.println(pdto.size());
 			try {
-				if(pdto.get(i).getPlanNo()==pdto.get(i-1).getPlanNo()) {
+				if(pList.get(i).getPlanNo()==pList.get(i-1).getPlanNo()) {
 					continue;
 				}
 			}catch(Exception ex) {}
 		}
-		mv.addObject("plist",pdto);
+		mv.addObject("plist", pList);
 		//mv.addObject("placelist",placelist);
-		System.out.println("pdto의 최종값을 조회합니다."+pdto);
-		mv.addObject("page",page2);
+		System.out.println("pdto의 최종값을 조회합니다."+pList);
+		mv.addObject("page", page2);
 		mv.setViewName("plan/plan");
 		return mv;
 	}
@@ -276,15 +278,6 @@ public class PlanController {
 		System.out.println("PlanController.planWrited() 진입 ");
 		
 		String[] list = req.getParameterValues("placeNo");
-		int[] noArr = new int[list.length];
-		ArrayList planlist = new ArrayList(); 
-		HashMap map = new HashMap();
-		for(int i=0; i<list.length; i++) {
-			System.out.println("placeNo="+list[i]);
-			noArr[i] = Integer.parseInt(list[i]);
-			map.put("placeNo", noArr);
-			planlist.add(map);
-		}
 		
 		// 현재 로그인한 유저의 아이디
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -297,18 +290,14 @@ public class PlanController {
 			System.out.println("형변환된 날짜="+planDate);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			System.out.println("날짜변환 중 오류발생하였습니다.");
+			System.out.println("날짜변환 중 오류가 발생하였습니다.");
 		}
-		//String planplace = req.getParameter("planplace"); //planplace를 jsp페이지에서 요청받음.
-		//int placeNo = Integer.parseInt(req.getParameter("placeNo"));
 		plan.setMemberid(mem_id);
 		plan.setPlanTitle(req.getParameter("planTitle"));
 		plan.setPlanCate(req.getParameter("plancate"));
 		plan.setPlanDate(planDate);
-		//plan.setPlanNo(placeNo);
-		//place.setPlaceName(planplace);
 
-		planservice.planWrited(plan, place, planlist);
+		planservice.planWrited(plan, place, list);
 
 		int TotalRow = planservice.getTotalRow(page);
 		page.setTotalRow(TotalRow);

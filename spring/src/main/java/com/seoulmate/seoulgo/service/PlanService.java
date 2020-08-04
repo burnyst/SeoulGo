@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,12 +39,14 @@ public class PlanService {
 		return pdao.detailView(pno);
 	}
 
-	public void planWrited(PlanDTO plan, PlaceDto place, ArrayList planlist) {
+	public void planWrited(PlanDTO plan, PlaceDto place, String[] list) {
 		System.out.println("PlanService.planWrited() 진입="+plan);
 		pdao.planWrited(plan, place, "plan");
-		for (int i =0; i<planlist.size(); i++) {
-			HashMap map = (HashMap)planlist.get(i);
-			place.setPlaceNo((int)map.get("placeNo"));
+		for (int i =0; i<list.length; i++) {
+			Integer[] noArr = new Integer[list.length];
+			noArr[i] = Integer.parseInt(list[i]);
+			System.out.println("placeNo="+noArr[i]);
+			place.setPlaceNo(noArr[i]);
 			pdao.planWrited(plan, place, "planplace");
 		}
 	}
