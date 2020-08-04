@@ -4,6 +4,7 @@
 <%@ taglib prefix ="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> 
 <c:set var="resourcePath" value="${basePath}/resources" />
 <!DOCTYPE html>
 <html>
@@ -12,63 +13,34 @@
 <title>여행계획보기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript" src="${resourcePath}/js/plan/plan.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+.w3-bar-block .w3-bar-item {padding:20px}
+</style>
 </head>
 <body>  
-
-
-<div align="center">
 <h3>마이 플랜</h3>
-<div class="float-right">
-	<input type="button" class="btn btn-outline-primary" id="ibtn" name="ibtn" value="플랜 작성" />
+<div class="text-left">
+	<input type="button" class="btn btn-outline-primary" id="ibtn" name="ibtn" value="새로운 일정" />
 </div>
-<br>
-<!-- {Viewlist}-->
-<form method="post" id="planlist" name="planlist" action="/plan/planmodi">
-<table border="1" style="width:100%"  class="table table-bordered table-hover text-center" id="example-table-2">
-	 <tbody>
-		<tr>
-			<th width="10%">일정번호</th>
-			<th width="15%">일정날짜</th>
-			<th width="20%">일정이름</th>
-			<th width="10%">여행유형</th>
-			<th width="45%">일정장소</th>
-		</tr>
-		<c:if test="${PLANNO=null}">
-			<tr>
-				<td>
-					일정을 만들어주세요!
-				</td>
-			</tr>	
-		</c:if>
-			<tbody>
-			<c:forEach var="list" items="${plist}" varStatus="status">
-					<tr onclick="location.href='/plan/planview?&planNo=${list.planNo}'" style="cursor:hand" class="info">
-						<td>
-							${page.endRow-status.index} <input type="hidden" value="${list.planNo}" id=planNo name="planNo">
-						</td>
-						<td>
-							<fmt:formatDate value="${list.planDate}" pattern="yy년 MM월 dd일"/>
-						</td>
-						<td>
-							${list.planTitle}
-							<input type="hidden" id="plantitle" value="${list.planTitle}">
-						</td>
-						<td>
-							${list.planCate}
-							<input type="hidden" value="${list.planCate}">
-						</td>
-						<td>${list.placenamelist}
-							<br>
-							<br>
-							<input type="hidden" id="placeName" value="${list.placenamelist}">
-						</td>
-					</tr>
-				</c:forEach>
-		
-		</tbody>
-	</table>
-</form>
-	<%-- 페이징 처리 --%>
+<hr>
+<!-- !PAGE CONTENT! -->
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:10px">
+
+	<!-- First Photo Grid-->
+	<div class="w3-row-padding w3-padding-16 w3-center" id="food">
+		<c:forEach var="list" items="${plist}" varStatus="status">
+			<div class="w3-quarter" onclick="location.href='/plan/planview?&planNo=${list.planNo}'" style="cursor:hand" class="info">
+					<img src="<spring:url value='/resources/img/review/11.jpg'/>" style="width:100%">
+					<div><h5><b><fmt:formatDate value="${list.planDate}" pattern="yy년 MM월 dd일"/></b>&nbsp;<b>${list.planCate}</b></h5></div>
+					<div><h5><b>${list.planTitle}</b></h5></div>
+					<div>${list.placenamelist}</div>  
+			</div>
+		</c:forEach>
+	</div>
+</div>
+<hr>
+<%-- 페이징 처리 --%>
 <t:pageNav
    endPage="${page.endPage}"
    pageNo="${page.pageNo}"
@@ -76,8 +48,5 @@
    startPage="${page.startPage}"
    uri="${pageUri}">
 </t:pageNav>	
-	
-</div>
 </body>
 </html>
-<!-- ${modelData[0][1][key2]}  ${list[status.index][planNo]}-->

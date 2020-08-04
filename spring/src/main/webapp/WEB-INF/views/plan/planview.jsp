@@ -27,6 +27,7 @@
 </c:forEach>
 <c:forEach items="${Pdto}" var="list" varStatus="status">
 	<input type="hidden" id="planTitle" value="${list.planTitle }">  
+	
 </c:forEach>
 
 <!-- 카카오 맵의 div  -->
@@ -36,12 +37,12 @@
 <div class="row">
 <div class="w-100 p-3 schedule-form col-lg" >
 	<form method="get" action="${basePath}/plan/planmodi" >
+	
 		<div class="place-list-container col-lg p-3" >
-			<input name="pageNo" type="hidden" value="${page.pageNo}" />
-			<input name="pageNum" type="hidden" value="${page.perPageNum}" />
 			<!-- <div style="float:left; margin-right:10px">일정제목</div> -->
 				<table class="table table-hover">
 					<c:forEach var="list"  items="${Pdto}" varStatus="status" >
+					<input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
 						<thead class="thead-light">
 							<tr class="text-center">
 								<th colspan="2">${list.planTitle}</th>
@@ -51,7 +52,7 @@
 							<tr>
 								<td class="text-center">여행 날짜</td>
 								<td class="text-center">
-									<input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
+									
 									<input type="hidden" id="plandate" value="${list.planDate}">
 									<fmt:formatDate value="${list.planDate}" pattern="yyyy년 MM월 dd일"/>
 								</td>
@@ -106,6 +107,5 @@
 	<div id="map" style="width:500px; height:450px; float:right; position:relative; margin-top:50px;">
 	</div>
 </div>
-
 </body>
 </html>
