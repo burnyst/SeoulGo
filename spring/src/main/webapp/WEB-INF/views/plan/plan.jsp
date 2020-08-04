@@ -18,12 +18,20 @@
 
 <div align="center">
 <h3>마이 플랜</h3>
+<div class="float-right">
+	<input type="button" class="btn btn-outline-primary" id="ibtn" name="ibtn" value="플랜 작성" />
+</div>
+<br>
 <!-- {Viewlist}-->
 <form method="post" id="planlist" name="planlist" action="/plan/planmodi">
 <table border="1" style="width:100%"  class="table table-bordered table-hover text-center" id="example-table-2">
 	 <tbody>
 		<tr>
-			<th>글 번호</th><th>일정날짜</th><th>	일정이름	</th><th>여행 유형</th><th>	일정장소	</th>
+			<th width="10%">일정번호</th>
+			<th width="15%">일정날짜</th>
+			<th width="20%">일정이름</th>
+			<th width="10%">여행유형</th>
+			<th width="45%">일정장소</th>
 		</tr>
 		<c:if test="${PLANNO=null}">
 			<tr>
@@ -38,9 +46,9 @@
 						<td>
 							${page.endRow-status.index} <input type="hidden" value="${list.planNo}" id=planNo name="planNo">
 						</td>
-							<td>
-								<fmt:formatDate value="${list.planDate}" pattern="yy년 MM월 dd일"/>
-							</td>
+						<td>
+							<fmt:formatDate value="${list.planDate}" pattern="yy년 MM월 dd일"/>
+						</td>
 						<td>
 							${list.planTitle}
 							<input type="hidden" id="plantitle" value="${list.planTitle}">
@@ -49,8 +57,8 @@
 							${list.planCate}
 							<input type="hidden" value="${list.planCate}">
 						</td>
-						
-						<td>${list.placenamelist}<br>
+						<td>${list.placenamelist}
+							<br>
 							<br>
 							<input type="hidden" id="placeName" value="${list.placenamelist}">
 						</td>
@@ -69,15 +77,6 @@
    uri="${pageUri}">
 </t:pageNav>	
 	
-<div class="Result2" id="Result2" >
-</div>
-	<table class="right" width="700" >
-		<tbody>
-			<tr class="right" align="center">
-				<td><input type="button" class="btn btn-primary" id="ibtn" name="ibtn" value="일정 작성"/></td>
-			</tr>
-		</tbody>
-	</table>
 </div>
 </body>
 </html>
