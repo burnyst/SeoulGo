@@ -31,23 +31,22 @@
 <div class="p-3">
 	<h4>플랜 수정</h4>
 </div>
-<c:forEach items="${Pdto}" var="list" varStatus="status">
-	<input type="hidden" id="placename" value="${list.placenamelist}">
-    <input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
-  	<input type="hidden" id="nowdate" name="nowdate" value="${list.planDate }">
-</c:forEach>
-<c:forEach items="${placedto}" var="list" varStatus="status">
-	<input type="hidden" id="addr1" value="${list.addr1 }">
-	<input type="hidden" id="addr2" value="${list.addr2 }">
-</c:forEach>
+
 <div class="row">
 <div class="schedule-form col-lg">
 	<form class="form" action="${basePath}/plan/planmodifin" method="post" id="planModify" enctype="multipart/form-data">
+	<c:forEach items="${placedto}" var="list" varStatus="status">
+			<input type="hidden" id="addr1" value="${list.addr1 }">
+			<input type="hidden" id="addr2" value="${list.addr2 }">
+	</c:forEach>
 	<c:forEach var="list"  items="${Pdto}" varStatus="status">
 		<table class="table">
 			<tr>
 				<th>여행날짜</th>
 				<td>
+					<input type="hidden" id="placename" value="${list.placenamelist}">
+				    <input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
+				  	<input type="hidden" id="nowdate" name="nowdate" value="${list.planDate }">
 					<input type="date" id="plandate" name="plandate" class="form-control date" required="required" value="<fmt:formatDate value="${list.planDate}" pattern='yyyy-MM-dd'/>"/>
 				</td>
 			</tr>
