@@ -1,7 +1,39 @@
 $(document).ready(function() {
 	let basePath = $("#basePath").val();
 	let placeCount = 0;
-	function addPlaceList(placeNo, placeName, addr2) {
+	let mapContainer = document.getElementById('map');
+	let markerImage = new kakao.maps.MarkerImage('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', new kakao.maps.Size(33, 36));
+	let baseCoords = new kakao.maps.LatLng(33.450701, 126.570667);
+	let mapOption = { 
+        center: baseCoords,
+        level: 3
+    };
+	let map = new kakao.maps.Map(mapContainer, mapOption);
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function(position) {
+			baseCoords = new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude);
+	        map.setCenter(baseCoords);
+		});
+	}
+	map.setZoomable(false);
+	map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
+	map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
+	let geocoder = new kakao.maps.services.Geocoder();
+	let bounds = new kakao.maps.LatLngBounds();
+	let markers = [];
+	function clearPlaceList() {
+		placeCount = 0;
+		for (i of markers) {
+			i.marker.setMap(null);
+			i.customOverlay.setMap(null);
+		}
+		markers = [];
+		bounds = new kakao.maps.LatLngBounds();
+		map.setCenter(baseCoords);
+		sessionStorage.removeItem("placeList");
+		$("#placeName").html("");
+	}
+	function addPlaceList(placeNo, placeName, addr) {
 		if (placeCount == 10) {
 			alert("일정장소는 최대 10곳까지 가능합니다");
 			return;
@@ -24,15 +56,47 @@ $(document).ready(function() {
 		let tags = '<div class="border border-secondary rounded text-secondary'+placeCount+'">';
 		tags += '<input type="hidden" name="placeNo" value="'+placeNo+'">';
 		tags += '<input type="hidden" name="placeName" value="'+placeName+'">';
-		tags += '<input type="hidden" name="addr2" value="'+addr2+'">';
+		tags += '<input type="hidden" name="addr" value="'+addr+'">';
 		tags += '&nbsp&nbsp'+placeName;
 		tags += '<button type="button" class="del btn btn-sm btn-outline-light text-secondary" id="delBtn'+placeCount+'" style="border: 0; outline: 0;">'
 		tags += '<span class="text-secondary">×</span></button></div>';
 		$("#placeName").append(tags);
 		
-		newPlaceList.push({placeNo: placeNo, placeName: placeName, addr2: addr2});
-		console.log("placeList:"+JSON.stringify(newPlaceList));
+		newPlaceList.push({placeNo: placeNo, placeName: placeName, addr: addr});
 		sessionStorage.setItem("placeList", JSON.stringify(newPlaceList));
+		geocoder.addressSearch(addr, function(result, status) {
+		     if (status === kakao.maps.services.Status.OK) {
+		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		        var marker = new kakao.maps.Marker({
+		            map: map,
+		            title: placeName,
+		            position: coords
+		        });
+		        marker.setMap(map);
+		        
+		        var content = '<div class ="bg-light p-1 border border-secondary rounded text-dark"><span class="left"></span><span class="center">'+placeName+'</span><span class="right"></span></div>';
+		        var customOverlay = new kakao.maps.CustomOverlay({
+		        	content: content, 
+		        	map: map,
+		            position: marker.getPosition(),
+		            yAnchor: 2.4
+		        });
+		        customOverlay.setMap(map);
+		        markers.push({marker: marker, customOverlay: customOverlay});
+		        bounds.extend(coords);
+		        map.setBounds(bounds);
+		        let proj = map.getProjection();
+		        let sw = proj.pointFromCoords(bounds.getSouthWest());
+		        let ne = proj.pointFromCoords(bounds.getNorthEast());
+		        sw.x -= 80;
+		        sw.y += 80;
+		        ne.x += 80;
+		        ne.y -= 80;
+		        map.setBounds(new kakao.maps.LatLngBounds(proj.coordsFromPoint(sw), proj.coordsFromPoint(ne)));
+		    } else {
+		    	coords = null;
+		    }
+		});
 	}
 	
 	$(document).on("click", "#searchBtn", function(e) {
@@ -97,7 +161,7 @@ $(document).ready(function() {
 					tags += '</div>';
 					tags += '<input name="searchResultPlaceNo" type="hidden" value="'+item.placeNo+'">';
 					tags += '<input name="searchResultPlaceName" type="hidden" value="'+item.placeName+'">';
-					tags += '<input name="searchResultAddr2" type="hidden" value="'+item.addr2+'">';
+					tags += '<input name="searchResultAddr" type="hidden" value="'+item.addr1+' '+item.addr2+'">';
 					tags += '<button class="add btn btn-outline-primary align-self-center mx-3" type="button"><i class="fas fa-plus"></i></button>';
 					tags += '</div>'
 					$("#searchResult").append(tags);
@@ -130,8 +194,8 @@ $(document).ready(function() {
 				$(document).on("click", ".add", function(){
 					let placeNo = $(this).parent().children('input[name="searchResultPlaceNo"]').val();
 					let placeName = $(this).parent().children('input[name="searchResultPlaceName"]').val();
-					let addr2 = $(this).parent().children('input[name="searchResultAddr2"]').val();
-					addPlaceList(placeNo, placeName, addr2);
+					let addr = $(this).parent().children('input[name="searchResultAddr"]').val();
+					addPlaceList(placeNo, placeName, addr);
 				});
 			},
 			error: function(request, status, error) {
@@ -179,7 +243,6 @@ $(document).ready(function() {
 	var str = "";
 	
 	var count = sessionStorage.length;
-	console.log(count);
 	if(count !== 0) {
 		$("#planTitle").val(sessionStorage.getItem("planTitle"))
 		$("#plancate").val(sessionStorage.getItem("planCate"))
@@ -192,7 +255,7 @@ $(document).ready(function() {
 	}
 	sessionStorage.removeItem("placeList");
 	for (let i of placeList) {
-		addPlaceList(i.placeNo, i.placeName, i.addr2);
+		addPlaceList(i.placeNo, i.placeName, i.addr);
 	}
 	
 	$(document).on("click", ".del", function(){
@@ -208,8 +271,10 @@ $(document).ready(function() {
 				newPlaceList.push(i);
 			}
 		}
-		console.log(JSON.stringify(newPlaceList));
-		sessionStorage.setItem("placeList", JSON.stringify(newPlaceList));
+		clearPlaceList();
+		for (let i of newPlaceList) {
+			addPlaceList(i.placeNo, i.placeName, i.addr);
+		}
 	});
 	$("#wBtn").click(function(){
 		var r = confirm("플랜을 등록하시겠습니까?")
@@ -240,16 +305,6 @@ $(document).ready(function() {
 			return false;
 		}
 	})
-	
-	var mapContainer = document.getElementById('map');
-	mapOption = {
-		center: new kakao.maps.LatLng(37.5009565732326, 126.884660819027),
-		level : 7
-	};
-	
-	// 지도를 생성
-	var map = new kakao.maps.Map(mapContainer, mapOption);
-	var geocoder = new kakao.maps.services.Geocoder();
 	
 	$("#searchBtn").click();
 });
