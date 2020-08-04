@@ -183,9 +183,6 @@ public class PlanController {
 
 				session.setAttribute("placeNo3", placeNo3);
 				System.out.println("세번째 장소 번호 : " + placeNo3);
-//				ArrayList choiceplace3 = (ArrayList) planservice.choiceplace3(placeNo3);
-				
-//				mv.addObject("choice3", choiceplace3);
 			}
 		} catch (Exception e) {
 			System.out.println("일정 중 일부는 등록되지 않았습니다.");

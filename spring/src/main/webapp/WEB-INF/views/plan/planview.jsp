@@ -32,6 +32,7 @@
 <!-- 카카오 맵의 div  -->
 <h4>일정 상세보기</h4>
 <hr>
+
 <div class="row">
 <div class="w-100 p-3 schedule-form col-lg" >
 	<form method="get" action="${basePath}/plan/planmodi" >
@@ -102,8 +103,10 @@
 	</div>
 	</form>
 </div>
+
 <div id="map" style="width:500px; height:450px; float:right; position:relative; margin-top:50px;">
 </div>
 </div>
+
 </body>
 </html>

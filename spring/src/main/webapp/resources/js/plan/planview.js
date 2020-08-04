@@ -16,6 +16,7 @@ $(function(){
 		 alert("이전페이지로 이동합니다.")
 		 $(location).attr("href","./planSboard")
 	 })
+
 	 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	    mapOption = {
 	        center: new kakao.maps.LatLng( 37.576004, 126.976902 ), // 지도의 중심좌표
