@@ -27,7 +27,7 @@ $(function(){
 </script>
 </head>
 <body>
-<form>	
+<form id="searchForm">	
 	<input name="pageNo" type="hidden" value="${page.pageNo}" />
 	<input name="pageNum" type="hidden" value="${page.pageNum}" />
 	<input name="pageRowNum" type="hidden" value="${page.pageRowNum}" />

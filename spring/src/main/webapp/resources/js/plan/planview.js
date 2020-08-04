@@ -2,9 +2,10 @@ $(function(){
 	 $("#nomodi").click(function(){
 		 $(location).attr("href","../plan/plan");
 	 })
-	 $("#delmodi").click(function(){
-		 alert("삭제페이지로 이동합니다.");
-		 $(location).attr("href","./plandelete");
+	 var planno = $('#planNo').val();
+	 $("#planmodi").click(function(){
+		 alert("수정페이지로 이동합니다.");
+		 $(location).attr("href","../plan/planmodi?&planNo="+planno);
 	 })
 	 $("#back").click(function(){
 		 //alert("일정공유 게시판으로 이동합니다.");
@@ -60,24 +61,3 @@ $(function(){
 	    } 
 	});    
 });
-
-$( document ).ready(function() {
-	
-	$('div').each(function(){
-		var texts = $(this).text();
-		if(texts.includes('\[')){
-			var texts = texts.replace(/\[/g,'');
-			$(this).text(texts);
-		}
-		if(texts.includes('\]')){
-			var texts = texts.replace(/\]/g,'');
-			$(this).text(texts);
-		
-		}
-		if(texts.includes('\,')){
-			var texts = texts.replace(/\,/g,'->');
-			$(this).text(texts);
-		}
-	
-	})
-});	 

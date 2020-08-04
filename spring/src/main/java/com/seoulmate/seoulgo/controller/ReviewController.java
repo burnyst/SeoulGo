@@ -298,7 +298,6 @@ public class ReviewController {
 
 		// 비즈니스 로직
 		int number = rService.goodcheck(rDTO); // 체크	
-		System.out.println("number"+number);
 		if( number == 0 ){
 			rService.goodupdate(rDTO); // 좋아요 +1
 		} else {
@@ -338,7 +337,6 @@ public class ReviewController {
 		rDTO.setplaceNo(placeNo);
 		rDTO.setrNo(rNo);
 		rDTO.setMemberID(mem_id); 
-
 
 		// 비즈니스 로직
 		int number = rService.badcheck(rDTO); // 체크	

@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,10 +42,12 @@ public class PlanController {
 	public ModelAndView planpage(ModelAndView mv, PlanDTO plan,PlaceDto place, Model model, PlanPage page2, HttpSession session)
 			throws Exception {
 		System.out.println("planpage진입요청함수");
-
+		
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String mem_id = principal.toString();
 		System.out.println(mem_id+"님의 마이 플랜 페이지입니다.");
+		session.setAttribute("memberid", mem_id );
+
 		page2.setMemberid(mem_id);
 		
 		int TotalRow = planservice.personrow(page2);
@@ -85,7 +86,7 @@ public class PlanController {
 		return mv;
 	}
 
-	//http://127.0.0.1:9000/plan/planmodi
+	
 	@RequestMapping("/plan/planmodi")
 	public ModelAndView planredirect(ModelAndView mv,HttpServletRequest req) {
 		int pno  =  Integer.parseInt(req.getParameter("planNo"));//글번호
@@ -103,13 +104,9 @@ public class PlanController {
 				String placename = placedto.get(k).getPlaceName();
 				placenamelist.add(placename);
 			}
-			//System.out.println(placedto);
 			mv.addObject("placedto",placedto);
 			pdto.get(i).setPlacenamelist(placenamelist);
-			
-			
 		}
-		
 		
 		mv.setViewName("plan/planmodi");
 		mv.addObject("Pdto",pdto);
