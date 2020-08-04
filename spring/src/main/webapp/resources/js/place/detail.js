@@ -6,7 +6,7 @@ $(document).ready(function() {
 		location.href = $("#pagePath").val()+"/update?placeNo="+$("#placeNo").val();
 	});
 	$(document).on("click", "#deleteBtn", function() {
-		var formData = new FormData($("form")[0]);
+		let formData = new FormData($("form")[0]);
 		$.ajax({
 			url: $("#pagePath").val()+"/delete?placeNo="+$("#placeNo").val(),
 			processData: false,
@@ -43,12 +43,12 @@ $(document).ready(function() {
 		});
 	}
 
-	var mapContainer = document.getElementById('map');
-	var mapOption = { 
+	let mapContainer = document.getElementById('map');
+	let mapOption = { 
         center: new kakao.maps.LatLng(33.450701, 126.570667),
         level: 3
     };
-	var map = new kakao.maps.Map(mapContainer, mapOption);
+	let map = new kakao.maps.Map(mapContainer, mapOption);
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function(position) {
 	        map.setCenter(new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude));
@@ -57,18 +57,18 @@ $(document).ready(function() {
 	map.setZoomable(false);
 	map.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
 	map.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
-	var geocoder = new kakao.maps.services.Geocoder();
+	let geocoder = new kakao.maps.services.Geocoder();
 	geocoder.addressSearch($("#addr2").val(), function(result, status) {
-	     if (status === kakao.maps.services.Status.OK) {
-	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	        var marker = new kakao.maps.Marker({
+	    if (status === kakao.maps.services.Status.OK) {
+		    let coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		    let marker = new kakao.maps.Marker({
 	            map: map,
 	            position: coords
 	        });
 	        marker.setMap(map);
 	        
-	        var content = '<div class ="bg-light p-1 border border-secondary rounded text-dark"><span class="left"></span><span class="center">'+$("#placeName").val()+'</span><span class="right"></span></div>';
-	        var customOverlay = new kakao.maps.CustomOverlay({
+	        let content = '<div class ="bg-light p-1 border border-secondary rounded text-dark"><span class="left"></span><span class="center">'+$("#placeName").val()+'</span><span class="right"></span></div>';
+	        let customOverlay = new kakao.maps.CustomOverlay({
 	        	content: content, 
 	        	map: map,
 	            position: marker.getPosition(),
