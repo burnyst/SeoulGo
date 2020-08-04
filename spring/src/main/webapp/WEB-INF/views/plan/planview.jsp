@@ -20,6 +20,7 @@
 <title>일정상세보기</title>
 </head>
 <body>
+
 <c:forEach items="${placeview }" var="list">
 	<input type="hidden" id="addr1" value="${list.addr1}">
 	<input type="hidden" id="addr2" value="${list.addr2}">
@@ -27,15 +28,16 @@
 </c:forEach>
 <c:forEach items="${Pdto}" var="list" varStatus="status">
 	<input type="hidden" id="planTitle" value="${list.planTitle }">  
+	
 </c:forEach>
 
 <!-- 카카오 맵의 div  -->
-<div id="map" style="width:500px;height:450px;float:right; position:relative; margin-top: 170px;'">
+<div id="map" style="width:500px;height:450px;float:right; position:relative; margin-top: 50px;'">
 </div>
-
-<form method="post" action="/plan/planmodifin">
+<form method="get" action="/plan/planmodi" >
 <div class="place-list-container col-lg border-top p-3" style="height:250px;">
-		<form id="searchForm" class="form" style="float:right; margin-right:10px; !important;">
+	
+	
 				<input name="pageNo" type="hidden" value="${page.pageNo}" />
 				<input name="pageNum" type="hidden" value="${page.pageNum}" />
 				<input name="pageRowNum" type="hidden" value="${page.pageRowNum}" />
@@ -47,6 +49,7 @@
 				<div style="float:left; margin-right:10px">여행 날짜</div>
 				 <input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
 				<div><fmt:formatDate value="${list.planDate}" pattern="yyyy년MM월dd일"/></div>
+					<input type="hidden" id="plandate" value="${list.planDate }">
 				<div style="float:left; margin-right:10px">여행유형</div>
 				<div>
 					<c:if test="${list.planCate eq '가족'}">가족과 함께</c:if>
@@ -77,11 +80,16 @@
 					</c:forEach>
 				</div>
 			</div>
-		</form>
+		
 		<div style="text-align: center;" >
 			<sec:authorize access="isAuthenticated()">
 				<button id="nomodi" type="button" class="btn btn-info">나의 일정  리스트 페이지로</button>
 				<button id="back" type="button" class="btn btn-primary">일정공유 게시판으로</button>
+				<c:forEach items="${Pdto }" var="list"> 
+					<c:if test="${list.memberid eq memberid }">
+						<button id="planmodi" name="planmodi" class="btn btn-success">일정 수정하기</button>
+					</c:if>
+				</c:forEach>
 			</sec:authorize>
 			<sec:authorize access="isAnonymous()">
 				<button id="back" type="button" class="btn btn-primary">일정공유 게시판으로 돌아가기</button>

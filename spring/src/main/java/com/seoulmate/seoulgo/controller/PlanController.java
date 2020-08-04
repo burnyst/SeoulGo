@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -41,10 +42,10 @@ public class PlanController {
 	public ModelAndView planpage(ModelAndView mv, PlanDTO plan,PlaceDto place, Model model, PlanPage page2, HttpSession session)
 			throws Exception {
 		System.out.println("planpage진입요청함수");
-
+		
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String mem_id = principal.toString();
-
+		session.setAttribute("memberid",mem_id );
 		System.out.println(mem_id);
 
 		page2.setMemberid(mem_id);
@@ -81,7 +82,7 @@ public class PlanController {
 		return mv;
 	}
 
-	//http://127.0.0.1:9000/plan/planmodi
+	
 	@RequestMapping("/plan/planmodi")
 	public ModelAndView planredirect(ModelAndView mv,HttpServletRequest req) {
 		int pno  =  Integer.parseInt(req.getParameter("planNo"));//글번호
@@ -99,13 +100,9 @@ public class PlanController {
 				String placename = placedto.get(k).getPlaceName();
 				placenamelist.add(placename);
 			}
-			//System.out.println(placedto);
 			mv.addObject("placedto",placedto);
 			pdto.get(i).setPlacenamelist(placenamelist);
-			
-			
 		}
-		
 		
 		mv.setViewName("plan/planmodi");
 		mv.addObject("Pdto",pdto);
