@@ -20,7 +20,7 @@
 		font-size: small;
 	}
 	
-	.btn-danger {
+	.btn-outline-primary {
 		margin: 0 5px;
 	}
 	
@@ -42,8 +42,8 @@
 	<div class="row float-right" style="margin-bottom: 10px;">
 		<a class="btn btn-sm btn-outline-secondary" href="${basePath}/notice/list">목록</a>
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
-			<a class="btn btn-sm btn-outline-danger text-white" id="deleteBtn">삭제</a>
 			<a class="btn btn-sm btn-outline-primary" href="${basePath}/notice/modify?nNo=${ndto.nNo}">수정</a>
+			<a class="btn btn-sm btn-outline-danger" id="deleteBtn">삭제</a>
 		</sec:authorize>
 	</div>
 	<table class="table table-striped">
