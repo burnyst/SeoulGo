@@ -42,7 +42,7 @@ public class PlaceDto {
 		return placeRate;
 	}
 	public int getPlaceRate20X() {
-		return (int)(placeRate * 20);
+		return Math.round(placeRate*2)*10;
 	}
 	public List<String> getImageNames() {
 		return imageNames;
