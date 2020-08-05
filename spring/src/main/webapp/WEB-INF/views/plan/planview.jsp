@@ -77,7 +77,7 @@
 				<c:forEach var="item" items="${placeview}" varStatus="status">
 					<div class="row" style="border: 1px solid #e6e6e6; margin: 0;">
 						<div class="place-image-container mr-1">
-							<img src="${imagePath}/place/${item.imageNames[0]}" onerror="this.src='${defaultImage}'" alt="place" width="100px" />
+							<img src="${imagePath}/place/${item.imageNames}" onerror="this.src='${defaultImage}'" alt="place" width="100px" />
 						</div>
 						<div class="media-body">
 							<a id="aName${item.placeNo}" href="../place/detail?placeNo=${item.placeNo}">${item.placeName}</a><br />

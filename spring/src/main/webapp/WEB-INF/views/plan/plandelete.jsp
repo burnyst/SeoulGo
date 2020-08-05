@@ -29,7 +29,6 @@ $(function(){
 	 	<table>
 	 		<tr>
 	 			<th>일정을 삭제하시겠습니까?</th>
-	 			
 	 		</tr>
 	 		<tr>
 	 			<td><input type="submit" class="btn btn-outline-danger"  value="예"></td>
