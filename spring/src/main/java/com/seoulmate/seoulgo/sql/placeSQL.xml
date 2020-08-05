@@ -59,9 +59,10 @@
 		            FROM place
 		            WHERE placeNo IN (
 		            SELECT placeNo
-		                FROM reviewBoard r JOIN reviewWord w ON r.rNo=w.rNo
+		                FROM reviewBoard r JOIN reviewWord w ON r.rNo=w.rNo AND r.rIsShow = 1
 		                WHERE word LIKE '%'||#{keyword}||'%'
 		                GROUP BY placeNo
+                        HAVING COUNT(placeNo) > 10
 		            )
 		        )
 			</if>
@@ -108,9 +109,10 @@
 	            FROM place
 	            WHERE placeNo IN (
 	            SELECT placeNo
-	                FROM reviewBoard r JOIN reviewWord w ON r.rNo=w.rNo
+	                FROM reviewBoard r JOIN reviewWord w ON r.rNo=w.rNo AND r.rIsShow = 1
 	                WHERE word LIKE '%'||#{keyword}||'%'
 	                GROUP BY placeNo
+                    HAVING COUNT(placeNo) > 10
 	            )
 	        )
 		</if>
