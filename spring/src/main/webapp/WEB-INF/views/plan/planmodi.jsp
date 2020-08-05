@@ -96,7 +96,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>여행장소${placeNo}</th>
+				<th>여행장소</th>
 				<td class="row">
 					<c:forEach items="${list.placenamelist}" var="placeName">
 						<div class="border border-secondary rounded text-secondary">
