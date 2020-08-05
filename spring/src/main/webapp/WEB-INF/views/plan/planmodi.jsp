@@ -120,7 +120,6 @@
 		<div style="text-align: center;">
 			<input class="btn btn-outline-primary" type="button" id="wBtn" value="수정"> 
 			<input class ="btn btn-outline-secondary" type="button" id="nomodi" value="취소">
-			<input class="btn btn-outline-danger" type="reset" id="delmodi" value="삭제">
 		</div>
 	</form>
 </div>
