@@ -16,6 +16,14 @@ $(function(){
 		 alert("이전페이지로 이동합니다.")
 		 $(location).attr("href","./planSboard")
 	 })
+	 $("#delbtn").click(function(){
+		 var result = confirm('정말로 일정을 삭제하시겠습니까?');
+		 if(result){
+			 $(location).attr("href","../plan/plandeleteok?&planNo="+planno);
+		 }else{
+			 return false;
+		 }
+	 })
 
 	 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	    mapOption = {

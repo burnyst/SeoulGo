@@ -47,6 +47,7 @@
 					<input type="hidden" id="placename" value="${list.placenamelist}">
 				    <input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
 				  	<input type="hidden" id="nowdate" name="nowdate" value="${list.planDate }">
+				  	
 					<input type="date" id="plandate" name="plandate" class="form-control date" required="required" value="<fmt:formatDate value="${list.planDate}" pattern='yyyy-MM-dd'/>"/>
 				</td>
 			</tr>
@@ -96,7 +97,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>여행장소${placeNo}</th>
+				<th>여행장소</th>
 				<td class="row">
 					<c:forEach items="${list.placenamelist}" var="placeName">
 						<div class="border border-secondary rounded text-secondary">
@@ -119,7 +120,6 @@
 		<div style="text-align: center;">
 			<input class="btn btn-outline-primary" type="button" id="wBtn" value="수정"> 
 			<input class ="btn btn-outline-secondary" type="button" id="nomodi" value="취소">
-			<input class="btn btn-outline-danger" type="reset" id="delmodi" value="삭제">
 		</div>
 	</form>
 </div>

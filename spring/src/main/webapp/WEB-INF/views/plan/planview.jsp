@@ -86,12 +86,13 @@
 						</div>
 					</div>
 				</c:forEach>
-		</div>
+			</div>
 		<br>
 	<div class="float-right">
 		<sec:authorize access="isAuthenticated()">
 			<button id="nomodi" type="button" class="btn btn-outline-primary">목록</button>
 			<!-- <button id="back" type="button" class="btn btn-primary">일정공유 게시판으로</button> -->
+			<td><input type="button" class="btn btn-outline-secondary" name="delbtn" id="delbtn"value="일정삭제"></td>
 			<c:forEach items="${Pdto }" var="list"> 
 				<c:if test="${list.memberid eq memberid }">
 					<button id="planmodi" name="planmodi" class="btn btn-outline-info">수정</button>
