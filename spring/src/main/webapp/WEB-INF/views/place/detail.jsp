@@ -93,7 +93,7 @@
 			${item.addr2}
 		</span>
 		<div class="mt-3 text-center">
-			<button type="button" class="btn btn-outline-primary mb-3">일정 계획</button>
+			<button id="planBtn" type="button" class="btn btn-outline-primary mb-3">일정 계획</button>
 			<button id="writeBtn" type="button" class="btn btn-outline-success mb-3 ml-3">리뷰 작성</button>
 			<button id="backBtn" type="button" class="btn btn-outline-secondary mb-3 ml-3">이전</button>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -169,7 +169,7 @@
 				</c:if>
 			</span>
 			<br>
-			<span>평점 : ${review.rRate}</span>
+			<span>평점 : ${review.rRate}&nbsp;/&nbsp;5.0</span>
 		</div>
 		<br>
 		

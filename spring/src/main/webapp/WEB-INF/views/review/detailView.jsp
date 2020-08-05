@@ -108,7 +108,7 @@
 				</c:if>
 			</span>
 			<br>
-			<span>평점 : ${more.rRate}</span>
+			<span>평점 : ${more.rRate}&nbsp;/&nbsp;5.0</span>
 		</div>
 		<br>
 		

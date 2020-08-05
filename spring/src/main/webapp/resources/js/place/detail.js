@@ -2,6 +2,9 @@ $(document).ready(function() {
 	$(document).on("click", "#backBtn", function() {
 		history.back();
 	});
+	$(document).on("click", "#planBtn", function() {
+		location.href = "/plan/plan";
+	})
 	$(document).on("click", "#updateBtn", function() {
 		location.href = $("#pagePath").val()+"/update?placeNo="+$("#placeNo").val();
 	});
