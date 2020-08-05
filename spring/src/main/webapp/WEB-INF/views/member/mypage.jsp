@@ -104,7 +104,7 @@
 	<div class="w3-row-padding w3-padding-16 w3-center" id="food">
 		<c:forEach var="list" items="${plist}" varStatus="status" begin="0" end="3">
 			<div class="w3-quarter" onclick="location.href='/plan/planview?&planNo=${list.planNo}'" style="cursor:hand" class="info">
-					<img src="<spring:url value='/resources/img/review/11.jpg'/>" style="width:100%">
+					<img src="<spring:url value='/resources/img/plan/22222222.png'/>" style="width:100%">
 					<div><h5><b><fmt:formatDate value="${list.planDate}" pattern="yy년 MM월 dd일"/></b>&nbsp;<b>${list.planCate}</b></h5></div>
 					<div><h5><b>${list.planTitle}</b></h5></div>
 					<div>${list.placenamelist}</div>  
@@ -115,7 +115,7 @@
 	<div class="w3-row-padding w3-padding-16 w3-center">
 		<c:forEach var="list" items="${plist}" varStatus="status" begin="4" end="7">
 			<div class="w3-quarter" onclick="location.href='/plan/planview?&planNo=${list.planNo}'" style="cursor:hand" class="info">
-					<img src="<spring:url value='/resources/img/review/11.jpg'/>" style="width:100%">
+					<img src="<spring:url value='/resources/img/plan/22222222.png'/>" style="width:100%">
 					<div><h5><b><fmt:formatDate value="${list.planDate}" pattern="yy년 MM월 dd일"/></b>&nbsp;<b>${list.planCate}</b></h5></div>
 					<div><h5><b>${list.planTitle}</b></h5></div>
 					<div>${list.placenamelist}</div>  
