@@ -62,7 +62,7 @@
 		                FROM reviewBoard r JOIN reviewWord w ON r.rNo=w.rNo AND r.rIsShow = 1
 		                WHERE word LIKE '%'||#{keyword}||'%'
 		                GROUP BY placeNo
-                        HAVING COUNT(placeNo) > 10
+                        HAVING COUNT(placeNo) > 10 AND SUM(w.freq) > 10
 		            )
 		        )
 			</if>
@@ -112,7 +112,7 @@
 	                FROM reviewBoard r JOIN reviewWord w ON r.rNo=w.rNo AND r.rIsShow = 1
 	                WHERE word LIKE '%'||#{keyword}||'%'
 	                GROUP BY placeNo
-                    HAVING COUNT(placeNo) > 10
+                    HAVING COUNT(placeNo) > 10 AND SUM(w.freq) > 10
 	            )
 	        )
 		</if>
