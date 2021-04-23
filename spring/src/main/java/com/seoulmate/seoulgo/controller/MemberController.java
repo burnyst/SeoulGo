@@ -1,6 +1,7 @@
 package com.seoulmate.seoulgo.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,7 +22,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.seoulmate.seoulgo.dto.MemberDTO;
+import com.seoulmate.seoulgo.dto.PlaceDto;
+import com.seoulmate.seoulgo.dto.PlanDTO;
+import com.seoulmate.seoulgo.page.PlanPage;
 import com.seoulmate.seoulgo.service.MemberService;
+import com.seoulmate.seoulgo.service.PlanService;
 
 @RequestMapping("/member")
 @Controller
@@ -29,6 +34,8 @@ public class MemberController {
 
 	@Autowired
 	MemberService mService;
+	@Autowired
+	PlanService planService;
 
 	@Inject
 	BCryptPasswordEncoder pwEncoder;
@@ -41,7 +48,7 @@ public class MemberController {
 
 	// 회원탈퇴
 	@RequestMapping("/deleteSuccess")
-	public ModelAndView deleteSuccess(MemberDTO mdto, HttpSession session, ModelAndView mv, @RequestParam String memberPW, @RequestParam String memberID) {
+	public ModelAndView deleteSuccess(MemberDTO mdto, HttpSession session, ModelAndView mv, HttpServletRequest request, @RequestParam String memberPW, @RequestParam String memberID) {
 		MemberDTO pwCheck = mService.findMember(memberID);
 		boolean result = pwEncoder.matches(memberPW, pwCheck.getMemberPW());
 		System.out.println("회원탈퇴 비밀번호 일치여부 result=" + result);
@@ -49,13 +56,14 @@ public class MemberController {
 			pwCheck.setEnabled(false);
 			mService.deleteSuccess(pwCheck);
 			
-			mv.setViewName("/user/login");
+			RedirectView rv = new RedirectView(request.getContextPath()+"/user/login");
+			mv.setView(rv);
 			mv.addObject("msg", "deleteSuccess");
-
-			// 비밀번호 변경 후 세션 무효화
+			
+			// 회원탈퇴 후 세션 무효화
 			session.invalidate();
 		}else {
-			mv.setViewName("/member/mypage");
+			mv.setViewName(request.getContextPath()+"/member/mypage");
 			mv.addObject("msg", "deleteFail");
 		}
 		return mv;
@@ -68,7 +76,7 @@ public class MemberController {
 
 	// 비밀번호 변경 처리
 	@RequestMapping("/pwUpdate")
-	public ModelAndView pwUpdate(MemberDTO mdto, ModelAndView mv, HttpSession session, @RequestParam String pw) {
+	public ModelAndView pwUpdate(MemberDTO mdto, ModelAndView mv, HttpSession session, HttpServletRequest request,@RequestParam String pw) {
 		System.out.println("MemberController.pwUpdate() 진입");
 
 		// 비밀번호 일치 여부 확인
@@ -80,13 +88,14 @@ public class MemberController {
 			mdto.setMemberPW(newPW);
 			mService.pwUpdate(mdto);
 
-			mv.setViewName("/user/login");
+			RedirectView rv = new RedirectView(request.getContextPath()+"/user/login");
+			mv.setView(rv);
 			mv.addObject("msg", "pwUpdate");
 
 			// 비밀번호 변경 후 세션 무효화
 			session.invalidate();
 		} else {
-			mv.setViewName("/member/mypage");
+			mv.setViewName(request.getContextPath()+"/member/mypage");
 			mv.addObject("msg", "pwFail");
 		}
 		return mv;
@@ -100,7 +109,7 @@ public class MemberController {
 	// 회원정보 수정
 	@RequestMapping("/memberInfoUpdate")
 	public ModelAndView memberInfoUpdate(MemberDTO mdto, MultipartHttpServletRequest multipartRequest, HttpServletRequest request, ModelAndView mv, MultipartFile files, @RequestParam String phone, @RequestParam String nickname, @RequestParam String email) {
-		System.out.println("MemberController.memberInfoUpdate() 진입");
+		System.out.println("MemberController.memberInfoUpdate() 진입"+mdto);
 		
 		//현재 로그인 한 회원 아이디 가져오기
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -173,10 +182,12 @@ public class MemberController {
 
 			mService.memberInfoUpdate(findMember);
 			
-			mv.setViewName("/member/updateSuccess");
+			RedirectView rv = new RedirectView(request.getContextPath()+"/member/mypage");
+			mv.addObject("mem", findMember);
 			mv.addObject("msg", "updateSuccess");
+			mv.setView(rv);
 		}else {
-			mv.setViewName("/member/mypage");
+			mv.setViewName(request.getContextPath()+"/member/mypage");
 			mv.addObject("msg", "updateFail");
 		}
 		return mv;
@@ -194,7 +205,7 @@ public class MemberController {
 
 	// 마이페이지 폼 보여주기
 	@RequestMapping("/mypage")
-	public void mypage(HttpSession session) {
+	public void mypage(HttpSession session, PlanPage page2) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (principal instanceof UserDetails) {
 			String memberID = ((UserDetails) principal).getUsername();
@@ -206,6 +217,34 @@ public class MemberController {
 			System.out.println("else.username=" + memberID);
 			MemberDTO mem = mService.findMember(memberID);
 			session.setAttribute("mem", mem);
+			
+			// ---- 아래는 마이페이지에 작성된 일정을 출력하기 위한 코드 - 2020.08.04 추가. ----------
+			page2.setMemberid(memberID);
+			int TotalRow = planService.personrow(page2);
+			page2.setTotalRow(TotalRow);
+			
+			List<PlanDTO> pdto = (ArrayList)planService.getplanboard(page2);
+			for(int i =0; i<pdto.size();i++) { //게시판 수만큼 반복
+				int planno = pdto.get(i).getPlanNo();
+				List<PlaceDto> placeinfo =(ArrayList)planService.getplaceinfo(planno);
+				List<String> placenamelist = new ArrayList();
+				for(int j=0;j<placeinfo.size();j++) {
+					String placename = placeinfo.get(j).getPlaceName();
+					placenamelist.add(placename);
+					//System.out.println("placename의 값들 : "+placename);
+				}
+				pdto.get(i).setPlacenamelist(placenamelist);
+			}
+			for(int i=0;i<pdto.size();i++) {
+				//System.out.println(pdto.size());
+				try {
+					if(pdto.get(i).getPlanNo()==pdto.get(i-1).getPlanNo()) {
+						continue;
+					}
+				}catch(Exception ex) {}
+			}
+			session.setAttribute("plist", pdto); 
+			session.setAttribute("page", page2); // 추가된 코드의 끝.(삭제시 여기까지만 걷어내면 됩니다.)
 		}
 	}
 }

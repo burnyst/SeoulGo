@@ -45,7 +45,7 @@ $(document).ready(function () {
 			success: function(result) {
 				if (result) {
 					alert("입력 완료");
-					$("form")[0].reset();
+					$("#cancelBtn").click();
 				} else {
 					alert("입력 실패");
 				}

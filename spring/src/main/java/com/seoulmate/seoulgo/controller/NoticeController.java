@@ -1,6 +1,6 @@
 package com.seoulmate.seoulgo.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,6 +15,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.seoulmate.seoulgo.dto.NoticeDTO;
 import com.seoulmate.seoulgo.dto.NoticeReplyDTO;
+import com.seoulmate.seoulgo.page.NoticePage;
 import com.seoulmate.seoulgo.service.NoticeService;
 
 @RequestMapping("/notice")
@@ -26,21 +26,21 @@ public class NoticeController {
 	NoticeService nService;
 	
 	// 댓글 작성
-	@RequestMapping("/replyProc")
-	public ModelAndView replyProc(NoticeReplyDTO nrdto, HttpServletRequest request, ModelAndView mv, @RequestParam String nrContent) {
+	@RequestMapping("/commentProc")
+	public ModelAndView commentProc(NoticeReplyDTO nrdto, HttpServletRequest request, ModelAndView mv, @RequestParam String nrContent) {
 		// 작성 댓글의 해당 공지사항 정보 가져오기
 		int nNo = Integer.parseInt(request.getParameter("nNo"));
 		
-		// 댓글 작성자(회원) 정보 가져오기
+		// 댓글 작성자(= 현재 로그인한 회원) 정보 가져오기
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String memberID = principal.toString();
+		String nrWriter = principal.toString();
 		
-		nrdto.setNrWriter(memberID);
+		nrdto.setNrWriter(nrWriter);
 		nrdto.setnNo(nNo);
 		nrdto.setNrContent(nrContent);
-		nService.replyProc(nrdto);
+		nService.commentProc(nrdto);
 		
-		RedirectView rv = new RedirectView("/notice/detailView?nNo="+nNo);
+		RedirectView rv = new RedirectView(request.getContextPath()+"/notice/detailView?nNo="+nNo);
 		mv.setView(rv);
 		return mv;
 	}
@@ -56,7 +56,7 @@ public class NoticeController {
 		ndto.setnContent(nContent);
 		nService.modifyProc(ndto);
 		
-		RedirectView rv = new RedirectView("/notice/list");
+		RedirectView rv = new RedirectView(request.getContextPath()+"/notice/list");
 		mv.setView(rv);
 		return mv;
 	}
@@ -78,7 +78,7 @@ public class NoticeController {
 		ndto.setnExp(false);
 		
 		nService.delete(ndto);
-		RedirectView rv = new RedirectView("/notice/list");
+		RedirectView rv = new RedirectView(request.getContextPath()+"/notice/list");
 		mv.setView(rv);
 		return mv;
 	}
@@ -90,13 +90,13 @@ public class NoticeController {
 		nService.cntUpdate(nNo);
 		
 		mv.addObject("nNo", nNo);
-		RedirectView rv = new RedirectView("/notice/detailView");
+		RedirectView rv = new RedirectView(request.getContextPath()+"/notice/detailView");
 		mv.setView(rv);
 		
 		return mv;
 	}
 	
-	// 글 상세보기
+	// 공지사항 상세보기
 	@RequestMapping("/detailView")
 	public void detailView(Model model, HttpServletRequest request) {
 		int nNo = Integer.parseInt(request.getParameter("nNo"));
@@ -112,20 +112,23 @@ public class NoticeController {
 		model.addAttribute("ndto", ndto);
 	}
 	
-	// 글목록
+	// 공지사항 목록 페이징
 	@RequestMapping("/list")
-	public void list(NoticeDTO ndto, Model model) {
-		ArrayList<NoticeDTO> list = nService.list(ndto);
-		// 관리자 권한 가져오기
-		String mLevel = nService.findMlevel(ndto);
-				
-		model.addAttribute("mLevel", mLevel);
+	public void list(NoticeDTO ndto, Model model, NoticePage notice) {
+		// 공지사항 결과수
+		int cnt = nService.getCnt(notice);
+		notice.setTotalRow(cnt);
+		System.out.println("NoticeController.list().cnt: "+cnt);
+		
+		List<NoticeDTO> list = nService.list(notice);
+		System.out.println("NoticeController.list(): "+list);
 		model.addAttribute("LIST", list);
+		model.addAttribute("notice", notice);
 	}
 	
-	// 글쓰기 처리
+	// 공지사항 작성 처리
 	@RequestMapping("/writeProc")
-	public ModelAndView writeProc(NoticeDTO ndto, ModelAndView mv) {
+	public ModelAndView writeProc(NoticeDTO ndto, ModelAndView mv, HttpServletRequest request) {
 		System.out.println("NoticeController.writeProc() 진입");
 		
 		String nTitle = ndto.getnTitle();
@@ -140,12 +143,12 @@ public class NoticeController {
 		System.out.println("ndto="+ndto);
 		
 		nService.writeProc(ndto);
-		RedirectView rv = new RedirectView("/notice/list");
+		RedirectView rv = new RedirectView(request.getContextPath()+"/notice/list");
 		mv.setView(rv);
 		return mv;
 	}
 	
-	// 글쓰기 폼 보여주기
+	// 공지사항 작성 폼 보여주기
 	@RequestMapping("/write")
 	public void write() {
 	}

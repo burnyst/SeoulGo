@@ -15,12 +15,21 @@
 		<result property="placeRate" column="placeRate" />
 		<collection property="imageNames" column="placeNo" ofType="java.lang.String" select="listSub" />
 	</resultMap>
+	<resultMap id="detailResultMap" type="com.seoulmate.seoulgo.dto.PlaceDto">
+		<id property="placeNo" column="placeNo" />
+		<result property="placeName" column="placeName" />
+		<result property="cate" column="cate" />
+		<result property="addr1" column="addr1" />
+		<result property="addr2" column="addr2" />
+		<result property="tel" column="tel" />
+		<result property="reviewCount" column="reviewCount" />
+		<result property="placeRate" column="placeRate" />
+		<collection property="imageNames" column="placeNo" ofType="java.lang.String" select="listSub" />
+		<collection property="words" column="placeNo" ofType="java.lang.String" select="listWord" />
+	</resultMap>
 	
 	<sql id="listFields">placeNo, placeName, cate, addr1, addr2, tel, NVL(reviewCount, 0) reviewCount, NVL(placeRate, 0) placeRate</sql>
 	<sql id="listCondition">
-		<if test="keyword != null and keyword != ''">
-			(placeName LIKE '%'||#{keyword}||'%' OR addr1 LIKE '%'||#{keyword}||'%' OR addr2 LIKE '%'||#{keyword}||'%')
-		</if>
 		<if test="type == '즐길거리'">AND cate = 0</if>
 		<if test="type == '음식점'">AND cate = 1</if>
 	</sql>
@@ -32,7 +41,31 @@
 		    <if test="order == '평점순'">ROW_NUMBER() OVER (ORDER BY NVL(placeRate, 0) DESC) rn, </if>
 		    <if test="order != '평점순'">ROW_NUMBER() OVER (ORDER BY NVL(reviewCount, 0) DESC) rn, </if>
 		    <include refid="listFields" />
-		    FROM place
+		    FROM
+		    <if test="keyword == null or keyword == ''">
+		    	place
+		    </if>
+		    <if test="keyword != null and keyword != ''">
+				(
+		            SELECT *
+		            FROM
+		            (
+		                SELECT *
+		                FROM place
+		                WHERE (placeName LIKE '%'||#{keyword}||'%' OR addr1 LIKE '%'||#{keyword}||'%' OR addr2 LIKE '%'||#{keyword}||'%')
+		            )
+		            UNION
+		            SELECT *
+		            FROM place
+		            WHERE placeNo IN (
+		            SELECT placeNo
+		                FROM reviewBoard r JOIN reviewWord w ON r.rNo=w.rNo AND r.rIsShow = 1
+		                WHERE word LIKE '%'||#{keyword}||'%'
+		                GROUP BY placeNo
+                        HAVING COUNT(placeNo) > 10 AND SUM(w.freq) > 10
+		            )
+		        )
+			</if>
 			<where>
 				<include refid="listCondition" />
 			</where>
@@ -43,19 +76,56 @@
 		SELECT iname FROM placeImage WHERE placeNo=#{placeNo} ORDER BY iname ASC
 	</select>
 	
-	<select id="listSubCount" resultType="int">
-		SELECT count(*) FROM placeImage WHERE placeNo=#{placeNo}
+	<select id="listWord" resultType="java.lang.String">
+		SELECT word
+		FROM
+		(
+		    SELECT word, ROW_NUMBER() OVER (ORDER BY SUM(freq) DESC) rn
+		    FROM reviewBoard r JOIN reviewWord w ON r.rNo=w.rNo
+		    WHERE placeNo = #{placeNo}
+		    AND (SELECT COUNT(*) FROM reviewBoard WHERE placeNo = #{placeNo} AND rIsShow=1) > 10
+		    AND rIsShow=1
+		    GROUP BY placeNo, word
+		) WHERE rn BETWEEN 1 AND 5
 	</select>
 	
 	<select id="listCount" resultType="int">
 		SELECT count(*)
-		FROM place
+		FROM
+		<if test="keyword == null or keyword == ''">
+	    	place
+	    </if>
+	    <if test="keyword != null and keyword != ''">
+			(
+	            SELECT *
+	            FROM
+	            (
+	                SELECT *
+	                FROM place
+	                WHERE (placeName LIKE '%'||#{keyword}||'%' OR addr1 LIKE '%'||#{keyword}||'%' OR addr2 LIKE '%'||#{keyword}||'%')
+	            )
+	            UNION
+	            SELECT *
+	            FROM place
+	            WHERE placeNo IN (
+	            SELECT placeNo
+	                FROM reviewBoard r JOIN reviewWord w ON r.rNo=w.rNo AND r.rIsShow = 1
+	                WHERE word LIKE '%'||#{keyword}||'%'
+	                GROUP BY placeNo
+                    HAVING COUNT(placeNo) > 10 AND SUM(w.freq) > 10
+	            )
+	        )
+		</if>
 		<where>
 			<include refid="listCondition" />
 		</where>
 	</select>
 	
-	<select id="detail" parameterType="int" resultMap="listResultMap">
+	<!-- <select id="listSubCount" resultType="int">
+		SELECT count(*) FROM placeImage WHERE placeNo=#{placeNo}
+	</select> -->
+	
+	<select id="detail" parameterType="int" resultMap="detailResultMap">
 		SELECT <include refid="listFields" />
 		FROM place
 		WHERE placeNo=#{placeNo}

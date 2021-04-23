@@ -10,10 +10,17 @@
 <title>아이디 찾기</title>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <style type="text/css">
-	#result {
+	#fail {
 		color: red;
 		font-weight: bold;
-		font-size: xx-large;
+		font-size: x-large;
+		align: center;
+		margin: auto;
+	}
+	
+	#result {
+		font-weight: bold;
+		font-size: x-large;
 		align: center;
 		margin: auto;
 	}
@@ -24,26 +31,33 @@
 </style>
 </head>
 <body>
-	<form id="searchIDForm" class="" action="${basePath}/user/loginForm" method="post">
-		<table>
+	<form id="searchIDForm" action="${basePath}/user/login" method="post">
+		<table class="table table-borderless">
+			<thead>
+				<c:if test="${msg == 'fail'}">
+					<tr class="text-center">
+						<th id="fail" colspan="2"><i class="fas fa-exclamation-circle "></i></th>
+					</tr>
+				</c:if>
+				<tr class="text-center">
+					<th id="result" colspan="2">아이디 찾기 결과입니다.</th>
+				</tr>
+			</thead>
 			<tbody>
 				<c:if test="${msg == 'fail'}">
-				<tr>
-					<td colspan="2">입력한 정보와 일치하는 아이디가 존재하지 않습니다.</td>
-				</tr>
+					<tr class="text-center">
+						<td id="fail" colspan="2">입력한 정보와 일치하는 아이디가 존재하지 않습니다.</td>
+					</tr>
 				</c:if>	
 				<tr>
-					<td id="result">아이디 찾기 결과입니다.</td>
-					<td>
+					<td class="text-center">
 						<input type="radio" checked="checked"/>
-						${result.memberID}
-					</td>
-					<td id="enrollDate">
-						(가입일: <fmt:formatDate pattern="yyyy/MM/dd" value="${result.enrollDate}"/>)
+						${result.memberID}&nbsp;&nbsp;
+						<a id="enrollDate">(가입일: <fmt:formatDate pattern="yyyy/MM/dd" value="${result.enrollDate}"/>)</a>
 					</td>
 				</tr>
 				<tr>
-					<td>
+					<td class="text-center" colspan="2">
 						<input type="submit" id="searchIDProc" class="btn btn-primary btn-sm" value="로그인"/>
 						<input type="reset" id="cancelBtn" class="btn btn-secondary btn-sm" value="취소"/>
 					</td>

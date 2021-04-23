@@ -107,4 +107,26 @@ public class ReviewService {
 	public int badgetcnt(int rNo){
 		return rDAO.badgetcnt(rNo);
 	}
+	// 더보기 상세정보 가져오기
+	public ArrayList<ReviewDTO> getMoreList(ReviewPage reviewPage, String memberID) {
+		reviewPage.setTotalRow(rDAO.getMoreCount(memberID));
+		ArrayList<ReviewDTO> list = rDAO.getMoreList(reviewPage);
+		return list;
+	}
+	// 리뷰 사진 가져오기
+	public ArrayList<ReviewDTO> getImg(int placeNo) {
+		return rDAO.getImg(placeNo);
+	}
+	// 더보기 사진 가져오기
+	public ArrayList<ReviewDTO> getMoreImg(String memberID) {
+		return rDAO.getMoreImg(memberID);
+	}
+	// 리뷰 수정시 값 가져오기
+	public ArrayList<ReviewDTO> getModinfo(ReviewDTO rDTO) {
+		return rDAO.getModinfo(rDTO);
+	}
+	// 리뷰 수정시 사진 가져오기
+	public ArrayList<ReviewDTO> getModimg(ReviewDTO rDTO) {
+		return rDAO.getModimg(rDTO);
+	}
 }

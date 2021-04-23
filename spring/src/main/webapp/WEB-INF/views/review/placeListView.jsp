@@ -12,6 +12,7 @@
 
 <!-- jQuery CDN -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/place/list.js"></script>
 <script>
 $(function(){
 	
@@ -26,25 +27,35 @@ $(function(){
 </script>
 </head>
 <body>
+<form id="searchForm">	
+	<input name="pageNo" type="hidden" value="${page.pageNo}" />
+	<input name="pageNum" type="hidden" value="${page.pageNum}" />
+	<input name="pageRowNum" type="hidden" value="${page.pageRowNum}" />
+	<input name="type" type="hidden" value="${page.type}" />
 	<h3 style="text-align: center;">방문한 장소 리뷰 작성하기</h3><br>
 	<!-- 검색 부분 -->
 	<div class="form-group row justify-content-center">
-		<div class="w100" style="padding-right:10px">
-			<select class="form-control form-control-sm" name="searchType" id="searchType">
-				<option value="place">장소명</option>
-				<option value="address">주소</option>
-				<option value="phone">전화번호</option>
-			</select>
-		</div>
 		
 		<div class="w400" style="padding-right:10px">
-			<input type="text" class="form-control form-control-sm" name="search" id="search" placeholder="장소, 음식점">
+			<input type="text" class="form-control form-control-sm" name="keyword" placeholder="장소, 음식점" value="${page.keyword}">
 		</div>	
-		
 		<div>
-			<button class="btn btn-sm btn-outline-primary" name="btnSearch" id="btnSearch">검색</button>
+			<button class="btn btn-sm btn-outline-primary" name="btnSearch" id="searchBtn">검색</button>
 		</div>
 	</div>
+
+	<ul class="nav nav-tabs" role="tablist">
+		<li class="nav-item">
+			<a class="nav-link${page.type != '즐길거리' && page.type != '음식점'?' active':''}" href="#">전체</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link${page.type == '즐길거리'?' active':''}" href="#">즐길거리</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link${page.type == '음식점'?' active':''}" href="#">음식점</a>
+		</li>
+	</ul>
+</form>	
 	<%-- 장소 목록 출력 --%>
 	<table class="table table-hover">
 		<thead class="thead-light">
@@ -66,22 +77,21 @@ $(function(){
 					<td width="20%">${dto.placeName}</td>
 					<td width="45%">${dto.addr1}&nbsp;${dto.addr2}</td>
 					<td width="15%">${dto.tel}</td>
-					<td width="10%">100건</td>
-					<td width="10%">4.8점</td>
+					<td width="10%">${dto.reviewCount}건</td>
+					<td width="10%">${dto.placeRate}점</td>
 				</tr>
 			</c:forEach>
-			
 		</tbody>
 	</table>
 	<!-- 페이징 -->
 	<div class="container">
 	<t:pageNav
-	   endPage="${page.endPage}"
-	   pageNo="${page.pageNo}"
-	   totalPage="${page.totalPage}"
-	   startPage="${page.startPage}"
-	   uri="${pageUri}"
-	   params="&keyword=${page.keyword}&type=${page.type}">
+	   endPage="${rpage.endPage}"
+	   pageNo="${rpage.pageNo}"
+	   totalPage="${rpage.totalPage}"
+	   startPage="${rpage.startPage}"
+	   uri="${rpageUri}"
+	   params="&type=${rpage.type}&keyword=${rpage.keyword}">
 	</t:pageNav>
 	</div>
 </body>

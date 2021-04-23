@@ -9,17 +9,14 @@ $(function(){
 			cnt=5;
 			return;
 		}
-		/*			
-		<tr>
-			<th>첨부파일</th>
-			<td><input type="file" name="files" id="files"/></td>
-		</tr>
-		*/
+		
 		// 추가할 대상
 		var tr=	'<tr>';
-			tr+='<td></td>';
-			tr+='<td colspan="4"><input type="file" name="files" id="files'+cnt+'"/></td>';
-			tr+='</tr>;'
+			tr+='<th class="text-center"></th>';
+			tr+='<td colspan="4">';
+			tr+='<input type="file" name="files" id="files'+cnt+'"/>';
+			tr+='</td>';
+			tr+='</tr>';
 				// 원하는 위치에 붙인다.	
 				$("#copy").before(tr);
 		});

@@ -3,121 +3,110 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ taglib prefix ="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<c:set var="basePath" value="${pageContext.request.contextPath}" />
+<c:set var="resourcePath" value="${basePath}/resources" />
+<c:set var="imagePath" value="${resourcePath}/img" />
+<c:set var="defaultImage" value="${imagePath}/plan/noimage.jpg" />
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04926447ff4e969a08d92e18379b0176&libraries=services"></script>
-<script>
-
-$(function(){
-	 $("#nomodi").click(function(){
-		 alert("함수 작동");
-		 $(location).attr("href","../plan/plan");
-		
-	 })
-	 
-	 $("#delmodi").click(function(){
-		 alert("삭제페이지로 이동합니다.");
-		 
-		 $(location).attr("href","./plandelete");
-		 
-		 alert("./plandelete");
-	 })
-	 $("#bla").click(function(){
-		 alert("이전페이지로 이동합니다.")
-		 $(location).attr("href","./planSboard")
-	 })
-});
-</script>
+<script type="text/javascript" src="${resourcePath}/js/plan/planview.js"></script>
 <style>
-	#planlist{margin-top:20px;}
 </style>
 <meta charset="UTF-8">
 <title>일정상세보기</title>
 </head>
 <body>
 
-<!-- 이 페이지는 일정을 짜는 페이지이다. 
- 일정짜는데에는 PlanController에 페이지를 보여줄수 있는 컨트롤러를 집어넣을 예정이다.
-   -->
-<div id="map" style="width:500px;height:300px;float:left; position:relative;'">
-</div>
-<script>
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };  
+<c:forEach items="${placeview }" var="list">
+	<input type="hidden" id="addr1" value="${list.addr1}">
+	<input type="hidden" id="addr2" value="${list.addr2}">
+	<input type="hidden" id="placeName" value="${list.placeName}">
+</c:forEach>
+<c:forEach items="${Pdto}" var="list" varStatus="status">
+	<input type="hidden" id="planTitle" value="${list.planTitle }">  
+	
+</c:forEach>
 
-// 지도를 생성합니다    
-var map = new kakao.maps.Map(mapContainer, mapOption); 
+<!-- 카카오 맵의 div  -->
+<h4>일정 상세보기</h4>
+<hr>
 
-// 주소-좌표 변환 객체를 생성합니다
-var geocoder = new kakao.maps.services.Geocoder();
-
-// 주소로 좌표를 검색합니다
-geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
-
-    // 정상적으로 검색이 완료됐으면 
-     if (status === kakao.maps.services.Status.OK) {
-
-        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-        // 결과값으로 받은 위치를 마커로 표시합니다
-        var marker = new kakao.maps.Marker({
-            map: map,
-            position: coords
-        });
-
-        // 인포윈도우로 장소에 대한 설명을 표시합니다
-        var infowindow = new kakao.maps.InfoWindow({
-            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-        });
-        
-        infowindow.open(map, marker);
-
-        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-        map.setCenter(coords);
-        var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-        iwRemoveable = true;
-    } 
-});    
-</script>
-<form method="post" action="/plan/planmodifin">
-  <c:forEach var="list"  items="${Pdto}"  varStatus="status" >
-	<div class="planlist">
-		<div style="float:left; margin-right:10px">여행 날짜</div>
-		 <input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
-		<div><fmt:formatDate value="${list.planDate}" pattern="yyyy년MM월dd일"/></div>
-		
-		<div style="float:left; margin-right:10px">여행장소</div>
-		<div>${list.addr1}${list.addr2}</div>
-		
-		<div style="float:left; margin-right:10px">일정제목</div>
-		
-		<div>${list.planTitle}</div>
-		
-		<div style="float:left; margin-right:10px">여행유형</div>
-		<div>
-			
-			<c:if test="${list.planCate eq '가족'}">가족과 함께</c:if>
-			<c:if test="${list.planCate eq '커플'}">커플 여행</c:if>
-			<c:if test="${list.planCate eq '단독'}">나만의 여행</c:if>
-			<c:if test="${list.planCate eq '비즈니스'}">비즈니스 여행</c:if>
-			<c:if test="${list.planCate eq '친구'}">우정 여행</c:if>
-			
-		</div>
-	</div>
-  </c:forEach>
-	<div style="height:250px;">여기는 사진이 출력되어 나올 위치입니다. </div>
-	<div style="text-align: center;">
+<div class="row">
+<div class="w-100 p-3 schedule-form col-lg" >
+	<form method="get" action="${basePath}/plan/planmodi" >
+	
+		<div class="place-list-container col-lg p-3" >
+			<!-- <div style="float:left; margin-right:10px">일정제목</div> -->
+				<table class="table table-hover">
+					<c:forEach var="list"  items="${Pdto}" varStatus="status" >
+					<input type="hidden" id="planNo" name="planNo" value="${list.planNo}"/>
+						<thead class="thead-light">
+							<tr class="text-center">
+								<th colspan="2">${list.planTitle}</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="text-center">여행 날짜</td>
+								<td class="text-center">
+									
+									<input type="hidden" id="plandate" value="${list.planDate}">
+									<fmt:formatDate value="${list.planDate}" pattern="yyyy년 MM월 dd일"/>
+								</td>
+							</tr>
+							<tr>
+								<td class="text-center">여행 유형</td>
+								<td class="text-center">
+									<c:if test="${list.planCate eq '가족'}">가족과 함께</c:if>
+									<c:if test="${list.planCate eq '커플'}">커플 여행</c:if>
+									<c:if test="${list.planCate eq '단독'}">나만의 여행</c:if>
+									<c:if test="${list.planCate eq '비즈니스'}">비즈니스 여행</c:if>
+									<c:if test="${list.planCate eq '친구'}">우정 여행</c:if>
+								</td>
+							</tr>
+		 				</c:forEach>
+						<tr>
+							<td class="text-center">여행장소</td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+				<c:forEach var="item" items="${placeview}" varStatus="status">
+					<div class="row" style="border: 1px solid #e6e6e6; margin: 0;">
+						<div class="place-image-container mr-1">
+							<img src="${imagePath}/place/${item.imageNames}" onerror="this.src='${defaultImage}'" alt="place" width="100px" />
+						</div>
+						<div class="media-body">
+							<a id="aName${item.placeNo}" href="../place/detail?placeNo=${item.placeNo}">${item.placeName}</a><br />
+							리뷰 ${item.reviewCount} / 평점<t:star score="${item.placeRate20X}"></t:star><br />
+							${item.addr1} ${item.addr2}
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+		<br>
+	<div class="float-right">
 		<sec:authorize access="isAuthenticated()">
-			<button id="nomodi" type="button" class="btn btn-info">리스트 페이지로</button>
+			<button id="nomodi" type="button" class="btn btn-outline-primary">목록</button>
+			<!-- <button id="back" type="button" class="btn btn-primary">일정공유 게시판으로</button> -->
+			<td><input type="button" class="btn btn-outline-secondary" name="delbtn" id="delbtn"value="일정삭제"></td>
+			<c:forEach items="${Pdto }" var="list"> 
+				<c:if test="${list.memberid eq memberid }">
+					<button id="planmodi" name="planmodi" class="btn btn-outline-info">수정</button>
+				</c:if>
+			</c:forEach>
 		</sec:authorize>
-		<sec:authorize access="isAnonymous()">
-			<button id="bla" type="button" class="btn btn-info">이전 페이지로</button>
-		</sec:authorize>
+		<%-- <sec:authorize access="isAnonymous()">
+			<button id="back" type="button" class="btn btn-primary">일정공유 게시판으로 돌아가기</button>
+		</sec:authorize> --%>
 	</div>
-</form>
+	</form>
+</div>
+	<div id="map" style="width:500px; height:450px; float:right; position:relative; margin-top:50px;">
+	</div>
+</div>
 </body>
 </html>

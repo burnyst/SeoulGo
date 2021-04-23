@@ -3,84 +3,55 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix ="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> 
+<c:set var="resourcePath" value="${basePath}/resources" />
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>여행계획짜기</title>
+<title>여행계획보기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- <script>
-$(function(){
-		 $("#ibtn").click(function(){
-			 alert("함수 작동");
-			 $(location).attr("href","/plan/planwrite");
-		 })		
-})
-$(function(){
-		 $(".viewbutton").click(function(){
-		    var str = ""
-				var tdArr = new Array();	// 배열 선언
-				var viewbutton = $(this);
-			var tr = viewbutton.parent().parent();
-			var td = tr.children();
-			
-			var pno = td.eq(0).text();
-			
-			var param = pno
-			 alert(pno+"번 글입니다.");
-			 $(location).attr("href","/plan/planview"+'?&planNo='+pno);
-		 })	
-})
- </script>
+<script type="text/javascript" src="${resourcePath}/js/plan/plan.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+.w3-bar-block .w3-bar-item {padding:20px}
+</style>
 </head>
-<body>
-<div align="center">
-<h3>나의 일정 페이지</h3>
+<body>  
+<h3>마이 플랜</h3>
+<div class="text-left">
+	<input type="button" class="btn btn-outline-primary" id="ibtn" name="ibtn" value="새로운 일정" />
+</div>
+<hr>
+<!-- !PAGE CONTENT! -->
+<div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:10px">
 
-http://127.0.0.1:9000/plan/plan
-<!-- {Viewlist}-->
-<table border="1" width="100%" class="table table-bordered table-hover text-center" id="example-table-2">
-	 <tbody>
-		<tr>
-			<th>일정 번호</th><th>일정날짜</th><th>	일정장소	</th><th>	일정이름	</th><th>여행 유형</th>
-		</tr>
-		<c:if test="${planNo=null}">
-			<tr>
-				<td>
-					일정을 만들어주세요!
-				</td>
-			</tr>	
-		</c:if>
-		
-			<c:forEach var="list" items="${plist}"  varStatus="status">
-			<form method="post" id="planlist" name="planlist" action="/plan/planmodi">
-					<tr>
-						<td>
-							${list.planNo } <input type="hidden" value="${list.planNo }" id="pno" name="pno">
-						</td>
-						<td>
-							<fmt:formatDate value="${list.planDate}" pattern="yyyy년MM월dd일"/>
-						</td>
-						<td>
-							${list.addr1 } <input type="hidden" value="${list.addr1}">
-										   <input type="hidden" value="${list.addr2}">
-						</td>
-						<td>
-							${list.planTitle}<input type="hidden" value="${list.planTitle }">
-						</td>
-						<td>
-							${list.planCate}<input type="hidden" value="${planCate }">
-						</td>
-						<td><input type="submit" id="mobtn" name="mobtn" value="일정수정하기"></td>
-						
-						<td><input type="button" class="viewbutton" name="viewbutton"  value="일정상세보기" ></td>
-					</tr>
-				</form>
-			</c:forEach>
-		</tbody>
-	</table>
-	<%-- 페이징 처리 --%>
+	<!-- First Photo Grid-->
+	<div class="w3-row-padding w3-padding-16 w3-center" id="food">
+		<c:forEach var="list" items="${plist}" varStatus="status" begin="0" end="3">
+			<div class="w3-quarter" onclick="location.href='/plan/planview?&planNo=${list.planNo}'" style="cursor:hand" class="info">
+					<img src="<spring:url value='/resources/img/plan/22222222.png'/>" style="width:100%">
+					<div><h5><b><fmt:formatDate value="${list.planDate}" pattern="yy년 MM월 dd일"/></b>&nbsp;<b>${list.planCate}</b></h5></div>
+					<div><h5><b>${list.planTitle}</b></h5></div>
+					<div>${list.placenamelist}</div>  
+			</div>
+		</c:forEach>
+	</div>
+	<!-- Second Photo Grid-->
+	<div class="w3-row-padding w3-padding-16 w3-center">
+		<c:forEach var="list" items="${plist}" varStatus="status" begin="4" end="7">
+			<div class="w3-quarter" onclick="location.href='/plan/planview?&planNo=${list.planNo}'" style="cursor:hand" class="info">
+					<img src="<spring:url value='/resources/img/plan/22222222.png'/>" style="width:100%">
+					<div><h5><b><fmt:formatDate value="${list.planDate}" pattern="yy년 MM월 dd일"/></b>&nbsp;<b>${list.planCate}</b></h5></div>
+					<div><h5><b>${list.planTitle}</b></h5></div>
+					<div>${list.placenamelist}</div>  
+			</div>
+		</c:forEach>
+	</div>
+</div>
+<hr>
+<%-- 페이징 처리 --%>
 <t:pageNav
    endPage="${page.endPage}"
    pageNo="${page.pageNo}"
@@ -88,17 +59,5 @@ http://127.0.0.1:9000/plan/plan
    startPage="${page.startPage}"
    uri="${pageUri}">
 </t:pageNav>	
-	
-<div class="Result2" id="Result2" >
-</div>
-	<table class="right" width="700" >
-		<tbody>
-			<tr class="right" align="center">
-				<td><input type="button" id="ibtn" name="ibtn" value="일정짜보기"/></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
 </body>
 </html>
-<!-- ${modelData[0][1][key2]}  ${list[status.index][planNo]}-->

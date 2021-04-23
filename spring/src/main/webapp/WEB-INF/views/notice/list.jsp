@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="pageNav" tagdir="/WEB-INF/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}" />
 <c:set var="resourcePath" value="${basePath}/resources" scope="request" />
 <c:set var="libPath" value="${resourcePath}/lib" />
@@ -16,8 +17,24 @@
 <script src="${basePath}/resources/js/notice/list.js"></script>
 </head>
 <body>
+	<input id="basePath" type="hidden" value="${basePath}" />
+	<div class="form-group row justify-content-center">
+		<div class="w100" style="padding-right:10px">
+			<select class="form-control form-control-sm" name="searchType" id="searchType">
+				<option value="">검색유형</option>
+				<option value="nTitle">제목</option>
+				<option value="nContent">내용</option>
+			</select>
+		</div>
+		<div class="w400" style="padding-right:10px">
+			<input type="text" class="form-control form-control-sm" name="keyword" id="keyword" placeholder="검색어를 입력해주세요">
+		</div>	
+		<div>
+			<button class="btn btn-sm btn-outline-primary" name="btnSearch" id="btnSearch">검색</button>
+		</div>
+	</div>
 	<table class="table table-hover">
-		<thead>
+		<thead class="thead-light">
 			<tr>
 				<th class="text-center">공지번호</th>
 				<th class="text-center">공지제목</th>
@@ -42,7 +59,7 @@
 							</td>
 							<td class="text-center">${list.nTitle}</td>
 							<td class="text-center">
-								<c:if test="${'ROLE_ADMIN' eq mLevel}">
+								<c:if test="${list.nWriter ne null}">
 									<c:out value="관리자"></c:out>
 								</c:if>
 							</td>
@@ -57,7 +74,19 @@
 		</tbody>
 	</table>
 	<sec:authorize access="hasRole('ROLE_ADMIN')">
-		<a class="btn btn-primary" href="/notice/write">작성</a>
+		<a class="btn btn-outline-primary" href="${basePath}/notice/write">작성</a>
 	</sec:authorize>
+	<c:if test="${notice.totalRow > notice.perPageNum}">
+		<tr class="dataRow">
+			<td colspan="5">
+				<pageNav:pageNav endPage="${notice.endPage}" 
+								 totalPage="${notice.totalPage}" 
+								 startPage="${notice.startPage}" 
+								 uri="${pageUri}"
+								 params="&keyword=${notice.keyword}&searchType=${notice.searchType}"
+								 pageNo="${notice.pageNo}"/>
+			</td>
+		</tr>
+	</c:if>
 </body>
 </html>

@@ -9,6 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항 수정</title>
+<script src="${basePath}/resources/js/notice/modify.js"></script>
 <style type="text/css">
 	#nTitle {
 		width: 370px;
@@ -16,7 +17,7 @@
 </style>
 </head>
 <body>
-	<form action="${basePath}/notice/modifyProc?nNo=${ndto.nNo}" method="post">
+	<form id="modify" action="${basePath}/notice/modifyProc?nNo=${ndto.nNo}" method="post">
 		<table class="table">
 			<tbody>
 				<tr>
@@ -52,8 +53,9 @@
 			<tr>
 				<td colspan="2">
 					<sec:authorize access="hasRole('ROLE_ADMIN')">
-						<input type="submit" class="btn btn-outline-primary" value="수정">
-						<a class="btn btn-outline-danger" href="/notice/delete?nNo=${ndto.nNo}">삭제</a>
+						<input type="hidden" id="nNo" value="${ndto.nNo}">
+						<input id="btn" type="button" class="btn btn-outline-primary" value="수정">
+						<a class="btn btn-outline-danger" href="${basePath}/notice/delete?nNo=${ndto.nNo}">삭제</a>
 					</sec:authorize>
 				</td>
 			</tr>

@@ -3,6 +3,8 @@ package com.seoulmate.seoulgo.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,7 @@ public class AdminController {
 
 	// 회원 리스트 검색
 	@RequestMapping("/search")
-	public String search(Model model, MemberSearchPage search, @RequestParam String searchType, @RequestParam String keyword) {
+	public String search(Model model, MemberSearchPage search, HttpServletRequest request, @RequestParam String searchType, @RequestParam String keyword) {
 		System.out.println("searchType: "+searchType+"/keyword: "+keyword);
 		
 		// 해당 검색 결과수 
@@ -35,10 +37,9 @@ public class AdminController {
 		System.out.println("aService.getMemberList(search):"+aService.getMemberList(search));
 		
 		model.addAttribute("memberList", aService.getMemberList(search));
-		//model.addAttribute("pageUri", "/admin/memberManagement");
 		model.addAttribute("search", search);
 		
-		return "/admin/memberManagement";
+		return request.getContextPath()+"/admin/memberManagement";
 	}
 	
 	// 회원 리스트에서 회원 탈퇴 시키기

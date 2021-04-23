@@ -21,6 +21,7 @@
 </style>
 </head>
 <body>
+	<input type="hidden" id="basePath" value="${basePath}">
 	<form action="${basePath}/member/memberInfoUpdate" method="post" enctype="multipart/form-data">
 		<table class="table table-hover">
 			<tbody>
@@ -29,10 +30,10 @@
 					<td class="text-center">
 						<c:choose>
 							<c:when test="${mem.proSaveName eq null}">
-								<div class="pro"><img id="pro" src="${imagePath}/member/default.png"></div>
+								<div class="pro"><img id="pro" class="rounded-circle" src="${imagePath}/member/default.png"></div>
 							</c:when>
 							<c:when test="${mem.proSaveName != null}">
-								<div class="pro"><img id="pro" src="${imagePath}/member/${mem.proSaveName}"></div>
+								<div class="pro"><img id="pro" class="rounded-circle" src="${imagePath}/member/${mem.proSaveName}"></div>
 							</c:when>
 						</c:choose>
 						<input type="file" name="files" id="files" accept=".jpg, .jpeg, .gif, .png, .bmp"/>
@@ -49,7 +50,7 @@
 				<tr>
 					<th class="text-center">닉네임</th>
 					<td class="text-center">
-						<input type="text" name="nickname" id="nickname" placeholder="nickname" value="${mem.nickname}" required="required"/>
+						<input type="text" name="nickname" id="nickname" placeholder="nickname" required="required"/>
 					</td>
 				</tr>
 				<tr>
@@ -70,20 +71,20 @@
 				<tr>
 					<th class="text-center">이메일</th>
 					<td class="text-center">
-						<input type="email" id="email" name="email" placeholder="Email" value="${mem.email}" required="required"/>
+						<input type="email" id="email" name="email" placeholder="Email" required="required"/>
 					</td>
 				</tr>
 				<tr>
 					<th class="text-center">전화번호</th>
 					<td class="text-center">
-						<input type="text" id="phone" name="phone" placeholder="'-'없이 번호만 입력해주세요" value="${mem.phone1}${mem.phone2}${mem.phone3}" required="required"/>
+						<input type="text" id="phone" name="phone" placeholder="'-'없이 번호만 입력해주세요" required="required"/>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		<div class="text-center">
-			<input type="submit" class="btn btn-primary btn-sm" value="수정하기">
-			<input type="reset" id="cancelBtn" class="btn btn-secondary btn-sm" value="취소">
+			<input type="submit" class="btn btn-outline-primary btn-sm" value="수정하기">
+			<input type="reset" id="cancelBtn" class="btn btn-outline-secondary btn-sm" value="취소">
 		</div>
 	</form>
 </body>

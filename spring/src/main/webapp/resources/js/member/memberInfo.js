@@ -27,7 +27,7 @@ $(function(){
 	});
 	
 	// nickname check
-	$("#nickname").chage(function(){
+	$("#nickname").change(function(){
 		var nickname = $("#nickname").val();
 		if (nickname === "") {
 			alert("필수 정보입니다.");
@@ -35,10 +35,9 @@ $(function(){
 		}
 		
 		$.ajax({
-			url: "./nickCheck",
+			url: $("#basePath").val()+"/user/nickCheck",
 			type: "POST",
 			dataType: "json",
-			async: false,
 			data: {
 				nickname: $("#nickname").val()
 			},
@@ -66,10 +65,9 @@ $(function(){
        }
        
        $.ajax({
-    	   url: "./emailCheck",
+    	   url: $("#basePath").val()+"/user/emailCheck",
     	   type: "POST",
     	   dataType: "json",
-    	   async: false,
     	   data: {
     		   email: $("#email").val()
     	   },
@@ -92,7 +90,7 @@ $(function(){
 	});
 	
 	// phone check
-	$("#phone").chage(function(){
+	$("#phone").change(function(){
        var phone = $("#phone").val();
        var phoneRegExp = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
        if (phone === "") {

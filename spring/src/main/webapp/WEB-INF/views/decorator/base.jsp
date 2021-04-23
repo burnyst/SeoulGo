@@ -22,7 +22,7 @@
 </head>
 <body>
 	<div class="text-center mt-3">
-		<h1><img src="${imagePath}/logo.png" width="308" height="154"/></h1>
+		<h1><a class="navbar-brand" href="${basePath}/place/list"><img src="${imagePath}/logo.png" width="308" height="154"/></a></h1>
 	</div>
 	<nav class="navbar navbar-expand-sm navbar-dark font-weight-bold navbar-custom">
 		<a class="navbar-brand" href="${basePath}/place/list">SeoulGo</a>
@@ -35,14 +35,14 @@
 					<a class="nav-link" href="${basePath}/place/list">장소찾기</a>
 				</li>
 				<li class="nav-item p-1">
-					<a class="nav-link" href="${basePath}/review/PlaceListView">리뷰 작성</a>
+					<a class="nav-link" href="${basePath}/plan/plan">플래너</a>
+				</li>
+				<li class="nav-item p-1">
+					<a class="nav-link" href="${basePath}/review/PlaceListView">리뷰</a>
 				</li>
 				<sec:authorize access="hasRole('ROLE_MEMBER')">
 					<li class="nav-item p-1">
 						<a class="nav-link" href="${basePath}/member/mypage">마이페이지</a>
-					</li>
-					<li class="nav-item p-1">
-						<a class="nav-link" href="${basePath}/member/memberInfo">회원정보수정</a>
 					</li>
 				</sec:authorize>
 				<li class="nav-item p-1">

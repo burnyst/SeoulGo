@@ -1,0 +1,31 @@
+@charset "UTF-8";
+:root {
+	--img-ratio: 0.75;
+	--ptab: 34px;
+	--p3: 32px;
+	--p5: 48px;
+}
+.place-image-container {
+	background-color: black;
+	width: 100%;
+	height: calc((100vw - var(--scrollbar-width) - var(--p3) - var(--ptab)) * var(--img-ratio));
+	display:flex;
+	justify-content: center;
+}
+.place-image-container > img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+@media only screen and (min-width: 576px) {
+	.place-image-container {height: calc((540px - var(--p3) - var(--ptab)) * var(--img-ratio));}
+}
+@media only screen and (min-width: 768px) {
+	.place-image-container {height: calc((720px - var(--p5) - var(--p3) * 2) * var(--img-ratio) / 2);}
+}
+@media only screen and (min-width: 992px) {
+	.place-image-container {height: calc((960px - var(--p5) - var(--p3) * 3) * var(--img-ratio) / 3);}
+}
+@media only screen and (min-width: 1200px) {
+	.place-image-container {height: calc((1140px - var(--p5) - var(--p3) * 3) * var(--img-ratio) / 3);}
+}

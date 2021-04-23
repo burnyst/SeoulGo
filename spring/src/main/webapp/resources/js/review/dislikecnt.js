@@ -14,7 +14,7 @@ $(function(){
 	$("#bad_update"+badrNoArr[i].value).click(function(){
 		if (confirm("비추는 한번만 가능합니다. 다시 누르면 취소됩니다.")) {
 			$.ajax({
-				url: "/review/badcnt",
+				url: $("#basePath").val()+"/review/badcnt",
 	            type: "POST",
 	            data: {
 	           		rNo: list[i],
@@ -33,7 +33,7 @@ $(function(){
 	// 게시글 추천수
     function badCount() {
 		$.ajax({
-			url: "/review/badcount",
+			url: $("#basePath").val()+"/review/badcount",
         	type: "POST",
         	data: {
         		rNo: list[i],
